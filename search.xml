@@ -401,4 +401,52 @@ run
         <tag>网络安全</tag>
       </tags>
   </entry>
+  <entry>
+    <title>github部署hexo</title>
+    <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
+    <content><![CDATA[<h2 id="本地ssh连接-GitHub"><a href="#本地ssh连接-GitHub" class="headerlink" title="本地ssh连接 GitHub"></a>本地ssh连接 GitHub</h2><h4 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h4><p>确保下载了git后输入命令</p>
+<pre><code>git config --global user.name &quot;你的 GitHub 用户名&quot;
+git config --global user.email &quot;你的 GitHub 邮箱&quot;
+</code></pre>
+<p>创建 SSH 密匙（可以-f指定输出目录）</p>
+<pre><code>ssh-keygen -t rsa -C &quot;你的 GitHub 邮箱&quot;
+</code></pre>
+<p>什么都不用管，一路回车就行，创建好之后可以在.ssh看到有id_rsa.pub(.pub是公钥，id_rsa是私钥)。<br>打开 id_rsa.pub 并复制里面的内容。</p>
+<h4 id="在-GitHub-中添加-SSH-密钥"><a href="#在-GitHub-中添加-SSH-密钥" class="headerlink" title="在 GitHub 中添加 SSH 密钥"></a>在 GitHub 中添加 SSH 密钥</h4><p>回到 GitHub，进入 Settings：<br><img src="/images/pasted-11.png" alt="upload successful"></p>
+<p>选择左边栏的 SSH and GPG keys，点击 New SSH key：<br><img src="/images/pasted-12.png" alt="upload successful"></p>
+<p>Title 随便取，然后把 id_rsa.pub 里面的内容到复制到 Key 中，点击 Add SSH key：<br><img src="/images/pasted-13.png" alt="upload successful"></p>
+<p>保存完毕本地验证一下连接</p>
+<pre><code>ssh -T git@github.com
+</code></pre>
+<p>出现 “Are you sure……”，输入 yes 回车确认，若出现下图的提示即连接成功：<br><img src="/images/pasted-14.png" alt="upload successful"></p>
+<h2 id="创建-GitHub-仓库"><a href="#创建-GitHub-仓库" class="headerlink" title="创建 GitHub 仓库"></a>创建 GitHub 仓库</h2><p>GitHub 的主页 repository 中点击右上角的 New：<br><img src="/images/pasted-15.png" alt="upload successful"></p>
+<p>填写基本信息:<br>Repository name 中输入用户名.github.io，一定要是这个名字！<br>勾选 Add a README file<br><img src="/images/pasted-16.png" alt="upload successful"></p>
+<p>填好后点击 Create repository 创建仓库</p>
+<h2 id="上传-hexo-程序到-GitHub"><a href="#上传-hexo-程序到-GitHub" class="headerlink" title="上传 hexo 程序到 GitHub"></a>上传 hexo 程序到 GitHub</h2><p>需要先安装 hexo-deployer-git：</p>
+<pre><code>npm install hexo-deployer-git --save
+</code></pre>
+<p>修改_config.yml 文件末尾的 Deployment 部分：<br><img src="/images/pasted-17.png" alt="upload successful"></p>
+<p>修改成如下（修改为你的用户名与仓库名）<br><img src="/images/pasted-18.png" alt="upload successful"></p>
+<pre><code>deploy:
+  type: git
+  repo: git@github.com:w00123/w00123.github.io.git
+  branch: gh-pages
+</code></pre>
+<p>修改完成保存后运行</p>
+<pre><code>hexo c
+hexo d
+</code></pre>
+<p>出现下面的提示说明已经把网站上传到 GitHub 了：<br><img src="/images/pasted-19.png" alt="upload successful"></p>
+<p>然后我们需要在库设置（Repository Settings）中将默认分支设置为_config.yml 配置中的分支名称。<br><img src="/images/pasted-20.png" alt="upload successful"></p>
+<p>然后在 pages 页面调整源分支：<br><img src="/images/pasted-21.png" alt="upload successful"></p>
+<p>访问用户名.github.io就可以看到默认 hexo 了。</p>
+]]></content>
+      <categories>
+        <category>娱乐技术</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>github</tag>
+      </tags>
+  </entry>
 </search>
