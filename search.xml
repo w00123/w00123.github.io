@@ -146,6 +146,54 @@ hexo d
       </tags>
   </entry>
   <entry>
+    <title>hexo一图流方法</title>
+    <url>/2024/08/03/hexo%E4%B8%80%E5%9B%BE%E6%B5%81%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="hexo博客一图流"><a href="#hexo博客一图流" class="headerlink" title="hexo博客一图流"></a>hexo博客一图流</h2><h4 id="实现效果展示"><a href="#实现效果展示" class="headerlink" title="实现效果展示"></a>实现效果展示</h4><p>头部背景与主体部分背景无缝连接<br><img src="/images/pasted-22.png" alt="upload successful"></p>
+<h2 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h2><p>通过开启butterfly主题留下的inject模块功能</p>
+<h4 id="添加css代码"><a href="#添加css代码" class="headerlink" title="添加css代码"></a>添加css代码</h4><p>先在主题的css文件夹中创建custom.css文件</p>
+<pre><code>cd /themes/butterfly/source/css/
+</code></pre>
+<p><img src="/images/pasted-24.png" alt="upload successful"></p>
+<p>编辑让顶部背景和页脚背景透明的css文件</p>
+<pre><code>vim custom.css
+#footer &#123;
+background: transparent !important;
+&#125;
+#page-header &#123;
+    background: transparent !important;
+&#125;
+
+#footer::before&#123;
+    background: transparent !important;
+&#125;
+#page-header::before&#123;
+    background: transparent !important;
+&#125;
+
+[data-theme＝&quot;dark&quot;] #footer::before&#123;
+    background: transparent !important;
+&#125;
+[data-theme＝&quot;dark&quot;] #page-header::before&#123;
+    background: transparent !important;
+&#125;
+</code></pre>
+<h4 id="config-yml中开启inject部分功能"><a href="#config-yml中开启inject部分功能" class="headerlink" title="_config.yml中开启inject部分功能"></a>_config.yml中开启inject部分功能</h4><p>将head部分注释取消<br><img src="/images/pasted-23.png" alt="upload successful"></p>
+<h4 id="更换背景"><a href="#更换背景" class="headerlink" title="更换背景"></a>更换背景</h4><p>vim搜索背景，更换background</p>
+<pre><code>vim /hexo/themes/butterfly/_config.yml
+</code></pre>
+<p><img src="/images/pasted-25.png" alt="upload successful"></p>
+<h2 id="效果实现"><a href="#效果实现" class="headerlink" title="效果实现"></a>效果实现</h2><h4 id="启动hexo查看效果"><a href="#启动hexo查看效果" class="headerlink" title="启动hexo查看效果"></a>启动hexo查看效果</h4><pre><code>hexo clean ; hexo s
+</code></pre>
+<p>刷新页面<br><img src="/images/pasted-22.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo博客安装方法</title>
     <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h2 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h2><p>pkg换源<br>sed -i ‘s@^(deb.*stable main)$@#\1\ndeb <a href="https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24">https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24</a> stable main@’ $PREFIX&#x2F;etc&#x2F;apt&#x2F;sources.list</p>
@@ -237,25 +285,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>oppoA9 mtk手机root</title>
-    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
-    <content><![CDATA[<h2 id="mtk手机root"><a href="#mtk手机root" class="headerlink" title="mtk手机root"></a>mtk手机root</h2><p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
-<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
-<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
-</code></pre>
-<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量+-键，插入数据线，等待软件连接<br>2、连接后通过读分区导出boot文件，不带后缀<br>3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
-<p><img src="/images/pasted-2.png" alt="upload successful"></p>
-<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
-<p><img src="/images/pasted-3.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>手机搞机</category>
-      </categories>
-      <tags>
-        <tag>手机root</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>msfconsole命令</title>
     <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="攻击模块"><a href="#攻击模块" class="headerlink" title="攻击模块"></a>攻击模块</h2><p>软件更新</p>
@@ -309,6 +338,25 @@ run
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>渗透命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>oppoA9 mtk手机root</title>
+    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
+    <content><![CDATA[<h2 id="mtk手机root"><a href="#mtk手机root" class="headerlink" title="mtk手机root"></a>mtk手机root</h2><p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
+<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
+<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
+</code></pre>
+<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量+-键，插入数据线，等待软件连接<br>2、连接后通过读分区导出boot文件，不带后缀<br>3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"></p>
+<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
+<p><img src="/images/pasted-3.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>手机搞机</category>
+      </categories>
+      <tags>
+        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -447,54 +495,6 @@ run
       </categories>
       <tags>
         <tag>网络安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo一图流方法</title>
-    <url>/2024/08/03/hexo%E4%B8%80%E5%9B%BE%E6%B5%81%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="hexo博客一图流"><a href="#hexo博客一图流" class="headerlink" title="hexo博客一图流"></a>hexo博客一图流</h2><h4 id="实现效果展示"><a href="#实现效果展示" class="headerlink" title="实现效果展示"></a>实现效果展示</h4><p>头部背景与主体部分背景无缝连接<br><img src="/images/pasted-22.png" alt="upload successful"></p>
-<h2 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h2><p>通过开启butterfly主题留下的indect模块</p>
-<h4 id="添加css代码"><a href="#添加css代码" class="headerlink" title="添加css代码"></a>添加css代码</h4><p>先在主题的css文件夹中创建custom.css文件</p>
-<pre><code>cd /themes/butterfly/source/css/
-</code></pre>
-<p><img src="/images/pasted-24.png" alt="upload successful"></p>
-<p>编辑让顶部背景和页脚背景透明的css文件</p>
-<pre><code>vim custom.css
-#footer &#123;
-background: transparent !important;
-&#125;
-#page-header &#123;
-    background: transparent !important;
-&#125;
-
-#footer::before&#123;
-    background: transparent !important;
-&#125;
-#page-header::before&#123;
-    background: transparent !important;
-&#125;
-
-[data-theme＝&quot;dark&quot;] #footer::before&#123;
-    background: transparent !important;
-&#125;
-[data-theme＝&quot;dark&quot;] #page-header::before&#123;
-    background: transparent !important;
-&#125;
-</code></pre>
-<h4 id="config-yml中开启inject部分功能"><a href="#config-yml中开启inject部分功能" class="headerlink" title="_config.yml中开启inject部分功能"></a>_config.yml中开启inject部分功能</h4><p>将head部分注释取消<br><img src="/images/pasted-23.png" alt="upload successful"></p>
-<h4 id="更换背景"><a href="#更换背景" class="headerlink" title="更换背景"></a>更换背景</h4><p>vim搜索背景，更换background</p>
-<pre><code>vim /hexo/themes/butterfly/_config.yml
-</code></pre>
-<p><img src="/images/pasted-25.png" alt="upload successful"></p>
-<h2 id="效果实现"><a href="#效果实现" class="headerlink" title="效果实现"></a>效果实现</h2><h4 id="启动hexo查看效果"><a href="#启动hexo查看效果" class="headerlink" title="启动hexo查看效果"></a>启动hexo查看效果</h4><pre><code>hexo clean ; hexo s
-</code></pre>
-<p>刷新页面<br><img src="/images/pasted-22.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
       </tags>
   </entry>
 </search>
