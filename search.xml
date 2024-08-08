@@ -285,6 +285,25 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
+    <title>oppoA9 mtk手机root</title>
+    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
+    <content><![CDATA[<h2 id="mtk手机root"><a href="#mtk手机root" class="headerlink" title="mtk手机root"></a>mtk手机root</h2><p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
+<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
+<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
+</code></pre>
+<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量+-键，插入数据线，等待软件连接<br>2、连接后通过读分区导出boot文件，不带后缀<br>3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"></p>
+<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
+<p><img src="/images/pasted-3.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>手机搞机</category>
+      </categories>
+      <tags>
+        <tag>手机root</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>msfconsole命令</title>
     <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="攻击模块"><a href="#攻击模块" class="headerlink" title="攻击模块"></a>攻击模块</h2><p>软件更新</p>
@@ -338,25 +357,6 @@ run
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>渗透命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>oppoA9 mtk手机root</title>
-    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
-    <content><![CDATA[<h2 id="mtk手机root"><a href="#mtk手机root" class="headerlink" title="mtk手机root"></a>mtk手机root</h2><p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
-<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
-<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
-</code></pre>
-<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量+-键，插入数据线，等待软件连接<br>2、连接后通过读分区导出boot文件，不带后缀<br>3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
-<p><img src="/images/pasted-2.png" alt="upload successful"></p>
-<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
-<p><img src="/images/pasted-3.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>手机搞机</category>
-      </categories>
-      <tags>
-        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
