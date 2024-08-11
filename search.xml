@@ -90,6 +90,33 @@
       </categories>
       <tags>
         <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>arp欺骗</title>
+    <url>/2024/08/01/arpspoof/</url>
+    <content><![CDATA[<h2 id="使用arpspoof命令："><a href="#使用arpspoof命令：" class="headerlink" title="使用arpspoof命令："></a>使用arpspoof命令：</h2><pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
+</code></pre>
+<p>-i interface          指定要使用的接口。<br>-c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>-t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>-r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>host               指定您希望抓取数据包的host（通常是本地网关）</p>
+<h2 id="使用ettercap-G-蜘蛛工具"><a href="#使用ettercap-G-蜘蛛工具" class="headerlink" title="使用ettercap -G 蜘蛛工具"></a>使用ettercap -G 蜘蛛工具</h2><p>实例演示-arp欺骗</p>
+<p>1.打开ettercap，选择你要使用的网卡，点击”对号”。<br><img src="/images/pasted-4.png" alt="upload successful"></p>
+<p>2.点击”搜索”按钮，进行主机发现。<br><img src="/images/pasted-5.png" alt="upload successful"></p>
+<p>3.点击”红色方框里面的按钮”，我们可以查看”host list”.<br><img src="/images/pasted-6.png" alt="upload successful"></p>
+<p>4.将想要欺骗的网关和受害者分别添加到”add to target 1”和”add to target 2”。<br><img src="/images/pasted-7.png" alt="upload successful"></p>
+<p>5.点击”圆圈”，选择”arp poisoning spoofing”。<br><img src="/images/pasted-8.png" alt="upload successful"></p>
+<p>6.选择”sniff remote connections”，然后点击”OK”。这样就配置完成，ettercap会自动开始arp欺骗。<br><img src="/images/pasted-9.png" alt="upload successful"></p>
+<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br><img src="/images/pasted-10.png" alt="upload successful"></p>
+<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>实战演示</tag>
       </tags>
   </entry>
   <entry>
@@ -139,32 +166,6 @@ ansible_ssh_pass=123456 ##密码
       </categories>
       <tags>
         <tag>运维命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>arp欺骗</title>
-    <url>/2024/08/01/arpspoof/</url>
-    <content><![CDATA[<h2 id="使用arpspoof命令："><a href="#使用arpspoof命令：" class="headerlink" title="使用arpspoof命令："></a>使用arpspoof命令：</h2><pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
-</code></pre>
-<p>-i interface          指定要使用的接口。<br>-c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>-t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>-r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>host               指定您希望抓取数据包的host（通常是本地网关）</p>
-<h2 id="使用ettercap-G-蜘蛛工具"><a href="#使用ettercap-G-蜘蛛工具" class="headerlink" title="使用ettercap -G 蜘蛛工具"></a>使用ettercap -G 蜘蛛工具</h2><p>实例演示-arp欺骗</p>
-<p>1.打开ettercap，选择你要使用的网卡，点击”对号”。<br><img src="/images/pasted-4.png" alt="upload successful"></p>
-<p>2.点击”搜索”按钮，进行主机发现。<br><img src="/images/pasted-5.png" alt="upload successful"></p>
-<p>3.点击”红色方框里面的按钮”，我们可以查看”host list”.<br><img src="/images/pasted-6.png" alt="upload successful"></p>
-<p>4.将想要欺骗的网关和受害者分别添加到”add to target 1”和”add to target 2”。<br><img src="/images/pasted-7.png" alt="upload successful"></p>
-<p>5.点击”圆圈”，选择”arp poisoning spoofing”。<br><img src="/images/pasted-8.png" alt="upload successful"></p>
-<p>6.选择”sniff remote connections”，然后点击”OK”。这样就配置完成，ettercap会自动开始arp欺骗。<br><img src="/images/pasted-9.png" alt="upload successful"></p>
-<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br><img src="/images/pasted-10.png" alt="upload successful"></p>
-<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>实战演示</tag>
       </tags>
   </entry>
   <entry>
@@ -232,6 +233,7 @@ mysql:5.7
       </categories>
       <tags>
         <tag>docker</tag>
+        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -291,6 +293,31 @@ https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
       </categories>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker目录挂载</title>
+    <url>/2024/08/11/docker%E7%9B%AE%E5%BD%95%E6%8C%82%E8%BD%BD/</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>docker目录的挂载有三种方式，分别试用于不同的场景：<br>1、Bind Mount将宿主机上的一个文件或目录挂载到容器内。<br>    适用于修改配置文件或者代码文件的目录，容器会和宿主机同步更新。</p>
+<p>2、Volume由Docker创建和管理的目录，用于持久化和共享数据，与上述类似，区别在于是使用一个新的，由容器创建的目录</p>
+<p>3、tmpfs mount 存储临时文件，存储于主机内存中，不能多容器共享（使用场景少）</p>
+<h2 id="Bind-Mount"><a href="#Bind-Mount" class="headerlink" title="Bind Mount"></a>Bind Mount</h2><p>常用命令</p>
+<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;绝对路径&gt;:&lt;容器目录&gt; &lt;镜像&gt;
+</code></pre>
+<p>使用 –mount 指令进行绑定挂载</p>
+<pre><code>docker run -d --name &lt;容器名&gt; --mount type=bind,source=&lt;宿主机目录&gt;,target=&lt;容器目录&gt; &lt;镜像&gt;
+</code></pre>
+<h2 id="Volume"><a href="#Volume" class="headerlink" title="Volume"></a>Volume</h2><p>常用命令&lt;数据卷名称&gt;直接写名字则是在当前目录创建目录</p>
+<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;数据卷名称&gt;:&lt;容器目录&gt; &lt;镜像&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
