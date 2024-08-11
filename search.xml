@@ -1,6 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Dockerfile命令</title>
+    <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<table>
+<thead>
+<tr>
+<th align="center">Dockerfile</th>
+<th align="left">指令	说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">FROM</td>
+<td align="left">指定基础镜像，用于后续的指令构建。</td>
+</tr>
+<tr>
+<td align="center">MAINTAINER</td>
+<td align="left">指定Dockerfile的作者&#x2F;维护者。（已弃用，推荐使用LABEL指令）</td>
+</tr>
+<tr>
+<td align="center">LABEL</td>
+<td align="left">添加镜像的元数据，使用键值对的形式。</td>
+</tr>
+<tr>
+<td align="center">RUN</td>
+<td align="left">在构建过程中在镜像中执行命令。</td>
+</tr>
+<tr>
+<td align="center">CMD</td>
+<td align="left">指定容器创建时的默认命令。（可以被覆盖）</td>
+</tr>
+<tr>
+<td align="center">ENTRYPOINT</td>
+<td align="left">设置容器创建时的主要命令。（不可被覆盖）</td>
+</tr>
+<tr>
+<td align="center">EXPOSE</td>
+<td align="left">声明容器运行时监听的特定网络端口。</td>
+</tr>
+<tr>
+<td align="center">ENV</td>
+<td align="left">在容器内部设置环境变量。</td>
+</tr>
+<tr>
+<td align="center">ADD</td>
+<td align="left">将文件、目录或远程URL复制到镜像中。</td>
+</tr>
+<tr>
+<td align="center">COPY</td>
+<td align="left">将文件或目录复制到镜像中。</td>
+</tr>
+<tr>
+<td align="center">VOLUME</td>
+<td align="left">为容器创建挂载点或声明卷。</td>
+</tr>
+<tr>
+<td align="center">WORKDIR</td>
+<td align="left">设置后续指令的工作目录。</td>
+</tr>
+<tr>
+<td align="center">USER</td>
+<td align="left">指定后续指令的用户上下文。</td>
+</tr>
+<tr>
+<td align="center">ARG</td>
+<td align="left">定义在构建过程中传递给构建器的变量，可使用 “docker build” 命令设置。</td>
+</tr>
+<tr>
+<td align="center">ONBUILD</td>
+<td align="left">当该镜像被用作另一个构建过程的基础时，添加触发器。</td>
+</tr>
+<tr>
+<td align="center">STOPSIGNAL</td>
+<td align="left">设置发送给容器以退出的系统调用信号。</td>
+</tr>
+<tr>
+<td align="center">HEALTHCHECK</td>
+<td align="left">定义周期性检查容器健康状态的命令。</td>
+</tr>
+<tr>
+<td align="center">SHELL</td>
+<td align="left">覆盖Docker中默认的shell，用于RUN、CMD和ENTRYPOINT指令。</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ansible命令</title>
     <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
