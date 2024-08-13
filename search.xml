@@ -169,15 +169,17 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>docker 卸载</title>
-    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
-    <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
+    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
+    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
+<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
+<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
 
-<hr>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
+<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
+]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
@@ -188,17 +190,15 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
-    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
-<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况，既然是卡住，那么直接一个一个下就没问题，抱着试试的想法，还真成功了。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
-<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
+    <title>docker 卸载</title>
+    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
+    <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
 
-<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
-
-<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
-]]></content>
+<hr>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
@@ -397,6 +397,31 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       </tags>
   </entry>
   <entry>
+    <title>docker目录挂载</title>
+    <url>/2024/08/11/docker%E7%9B%AE%E5%BD%95%E6%8C%82%E8%BD%BD/</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>docker目录的挂载有三种方式，分别试用于不同的场景：<br>1、Bind Mount将宿主机上的一个文件或目录挂载到容器内。<br>    适用于修改配置文件或者代码文件的目录，容器会和宿主机同步更新。</p>
+<p>2、Volume由Docker创建和管理的目录，用于持久化和共享数据，与上述类似，区别在于是使用一个新的，由容器创建的目录</p>
+<p>3、tmpfs mount 存储临时文件，存储于主机内存中，不能多容器共享（使用场景少）</p>
+<h2 id="Bind-Mount"><a href="#Bind-Mount" class="headerlink" title="Bind Mount"></a>Bind Mount</h2><p>常用命令</p>
+<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;绝对路径&gt;:&lt;容器目录&gt; &lt;镜像&gt;
+</code></pre>
+<p>使用 –mount 指令进行绑定挂载</p>
+<pre><code>docker run -d --name &lt;容器名&gt; --mount type=bind,source=&lt;宿主机目录&gt;,target=&lt;容器目录&gt; &lt;镜像&gt;
+</code></pre>
+<h2 id="Volume"><a href="#Volume" class="headerlink" title="Volume"></a>Volume</h2><p>常用命令&lt;数据卷名称&gt;直接写名字则是在当前目录创建目录</p>
+<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;数据卷名称&gt;:&lt;容器目录&gt; &lt;镜像&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>github部署hexo</title>
     <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
     <content><![CDATA[<h2 id="本地ssh连接-GitHub"><a href="#本地ssh连接-GitHub" class="headerlink" title="本地ssh连接 GitHub"></a>本地ssh连接 GitHub</h2><h4 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h4><p>确保下载了git后输入命令</p>
@@ -445,46 +470,18 @@ hexo d
       </tags>
   </entry>
   <entry>
-    <title>docker目录挂载</title>
-    <url>/2024/08/11/docker%E7%9B%AE%E5%BD%95%E6%8C%82%E8%BD%BD/</url>
-    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>docker目录的挂载有三种方式，分别试用于不同的场景：<br>1、Bind Mount将宿主机上的一个文件或目录挂载到容器内。<br>    适用于修改配置文件或者代码文件的目录，容器会和宿主机同步更新。</p>
-<p>2、Volume由Docker创建和管理的目录，用于持久化和共享数据，与上述类似，区别在于是使用一个新的，由容器创建的目录</p>
-<p>3、tmpfs mount 存储临时文件，存储于主机内存中，不能多容器共享（使用场景少）</p>
-<h2 id="Bind-Mount"><a href="#Bind-Mount" class="headerlink" title="Bind Mount"></a>Bind Mount</h2><p>常用命令</p>
-<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;绝对路径&gt;:&lt;容器目录&gt; &lt;镜像&gt;
-</code></pre>
-<p>使用 –mount 指令进行绑定挂载</p>
-<pre><code>docker run -d --name &lt;容器名&gt; --mount type=bind,source=&lt;宿主机目录&gt;,target=&lt;容器目录&gt; &lt;镜像&gt;
-</code></pre>
-<h2 id="Volume"><a href="#Volume" class="headerlink" title="Volume"></a>Volume</h2><p>常用命令&lt;数据卷名称&gt;直接写名字则是在当前目录创建目录</p>
-<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;数据卷名称&gt;:&lt;容器目录&gt; &lt;镜像&gt;
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2024/07/31/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+    <title>hexo博客安装方法</title>
+    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h2><p>pkg换源<br>sed -i ‘s@^(deb.*stable main)$@#\1\ndeb <a href="https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24">https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24</a> stable main@’ $PREFIX&#x2F;etc&#x2F;apt&#x2F;sources.list</p>
+<p>pkg update</p>
+<p>pkg install nodejs-lts<br>pkg install git<br>pkg install vim</p>
+<p>需要在目录下运行安装<br>mkdir hexo<br>chmod 777 hexo<br>cd hexo</p>
+<h2 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h2><p>npm install hexo-cli -g<br>hexo init</p>
+<p>启动命令<br>hexo g<br>hexo s</p>
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>git clone -b master <a href="https://github.com/jerryc127/hexo-theme-butterfly.git">https://github.com/jerryc127/hexo-theme-butterfly.git</a> themes&#x2F;butterfly</p>
+<p>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
+<p>vim编辑根目录下_config.yml中的theme：butterfly<br>npm install hexo-renderer-pug hexo-renderer-stylus –save</p>
+<h2 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h2><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
 ]]></content>
       <categories>
         <category>hexo博客</category>
@@ -542,18 +539,21 @@ background: transparent !important;
       </tags>
   </entry>
   <entry>
-    <title>hexo博客安装方法</title>
-    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h2><p>pkg换源<br>sed -i ‘s@^(deb.*stable main)$@#\1\ndeb <a href="https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24">https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24</a> stable main@’ $PREFIX&#x2F;etc&#x2F;apt&#x2F;sources.list</p>
-<p>pkg update</p>
-<p>pkg install nodejs-lts<br>pkg install git<br>pkg install vim</p>
-<p>需要在目录下运行安装<br>mkdir hexo<br>chmod 777 hexo<br>cd hexo</p>
-<h2 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h2><p>npm install hexo-cli -g<br>hexo init</p>
-<p>启动命令<br>hexo g<br>hexo s</p>
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>git clone -b master <a href="https://github.com/jerryc127/hexo-theme-butterfly.git">https://github.com/jerryc127/hexo-theme-butterfly.git</a> themes&#x2F;butterfly</p>
-<p>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
-<p>vim编辑根目录下_config.yml中的theme：butterfly<br>npm install hexo-renderer-pug hexo-renderer-stylus –save</p>
-<h2 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h2><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
+    <title>Hello World</title>
+    <url>/2024/07/31/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
       <categories>
         <category>hexo博客</category>
