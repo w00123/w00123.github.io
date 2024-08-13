@@ -1,55 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>ansible命令</title>
-    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
-<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
-<pre><code>yum install epel-release -y
-</code></pre>
-<p>安装 Ansible</p>
-<pre><code>yum install ansible -y
-</code></pre>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
-<p>hosts.ini：</p>
-<pre><code>[hostst_g]
-此处填写ip
-[hosts_g:vars]
-ansible_ssh_user=root ##账号
-ansible_ssh_pass=123456 ##密码
-</code></pre>
-<p>command.yml：</p>
-<pre><code>- name: 在远程主机上执行任意命令 
-    hosts: all
-    gather_facts: no
-    tasks:
-        - name: 执行一个特定命令
-            command: echo &quot;你好，世界！&quot;
-            # 使用 command 模块执行简单命令，不支持管道和重定向
-        - name: 列出目录中的文件
-            command: ls /path/to/directory
-            # 列出指定目录中的所有文件
-        - name: 使用 shell 运行包含管道的命令
-            shell: echo &quot;你好，世界！&quot; | grep 你好
-            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
-        - name: 使用 shell 特性运行命令
-            shell: cat /etc/passwd | grep root
-            # 通过管道过滤包含 &quot;root&quot; 的行
-</code></pre>
-<p>可使用shell：模拟终端上所有执行的命令。</p>
-<p>使用命令</p>
-<pre><code>ansible-playbook -i hosts.ini command.yml
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Dockerfile命令</title>
     <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<table>
@@ -143,6 +94,55 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
+    <title>ansible命令</title>
+    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
+<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
+<pre><code>yum install epel-release -y
+</code></pre>
+<p>安装 Ansible</p>
+<pre><code>yum install ansible -y
+</code></pre>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
+<p>hosts.ini：</p>
+<pre><code>[hostst_g]
+此处填写ip
+[hosts_g:vars]
+ansible_ssh_user=root ##账号
+ansible_ssh_pass=123456 ##密码
+</code></pre>
+<p>command.yml：</p>
+<pre><code>- name: 在远程主机上执行任意命令 
+    hosts: all
+    gather_facts: no
+    tasks:
+        - name: 执行一个特定命令
+            command: echo &quot;你好，世界！&quot;
+            # 使用 command 模块执行简单命令，不支持管道和重定向
+        - name: 列出目录中的文件
+            command: ls /path/to/directory
+            # 列出指定目录中的所有文件
+        - name: 使用 shell 运行包含管道的命令
+            shell: echo &quot;你好，世界！&quot; | grep 你好
+            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
+        - name: 使用 shell 特性运行命令
+            shell: cat /etc/passwd | grep root
+            # 通过管道过滤包含 &quot;root&quot; 的行
+</code></pre>
+<p>可使用shell：模拟终端上所有执行的命令。</p>
+<p>使用命令</p>
+<pre><code>ansible-playbook -i hosts.ini command.yml
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>arp欺骗</title>
     <url>/2024/08/01/arpspoof/</url>
     <content><![CDATA[<h2 id="使用arpspoof命令："><a href="#使用arpspoof命令：" class="headerlink" title="使用arpspoof命令："></a>使用arpspoof命令：</h2><pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
@@ -172,34 +172,12 @@ ansible_ssh_pass=123456 ##密码
     <title>docker 卸载</title>
     <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
     <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<pre><code>yum remove docker \
-       docker-client \
-       docker-client-latest \
-       docker-common \
-       docker-latest \
-       docker-latest-logrotate \
-       docker-logrotate \
-       docker-selinux \
-       docker-engine-selinux \
-       docker-engine
-</code></pre>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
 <p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<pre><code>yum remove docker-ce \
-       docker-ce-cli \
-       containerd
-       
-</code></pre>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
+
 <hr>
-<pre><code>systemctl stop docker
-rm -rf /etc/systemd/system/docker.service.d
-rm -rf /etc/systemd/system/docker.service
-rm -rf /var/lib/docker
-rm -rf /var/run/docker
-rm -rf /usr/local/docker
-rm -rf /etc/docker
-rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr
-</code></pre>
-]]></content>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
@@ -211,18 +189,8 @@ rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr
   <entry>
     <title>docker 可用镜像源2024.08.13</title>
     <url>/2024/08/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%902024-08-13/</url>
-    <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><pre><code>sudo tee /etc/docker/daemon.json &lt;&lt;EOF
-&#123;
-    &quot;registry-mirrors&quot;: [
-        &quot;https://docker.anyhub.us.kg&quot;,
-        &quot;https://dockerhub.jobcher.com&quot;,
-        &quot;https://dockerhub.icu&quot;,
-    ]
-&#125;
-EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-</code></pre>
+    <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">        &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">        &quot;https://dockerhub.icu&quot;,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
 <p>源自：小锋学长生活大爆炸[xfxuezhagn.cn]<br>原文链接：<a href="https://blog.csdn.net/sxf1061700625/article/details/140895299">https://blog.csdn.net/sxf1061700625/article/details/140895299</a></p>
 ]]></content>
       <categories>
@@ -903,8 +871,7 @@ run
     <title>生成密钥 ssh-keygen命令</title>
     <url>/2024/08/13/%E7%94%9F%E6%88%90%E5%AF%86%E9%92%A5-ssh-keygen%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="生成一个密钥文件"><a href="#生成一个密钥文件" class="headerlink" title="生成一个密钥文件"></a>生成一个密钥文件</h3><p>   生成一个 2048 位的 RSA 密钥对，并将私钥存储在 ~&#x2F;.ssh&#x2F;id_rsa 中，将公钥存储在 ~&#x2F;.ssh&#x2F;id_rsa.pub 中</p>
-<pre><code>ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
 <h3 id="示例详解"><a href="#示例详解" class="headerlink" title="示例详解"></a>示例详解</h3><p>-t rsa: 指定要生成的密钥类型为 RSA。RSA 是一种非对称加密算法，常用于生成 SSH 密钥对。</p>
 <p>-b 2048: 指定生成的密钥的比特数。在这里，生成的密钥将有 2048 位。密钥位数越大，通常越安全，但也会增加计算负担。</p>
 <p>-f ~&#x2F;.ssh&#x2F;id_rsa: 指定生成的密钥文件的路径。在这里，生成的私钥将存储在 ~&#x2F;.ssh&#x2F;id_rsa 文件中，而公钥则存储在 ~&#x2F;.ssh&#x2F;id_rsa.pub 文件中。这是默认的文件路径，可以根据需要指定其他路径。</p>
@@ -1001,16 +968,11 @@ run
 </tr>
 </tbody></table>
 <p>原文链接：<a href="https://blog.csdn.net/ababab12345/article/details/121989807">https://blog.csdn.net/ababab12345/article/details/121989807</a></p>
-<h3 id="开放端口"><a href="#开放端口" class="headerlink" title="开放端口"></a>开放端口</h3><pre><code>firewall-cmd --permanent --add-port=80/tcp
-</code></pre>
-<h3 id="禁用端口"><a href="#禁用端口" class="headerlink" title="禁用端口"></a>禁用端口</h3><pre><code>firewall-cmd --permanent --remove-port=80/tcp
-</code></pre>
-<h3 id="刷新规则"><a href="#刷新规则" class="headerlink" title="刷新规则"></a>刷新规则</h3><pre><code>firewall-cmd --reload
-</code></pre>
-<h3 id="查询端口是否开放"><a href="#查询端口是否开放" class="headerlink" title="查询端口是否开放"></a>查询端口是否开放</h3><pre><code>firewall-cmd --query-port=80w/tcp
-</code></pre>
-<h3 id="查看已开放的端口"><a href="#查看已开放的端口" class="headerlink" title="查看已开放的端口"></a>查看已开放的端口</h3><pre><code>firewall-cmd --list-ports
-</code></pre>
+<h3 id="开放端口"><a href="#开放端口" class="headerlink" title="开放端口"></a>开放端口</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --permanent --add-port=80/tcp</span><br></pre></td></tr></table></figure>
+<h3 id="禁用端口"><a href="#禁用端口" class="headerlink" title="禁用端口"></a>禁用端口</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --permanent --remove-port=80/tcp</span><br></pre></td></tr></table></figure>
+<h3 id="刷新规则"><a href="#刷新规则" class="headerlink" title="刷新规则"></a>刷新规则</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<h3 id="查询端口是否开放"><a href="#查询端口是否开放" class="headerlink" title="查询端口是否开放"></a>查询端口是否开放</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --query-port=80w/tcp</span><br></pre></td></tr></table></figure>
+<h3 id="查看已开放的端口"><a href="#查看已开放的端口" class="headerlink" title="查看已开放的端口"></a>查看已开放的端口</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --list-ports</span><br></pre></td></tr></table></figure>
 <h2 id="iptables"><a href="#iptables" class="headerlink" title="iptables"></a>iptables</h2><h3 id="防火墙命令参数"><a href="#防火墙命令参数" class="headerlink" title="防火墙命令参数"></a>防火墙命令参数</h3><table>
 <thead>
 <tr>
