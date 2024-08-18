@@ -169,6 +169,27 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
+    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
+    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
+<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
+<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker 卸载</title>
     <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
     <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
@@ -200,27 +221,6 @@ ansible_ssh_pass=123456 ##密码
       </categories>
       <tags>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
-    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
-<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
-<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
-
-<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -1022,11 +1022,14 @@ run
 <h3 id="将-Node-节点加入集群"><a href="#将-Node-节点加入集群" class="headerlink" title="将 Node 节点加入集群"></a>将 Node 节点加入集群</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubeadm join 192.168.11.130:6443 --token pt332w.pz2sldn46h9ynfsw         --discovery-token-ca-cert-hash sha256:b6bdbc14bee762e5a7cfc24aa60cc842077180ae6595eb68b09d0333243cfa0c --cri-socket=unix:///var/run/cri-dockerd.sock</span><br></pre></td></tr></table></figure>
 <h3 id="安装网络组件"><a href="#安装网络组件" class="headerlink" title="安装网络组件"></a>安装网络组件</h3><p>Pod 网络:Kubernetes 需要一个 Pod 网络插件来管理集群中的网络通信。你可以选择一个适合你环境的网络插件（如 Flannel、Calico、Weave 等），并使用 kubectl 命令来部署。</p>
 <p>这里使用 Calico 作为 Kubernetes 的网络插件，负责集群中网络通信。<br>创建 Calico 网络组件的资源：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl create -f tigera-operator.yaml </span><br><span class="line">kubectl create -f custom-resources.yaml</span><br></pre></td></tr></table></figure>
-<p>yaml文件需要下载创建，我使用的是<a href="https://www.alipan.com/t/sTwWXDtiRXDi7SYhqFk8">https://www.alipan.com/t/sTwWXDtiRXDi7SYhqFk8</a><br>应用完成后，等待 5 分钟后，查看 Pod 运行状态：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl get pods -n calico-system</span><br></pre></td></tr></table></figure>
-<p>如果显示还没有该名称，则可能是tigera-operator没完成</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl get pods -n tigera-operator</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml</span><br></pre></td></tr></table></figure>
+<p>配置安全策略</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim network-policy.yaml</span><br><span class="line"></span><br><span class="line">apiVersion: networking.k8s.io/v1</span><br><span class="line">kind: NetworkPolicy</span><br><span class="line">metadata:</span><br><span class="line">  name: allow-all</span><br><span class="line">  namespace: default</span><br><span class="line">spec:</span><br><span class="line">  podSelector: &#123;&#125;</span><br><span class="line">  policyTypes:</span><br><span class="line">  - Ingress</span><br><span class="line">  - Egress</span><br><span class="line">  ingress:</span><br><span class="line">  - &#123;&#125;</span><br><span class="line">  egress:</span><br><span class="line">  - &#123;&#125;</span><br><span class="line"></span><br><span class="line">kubectl apply -f network-policy.yaml</span><br></pre></td></tr></table></figure>
+
+<p>应用完成后，等待 5 分钟后，查看 Pod 运行状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl get pods -n kube-system</span><br></pre></td></tr></table></figure>
+<p>如果出现问题，可能是还未下载完，也可以查看日志排查</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl logs -n kube-system &lt;pod-name&gt;</span><br></pre></td></tr></table></figure>
 <p>ps：如果 Pod 处于“ContainerCreating”状态说明在下载镜像中，需耐心等待</p>
 <h2 id="安装-Dashboard"><a href="#安装-Dashboard" class="headerlink" title="安装 Dashboard"></a>安装 Dashboard</h2><p>Dashboard 是官方提供的一个 UI，可用于基本管理 K8s 资源。</p>
 <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl apply -f kubernetes-dashboard.yaml</span><br><span class="line">kubectl get pods -n kubernetes-dashboard</span><br></pre></td></tr></table></figure>
