@@ -169,27 +169,6 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
-    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
-<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
-<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
-
-<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker 卸载</title>
     <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
     <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
@@ -209,9 +188,9 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>docker 可用镜像源2024.08.13</title>
+    <title>docker 可用加速镜像2024.08.13</title>
     <url>/2024/08/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%902024-08-13/</url>
-    <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">        &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">        &quot;https://dockerhub.icu&quot;,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">        &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">        &quot;https://dockerhub.icu&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
 
 <p>源自：小锋学长生活大爆炸[xfxuezhagn.cn]<br>原文链接：<a href="https://blog.csdn.net/sxf1061700625/article/details/140895299">https://blog.csdn.net/sxf1061700625/article/details/140895299</a></p>
 ]]></content>
@@ -221,6 +200,27 @@ ansible_ssh_pass=123456 ##密码
       </categories>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
+    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
+<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
+<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -470,18 +470,21 @@ hexo d
       </tags>
   </entry>
   <entry>
-    <title>hexo博客安装方法</title>
-    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h2><p>pkg换源<br>sed -i ‘s@^(deb.*stable main)$@#\1\ndeb <a href="https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24">https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24</a> stable main@’ $PREFIX&#x2F;etc&#x2F;apt&#x2F;sources.list</p>
-<p>pkg update</p>
-<p>pkg install nodejs-lts<br>pkg install git<br>pkg install vim</p>
-<p>需要在目录下运行安装<br>mkdir hexo<br>chmod 777 hexo<br>cd hexo</p>
-<h2 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h2><p>npm install hexo-cli -g<br>hexo init</p>
-<p>启动命令<br>hexo g<br>hexo s</p>
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>git clone -b master <a href="https://github.com/jerryc127/hexo-theme-butterfly.git">https://github.com/jerryc127/hexo-theme-butterfly.git</a> themes&#x2F;butterfly</p>
-<p>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
-<p>vim编辑根目录下_config.yml中的theme：butterfly<br>npm install hexo-renderer-pug hexo-renderer-stylus –save</p>
-<h2 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h2><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
+    <title>Hello World</title>
+    <url>/2024/07/31/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
       <categories>
         <category>hexo博客</category>
@@ -539,21 +542,18 @@ background: transparent !important;
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2024/07/31/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+    <title>hexo博客安装方法</title>
+    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h2><p>pkg换源<br>sed -i ‘s@^(deb.*stable main)$@#\1\ndeb <a href="https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24">https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24</a> stable main@’ $PREFIX&#x2F;etc&#x2F;apt&#x2F;sources.list</p>
+<p>pkg update</p>
+<p>pkg install nodejs-lts<br>pkg install git<br>pkg install vim</p>
+<p>需要在目录下运行安装<br>mkdir hexo<br>chmod 777 hexo<br>cd hexo</p>
+<h2 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h2><p>npm install hexo-cli -g<br>hexo init</p>
+<p>启动命令<br>hexo g<br>hexo s</p>
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>git clone -b master <a href="https://github.com/jerryc127/hexo-theme-butterfly.git">https://github.com/jerryc127/hexo-theme-butterfly.git</a> themes&#x2F;butterfly</p>
+<p>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
+<p>vim编辑根目录下_config.yml中的theme：butterfly<br>npm install hexo-renderer-pug hexo-renderer-stylus –save</p>
+<h2 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h2><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
 ]]></content>
       <categories>
         <category>hexo博客</category>
@@ -952,6 +952,96 @@ run
       </categories>
       <tags>
         <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>简单部署k8s</title>
+    <url>/2024/08/15/%E7%AE%80%E5%8D%95%E9%83%A8%E7%BD%B2k8s/</url>
+    <content><![CDATA[<h2 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h2><h3 id="服务器规划："><a href="#服务器规划：" class="headerlink" title="服务器规划："></a>服务器规划：</h3><table>
+<thead>
+<tr>
+<th align="center">角色</th>
+<th align="center">IP地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">k8s-master</td>
+<td align="center">192.168.11.130</td>
+</tr>
+<tr>
+<td align="center">k8s-node1</td>
+<td align="center">192.168.11.134</td>
+</tr>
+<tr>
+<td align="center">k8s-node2</td>
+<td align="center">192.168.11.135</td>
+</tr>
+</tbody></table>
+<h3 id="服务器要求："><a href="#服务器要求：" class="headerlink" title="服务器要求："></a>服务器要求：</h3><p>建议最小硬件配置：2核CPU、2G内存、20G硬盘。<br>服务器可以访问互联网，会联网下载镜像。<br>软件环境：</p>
+<table>
+<thead>
+<tr>
+<th align="center">软件</th>
+<th align="center">版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">操作系统</td>
+<td align="center">CentOS7.9_x64</td>
+</tr>
+<tr>
+<td align="center">Docker</td>
+<td align="center">24.0.0（CE）</td>
+</tr>
+<tr>
+<td align="center">Kubernetes</td>
+<td align="center">1.28</td>
+</tr>
+</tbody></table>
+<h2 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h2><h3 id="关闭-Selinux"><a href="#关闭-Selinux" class="headerlink" title="关闭 Selinux"></a>关闭 Selinux</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/enforcing/disabled/&#x27; /etc/selinux/config # 永久</span><br><span class="line">setenforce 0 # 临时</span><br></pre></td></tr></table></figure>
+<h3 id="关闭-Swap"><a href="#关闭-Swap" class="headerlink" title="关闭 Swap"></a>关闭 Swap</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">swapoff -a # 临时</span><br><span class="line">sed -ri &#x27;s/.*swap.*/#&amp;/&#x27; /etc/fstab # 永久</span><br></pre></td></tr></table></figure>
+<h3 id="设置主机名"><a href="#设置主机名" class="headerlink" title="设置主机名"></a>设置主机名</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hostnamectl set-hostname k8s-master</span><br></pre></td></tr></table></figure>
+<h3 id="确保网络桥接的数据包经过-Iptables-处理，启用相关的内核参数"><a href="#确保网络桥接的数据包经过-Iptables-处理，启用相关的内核参数" class="headerlink" title="确保网络桥接的数据包经过 Iptables 处理，启用相关的内核参数"></a>确保网络桥接的数据包经过 Iptables 处理，启用相关的内核参数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &gt; /etc/sysctl.d/k8s.conf &lt;&lt; EOF</span><br><span class="line">net.bridge.bridge-nf-call-ip6tables = 1</span><br><span class="line">net.bridge.bridge-nf-call-iptables = 1</span><br><span class="line">EOF</span><br><span class="line">sysctl --system # 生效</span><br></pre></td></tr></table></figure>
+<h2 id="安装-Docker"><a href="#安装-Docker" class="headerlink" title="安装 Docker"></a>安装 Docker</h2><h3 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo</span><br><span class="line">yum -y install docker-ce</span><br><span class="line">systemctl enable docker &amp;&amp; systemctl start docker</span><br></pre></td></tr></table></figure>
+<h3 id="配置镜像下载加速器和设置-Cgroup-驱动"><a href="#配置镜像下载加速器和设置-Cgroup-驱动" class="headerlink" title="配置镜像下载加速器和设置 Cgroup 驱动"></a>配置镜像下载加速器和设置 Cgroup 驱动</h3><p>这一步可以参考最新的docker可用镜像源设置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &gt; /etc/docker/daemon.json &lt;&lt; EOF</span><br><span class="line"> &#123;</span><br><span class="line"> &quot;registry-mirrors&quot;: [&quot;https://b9pmyelo.mirror.aliyuncs.com&quot;],</span><br><span class="line"> &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;]</span><br><span class="line"> &#125;</span><br><span class="line">EOF</span><br><span class="line">systemctl restart docker</span><br><span class="line">docker info</span><br></pre></td></tr></table></figure>
+<h3 id="安装-cri-dockerd（Docker-与-Kubernetes-通信的中间程序）"><a href="#安装-cri-dockerd（Docker-与-Kubernetes-通信的中间程序）" class="headerlink" title="安装 cri-dockerd（Docker 与 Kubernetes 通信的中间程序）"></a>安装 cri-dockerd（Docker 与 Kubernetes 通信的中间程序）</h3><p>测试最新版本0.3.15安装在centos7.9缺少依赖，但是显示的依赖包已安装，安装旧一版本0.3.14没什么问题，可能版本和我最简的centos7.9有些问题，下载地址为：<br><a href="https://github.com/Mirantis/cri-dockerd/releases">https://github.com/Mirantis/cri-dockerd/releases</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.14/cri-dockerd-0.3.14-3.el7.x86_64.rpm</span><br><span class="line">rpm -ivh cri-dockerd-0.3.2-3.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<h3 id="指定依赖镜像地址为国内镜像地址："><a href="#指定依赖镜像地址为国内镜像地址：" class="headerlink" title="指定依赖镜像地址为国内镜像地址："></a>指定依赖镜像地址为国内镜像地址：</h3><p>修改ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;cri-dockerd –container-runtime-endpoint fd:&#x2F;&#x2F;部分，添加以下参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vi /usr/lib/systemd/system/cri-docker.service</span><br><span class="line">ExecStart=/usr/bin/cri-dockerd --container-runtime-endpoint fd:// --pod-infra-container-image=registry.aliyuncs.com/google_containers/pause:3.9</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable cri-docker &amp;&amp; systemctl start cri-docker</span><br></pre></td></tr></table></figure>
+<h2 id="部署-Kubernetes-集群"><a href="#部署-Kubernetes-集群" class="headerlink" title="部署 Kubernetes 集群"></a>部署 Kubernetes 集群</h2><h3 id="添加阿里云-YUM-软件源"><a href="#添加阿里云-YUM-软件源" class="headerlink" title="添加阿里云 YUM 软件源"></a>添加阿里云 YUM 软件源</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &gt; /etc/yum.repos.d/kubernetes.repo &lt;&lt; EOF</span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">repo_gpgcheck=0</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.ali</span><br><span class="line">yun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="安装-kubeadm，kubelet-和-kubectl"><a href="#安装-kubeadm，kubelet-和-kubectl" class="headerlink" title="安装 kubeadm，kubelet 和 kubectl"></a>安装 kubeadm，kubelet 和 kubectl</h3><p>我一般默认安装最新版yum install -y kubelet kubeadm kubectl，这里我指定下版本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install -y kubelet-1.28.2 kubeadm-1.28.2 kubectl-1.28.2</span><br><span class="line">systemctl enable kubelet</span><br></pre></td></tr></table></figure>
+<h3 id="初始化-Master-节点"><a href="#初始化-Master-节点" class="headerlink" title="初始化 Master 节点"></a>初始化 Master 节点</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubeadm init \</span><br><span class="line">--apiserver-advertise-address=192.168.11.128 \</span><br><span class="line">--image-repository registry.aliyuncs.com/google_containers \</span><br><span class="line">--kubernetes-version v1.28.2 \</span><br><span class="line">--service-cidr=10.96.0.0/12 \</span><br><span class="line">--pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">--cri-socket=unix:///var/run/cri-dockerd.sock</span><br></pre></td></tr></table></figure>
+<p>初始化完成后，根据提示信息，拷贝 kubectl 工具认证文件到默认路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir -p $HOME/.kube</span><br><span class="line">sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</span><br><span class="line">sudo chown $(id -u):$(id -g) $HOME/.kube/config</span><br></pre></td></tr></table></figure>
+<p>使用 kubectl 工具查看节点状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+<p>ps:由于网络插件还没有部署，节点会处于“NotReady”状态</p>
+<h3 id="将-Node-节点加入集群"><a href="#将-Node-节点加入集群" class="headerlink" title="将 Node 节点加入集群"></a>将 Node 节点加入集群</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubeadm join 192.168.11.130:6443 --token pt332w.pz2sldn46h9ynfsw         --discovery-token-ca-cert-hash sha256:b6bdbc14bee762e5a7cfc24aa60cc842077180ae6595eb68b09d0333243cfa0c --cri-socket=unix:///var/run/cri-dockerd.sock</span><br></pre></td></tr></table></figure>
+<h3 id="安装网络组件"><a href="#安装网络组件" class="headerlink" title="安装网络组件"></a>安装网络组件</h3><p>Pod 网络:Kubernetes 需要一个 Pod 网络插件来管理集群中的网络通信。你可以选择一个适合你环境的网络插件（如 Flannel、Calico、Weave 等），并使用 kubectl 命令来部署。</p>
+<p>这里使用 Calico 作为 Kubernetes 的网络插件，负责集群中网络通信。<br>创建 Calico 网络组件的资源：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl create -f tigera-operator.yaml </span><br><span class="line">kubectl create -f custom-resources.yaml</span><br></pre></td></tr></table></figure>
+<p>yaml文件需要下载创建，我使用的是<a href="https://www.alipan.com/t/sTwWXDtiRXDi7SYhqFk8">https://www.alipan.com/t/sTwWXDtiRXDi7SYhqFk8</a><br>应用完成后，等待 5 分钟后，查看 Pod 运行状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl get pods -n calico-system</span><br></pre></td></tr></table></figure>
+<p>如果显示还没有该名称，则可能是tigera-operator没完成</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl get pods -n tigera-operator</span><br></pre></td></tr></table></figure>
+<p>ps：如果 Pod 处于“ContainerCreating”状态说明在下载镜像中，需耐心等待</p>
+<h2 id="安装-Dashboard"><a href="#安装-Dashboard" class="headerlink" title="安装 Dashboard"></a>安装 Dashboard</h2><p>Dashboard 是官方提供的一个 UI，可用于基本管理 K8s 资源。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl apply -f kubernetes-dashboard.yaml</span><br><span class="line">kubectl get pods -n kubernetes-dashboard</span><br></pre></td></tr></table></figure>
+<p>浏览器访问“https:&#x2F;&#x2F;&lt;节点 IP 地址&gt;:30001”，将看到 Dashboard 登录界面。</p>
+<h3 id="创建服务账号并授权管理员权限："><a href="#创建服务账号并授权管理员权限：" class="headerlink" title="创建服务账号并授权管理员权限："></a>创建服务账号并授权管理员权限：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 创建用户</span><br><span class="line">kubectl create serviceaccount dashboard-admin -n kubernetes-dashboard</span><br><span class="line"># 用户授权</span><br><span class="line">kubectl create clusterrolebinding dashboard-admin --clusterrole=cluster-admin --</span><br><span class="line">serviceaccount=kubernetes-dashboard:dashboard-admin</span><br><span class="line"># 获取用户 Token</span><br><span class="line">kubectl create token dashboard-admin -n kubernetes-dashboard</span><br></pre></td></tr></table></figure>
+
+<p>使用输出的 Token 登录 Dashboard，将进入到首页<br>至此，k8s部署完成</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>k8s</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>k8s</tag>
       </tags>
   </entry>
   <entry>
