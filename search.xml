@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>ansible命令</title>
+    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
+<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
+<pre><code>yum install epel-release -y
+</code></pre>
+<p>安装 Ansible</p>
+<pre><code>yum install ansible -y
+</code></pre>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
+<p>hosts.ini：</p>
+<pre><code>[hostst_g]
+此处填写ip
+[hosts_g:vars]
+ansible_ssh_user=root ##账号
+ansible_ssh_pass=123456 ##密码
+</code></pre>
+<p>command.yml：</p>
+<pre><code>- name: 在远程主机上执行任意命令 
+    hosts: all
+    gather_facts: no
+    tasks:
+        - name: 执行一个特定命令
+            command: echo &quot;你好，世界！&quot;
+            # 使用 command 模块执行简单命令，不支持管道和重定向
+        - name: 列出目录中的文件
+            command: ls /path/to/directory
+            # 列出指定目录中的所有文件
+        - name: 使用 shell 运行包含管道的命令
+            shell: echo &quot;你好，世界！&quot; | grep 你好
+            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
+        - name: 使用 shell 特性运行命令
+            shell: cat /etc/passwd | grep root
+            # 通过管道过滤包含 &quot;root&quot; 的行
+</code></pre>
+<p>可使用shell：模拟终端上所有执行的命令。</p>
+<p>使用命令</p>
+<pre><code>ansible-playbook -i hosts.ini command.yml
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Dockerfile命令</title>
     <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<table>
@@ -94,55 +143,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ansible命令</title>
-    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
-<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
-<pre><code>yum install epel-release -y
-</code></pre>
-<p>安装 Ansible</p>
-<pre><code>yum install ansible -y
-</code></pre>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
-<p>hosts.ini：</p>
-<pre><code>[hostst_g]
-此处填写ip
-[hosts_g:vars]
-ansible_ssh_user=root ##账号
-ansible_ssh_pass=123456 ##密码
-</code></pre>
-<p>command.yml：</p>
-<pre><code>- name: 在远程主机上执行任意命令 
-    hosts: all
-    gather_facts: no
-    tasks:
-        - name: 执行一个特定命令
-            command: echo &quot;你好，世界！&quot;
-            # 使用 command 模块执行简单命令，不支持管道和重定向
-        - name: 列出目录中的文件
-            command: ls /path/to/directory
-            # 列出指定目录中的所有文件
-        - name: 使用 shell 运行包含管道的命令
-            shell: echo &quot;你好，世界！&quot; | grep 你好
-            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
-        - name: 使用 shell 特性运行命令
-            shell: cat /etc/passwd | grep root
-            # 通过管道过滤包含 &quot;root&quot; 的行
-</code></pre>
-<p>可使用shell：模拟终端上所有执行的命令。</p>
-<p>使用命令</p>
-<pre><code>ansible-playbook -i hosts.ini command.yml
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>arp欺骗</title>
     <url>/2024/08/01/arpspoof/</url>
     <content><![CDATA[<h2 id="使用arpspoof命令："><a href="#使用arpspoof命令：" class="headerlink" title="使用arpspoof命令："></a>使用arpspoof命令：</h2><pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
@@ -190,6 +190,21 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
+    <title>docker 可用加速镜像2024.08.13</title>
+    <url>/2024/08/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%902024-08-13/</url>
+    <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">        &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">        &quot;https://dockerhub.icu&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<p>源自：小锋学长生活大爆炸[xfxuezhagn.cn]<br>原文链接：<a href="https://blog.csdn.net/sxf1061700625/article/details/140895299">https://blog.csdn.net/sxf1061700625/article/details/140895299</a></p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker 卸载</title>
     <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
     <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
@@ -206,21 +221,6 @@ ansible_ssh_pass=123456 ##密码
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker 可用加速镜像2024.08.13</title>
-    <url>/2024/08/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%902024-08-13/</url>
-    <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">        &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">        &quot;https://dockerhub.icu&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<p>源自：小锋学长生活大爆炸[xfxuezhagn.cn]<br>原文链接：<a href="https://blog.csdn.net/sxf1061700625/article/details/140895299">https://blog.csdn.net/sxf1061700625/article/details/140895299</a></p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -292,6 +292,52 @@ mysql:5.7
       </tags>
   </entry>
   <entry>
+    <title>docker安装awvs并激活</title>
+    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h2 id="安装awvs"><a href="#安装awvs" class="headerlink" title="安装awvs"></a>安装awvs</h2><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><p>搜索</p>
+<pre><code>docker search awvs
+</code></pre>
+<p>选择一个awvs镜像下载<br><img src="/images/pasted-35.png" alt="upload successful"></p>
+<p>选择secfa&#x2F;awvs的镜像</p>
+<pre><code>docker pull secfa/awvs
+docker images -a
+</code></pre>
+<h4 id="创建并启动容器"><a href="#创建并启动容器" class="headerlink" title="创建并启动容器"></a>创建并启动容器</h4><p>运行命令</p>
+<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
+</code></pre>
+<p>如果报错！（提示crack失败）<br>添加参数–cap-add LINUX_IMMUTABLE</p>
+<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
+</code></pre>
+<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><p>账号密码：</p>
+<pre><code>awvs username: admin@admin.com
+awvs password: Admin123
+</code></pre>
+<h2 id="激活"><a href="#激活" class="headerlink" title="激活"></a>激活</h2><p>需要下载破解版的两个文件替换，分别是：</p>
+<pre><code>license_info.json
+wa_data.dat
+</code></pre>
+<p>windows和linux文件通用<br>替换目录为容器内目录：</p>
+<pre><code>/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>文件传输进入容器命令为：</p>
+<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
+docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>重启容器</p>
+<pre><code>docker restart 容器id
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>awvs安装</tag>
+        <tag>awvs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CentOS Docker 安装</title>
     <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<h2 id="自动安装docker"><a href="#自动安装docker" class="headerlink" title="自动安装docker"></a>自动安装docker</h2><p>使用官方安装脚本自动安装：</p>
@@ -351,52 +397,6 @@ https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
       </tags>
   </entry>
   <entry>
-    <title>docker安装awvs并激活</title>
-    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h2 id="安装awvs"><a href="#安装awvs" class="headerlink" title="安装awvs"></a>安装awvs</h2><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><p>搜索</p>
-<pre><code>docker search awvs
-</code></pre>
-<p>选择一个awvs镜像下载<br><img src="/images/pasted-35.png" alt="upload successful"></p>
-<p>选择secfa&#x2F;awvs的镜像</p>
-<pre><code>docker pull secfa/awvs
-docker images -a
-</code></pre>
-<h4 id="创建并启动容器"><a href="#创建并启动容器" class="headerlink" title="创建并启动容器"></a>创建并启动容器</h4><p>运行命令</p>
-<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
-</code></pre>
-<p>如果报错！（提示crack失败）<br>添加参数–cap-add LINUX_IMMUTABLE</p>
-<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
-</code></pre>
-<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><p>账号密码：</p>
-<pre><code>awvs username: admin@admin.com
-awvs password: Admin123
-</code></pre>
-<h2 id="激活"><a href="#激活" class="headerlink" title="激活"></a>激活</h2><p>需要下载破解版的两个文件替换，分别是：</p>
-<pre><code>license_info.json
-wa_data.dat
-</code></pre>
-<p>windows和linux文件通用<br>替换目录为容器内目录：</p>
-<pre><code>/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>文件传输进入容器命令为：</p>
-<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
-docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>重启容器</p>
-<pre><code>docker restart 容器id
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>awvs安装</tag>
-        <tag>awvs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker目录挂载</title>
     <url>/2024/08/11/docker%E7%9B%AE%E5%BD%95%E6%8C%82%E8%BD%BD/</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>docker目录的挂载有三种方式，分别试用于不同的场景：<br>1、Bind Mount将宿主机上的一个文件或目录挂载到容器内。<br>    适用于修改配置文件或者代码文件的目录，容器会和宿主机同步更新。</p>
@@ -419,6 +419,30 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2024/07/31/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
@@ -467,30 +491,6 @@ hexo d
       <tags>
         <tag>博客</tag>
         <tag>github</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2024/07/31/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
@@ -852,25 +852,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>压缩包密码爆破</title>
-    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="使用zip2john-hash值破解"><a href="#使用zip2john-hash值破解" class="headerlink" title="使用zip2john hash值破解"></a>使用zip2john hash值破解</h2><p>生成压缩包hash值</p>
-<pre><code>zip2john filename.zip &gt; hash.txt
-</code></pre>
-<p>开始破解</p>
-<pre><code>john hash.txt
-</code></pre>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>安全-内网渗透</title>
     <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
     <content><![CDATA[<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>主机存活<br>    ettercap -G 蜘蛛<br>    nmap<br>    nmap -sS 网段</p>
@@ -952,6 +933,25 @@ run
       </categories>
       <tags>
         <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>压缩包密码爆破</title>
+    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="使用zip2john-hash值破解"><a href="#使用zip2john-hash值破解" class="headerlink" title="使用zip2john hash值破解"></a>使用zip2john hash值破解</h2><p>生成压缩包hash值</p>
+<pre><code>zip2john filename.zip &gt; hash.txt
+</code></pre>
+<p>开始破解</p>
+<pre><code>john hash.txt
+</code></pre>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
       </tags>
   </entry>
   <entry>
