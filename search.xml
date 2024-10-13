@@ -143,6 +143,27 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
+    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
+    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
+<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
+<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>arp欺骗</title>
     <url>/2024/08/01/arpspoof/</url>
     <content><![CDATA[<h2 id="使用arpspoof命令："><a href="#使用arpspoof命令：" class="headerlink" title="使用arpspoof命令："></a>使用arpspoof命令：</h2><pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
@@ -166,27 +187,6 @@ ansible_ssh_pass=123456 ##密码
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>实战演示</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
-    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
-<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
-<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
-
-<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -215,6 +215,20 @@ ansible_ssh_pass=123456 ##密码
 
 <p>源自：小锋学长生活大爆炸[xfxuezhagn.cn]<br>原文链接：<a href="https://blog.csdn.net/sxf1061700625/article/details/140895299">https://blog.csdn.net/sxf1061700625/article/details/140895299</a></p>
 ]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker 可用镜像源加速镜像024.10.13</title>
+    <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
+    <content><![CDATA[<h2 id="2024-10-13测试可用"><a href="#2024-10-13测试可用" class="headerlink" title="2024.10.13测试可用"></a>2024.10.13测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://registry.docker-cn.com&quot;,</span><br><span class="line">    &quot;http://hub-mirror.c.163.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://dockerhub.azk8s.cn&quot;,</span><br><span class="line">    &quot;https://mirror.ccs.tencentyun.com&quot;,</span><br><span class="line">    &quot;https://registry.cn-hangzhou.aliyuncs.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://docker.1panel.live&quot;,</span><br><span class="line">    &quot;https://atomhub.openatom.cn/&quot;,</span><br><span class="line">    &quot;https://hub.uuuadc.top&quot;,</span><br><span class="line">    &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">    &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">    &quot;https://dockerhub.icu&quot;,</span><br><span class="line">    &quot;https://docker.ckyl.me&quot;,</span><br><span class="line">    &quot;https://docker.awsl9527.cn&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
@@ -1114,11 +1128,11 @@ run
 </tr>
 <tr>
 <td align="center">查看firewall的状态</td>
-<td align="left">firewall-cmd –state</td>
+<td align="left">firewall-cmd - -state</td>
 </tr>
 <tr>
 <td align="center">查看防火墙已有规则列表</td>
-<td align="left">firewall-cmd –list-all</td>
+<td align="left">firewall-cmd - -list-all</td>
 </tr>
 <tr>
 <td align="center">查看firewall服务状态</td>
@@ -1282,6 +1296,9 @@ run
 <p>原文链接：<a href="https://blog.csdn.net/daocaokafei/article/details/115091313">https://blog.csdn.net/daocaokafei/article/details/115091313</a></p>
 <h3 id="命令使用实例"><a href="#命令使用实例" class="headerlink" title="命令使用实例"></a>命令使用实例</h3><p>查看防火墙规则</p>
 <pre><code>iptables -L （可加INPUT或者OUTPUT等参数）
+</code></pre>
+<p>开放端口</p>
+<pre><code>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT
 </code></pre>
 <p>增加规则</p>
 <pre><code>iptables -A INPUT -s 192.168.1.5 -j DROP
