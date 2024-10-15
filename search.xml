@@ -224,20 +224,6 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>docker 可用镜像源加速镜像024.10.13</title>
-    <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
-    <content><![CDATA[<h2 id="2024-10-13测试可用"><a href="#2024-10-13测试可用" class="headerlink" title="2024.10.13测试可用"></a>2024.10.13测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://registry.docker-cn.com&quot;,</span><br><span class="line">    &quot;http://hub-mirror.c.163.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://dockerhub.azk8s.cn&quot;,</span><br><span class="line">    &quot;https://mirror.ccs.tencentyun.com&quot;,</span><br><span class="line">    &quot;https://registry.cn-hangzhou.aliyuncs.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://docker.1panel.live&quot;,</span><br><span class="line">    &quot;https://atomhub.openatom.cn/&quot;,</span><br><span class="line">    &quot;https://hub.uuuadc.top&quot;,</span><br><span class="line">    &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">    &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">    &quot;https://dockerhub.icu&quot;,</span><br><span class="line">    &quot;https://docker.ckyl.me&quot;,</span><br><span class="line">    &quot;https://docker.awsl9527.cn&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker 使用(mysql5.7为例)</title>
     <url>/2024/08/09/docker%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><h4 id="配置加速地址"><a href="#配置加速地址" class="headerlink" title="配置加速地址"></a>配置加速地址</h4><p>国内停服风波后，拉取镜像出现失败的现象，可通过配置加速地址解决（卡顿也可使用此方法）</p>
@@ -303,6 +289,20 @@ mysql:5.7
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker 可用镜像源加速镜像024.10.13</title>
+    <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
+    <content><![CDATA[<h2 id="2024-10-13测试可用"><a href="#2024-10-13测试可用" class="headerlink" title="2024.10.13测试可用"></a>2024.10.13测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://registry.docker-cn.com&quot;,</span><br><span class="line">    &quot;http://hub-mirror.c.163.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://dockerhub.azk8s.cn&quot;,</span><br><span class="line">    &quot;https://mirror.ccs.tencentyun.com&quot;,</span><br><span class="line">    &quot;https://registry.cn-hangzhou.aliyuncs.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://docker.1panel.live&quot;,</span><br><span class="line">    &quot;https://atomhub.openatom.cn/&quot;,</span><br><span class="line">    &quot;https://hub.uuuadc.top&quot;,</span><br><span class="line">    &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">    &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">    &quot;https://dockerhub.icu&quot;,</span><br><span class="line">    &quot;https://docker.ckyl.me&quot;,</span><br><span class="line">    &quot;https://docker.awsl9527.cn&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -489,6 +489,55 @@ admin/password
       </tags>
   </entry>
   <entry>
+    <title>ettercap arp欺骗+dns劫持+钓鱼网站</title>
+    <url>/2024/10/15/ettercap-arp%E6%AC%BA%E9%AA%97-dns%E5%8A%AB%E6%8C%81-%E9%92%93%E9%B1%BC%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>这次主要是使用ettercap在局域网中发现主机并欺骗其arp表，让其mac地址与攻击主机mac一致，使用dns污染其dns解析，将其访问的域名解析到本机的钓鱼网站中。</p>
+<p>注意！<br>ettercap使用要一次完成，在多次测试中发现，重新arp欺骗会无法生效，原因不知。</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="发现局域网主机"><a href="#发现局域网主机" class="headerlink" title="发现局域网主机"></a>发现局域网主机</h3><p>在kali中打开ettercap</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ettercap -G</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-46.png" alt="upload successful"></p>
+<p>选择对应的接口，点击√号，再点击放大镜，再点击服务器<br><img src="/images/pasted-47.png" alt="upload successful"></p>
+<p>192.168.0.1:网关<br>192.168.0.197:靶机</p>
+<h3 id="arp欺骗"><a href="#arp欺骗" class="headerlink" title="arp欺骗"></a>arp欺骗</h3><p>点击靶机，再点击add to target1<br>点击网关，再点击add to target2<br><img src="/images/pasted-48.png" alt="upload successful"></p>
+<p>点击地球图标，点击arp poisoning，点击ok<br><img src="/images/pasted-49.png" alt="upload successful"><br><img src="/images/pasted-50.png" alt="upload successful"></p>
+<p>可在靶机上查看arp表，发现网关mac和本机mac一致，欺骗成功；但是访问正常，可能会短暂无法访问互联网。</p>
+<h3 id="制作钓鱼网站"><a href="#制作钓鱼网站" class="headerlink" title="制作钓鱼网站"></a>制作钓鱼网站</h3><p>使用setoolkit社工软件制作</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">setoolkit</span><br></pre></td></tr></table></figure>
+<p>来个好看的封面<br><img src="/images/pasted-51.png" alt="upload successful"></p>
+<p>选择1<br><img src="/images/pasted-52.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Social-Engineering Attacks：社会工程学攻击</span><br><span class="line">2）Penetration Testing(Fast-Track)：渗透测试（快速通道）</span><br><span class="line">3）Third Party Modules：第三模块</span><br><span class="line">4）Update the Social-Engineer Toolkit：更新社会工程学工具包</span><br><span class="line">5）Update SET configuration：更新SET配置</span><br><span class="line">6）Help, Credits, and About：帮助、致谢和关于</span><br><span class="line"></span><br><span class="line">99）Exit the Social-Engineer Toolkit：退出</span><br></pre></td></tr></table></figure>
+
+<p>选择2<br><img src="/images/pasted-53.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）鱼叉式网络钓鱼攻击向量</span><br><span class="line">2）网站攻击向量</span><br><span class="line">3）感染性媒体生成器</span><br><span class="line">4）创建载荷和监听器</span><br><span class="line">5）批量邮件攻击</span><br><span class="line">6）基于Arduino的攻击向量</span><br><span class="line">7）无线接入点攻击向量</span><br><span class="line">8）QR码生成器攻击向量</span><br><span class="line">9）PowerShell攻击向量</span><br><span class="line">10）第三方模块</span><br><span class="line"></span><br><span class="line">99）返回主菜单。</span><br></pre></td></tr></table></figure>
+
+<p>选择3<br><img src="/images/pasted-54.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Java小程序攻击方法</span><br><span class="line">2）Metasploit浏览器漏洞利用方法</span><br><span class="line">3）凭证收集攻击方法</span><br><span class="line">4）Tabnabbing攻击方法</span><br><span class="line">5）Web劫持攻击方法</span><br><span class="line">6）多攻击网络方法</span><br><span class="line">7）HTA攻击方法</span><br><span class="line"></span><br><span class="line">99）返回主菜单</span><br></pre></td></tr></table></figure>
+
+<p>随意，我这里选择1，比较方便<br><img src="/images/pasted-55.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）网络模板</span><br><span class="line">2）网站克隆器</span><br><span class="line">3）自定义导入</span><br><span class="line"></span><br><span class="line">99）返回网络攻击菜单</span><br></pre></td></tr></table></figure>
+
+<p>然后输入要被访问的ip，选择谷歌模板，网站制作完成。<br><img src="/images/pasted-56.png" alt="upload successful"></p>
+<h3 id="dns劫持"><a href="#dns劫持" class="headerlink" title="dns劫持"></a>dns劫持</h3><p>配置ettercap的dns劫持配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/ettercap/etter.dns</span><br></pre></td></tr></table></figure>
+<p>末尾添加以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*	A	192.168.0.194</span><br></pre></td></tr></table></figure>
+<p>意思是所有域名均解析成后面的ip<br><img src="/images/pasted-57.png" alt="upload successful"></p>
+<p>点击软件三个点，然后选择plugins，再选择manage plugins<br><img src="/images/pasted-59.png" alt="upload successful"></p>
+<p>双击dns_spoof即可<br><img src="/images/pasted-60.png" alt="upload successful"></p>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><h3 id="因为创建的是80端口的页面，靶机要输入http-域名"><a href="#因为创建的是80端口的页面，靶机要输入http-域名" class="headerlink" title="因为创建的是80端口的页面，靶机要输入http:&#x2F;&#x2F;+域名"></a>因为创建的是80端口的页面，靶机要输入http:&#x2F;&#x2F;+域名</h3><p><img src="/images/pasted-63.png" alt="upload successful"></p>
+<h3 id="工具会有劫持成功的返回"><a href="#工具会有劫持成功的返回" class="headerlink" title="工具会有劫持成功的返回"></a>工具会有劫持成功的返回</h3><p><img src="/images/pasted-62.png" alt="upload successful"></p>
+<h3 id="拿到密码"><a href="#拿到密码" class="headerlink" title="拿到密码"></a>拿到密码</h3><p><img src="/images/pasted-61.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+        <tag>ettercap</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>github部署hexo</title>
     <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
     <content><![CDATA[<h2 id="本地ssh连接-GitHub"><a href="#本地ssh连接-GitHub" class="headerlink" title="本地ssh连接 GitHub"></a>本地ssh连接 GitHub</h2><h4 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h4><p>确保下载了git后输入命令</p>
@@ -609,27 +658,6 @@ background: transparent !important;
       </tags>
   </entry>
   <entry>
-    <title>hexo博客安装方法</title>
-    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h2><p>pkg换源<br>sed -i ‘s@^(deb.*stable main)$@#\1\ndeb <a href="https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24">https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24</a> stable main@’ $PREFIX&#x2F;etc&#x2F;apt&#x2F;sources.list</p>
-<p>pkg update</p>
-<p>pkg install nodejs-lts<br>pkg install git<br>pkg install vim</p>
-<p>需要在目录下运行安装<br>mkdir hexo<br>chmod 777 hexo<br>cd hexo</p>
-<h2 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h2><p>npm install hexo-cli -g<br>hexo init</p>
-<p>启动命令<br>hexo g<br>hexo s</p>
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>git clone -b master <a href="https://github.com/jerryc127/hexo-theme-butterfly.git">https://github.com/jerryc127/hexo-theme-butterfly.git</a> themes&#x2F;butterfly</p>
-<p>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
-<p>vim编辑根目录下_config.yml中的theme：butterfly<br>npm install hexo-renderer-pug hexo-renderer-stylus –save</p>
-<h2 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h2><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hydra命令</title>
     <url>/2024/08/01/hydra%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h2><pre><code>-l login 小写，指定用户名进行破解
@@ -698,6 +726,27 @@ hydra -m cloud -P 密码字典 IP cisco-enable
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>渗透命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客安装方法</title>
+    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h2><p>pkg换源<br>sed -i ‘s@^(deb.*stable main)$@#\1\ndeb <a href="https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24">https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24</a> stable main@’ $PREFIX&#x2F;etc&#x2F;apt&#x2F;sources.list</p>
+<p>pkg update</p>
+<p>pkg install nodejs-lts<br>pkg install git<br>pkg install vim</p>
+<p>需要在目录下运行安装<br>mkdir hexo<br>chmod 777 hexo<br>cd hexo</p>
+<h2 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h2><p>npm install hexo-cli -g<br>hexo init</p>
+<p>启动命令<br>hexo g<br>hexo s</p>
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>git clone -b master <a href="https://github.com/jerryc127/hexo-theme-butterfly.git">https://github.com/jerryc127/hexo-theme-butterfly.git</a> themes&#x2F;butterfly</p>
+<p>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
+<p>vim编辑根目录下_config.yml中的theme：butterfly<br>npm install hexo-renderer-pug hexo-renderer-stylus –save</p>
+<h2 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h2><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
