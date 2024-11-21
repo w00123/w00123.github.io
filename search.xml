@@ -1,6 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>arp欺骗</title>
+    <url>/2024/08/01/arpspoof/</url>
+    <content><![CDATA[<h2 id="使用arpspoof命令："><a href="#使用arpspoof命令：" class="headerlink" title="使用arpspoof命令："></a>使用arpspoof命令：</h2><pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
+</code></pre>
+<p>-i interface          指定要使用的接口。<br>-c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>-t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>-r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>host               指定您希望抓取数据包的host（通常是本地网关）</p>
+<h2 id="使用ettercap-G-蜘蛛工具"><a href="#使用ettercap-G-蜘蛛工具" class="headerlink" title="使用ettercap -G 蜘蛛工具"></a>使用ettercap -G 蜘蛛工具</h2><p>实例演示-arp欺骗</p>
+<p>1.打开ettercap，选择你要使用的网卡，点击”对号”。<br><img src="/images/pasted-4.png" alt="upload successful"></p>
+<p>2.点击”搜索”按钮，进行主机发现。<br><img src="/images/pasted-5.png" alt="upload successful"></p>
+<p>3.点击”红色方框里面的按钮”，我们可以查看”host list”.<br><img src="/images/pasted-6.png" alt="upload successful"></p>
+<p>4.将想要欺骗的网关和受害者分别添加到”add to target 1”和”add to target 2”。<br><img src="/images/pasted-7.png" alt="upload successful"></p>
+<p>5.点击”圆圈”，选择”arp poisoning spoofing”。<br><img src="/images/pasted-8.png" alt="upload successful"></p>
+<p>6.选择”sniff remote connections”，然后点击”OK”。这样就配置完成，ettercap会自动开始arp欺骗。<br><img src="/images/pasted-9.png" alt="upload successful"></p>
+<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br><img src="/images/pasted-10.png" alt="upload successful"></p>
+<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>实战演示</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ansible命令</title>
+    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
+<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
+<pre><code>yum install epel-release -y
+</code></pre>
+<p>安装 Ansible</p>
+<pre><code>yum install ansible -y
+</code></pre>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
+<p>hosts.ini：</p>
+<pre><code>[hostst_g]
+此处填写ip
+[hosts_g:vars]
+ansible_ssh_user=root ##账号
+ansible_ssh_pass=123456 ##密码
+</code></pre>
+<p>command.yml：</p>
+<pre><code>- name: 在远程主机上执行任意命令 
+    hosts: all
+    gather_facts: no
+    tasks:
+        - name: 执行一个特定命令
+            command: echo &quot;你好，世界！&quot;
+            # 使用 command 模块执行简单命令，不支持管道和重定向
+        - name: 列出目录中的文件
+            command: ls /path/to/directory
+            # 列出指定目录中的所有文件
+        - name: 使用 shell 运行包含管道的命令
+            shell: echo &quot;你好，世界！&quot; | grep 你好
+            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
+        - name: 使用 shell 特性运行命令
+            shell: cat /etc/passwd | grep root
+            # 通过管道过滤包含 &quot;root&quot; 的行
+</code></pre>
+<p>可使用shell：模拟终端上所有执行的命令。</p>
+<p>使用命令</p>
+<pre><code>ansible-playbook -i hosts.ini command.yml
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker 卸载</title>
+    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
+    <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
+    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
+<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
+<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker 可用加速镜像2024.08.13</title>
+    <url>/2024/08/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%902024-08-13/</url>
+    <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">        &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">        &quot;https://dockerhub.icu&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<p>源自：小锋学长生活大爆炸[xfxuezhagn.cn]<br>原文链接：<a href="https://blog.csdn.net/sxf1061700625/article/details/140895299">https://blog.csdn.net/sxf1061700625/article/details/140895299</a></p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker 可用镜像源加速镜像024.10.13</title>
+    <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
+    <content><![CDATA[<h2 id="2024-10-13测试可用"><a href="#2024-10-13测试可用" class="headerlink" title="2024.10.13测试可用"></a>2024.10.13测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://registry.docker-cn.com&quot;,</span><br><span class="line">    &quot;http://hub-mirror.c.163.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://dockerhub.azk8s.cn&quot;,</span><br><span class="line">    &quot;https://mirror.ccs.tencentyun.com&quot;,</span><br><span class="line">    &quot;https://registry.cn-hangzhou.aliyuncs.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://docker.1panel.live&quot;,</span><br><span class="line">    &quot;https://atomhub.openatom.cn/&quot;,</span><br><span class="line">    &quot;https://hub.uuuadc.top&quot;,</span><br><span class="line">    &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">    &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">    &quot;https://dockerhub.icu&quot;,</span><br><span class="line">    &quot;https://docker.ckyl.me&quot;,</span><br><span class="line">    &quot;https://docker.awsl9527.cn&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Dockerfile命令</title>
     <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<table>
@@ -91,150 +235,6 @@
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ansible命令</title>
-    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
-<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
-<pre><code>yum install epel-release -y
-</code></pre>
-<p>安装 Ansible</p>
-<pre><code>yum install ansible -y
-</code></pre>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
-<p>hosts.ini：</p>
-<pre><code>[hostst_g]
-此处填写ip
-[hosts_g:vars]
-ansible_ssh_user=root ##账号
-ansible_ssh_pass=123456 ##密码
-</code></pre>
-<p>command.yml：</p>
-<pre><code>- name: 在远程主机上执行任意命令 
-    hosts: all
-    gather_facts: no
-    tasks:
-        - name: 执行一个特定命令
-            command: echo &quot;你好，世界！&quot;
-            # 使用 command 模块执行简单命令，不支持管道和重定向
-        - name: 列出目录中的文件
-            command: ls /path/to/directory
-            # 列出指定目录中的所有文件
-        - name: 使用 shell 运行包含管道的命令
-            shell: echo &quot;你好，世界！&quot; | grep 你好
-            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
-        - name: 使用 shell 特性运行命令
-            shell: cat /etc/passwd | grep root
-            # 通过管道过滤包含 &quot;root&quot; 的行
-</code></pre>
-<p>可使用shell：模拟终端上所有执行的命令。</p>
-<p>使用命令</p>
-<pre><code>ansible-playbook -i hosts.ini command.yml
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>arp欺骗</title>
-    <url>/2024/08/01/arpspoof/</url>
-    <content><![CDATA[<h2 id="使用arpspoof命令："><a href="#使用arpspoof命令：" class="headerlink" title="使用arpspoof命令："></a>使用arpspoof命令：</h2><pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
-</code></pre>
-<p>-i interface          指定要使用的接口。<br>-c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>-t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>-r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>host               指定您希望抓取数据包的host（通常是本地网关）</p>
-<h2 id="使用ettercap-G-蜘蛛工具"><a href="#使用ettercap-G-蜘蛛工具" class="headerlink" title="使用ettercap -G 蜘蛛工具"></a>使用ettercap -G 蜘蛛工具</h2><p>实例演示-arp欺骗</p>
-<p>1.打开ettercap，选择你要使用的网卡，点击”对号”。<br><img src="/images/pasted-4.png" alt="upload successful"></p>
-<p>2.点击”搜索”按钮，进行主机发现。<br><img src="/images/pasted-5.png" alt="upload successful"></p>
-<p>3.点击”红色方框里面的按钮”，我们可以查看”host list”.<br><img src="/images/pasted-6.png" alt="upload successful"></p>
-<p>4.将想要欺骗的网关和受害者分别添加到”add to target 1”和”add to target 2”。<br><img src="/images/pasted-7.png" alt="upload successful"></p>
-<p>5.点击”圆圈”，选择”arp poisoning spoofing”。<br><img src="/images/pasted-8.png" alt="upload successful"></p>
-<p>6.选择”sniff remote connections”，然后点击”OK”。这样就配置完成，ettercap会自动开始arp欺骗。<br><img src="/images/pasted-9.png" alt="upload successful"></p>
-<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br><img src="/images/pasted-10.png" alt="upload successful"></p>
-<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>实战演示</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
-    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
-<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
-<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
-
-<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker 卸载</title>
-    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
-    <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker 可用加速镜像2024.08.13</title>
-    <url>/2024/08/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%902024-08-13/</url>
-    <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">        &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">        &quot;https://dockerhub.icu&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<p>源自：小锋学长生活大爆炸[xfxuezhagn.cn]<br>原文链接：<a href="https://blog.csdn.net/sxf1061700625/article/details/140895299">https://blog.csdn.net/sxf1061700625/article/details/140895299</a></p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker 可用镜像源加速镜像024.10.13</title>
-    <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
-    <content><![CDATA[<h2 id="2024-10-13测试可用"><a href="#2024-10-13测试可用" class="headerlink" title="2024.10.13测试可用"></a>2024.10.13测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://registry.docker-cn.com&quot;,</span><br><span class="line">    &quot;http://hub-mirror.c.163.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://dockerhub.azk8s.cn&quot;,</span><br><span class="line">    &quot;https://mirror.ccs.tencentyun.com&quot;,</span><br><span class="line">    &quot;https://registry.cn-hangzhou.aliyuncs.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://docker.1panel.live&quot;,</span><br><span class="line">    &quot;https://atomhub.openatom.cn/&quot;,</span><br><span class="line">    &quot;https://hub.uuuadc.top&quot;,</span><br><span class="line">    &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">    &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">    &quot;https://dockerhub.icu&quot;,</span><br><span class="line">    &quot;https://docker.ckyl.me&quot;,</span><br><span class="line">    &quot;https://docker.awsl9527.cn&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -971,32 +971,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>portainer docker的web管理页面</title>
-    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="portainer"><a href="#portainer" class="headerlink" title="portainer"></a>portainer</h2><p>一个web可视化的docker管理页面</p>
-<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>先搜索镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
-<p>一般我下载最多下载的那几个</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
-<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
-<p>接下来就可以登录管理了</p>
-<h2 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h2><p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
-<p>也可通过上传配置文件创建</p>
-<p>选其中一个即可</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>pycharm激活</title>
     <url>/2024/08/10/pycharm%E6%BF%80%E6%B4%BB/</url>
     <content><![CDATA[<h2 id="检查链接"><a href="#检查链接" class="headerlink" title="检查链接"></a>检查链接</h2><p>网址：<a href="https://3.jetbra.in/">https://3.jetbra.in/</a></p>
@@ -1032,6 +1006,348 @@ run
       </categories>
       <tags>
         <tag>switch大气层</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>web安全攻防-信息收集</title>
+    <url>/2024/11/21/web%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/</url>
+    <content><![CDATA[<h2 id="收集域名信息"><a href="#收集域名信息" class="headerlink" title="收集域名信息"></a>收集域名信息</h2><h3 id="Whois查询"><a href="#Whois查询" class="headerlink" title="Whois查询"></a>Whois查询</h3><p>在Kali系统中，Whois已经默认安装，只需输入要查询的域名即可</p>
+<p>在线Whois查询的常用网站有爱站工具网（<a href="https://whois.aizhan.com)、站长之家(http//whois.chinaz.com%EF%BC%89%E5%92%8CVirusTotal%EF%BC%88https://www.virustotal.com%EF%BC%89%EF%BC%8C%E9%80%9A%E8%BF%87%E8%BF%99%E4%BA%9B%E7%BD%91%E7%AB%99%E5%8F%AF%E4%BB%A5%E6%9F%A5%E8%AF%A2%E5%9F%9F%E5%90%8D%E7%9A%84%E7%9B%B8%E5%85%B3%E4%BF%A1%E6%81%AF%EF%BC%8C%E5%A6%82%E5%9F%9F%E5%90%8D%E6%9C%8D%E5%8A%A1%E5%95%86%E3%80%81%E5%9F%9F%E5%90%8D%E6%8B%A5%E6%9C%89%E8%80%85%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BB%96%E4%BB%AC%E7%9A%84%E9%82%AE%E7%AE%B1%E3%80%81%E7%94%B5%E8%AF%9D%E3%80%81%E5%9C%B0%E5%9D%80%E7%AD%89">https://whois.aizhan.com）、站长之家（http://whois.chinaz.com）和VirusTotal（https://www.virustotal.com），通过这些网站可以查询域名的相关信息，如域名服务商、域名拥有者，以及他们的邮箱、电话、地址等</a></p>
+<h3 id="备案信息查询"><a href="#备案信息查询" class="headerlink" title="备案信息查询"></a>备案信息查询</h3><p>常用的网站有以下这两个。</p>
+<pre><code>ICP备案查询网：http://www.beianbeian.com。
+天眼查：http://www.tianyancha.com。
+</code></pre>
+<h2 id="收集敏感信息"><a href="#收集敏感信息" class="headerlink" title="收集敏感信息"></a>收集敏感信息</h2><h3 id="搜索引擎使用技巧"><a href="#搜索引擎使用技巧" class="headerlink" title="搜索引擎使用技巧"></a>搜索引擎使用技巧</h3><table>
+<thead>
+<tr>
+<th align="center">关键字</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Site</td>
+<td align="left">指定域名</td>
+</tr>
+<tr>
+<td align="center">inurt</td>
+<td align="left">URL中存在关键字的网页</td>
+</tr>
+<tr>
+<td align="center">Intext</td>
+<td align="left">网页正文中的关键字</td>
+</tr>
+<tr>
+<td align="center">Filetype</td>
+<td align="left">指定文件类型</td>
+</tr>
+<tr>
+<td align="center">Intitle</td>
+<td align="left">网页标题中的关键字</td>
+</tr>
+<tr>
+<td align="center">link</td>
+<td align="left">link:baidu,com 即表示返回所有和 baidu.com 做了链接的 URL</td>
+</tr>
+<tr>
+<td align="center">Info</td>
+<td align="left">查找指定站点的一些基本信息</td>
+</tr>
+<tr>
+<td align="center">cache</td>
+<td align="left">搜索 Google 里关于某些内容的缓存</td>
+</tr>
+</tbody></table>
+<p>例如：site:域名 intext:后台管理</p>
+<p>或者通过github，如数据库连接信息、邮箱密码、uc-key、阿里的osskey，有时还可以找到泄露的源代码等。<br>可以通过乌云漏洞表（<a href="https://wooyun.shuimugan.com)查询历史漏洞信息./">https://wooyun.shuimugan.com）查询历史漏洞信息。</a></p>
+<h2 id="收集子域名信息"><a href="#收集子域名信息" class="headerlink" title="收集子域名信息"></a>收集子域名信息</h2><h3 id="子域名检测工具"><a href="#子域名检测工具" class="headerlink" title="子域名检测工具"></a>子域名检测工具</h3><p>主要有Layer子域名挖掘机、K8、wydomain、Sublist3r、dnsmaper、subDomainsBrute、Maltego CE等</p>
+<p>文中主要推荐Layer子域名挖掘机、Sublist3r和subDomainsBrute</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>搜索引擎查找，例如：site:baidu.com</p>
+<p>第三方聚合应用枚举，利用三方服务汇聚的大量DNS数据集，DNSdumpster网站（<a href="https://dnsdumpster.com/%EF%BC%89%E3%80%81%E5%9C%A8%E7%BA%BFDNS%E4%BE%A6%E6%9F%A5%E5%92%8C%E6%90%9C%E7%B4%A2%E7%9A%84%E5%B7%A5%E5%85%B7%E6%8C%96%E6%8E%98%E5%87%BA%E6%8C%87%E5%AE%9A%E5%9F%9F%E6%BD%9C%E8%97%8F%E7%9A%84%E5%A4%A7%E9%87%8F%E5%AD%90%E5%9F%9F">https://dnsdumpster.com/）、在线DNS侦查和搜索的工具挖掘出指定域潜藏的大量子域</a></p>
+<p>证书透明度公开日志枚举，crt.sh:<a href="https://crt.sh和censys:https://censys.io">https://crt.sh和censys:https://censys.io</a></p>
+<p>子域名爆破网站（<a href="https://phpinfo.me/domain%EF%BC%89,IP%E5%8F%8D%E6%9F%A5%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D%E7%BD%91%E7%AB%99%EF%BC%88http://dns.aizhan.com%EF%BC%89%E7%AD%89">https://phpinfo.me/domain）,IP反查绑定域名网站（http://dns.aizhan.com）等</a></p>
+<h2 id="收集常用端口信息"><a href="#收集常用端口信息" class="headerlink" title="收集常用端口信息"></a>收集常用端口信息</h2><p>Nmap（具体的使用方法后续章节会详细介绍），无状态端口扫描工具Masscan、ZMap和御剑高速TCP端口扫描工具</p>
+<p>邮件服务端口</p>
+<table>
+<thead>
+<tr>
+<th align="center">端口号</th>
+<th align="center">端口说明</th>
+<th align="left">攻击方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">25</td>
+<td align="center">SMTP邮件服务</td>
+<td align="left">邮件伪造</td>
+</tr>
+<tr>
+<td align="center">110</td>
+<td align="center">POP3协议</td>
+<td align="left">爆破、嗅探</td>
+</tr>
+<tr>
+<td align="center">143</td>
+<td align="center">IMAP协议</td>
+<td align="left">爆破</td>
+</tr>
+</tbody></table>
+<p>文件共享端口</p>
+<table>
+<thead>
+<tr>
+<th align="center">端口号</th>
+<th align="center">端口说明</th>
+<th align="left">攻击方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">21&#x2F;22&#x2F;69</td>
+<td align="center">Ftp&#x2F;Tftp 文件传输协议</td>
+<td align="left">允许匿名的上传、下载、爆破和嗅探操作</td>
+</tr>
+<tr>
+<td align="center">2049</td>
+<td align="center">Nfs服务</td>
+<td align="left">配置不当</td>
+</tr>
+<tr>
+<td align="center">139</td>
+<td align="center">Samba 服务</td>
+<td align="left">爆破、未授权访问、远程代码执行</td>
+</tr>
+<tr>
+<td align="center">389</td>
+<td align="center">Ldap目录访问协议</td>
+<td align="left">注入、允许匿名访问、弱口令</td>
+</tr>
+</tbody></table>
+<p>远程端口</p>
+<table>
+<thead>
+<tr>
+<th align="center">端口号</th>
+<th align="center">端口说明</th>
+<th align="left">攻击方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">22</td>
+<td align="center">SSH远程连接</td>
+<td align="left">爆破、SSH隧道及内网代理转发、文件传输</td>
+</tr>
+<tr>
+<td align="center">23</td>
+<td align="center">Telnet 远程连接</td>
+<td align="left">爆破、嗅探、弱口令</td>
+</tr>
+<tr>
+<td align="center">3389</td>
+<td align="center">Rdp远程桌面连接</td>
+<td align="left">Shift后门（需要Windows Server 2003以下的系 统)、爆破</td>
+</tr>
+<tr>
+<td align="center">5900</td>
+<td align="center">VNC</td>
+<td align="left">弱口令爆破</td>
+</tr>
+<tr>
+<td align="center">5632</td>
+<td align="center">PyAnywhere 服务</td>
+<td align="left">抓密码、代码执行</td>
+</tr>
+</tbody></table>
+<p>数据库端口</p>
+<table>
+<thead>
+<tr>
+<th align="center">端口号</th>
+<th align="center">端口说明</th>
+<th align="left">攻击方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">3306</td>
+<td align="center">MySQL</td>
+<td align="left">注入、提权、爆破</td>
+</tr>
+<tr>
+<td align="center">1433</td>
+<td align="center">MSSQL数据库</td>
+<td align="left">注入、提权、SA弱口令、爆破</td>
+</tr>
+<tr>
+<td align="center">1521</td>
+<td align="center">Oracle 数据库</td>
+<td align="left">TNS爆破、注入、反弹Shell</td>
+</tr>
+<tr>
+<td align="center">5432</td>
+<td align="center">PostgreSQL 数据库</td>
+<td align="left">爆破、注入、弱口令</td>
+</tr>
+<tr>
+<td align="center">27017&#x2F;27018</td>
+<td align="center">MongoDB</td>
+<td align="left">爆破、未授权访问</td>
+</tr>
+<tr>
+<td align="center">6379</td>
+<td align="center">Redis 数据库</td>
+<td align="left">可尝试未授权访问、弱口令爆破</td>
+</tr>
+<tr>
+<td align="center">5000</td>
+<td align="center">SysBase&#x2F;DB2数据库</td>
+<td align="left">爆破、注入</td>
+</tr>
+</tbody></table>
+<p>web应用端口</p>
+<table>
+<thead>
+<tr>
+<th align="center">端口号</th>
+<th align="center">端口说明</th>
+<th align="left">攻击方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">80&#x2F;443&#x2F;8080</td>
+<td align="center">常见的Web服务端口</td>
+<td align="left">Web攻击、爆破、对应服务器版本漏洞</td>
+</tr>
+<tr>
+<td align="center">7001&#x2F;7002</td>
+<td align="center">WebLogic 控制台</td>
+<td align="left">Java反序列化、弱口令</td>
+</tr>
+<tr>
+<td align="center">8080&#x2F;8089</td>
+<td align="center">Jboss&#x2F;Resin&#x2F;Jetty&#x2F;Jenkins</td>
+<td align="left">反序列化、控制台弱口令</td>
+</tr>
+<tr>
+<td align="center">9090</td>
+<td align="center">WebSphere 控制台</td>
+<td align="left">Java反序列化、弱口令</td>
+</tr>
+<tr>
+<td align="center">4848</td>
+<td align="center">GlassFish 控制台</td>
+<td align="left">弱口令</td>
+</tr>
+<tr>
+<td align="center">1352</td>
+<td align="center">Lotus domino 邮件服务</td>
+<td align="left">弱口令、信息泄露、爆破</td>
+</tr>
+<tr>
+<td align="center">10000</td>
+<td align="center">Webmin-Web控制面板</td>
+<td align="left">弱口令</td>
+</tr>
+</tbody></table>
+<p>常见协议端口</p>
+<table>
+<thead>
+<tr>
+<th align="center">端口号</th>
+<th align="center">端口说明</th>
+<th align="left">攻击方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">53</td>
+<td align="center">DNS域名系统</td>
+<td align="left">允许区域传送、DNS劫持、缓存投毒、欺骗</td>
+</tr>
+<tr>
+<td align="center">67&#x2F;68</td>
+<td align="center">DHCP服务</td>
+<td align="left">劫持、欺骗</td>
+</tr>
+<tr>
+<td align="center">161</td>
+<td align="center">SNMP协议</td>
+<td align="left">爆破、搜集目标内网信息</td>
+</tr>
+</tbody></table>
+<p>特殊服务端口</p>
+<table>
+<thead>
+<tr>
+<th align="center">端口号</th>
+<th align="center">端口说明</th>
+<th align="left">攻击方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">2181</td>
+<td align="center">Zookeeper 服务</td>
+<td align="left">未授权访问</td>
+</tr>
+<tr>
+<td align="center">8069</td>
+<td align="center">Zabbix服务</td>
+<td align="left">远程执行、SQL注入</td>
+</tr>
+<tr>
+<td align="center">9200&#x2F;9300</td>
+<td align="center">Elasticsearch服务</td>
+<td align="left">远程执行</td>
+</tr>
+<tr>
+<td align="center">11211</td>
+<td align="center">Memcache 服务</td>
+<td align="left">未授权访问</td>
+</tr>
+<tr>
+<td align="center">512&#x2F;513&#x2F;514</td>
+<td align="center">Linux Rexec服务</td>
+<td align="left">爆破、Rlogin 登录</td>
+</tr>
+<tr>
+<td align="center">873</td>
+<td align="center">Rsync 服务</td>
+<td align="left">匿名访问、文件上传</td>
+</tr>
+<tr>
+<td align="center">3690</td>
+<td align="center">Svn服务</td>
+<td align="left">Svn 泄露、未授权访问</td>
+</tr>
+<tr>
+<td align="center">50000</td>
+<td align="center">SAp Management Console</td>
+<td align="left">远程执行</td>
+</tr>
+</tbody></table>
+<h2 id="指纹识别"><a href="#指纹识别" class="headerlink" title="指纹识别"></a>指纹识别</h2><p>指纹是指网站CMS指纹识别、计算机操作系统及Web容器的指纹识别等</p>
+<p>在渗透测试中，对目标服务器进行指纹识别是相当有必要的，因为只有识别出相应的Web容器或者CMS，才能查找与其相关的漏洞，然后才能进行相应的渗透操作。</p>
+<p>常见的CMS有Dedecms（织梦）、Discuz、PHPWEB、PHPWind、PHPCMS、ECShop、Dvbbs、SiteWeaver、ASPCMS、帝国、Z-Blog、WordPress等</p>
+<p>代表工具有<br>御剑Web指纹识别、WhatWeb、WebRobo、椰树、轻量WEB指纹识别等，可以快速识别一些主流CMS</p>
+<p>在线：<br>BugScaner：<a href="http://whatweb.bugscaner.com/look/">http://whatweb.bugscaner.com/look/</a><br>云悉指纹：<a href="http://www.yunsee.cn/finger.html">http://www.yunsee.cn/finger.html</a><br>WhatWeb：<a href="https://whatweb.net/">https://whatweb.net/</a></p>
+<h2 id="查找真实IP"><a href="#查找真实IP" class="headerlink" title="查找真实IP"></a>查找真实IP</h2><p>客户如果存在使用cdn的情况可以通过以下方法绕过CDN寻找真实IP</p>
+<pre><code>1、内部邮箱源。一般的邮件系统都在内部，没有经过CDN的解析，通过目标网站用户注册或者RSS订阅功能，查看邮件、寻找邮件头中的邮件服务器域名IP,ping这个邮件服务器的域名，就可以获得目标的真实IP（注意，必须是目标自己的邮件服务器，第三方或公共邮件服务器是没有用的）。
+2、扫描网站测试文件，如phpinfo、test等，从而找到目标的真实IP。
+3、分站域名。很多网站主站的访问量会比较大，所以主站都是挂CDN的，但是分站可能没有挂CDN，可以通过ping二级域名获取分站IP，可能会出现分站和主站不是同一个IP但在同一个C段下面的情况，从而能判断出目标的真实IP段。
+4、国外访问。国内的CDN往往只对国内用户的访问加速，而国外的CDN就不一定了。因此，通过国外在线代理网站App Synthetic Monitor（https://asm.ca.com/en/ping.php）访问，可能会得到真实的IP
+5、查询域名的解析记录。也许目标很久以前并没有用过CDN，所以可以通过网站NETCRAFT（https://www.netcraft.com/）来观察域名的IP历史记录，也可以大致分析出目标的真实IP段。
+6、如果目标网站有自己的App，可以尝试利用Fiddler或Burp Suite抓取App的请求，从里面找到目标的真实IP。
+7、绕过CloudFlare CDN查找真实IP。现在很多网站都使用CloudFlare提供的CDN服务，在确定了目标网站使用CDN后，可以先尝试通过在线网站Cloud FlareWatch（http://www.crimeflare.us/cfs.xhtml#box）对CloudFlare客户网站进行真实IP查询，结果如图1-12所示。
+</code></pre>
+<p>验证是否确实获取到了，文中给的方法是用ip或者似Masscan的工具验证</p>
+<p>可以使用修改本机hosts访问域名再次验证。</p>
+<h2 id="收集敏感目录文件"><a href="#收集敏感目录文件" class="headerlink" title="收集敏感目录文件"></a>收集敏感目录文件</h2><p>工具推荐</p>
+<p>针对网站目录的扫描主要有DirBuster、御剑后台扫描珍藏版、wwwscan、Spinder.py（轻量级快速单文件目录后台扫描）、Sensitivefilescan（轻量级快速单文件目录后台扫描）、Weakfilescan（轻量级快速单文件目录后台扫描）等</p>
+<h2 id="社会工程学"><a href="#社会工程学" class="headerlink" title="社会工程学"></a>社会工程学</h2><p>社工库</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>web安全攻防</category>
+      </categories>
+      <tags>
+        <tag>web信息收集</tag>
+        <tag>web安全攻防笔记</tag>
       </tags>
   </entry>
   <entry>
@@ -1228,6 +1544,32 @@ run
       <tags>
         <tag>docker</tag>
         <tag>k8s</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>portainer docker的web管理页面</title>
+    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="portainer"><a href="#portainer" class="headerlink" title="portainer"></a>portainer</h2><p>一个web可视化的docker管理页面</p>
+<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>先搜索镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
+<p>一般我下载最多下载的那几个</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
+<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
+<p>接下来就可以登录管理了</p>
+<h2 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h2><p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
+<p>也可通过上传配置文件创建</p>
+<p>选其中一个即可</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
