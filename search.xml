@@ -169,6 +169,25 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
+    <title>deepseek-r1本地部署方法</title>
+    <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="安装ollama"><a href="#安装ollama" class="headerlink" title="安装ollama"></a>安装ollama</h2><p>打开ollama官网，根据系统下载ollama软件：<br><a href="https://ollama.com/">https://ollama.com/</a><br><img src="/images/pasted-76.png" alt="upload successful"></p>
+<h2 id="下载模型"><a href="#下载模型" class="headerlink" title="下载模型"></a>下载模型</h2><p>安装完成ollama后，通过cmd命令行输入运行相关模型的命令，获取地址是官网的Models页面：<br><img src="/images/pasted-77.png" alt="upload successful"></p>
+<p>第一个就是需要下载的模型deepseek-r1，点击名称选择需要的版本，即使不符合也能运行，会很卡：<br><a href="https://ollama.com/library/deepseek-r1:8b">https://ollama.com/library/deepseek-r1:8b</a><br><img src="/images/pasted-78.png" alt="upload successful"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>运行完成后就能正常使用了，这样只能命令行使用；可以通过浏览器插件图形化页面使用本地运行的模型，插件名称是：Page Assist - A Web UI for Local AI Models<br><img src="/images/pasted-79.png" alt="upload successful"></p>
+<p>说是能联网，但是我的不行</p>
+<p>可以用以下话语添加在问题末尾通过其他联网的ai获取信息后给deepseek整理回答，来间接上网：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请先告诉我你要回答这个问题需要检索哪些关键词或者最新消息？我会尝试提供相关数据。</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>ai</tag>
+        <tag>deepseek</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker pull 镜像失败问题解决方法（镜像多）</title>
     <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
     <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
