@@ -455,29 +455,6 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       </tags>
   </entry>
   <entry>
-    <title>dvwa-命令执行</title>
-    <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
-    <content><![CDATA[<h2 id="Low等级"><a href="#Low等级" class="headerlink" title="Low等级"></a>Low等级</h2><p>命令执行漏洞主要是针对有网络测试的页面，如网络设备的web管理页面等等，利用其执行命令的输入窗口执行其他命令。</p>
-<p>简单演示一下正常使用，输入127.0.0.1，执行：<br><img src="/images/pasted-36.png" alt="upload successful"></p>
-<h3 id="在DVWA靶场点击command-injection设置等级为low"><a href="#在DVWA靶场点击command-injection设置等级为low" class="headerlink" title="在DVWA靶场点击command injection设置等级为low"></a>在DVWA靶场点击command injection设置等级为low</h3><p><img src="/images/pasted-37.png" alt="upload successful"></p>
-<h3 id="使用命令连接符如-、-、-、-来执行命令"><a href="#使用命令连接符如-、-、-、-来执行命令" class="headerlink" title="使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令"></a>使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令</h3><p>相当于与或非，判断前面命令是否成功执行之后的自定义命令<br><img src="/images/pasted-38.png" alt="upload successful"><br><img src="/images/pasted-39.png" alt="upload successful"></p>
-<h2 id="Medium等级"><a href="#Medium等级" class="headerlink" title="Medium等级"></a>Medium等级</h2><p>做了一点防护措施，相当于没有。<br>将这些连接符做了个判断转为空，详情如下：<br><img src="/images/pasted-40.png" alt="upload successful"></p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>测试发现使用命令连接符&amp;&amp;和;都不执行。<br><img src="/images/pasted-41.png" alt="upload successful"></p>
-<p>但是可以使用其他没有被处理的连接符<br><img src="/images/pasted-42.png" alt="upload successful"></p>
-<h2 id="High等级"><a href="#High等级" class="headerlink" title="High等级"></a>High等级</h2><p>连接符连接都不执行,已处理所有连接符<br><img src="/images/pasted-43.png" alt="upload successful"></p>
-<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>其实|是没处理的，加了空格，所以还是能够执行的<br><img src="/images/pasted-44.png" alt="upload successful"></p>
-<p>执行结果：<br><img src="/images/pasted-45.png" alt="upload successful"></p>
-<h2 id="Impossible等级"><a href="#Impossible等级" class="headerlink" title="Impossible等级"></a>Impossible等级</h2><p>是不可能等级，这个采用的是白名单的方式防护，只允许已知的命令执行。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Check Anti-CSRF token</span><br><span class="line">    checkToken( $_REQUEST[ &#x27;user_token&#x27; ], $_SESSION[ &#x27;session_token&#x27; ], &#x27;index.php&#x27; );</span><br><span class="line"></span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line">    $target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">    // Split the IP into 4 octects</span><br><span class="line">    $octet = explode( &quot;.&quot;, $target );</span><br><span class="line"></span><br><span class="line">    // Check IF each octet is an integer</span><br><span class="line">    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet ) == 4 ) ) &#123;</span><br><span class="line">        // If all 4 octets are int&#x27;s put the IP back together.</span><br><span class="line">        $target = $octet[0] . &#x27;.&#x27; . $octet[1] . &#x27;.&#x27; . $octet[2] . &#x27;.&#x27; . $octet[3];</span><br><span class="line"></span><br><span class="line">        // Determine OS and execute the ping command.</span><br><span class="line">        if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">            // Windows</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            // *nix</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Feedback for the end user</span><br><span class="line">        echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // Ops. Let the user name theres a mistake</span><br><span class="line">        echo &#x27;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Generate Anti-CSRF token</span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>dvwa</category>
-      </categories>
-      <tags>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dvwa-部署（docker）</title>
     <url>/2024/10/14/dvwa-%E9%83%A8%E7%BD%B2%EF%BC%88docker%EF%BC%89/</url>
     <content><![CDATA[<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>发现配置了镜像加速也无法通过search查到镜像，但是下载没问题，通过网上查询镜像名称下载即可：</p>
@@ -504,6 +481,29 @@ admin/password
       </categories>
       <tags>
         <tag>docker</tag>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dvwa-命令执行</title>
+    <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
+    <content><![CDATA[<h2 id="Low等级"><a href="#Low等级" class="headerlink" title="Low等级"></a>Low等级</h2><p>命令执行漏洞主要是针对有网络测试的页面，如网络设备的web管理页面等等，利用其执行命令的输入窗口执行其他命令。</p>
+<p>简单演示一下正常使用，输入127.0.0.1，执行：<br><img src="/images/pasted-36.png" alt="upload successful"></p>
+<h3 id="在DVWA靶场点击command-injection设置等级为low"><a href="#在DVWA靶场点击command-injection设置等级为low" class="headerlink" title="在DVWA靶场点击command injection设置等级为low"></a>在DVWA靶场点击command injection设置等级为low</h3><p><img src="/images/pasted-37.png" alt="upload successful"></p>
+<h3 id="使用命令连接符如-、-、-、-来执行命令"><a href="#使用命令连接符如-、-、-、-来执行命令" class="headerlink" title="使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令"></a>使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令</h3><p>相当于与或非，判断前面命令是否成功执行之后的自定义命令<br><img src="/images/pasted-38.png" alt="upload successful"><br><img src="/images/pasted-39.png" alt="upload successful"></p>
+<h2 id="Medium等级"><a href="#Medium等级" class="headerlink" title="Medium等级"></a>Medium等级</h2><p>做了一点防护措施，相当于没有。<br>将这些连接符做了个判断转为空，详情如下：<br><img src="/images/pasted-40.png" alt="upload successful"></p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>测试发现使用命令连接符&amp;&amp;和;都不执行。<br><img src="/images/pasted-41.png" alt="upload successful"></p>
+<p>但是可以使用其他没有被处理的连接符<br><img src="/images/pasted-42.png" alt="upload successful"></p>
+<h2 id="High等级"><a href="#High等级" class="headerlink" title="High等级"></a>High等级</h2><p>连接符连接都不执行,已处理所有连接符<br><img src="/images/pasted-43.png" alt="upload successful"></p>
+<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>其实|是没处理的，加了空格，所以还是能够执行的<br><img src="/images/pasted-44.png" alt="upload successful"></p>
+<p>执行结果：<br><img src="/images/pasted-45.png" alt="upload successful"></p>
+<h2 id="Impossible等级"><a href="#Impossible等级" class="headerlink" title="Impossible等级"></a>Impossible等级</h2><p>是不可能等级，这个采用的是白名单的方式防护，只允许已知的命令执行。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Check Anti-CSRF token</span><br><span class="line">    checkToken( $_REQUEST[ &#x27;user_token&#x27; ], $_SESSION[ &#x27;session_token&#x27; ], &#x27;index.php&#x27; );</span><br><span class="line"></span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line">    $target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">    // Split the IP into 4 octects</span><br><span class="line">    $octet = explode( &quot;.&quot;, $target );</span><br><span class="line"></span><br><span class="line">    // Check IF each octet is an integer</span><br><span class="line">    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet ) == 4 ) ) &#123;</span><br><span class="line">        // If all 4 octets are int&#x27;s put the IP back together.</span><br><span class="line">        $target = $octet[0] . &#x27;.&#x27; . $octet[1] . &#x27;.&#x27; . $octet[2] . &#x27;.&#x27; . $octet[3];</span><br><span class="line"></span><br><span class="line">        // Determine OS and execute the ping command.</span><br><span class="line">        if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">            // Windows</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            // *nix</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Feedback for the end user</span><br><span class="line">        echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // Ops. Let the user name theres a mistake</span><br><span class="line">        echo &#x27;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Generate Anti-CSRF token</span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>dvwa</category>
+      </categories>
+      <tags>
         <tag>dvwa</tag>
       </tags>
   </entry>
