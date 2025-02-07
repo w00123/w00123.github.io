@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>ansible命令</title>
+    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
+<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
+<pre><code>yum install epel-release -y
+</code></pre>
+<p>安装 Ansible</p>
+<pre><code>yum install ansible -y
+</code></pre>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
+<p>hosts.ini：</p>
+<pre><code>[hostst_g]
+此处填写ip
+[hosts_g:vars]
+ansible_ssh_user=root ##账号
+ansible_ssh_pass=123456 ##密码
+</code></pre>
+<p>command.yml：</p>
+<pre><code>- name: 在远程主机上执行任意命令 
+    hosts: all
+    gather_facts: no
+    tasks:
+        - name: 执行一个特定命令
+            command: echo &quot;你好，世界！&quot;
+            # 使用 command 模块执行简单命令，不支持管道和重定向
+        - name: 列出目录中的文件
+            command: ls /path/to/directory
+            # 列出指定目录中的所有文件
+        - name: 使用 shell 运行包含管道的命令
+            shell: echo &quot;你好，世界！&quot; | grep 你好
+            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
+        - name: 使用 shell 特性运行命令
+            shell: cat /etc/passwd | grep root
+            # 通过管道过滤包含 &quot;root&quot; 的行
+</code></pre>
+<p>可使用shell：模拟终端上所有执行的命令。</p>
+<p>使用命令</p>
+<pre><code>ansible-playbook -i hosts.ini command.yml
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Dockerfile命令</title>
     <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<table>
@@ -94,55 +143,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ansible命令</title>
-    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
-<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
-<pre><code>yum install epel-release -y
-</code></pre>
-<p>安装 Ansible</p>
-<pre><code>yum install ansible -y
-</code></pre>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
-<p>hosts.ini：</p>
-<pre><code>[hostst_g]
-此处填写ip
-[hosts_g:vars]
-ansible_ssh_user=root ##账号
-ansible_ssh_pass=123456 ##密码
-</code></pre>
-<p>command.yml：</p>
-<pre><code>- name: 在远程主机上执行任意命令 
-    hosts: all
-    gather_facts: no
-    tasks:
-        - name: 执行一个特定命令
-            command: echo &quot;你好，世界！&quot;
-            # 使用 command 模块执行简单命令，不支持管道和重定向
-        - name: 列出目录中的文件
-            command: ls /path/to/directory
-            # 列出指定目录中的所有文件
-        - name: 使用 shell 运行包含管道的命令
-            shell: echo &quot;你好，世界！&quot; | grep 你好
-            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
-        - name: 使用 shell 特性运行命令
-            shell: cat /etc/passwd | grep root
-            # 通过管道过滤包含 &quot;root&quot; 的行
-</code></pre>
-<p>可使用shell：模拟终端上所有执行的命令。</p>
-<p>使用命令</p>
-<pre><code>ansible-playbook -i hosts.ini command.yml
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>arp欺骗</title>
     <url>/2024/08/01/arpspoof/</url>
     <content><![CDATA[<h2 id="使用arpspoof命令："><a href="#使用arpspoof命令：" class="headerlink" title="使用arpspoof命令："></a>使用arpspoof命令：</h2><pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
@@ -166,25 +166,6 @@ ansible_ssh_pass=123456 ##密码
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>实战演示</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>deepseek-r1本地部署方法</title>
-    <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="安装ollama"><a href="#安装ollama" class="headerlink" title="安装ollama"></a>安装ollama</h2><p>打开ollama官网，根据系统下载ollama软件：<br><a href="https://ollama.com/">https://ollama.com/</a><br><img src="/images/pasted-76.png" alt="upload successful"></p>
-<h2 id="下载模型"><a href="#下载模型" class="headerlink" title="下载模型"></a>下载模型</h2><p>安装完成ollama后，通过cmd命令行输入运行相关模型的命令，获取地址是官网的Models页面：<br><img src="/images/pasted-77.png" alt="upload successful"></p>
-<p>第一个就是需要下载的模型deepseek-r1，点击名称选择需要的版本，即使不符合也能运行，会很卡：<br><a href="https://ollama.com/library/deepseek-r1:8b">https://ollama.com/library/deepseek-r1:8b</a><br><img src="/images/pasted-78.png" alt="upload successful"></p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>运行完成后就能正常使用了，这样只能命令行使用；可以通过浏览器插件图形化页面使用本地运行的模型，插件名称是：Page Assist - A Web UI for Local AI Models<br><img src="/images/pasted-79.png" alt="upload successful"></p>
-<p>说是能联网，但是我的不行</p>
-<p>可以用以下话语添加在问题末尾通过其他联网的ai获取信息后给deepseek整理回答，来间接上网：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请先告诉我你要回答这个问题需要检索哪些关键词或者最新消息？我会尝试提供相关数据。</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>娱乐</category>
-      </categories>
-      <tags>
-        <tag>ai</tag>
-        <tag>deepseek</tag>
       </tags>
   </entry>
   <entry>
@@ -234,20 +215,6 @@ ansible_ssh_pass=123456 ##密码
 
 <p>源自：小锋学长生活大爆炸[xfxuezhagn.cn]<br>原文链接：<a href="https://blog.csdn.net/sxf1061700625/article/details/140895299">https://blog.csdn.net/sxf1061700625/article/details/140895299</a></p>
 ]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker 可用镜像源加速镜像024.10.13</title>
-    <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
-    <content><![CDATA[<h2 id="2024-10-13测试可用"><a href="#2024-10-13测试可用" class="headerlink" title="2024.10.13测试可用"></a>2024.10.13测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://registry.docker-cn.com&quot;,</span><br><span class="line">    &quot;http://hub-mirror.c.163.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://dockerhub.azk8s.cn&quot;,</span><br><span class="line">    &quot;https://mirror.ccs.tencentyun.com&quot;,</span><br><span class="line">    &quot;https://registry.cn-hangzhou.aliyuncs.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://docker.1panel.live&quot;,</span><br><span class="line">    &quot;https://atomhub.openatom.cn/&quot;,</span><br><span class="line">    &quot;https://hub.uuuadc.top&quot;,</span><br><span class="line">    &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">    &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">    &quot;https://dockerhub.icu&quot;,</span><br><span class="line">    &quot;https://docker.ckyl.me&quot;,</span><br><span class="line">    &quot;https://docker.awsl9527.cn&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
@@ -430,6 +397,29 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       </tags>
   </entry>
   <entry>
+    <title>dvwa-命令执行</title>
+    <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
+    <content><![CDATA[<h2 id="Low等级"><a href="#Low等级" class="headerlink" title="Low等级"></a>Low等级</h2><p>命令执行漏洞主要是针对有网络测试的页面，如网络设备的web管理页面等等，利用其执行命令的输入窗口执行其他命令。</p>
+<p>简单演示一下正常使用，输入127.0.0.1，执行：<br><img src="/images/pasted-36.png" alt="upload successful"></p>
+<h3 id="在DVWA靶场点击command-injection设置等级为low"><a href="#在DVWA靶场点击command-injection设置等级为low" class="headerlink" title="在DVWA靶场点击command injection设置等级为low"></a>在DVWA靶场点击command injection设置等级为low</h3><p><img src="/images/pasted-37.png" alt="upload successful"></p>
+<h3 id="使用命令连接符如-、-、-、-来执行命令"><a href="#使用命令连接符如-、-、-、-来执行命令" class="headerlink" title="使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令"></a>使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令</h3><p>相当于与或非，判断前面命令是否成功执行之后的自定义命令<br><img src="/images/pasted-38.png" alt="upload successful"><br><img src="/images/pasted-39.png" alt="upload successful"></p>
+<h2 id="Medium等级"><a href="#Medium等级" class="headerlink" title="Medium等级"></a>Medium等级</h2><p>做了一点防护措施，相当于没有。<br>将这些连接符做了个判断转为空，详情如下：<br><img src="/images/pasted-40.png" alt="upload successful"></p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>测试发现使用命令连接符&amp;&amp;和;都不执行。<br><img src="/images/pasted-41.png" alt="upload successful"></p>
+<p>但是可以使用其他没有被处理的连接符<br><img src="/images/pasted-42.png" alt="upload successful"></p>
+<h2 id="High等级"><a href="#High等级" class="headerlink" title="High等级"></a>High等级</h2><p>连接符连接都不执行,已处理所有连接符<br><img src="/images/pasted-43.png" alt="upload successful"></p>
+<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>其实|是没处理的，加了空格，所以还是能够执行的<br><img src="/images/pasted-44.png" alt="upload successful"></p>
+<p>执行结果：<br><img src="/images/pasted-45.png" alt="upload successful"></p>
+<h2 id="Impossible等级"><a href="#Impossible等级" class="headerlink" title="Impossible等级"></a>Impossible等级</h2><p>是不可能等级，这个采用的是白名单的方式防护，只允许已知的命令执行。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Check Anti-CSRF token</span><br><span class="line">    checkToken( $_REQUEST[ &#x27;user_token&#x27; ], $_SESSION[ &#x27;session_token&#x27; ], &#x27;index.php&#x27; );</span><br><span class="line"></span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line">    $target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">    // Split the IP into 4 octects</span><br><span class="line">    $octet = explode( &quot;.&quot;, $target );</span><br><span class="line"></span><br><span class="line">    // Check IF each octet is an integer</span><br><span class="line">    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet ) == 4 ) ) &#123;</span><br><span class="line">        // If all 4 octets are int&#x27;s put the IP back together.</span><br><span class="line">        $target = $octet[0] . &#x27;.&#x27; . $octet[1] . &#x27;.&#x27; . $octet[2] . &#x27;.&#x27; . $octet[3];</span><br><span class="line"></span><br><span class="line">        // Determine OS and execute the ping command.</span><br><span class="line">        if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">            // Windows</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            // *nix</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Feedback for the end user</span><br><span class="line">        echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // Ops. Let the user name theres a mistake</span><br><span class="line">        echo &#x27;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Generate Anti-CSRF token</span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>dvwa</category>
+      </categories>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker目录挂载</title>
     <url>/2024/08/11/docker%E7%9B%AE%E5%BD%95%E6%8C%82%E8%BD%BD/</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>docker目录的挂载有三种方式，分别试用于不同的场景：<br>1、Bind Mount将宿主机上的一个文件或目录挂载到容器内。<br>    适用于修改配置文件或者代码文件的目录，容器会和宿主机同步更新。</p>
@@ -481,29 +471,6 @@ admin/password
       </categories>
       <tags>
         <tag>docker</tag>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dvwa-命令执行</title>
-    <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
-    <content><![CDATA[<h2 id="Low等级"><a href="#Low等级" class="headerlink" title="Low等级"></a>Low等级</h2><p>命令执行漏洞主要是针对有网络测试的页面，如网络设备的web管理页面等等，利用其执行命令的输入窗口执行其他命令。</p>
-<p>简单演示一下正常使用，输入127.0.0.1，执行：<br><img src="/images/pasted-36.png" alt="upload successful"></p>
-<h3 id="在DVWA靶场点击command-injection设置等级为low"><a href="#在DVWA靶场点击command-injection设置等级为low" class="headerlink" title="在DVWA靶场点击command injection设置等级为low"></a>在DVWA靶场点击command injection设置等级为low</h3><p><img src="/images/pasted-37.png" alt="upload successful"></p>
-<h3 id="使用命令连接符如-、-、-、-来执行命令"><a href="#使用命令连接符如-、-、-、-来执行命令" class="headerlink" title="使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令"></a>使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令</h3><p>相当于与或非，判断前面命令是否成功执行之后的自定义命令<br><img src="/images/pasted-38.png" alt="upload successful"><br><img src="/images/pasted-39.png" alt="upload successful"></p>
-<h2 id="Medium等级"><a href="#Medium等级" class="headerlink" title="Medium等级"></a>Medium等级</h2><p>做了一点防护措施，相当于没有。<br>将这些连接符做了个判断转为空，详情如下：<br><img src="/images/pasted-40.png" alt="upload successful"></p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>测试发现使用命令连接符&amp;&amp;和;都不执行。<br><img src="/images/pasted-41.png" alt="upload successful"></p>
-<p>但是可以使用其他没有被处理的连接符<br><img src="/images/pasted-42.png" alt="upload successful"></p>
-<h2 id="High等级"><a href="#High等级" class="headerlink" title="High等级"></a>High等级</h2><p>连接符连接都不执行,已处理所有连接符<br><img src="/images/pasted-43.png" alt="upload successful"></p>
-<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>其实|是没处理的，加了空格，所以还是能够执行的<br><img src="/images/pasted-44.png" alt="upload successful"></p>
-<p>执行结果：<br><img src="/images/pasted-45.png" alt="upload successful"></p>
-<h2 id="Impossible等级"><a href="#Impossible等级" class="headerlink" title="Impossible等级"></a>Impossible等级</h2><p>是不可能等级，这个采用的是白名单的方式防护，只允许已知的命令执行。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Check Anti-CSRF token</span><br><span class="line">    checkToken( $_REQUEST[ &#x27;user_token&#x27; ], $_SESSION[ &#x27;session_token&#x27; ], &#x27;index.php&#x27; );</span><br><span class="line"></span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line">    $target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">    // Split the IP into 4 octects</span><br><span class="line">    $octet = explode( &quot;.&quot;, $target );</span><br><span class="line"></span><br><span class="line">    // Check IF each octet is an integer</span><br><span class="line">    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet ) == 4 ) ) &#123;</span><br><span class="line">        // If all 4 octets are int&#x27;s put the IP back together.</span><br><span class="line">        $target = $octet[0] . &#x27;.&#x27; . $octet[1] . &#x27;.&#x27; . $octet[2] . &#x27;.&#x27; . $octet[3];</span><br><span class="line"></span><br><span class="line">        // Determine OS and execute the ping command.</span><br><span class="line">        if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">            // Windows</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            // *nix</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Feedback for the end user</span><br><span class="line">        echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // Ops. Let the user name theres a mistake</span><br><span class="line">        echo &#x27;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Generate Anti-CSRF token</span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>dvwa</category>
-      </categories>
-      <tags>
         <tag>dvwa</tag>
       </tags>
   </entry>
@@ -642,27 +609,17 @@ hexo d
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2024/07/31/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+    <title>docker 可用镜像源加速镜像024.10.13</title>
+    <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
+    <content><![CDATA[<h2 id="2024-10-13测试可用"><a href="#2024-10-13测试可用" class="headerlink" title="2024.10.13测试可用"></a>2024.10.13测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://registry.docker-cn.com&quot;,</span><br><span class="line">    &quot;http://hub-mirror.c.163.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://dockerhub.azk8s.cn&quot;,</span><br><span class="line">    &quot;https://mirror.ccs.tencentyun.com&quot;,</span><br><span class="line">    &quot;https://registry.cn-hangzhou.aliyuncs.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://docker.1panel.live&quot;,</span><br><span class="line">    &quot;https://atomhub.openatom.cn/&quot;,</span><br><span class="line">    &quot;https://hub.uuuadc.top&quot;,</span><br><span class="line">    &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">    &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">    &quot;https://dockerhub.icu&quot;,</span><br><span class="line">    &quot;https://docker.ckyl.me&quot;,</span><br><span class="line">    &quot;https://docker.awsl9527.cn&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
+<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>hexo博客</category>
+        <category>系统运维</category>
+        <category>docker</category>
       </categories>
       <tags>
-        <tag>博客</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -807,6 +764,26 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
+    <title>linux下载离线安装包</title>
+    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
+    <content><![CDATA[<h2 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h2><p>以wget为例，需要先下载yum-utils，再下载安装包</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
+
+<p>选择保存位置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
+
+<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>yum install –downloadonly –downloaddir&#x3D;&#x2F;root wget</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>kali移动端（root安装，不改内核）</title>
     <url>/2024/10/15/kali/</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>把kali安在移动端，不论部署了什么工具和环境，可以随处携带，操作不方便可以局域网电脑远程使用、vnc等等。以上是我的使用场景也是折腾的原因。</p>
@@ -828,74 +805,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       <tags>
         <tag>kali</tag>
         <tag>手机root</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux下载离线安装包</title>
-    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
-    <content><![CDATA[<h2 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h2><p>以wget为例，需要先下载yum-utils，再下载安装包</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
-
-<p>选择保存位置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
-
-<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>yum install –downloadonly –downloaddir&#x3D;&#x2F;root wget</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux硬盘分区挂载和扩容</title>
-    <url>/2025/01/15/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98/</url>
-    <content><![CDATA[<h2 id="分区和挂载"><a href="#分区和挂载" class="headerlink" title="分区和挂载"></a>分区和挂载</h2><h3 id="非逻辑分区和挂载"><a href="#非逻辑分区和挂载" class="headerlink" title="非逻辑分区和挂载"></a>非逻辑分区和挂载</h3><h4 id="先将空闲磁盘通过fdisk分区"><a href="#先将空闲磁盘通过fdisk分区" class="headerlink" title="先将空闲磁盘通过fdisk分区"></a>先将空闲磁盘通过fdisk分区</h4><p>命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb </span><br><span class="line">依次选择	n/p/n/回车默认/+size&#123;K,M,G&#125;</span><br></pre></td></tr></table></figure>
-
-<p>帮助</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
-
-<h4 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化</span><br><span class="line">mkfs.ext4 /dev/sdb1</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/mydisk</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/sdb1 /mnt/mydisk</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/mydisk</span><br></pre></td></tr></table></figure>
-
-<h3 id="逻辑卷及挂载"><a href="#逻辑卷及挂载" class="headerlink" title="逻辑卷及挂载"></a>逻辑卷及挂载</h3><p>首先和上步一样，使用fdisk创建一个分区&#x2F;dev&#x2F;sdb1</p>
-<h4 id="创建物理卷（PV）"><a href="#创建物理卷（PV）" class="headerlink" title="创建物理卷（PV）"></a>创建物理卷（PV）</h4><p>将新创建的分区转化成物理卷，主要是添加LVM属性信息并划分PE存储单元，多个一起设置 pvcreate &#x2F;dev&#x2F;sdb{1,2,3,4,5}</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br></pre></td></tr></table></figure>
-
-<h4 id="创建卷组（VG）"><a href="#创建卷组（VG）" class="headerlink" title="创建卷组（VG）"></a>创建卷组（VG）</h4><p>创建卷组vgtest ,并将刚才创建好的物理卷加入该卷组.默认PE大小为4MB,PE是卷组的最小存储单元.可以通过 –s参数修改大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br></pre></td></tr></table></figure>
-
-<h4 id="创建逻辑卷（LV）"><a href="#创建逻辑卷（LV）" class="headerlink" title="创建逻辑卷（LV）"></a>创建逻辑卷（LV）</h4><p>创建逻辑卷，将卷组vgtest上面分割4G给新的逻辑卷lvtest1，将卷组vgtest上剩余空间分配给新的逻辑卷lvtest2</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
-
-<h4 id="挂载-1"><a href="#挂载-1" class="headerlink" title="挂载"></a>挂载</h4><p>和非逻辑分区挂载方式一样，先格式化再挂载目录</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化(文件系统)</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest01</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest02</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/test</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/vgtest/lvtest01 /mnt/test</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
-
-<h2 id="分区扩容"><a href="#分区扩容" class="headerlink" title="分区扩容"></a>分区扩容</h2><h3 id="非逻辑分区"><a href="#非逻辑分区" class="headerlink" title="非逻辑分区"></a>非逻辑分区</h3><p>两种情况，一种是已经分区的扩容然后盘还有空间扩容，一种是未分区使用整个磁盘的需要扩容。第二种其实算是第一种的后半部分。</p>
-<h4 id="已分区扩容"><a href="#已分区扩容" class="headerlink" title="已分区扩容"></a>已分区扩容</h4><p>以&#x2F;dev&#x2F;sdb1为例子，使用了5G大小，盘总共10G，sdb1需要扩容为10G。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、解除挂载</span><br><span class="line">umount /mnt/test</span><br><span class="line">2、调整分区大小</span><br><span class="line">parted /dev/sdb</span><br><span class="line">resizepart 1（回车然后输入大小，可以是%，也可以直接指定大小，需要加上单位）</span><br><span class="line">quit</span><br><span class="line">3、重新识别大小</span><br><span class="line">resize2fs /dev/sdb1</span><br><span class="line">4、重新挂载即可</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
-
-<h4 id="未分区扩容"><a href="#未分区扩容" class="headerlink" title="未分区扩容"></a>未分区扩容</h4><p>使用整个磁盘大小，在原基础磁盘上扩容磁盘后调整，相当于不需要重新调整分区大小，直接重新识别即可，一般在虚拟环境</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">resize2fs /dev/sdb1</span><br></pre></td></tr></table></figure>
-
-<h3 id="逻辑分区"><a href="#逻辑分区" class="headerlink" title="逻辑分区"></a>逻辑分区</h3><p>总体是将新物理卷扩容到卷组，然后将卷组空间分配给已有逻辑卷中</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb2</span><br><span class="line">vgextend vgtest /dev/sdb2</span><br><span class="line">lvextend -l +100%FREE  /dev/mapper/vgtest-lvtest01</span><br></pre></td></tr></table></figure>
-<p>最后重新挂载即可，可以将-l改成-L指定磁盘大小</p>
-<h2 id="删除分区操作"><a href="#删除分区操作" class="headerlink" title="删除分区操作"></a>删除分区操作</h2><p>命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
-
-<h2 id="开机自动挂载"><a href="#开机自动挂载" class="headerlink" title="开机自动挂载"></a>开机自动挂载</h2><p>通过df -h查看文件系统名称，然后修改&#x2F;etc&#x2F;fstab最后一行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/dev/mapper/vgtest-lvtest01     /mnt/test        ext4    defaults        0 0</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>硬盘分区</tag>
-        <tag>分区扩容</tag>
       </tags>
   </entry>
   <entry>
@@ -957,6 +866,54 @@ run
       </tags>
   </entry>
   <entry>
+    <title>linux硬盘分区挂载和扩容</title>
+    <url>/2025/01/15/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98/</url>
+    <content><![CDATA[<h2 id="分区和挂载"><a href="#分区和挂载" class="headerlink" title="分区和挂载"></a>分区和挂载</h2><h3 id="非逻辑分区和挂载"><a href="#非逻辑分区和挂载" class="headerlink" title="非逻辑分区和挂载"></a>非逻辑分区和挂载</h3><h4 id="先将空闲磁盘通过fdisk分区"><a href="#先将空闲磁盘通过fdisk分区" class="headerlink" title="先将空闲磁盘通过fdisk分区"></a>先将空闲磁盘通过fdisk分区</h4><p>命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb </span><br><span class="line">依次选择	n/p/n/回车默认/+size&#123;K,M,G&#125;</span><br></pre></td></tr></table></figure>
+
+<p>帮助</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
+
+<h4 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化</span><br><span class="line">mkfs.ext4 /dev/sdb1</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/mydisk</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/sdb1 /mnt/mydisk</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/mydisk</span><br></pre></td></tr></table></figure>
+
+<h3 id="逻辑卷及挂载"><a href="#逻辑卷及挂载" class="headerlink" title="逻辑卷及挂载"></a>逻辑卷及挂载</h3><p>首先和上步一样，使用fdisk创建一个分区&#x2F;dev&#x2F;sdb1</p>
+<h4 id="创建物理卷（PV）"><a href="#创建物理卷（PV）" class="headerlink" title="创建物理卷（PV）"></a>创建物理卷（PV）</h4><p>将新创建的分区转化成物理卷，主要是添加LVM属性信息并划分PE存储单元，多个一起设置 pvcreate &#x2F;dev&#x2F;sdb{1,2,3,4,5}</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建卷组（VG）"><a href="#创建卷组（VG）" class="headerlink" title="创建卷组（VG）"></a>创建卷组（VG）</h4><p>创建卷组vgtest ,并将刚才创建好的物理卷加入该卷组.默认PE大小为4MB,PE是卷组的最小存储单元.可以通过 –s参数修改大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建逻辑卷（LV）"><a href="#创建逻辑卷（LV）" class="headerlink" title="创建逻辑卷（LV）"></a>创建逻辑卷（LV）</h4><p>创建逻辑卷，将卷组vgtest上面分割4G给新的逻辑卷lvtest1，将卷组vgtest上剩余空间分配给新的逻辑卷lvtest2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
+
+<h4 id="挂载-1"><a href="#挂载-1" class="headerlink" title="挂载"></a>挂载</h4><p>和非逻辑分区挂载方式一样，先格式化再挂载目录</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化(文件系统)</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest01</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest02</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/test</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/vgtest/lvtest01 /mnt/test</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
+
+<h2 id="分区扩容"><a href="#分区扩容" class="headerlink" title="分区扩容"></a>分区扩容</h2><h3 id="非逻辑分区"><a href="#非逻辑分区" class="headerlink" title="非逻辑分区"></a>非逻辑分区</h3><p>两种情况，一种是已经分区的扩容然后盘还有空间扩容，一种是未分区使用整个磁盘的需要扩容。第二种其实算是第一种的后半部分。</p>
+<h4 id="已分区扩容"><a href="#已分区扩容" class="headerlink" title="已分区扩容"></a>已分区扩容</h4><p>以&#x2F;dev&#x2F;sdb1为例子，使用了5G大小，盘总共10G，sdb1需要扩容为10G。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、解除挂载</span><br><span class="line">umount /mnt/test</span><br><span class="line">2、调整分区大小</span><br><span class="line">parted /dev/sdb</span><br><span class="line">resizepart 1（回车然后输入大小，可以是%，也可以直接指定大小，需要加上单位）</span><br><span class="line">quit</span><br><span class="line">3、重新识别大小</span><br><span class="line">resize2fs /dev/sdb1</span><br><span class="line">4、重新挂载即可</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
+
+<h4 id="未分区扩容"><a href="#未分区扩容" class="headerlink" title="未分区扩容"></a>未分区扩容</h4><p>使用整个磁盘大小，在原基础磁盘上扩容磁盘后调整，相当于不需要重新调整分区大小，直接重新识别即可，一般在虚拟环境</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">resize2fs /dev/sdb1</span><br></pre></td></tr></table></figure>
+
+<h3 id="逻辑分区"><a href="#逻辑分区" class="headerlink" title="逻辑分区"></a>逻辑分区</h3><p>总体是将新物理卷扩容到卷组，然后将卷组空间分配给已有逻辑卷中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb2</span><br><span class="line">vgextend vgtest /dev/sdb2</span><br><span class="line">lvextend -l +100%FREE  /dev/mapper/vgtest-lvtest01</span><br></pre></td></tr></table></figure>
+<p>最后重新挂载即可，可以将-l改成-L指定磁盘大小</p>
+<h2 id="删除分区操作"><a href="#删除分区操作" class="headerlink" title="删除分区操作"></a>删除分区操作</h2><p>命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
+
+<h2 id="开机自动挂载"><a href="#开机自动挂载" class="headerlink" title="开机自动挂载"></a>开机自动挂载</h2><p>通过df -h查看文件系统名称，然后修改&#x2F;etc&#x2F;fstab最后一行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/dev/mapper/vgtest-lvtest01     /mnt/test        ext4    defaults        0 0</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>硬盘分区</tag>
+        <tag>分区扩容</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>oppoA9 mtk手机root</title>
     <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
     <content><![CDATA[<h2 id="mtk手机root"><a href="#mtk手机root" class="headerlink" title="mtk手机root"></a>mtk手机root</h2><p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
@@ -973,6 +930,32 @@ run
       </categories>
       <tags>
         <tag>手机root</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>portainer docker的web管理页面</title>
+    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="portainer"><a href="#portainer" class="headerlink" title="portainer"></a>portainer</h2><p>一个web可视化的docker管理页面</p>
+<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>先搜索镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
+<p>一般我下载最多下载的那几个</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
+<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
+<p>接下来就可以登录管理了</p>
+<h2 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h2><p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
+<p>也可通过上传配置文件创建</p>
+<p>选其中一个即可</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -1098,32 +1081,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>portainer docker的web管理页面</title>
-    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="portainer"><a href="#portainer" class="headerlink" title="portainer"></a>portainer</h2><p>一个web可视化的docker管理页面</p>
-<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>先搜索镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
-<p>一般我下载最多下载的那几个</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
-<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
-<p>接下来就可以登录管理了</p>
-<h2 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h2><p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
-<p>也可通过上传配置文件创建</p>
-<p>选其中一个即可</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>pycharm激活</title>
     <url>/2024/08/10/pycharm%E6%BF%80%E6%B4%BB/</url>
     <content><![CDATA[<h2 id="检查链接"><a href="#检查链接" class="headerlink" title="检查链接"></a>检查链接</h2><p>网址：<a href="https://3.jetbra.in/">https://3.jetbra.in/</a></p>
@@ -1142,23 +1099,6 @@ run
       <tags>
         <tag>工具安装</tag>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>switch大气层升级18.1.0</title>
-    <url>/2024/08/22/switch%E5%A4%A7%E6%B0%94%E5%B1%82%E5%8D%87%E7%BA%A7/</url>
-    <content><![CDATA[<h2 id="下载离线固件和大气层最新包"><a href="#下载离线固件和大气层最新包" class="headerlink" title="下载离线固件和大气层最新包"></a>下载离线固件和大气层最新包</h2><p>下载地址:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://github.com/rumla34/Atmosphere-stable/releases/tag/1.7.1</span><br></pre></td></tr></table></figure>
-
-<p>下载大气层和固件之后，通过switch选择系统页面的usb工具替换这两个文件</p>
-<h2 id="升级步骤"><a href="#升级步骤" class="headerlink" title="升级步骤"></a>升级步骤</h2><p>仅保留emuMMC和Nintendo两个文件，其余文件删除，然后将下载的文件都解压放到sd卡根目录</p>
-<p>然后选择虚拟系统启动，打开大气层软件，一个白色太阳的图标，然后选择我们保存的大气层固件文件夹，更新即可</p>
-]]></content>
-      <categories>
-        <category>switch</category>
-      </categories>
-      <tags>
-        <tag>switch大气层</tag>
       </tags>
   </entry>
   <entry>
@@ -1504,22 +1444,20 @@ run
       </tags>
   </entry>
   <entry>
-    <title>压缩包密码爆破</title>
-    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="使用zip2john-hash值破解"><a href="#使用zip2john-hash值破解" class="headerlink" title="使用zip2john hash值破解"></a>使用zip2john hash值破解</h2><p>生成压缩包hash值</p>
-<pre><code>zip2john filename.zip &gt; hash.txt
-</code></pre>
-<p>开始破解</p>
-<pre><code>john hash.txt
-</code></pre>
+    <title>switch大气层升级18.1.0</title>
+    <url>/2024/08/22/switch%E5%A4%A7%E6%B0%94%E5%B1%82%E5%8D%87%E7%BA%A7/</url>
+    <content><![CDATA[<h2 id="下载离线固件和大气层最新包"><a href="#下载离线固件和大气层最新包" class="headerlink" title="下载离线固件和大气层最新包"></a>下载离线固件和大气层最新包</h2><p>下载地址:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://github.com/rumla34/Atmosphere-stable/releases/tag/1.7.1</span><br></pre></td></tr></table></figure>
+
+<p>下载大气层和固件之后，通过switch选择系统页面的usb工具替换这两个文件</p>
+<h2 id="升级步骤"><a href="#升级步骤" class="headerlink" title="升级步骤"></a>升级步骤</h2><p>仅保留emuMMC和Nintendo两个文件，其余文件删除，然后将下载的文件都解压放到sd卡根目录</p>
+<p>然后选择虚拟系统启动，打开大气层软件，一个白色太阳的图标，然后选择我们保存的大气层固件文件夹，更新即可</p>
 ]]></content>
       <categories>
-        <category>网络安全</category>
-        <category>kali</category>
+        <category>switch</category>
       </categories>
       <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
+        <tag>switch大气层</tag>
       </tags>
   </entry>
   <entry>
@@ -1542,69 +1480,22 @@ run
       </tags>
   </entry>
   <entry>
-    <title>生成密钥 ssh-keygen命令</title>
-    <url>/2024/08/13/%E7%94%9F%E6%88%90%E5%AF%86%E9%92%A5-ssh-keygen%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="生成一个密钥文件"><a href="#生成一个密钥文件" class="headerlink" title="生成一个密钥文件"></a>生成一个密钥文件</h3><p>   生成一个 2048 位的 RSA 密钥对，并将私钥存储在 ~&#x2F;.ssh&#x2F;id_rsa 中，将公钥存储在 ~&#x2F;.ssh&#x2F;id_rsa.pub 中</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
-<h3 id="示例详解"><a href="#示例详解" class="headerlink" title="示例详解"></a>示例详解</h3><p>-t rsa: 指定要生成的密钥类型为 RSA。RSA 是一种非对称加密算法，常用于生成 SSH 密钥对。</p>
-<p>-b 2048: 指定生成的密钥的比特数。在这里，生成的密钥将有 2048 位。密钥位数越大，通常越安全，但也会增加计算负担。</p>
-<p>-f ~&#x2F;.ssh&#x2F;id_rsa: 指定生成的密钥文件的路径。在这里，生成的私钥将存储在 ~&#x2F;.ssh&#x2F;id_rsa 文件中，而公钥则存储在 ~&#x2F;.ssh&#x2F;id_rsa.pub 文件中。这是默认的文件路径，可以根据需要指定其他路径。</p>
-<h2 id="参数表格"><a href="#参数表格" class="headerlink" title="参数表格"></a>参数表格</h2><table>
-<thead>
-<tr>
-<th align="center">参数</th>
-<th align="left">作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">-b</td>
-<td align="left">指定密钥长度；</td>
-</tr>
-<tr>
-<td align="center">-e</td>
-<td align="left">读取openssh的私钥或者公钥文件；</td>
-</tr>
-<tr>
-<td align="center">-C</td>
-<td align="left">添加注释；</td>
-</tr>
-<tr>
-<td align="center">-f</td>
-<td align="left">指定用来保存密钥的文件名；</td>
-</tr>
-<tr>
-<td align="center">-i</td>
-<td align="left">读取未加密的ssh-v2兼容的私钥&#x2F;公钥文件，然后在标准输出设备上显示openssh兼容的私钥&#x2F;公钥；</td>
-</tr>
-<tr>
-<td align="center">-l</td>
-<td align="left">显示公钥文件的指纹数据；</td>
-</tr>
-<tr>
-<td align="center">-N</td>
-<td align="left">提供一个新密语；</td>
-</tr>
-<tr>
-<td align="center">-P</td>
-<td align="left">提供（旧）密语；</td>
-</tr>
-<tr>
-<td align="center">-q</td>
-<td align="left">静默模式；</td>
-</tr>
-<tr>
-<td align="center">-t</td>
-<td align="left">指定要创建的密钥类型。</td>
-</tr>
-</tbody></table>
+    <title>压缩包密码爆破</title>
+    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="使用zip2john-hash值破解"><a href="#使用zip2john-hash值破解" class="headerlink" title="使用zip2john hash值破解"></a>使用zip2john hash值破解</h2><p>生成压缩包hash值</p>
+<pre><code>zip2john filename.zip &gt; hash.txt
+</code></pre>
+<p>开始破解</p>
+<pre><code>john hash.txt
+</code></pre>
 ]]></content>
       <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
+        <category>网络安全</category>
+        <category>kali</category>
       </categories>
       <tags>
-        <tag>linux命令</tag>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
       </tags>
   </entry>
   <entry>
@@ -1701,6 +1592,30 @@ run
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2024/07/31/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>算命</title>
     <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
     <content><![CDATA[<h2 id="六神"><a href="#六神" class="headerlink" title="六神"></a>六神</h2><h3 id="手势位置"><a href="#手势位置" class="headerlink" title="手势位置"></a>手势位置</h3><p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br><img src="/images/pasted-71.png" alt="upload successful"></p>
@@ -1740,79 +1655,6 @@ run
       <tags>
         <tag>算命知识</tag>
         <tag>小六壬</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>羊肉火锅-牛油辣味</title>
-    <url>/2025/02/04/%E7%BE%8A%E8%82%89%E7%81%AB%E9%94%85-%E7%89%9B%E6%B2%B9%E8%BE%A3%E5%91%B3/</url>
-    <content><![CDATA[<h2 id="配料"><a href="#配料" class="headerlink" title="配料"></a>配料</h2><p>配料表中的量不包括焯水等步骤的损耗</p>
-<style>
-table th:nth-of-type(1) {
-width: 20%;
-}
-</style>
-<table>
-<thead>
-<tr>
-<th align="center">名称</th>
-<th align="left">量</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">羊肉</td>
-<td align="left">一到两斤左右</td>
-</tr>
-<tr>
-<td align="center">花椒</td>
-<td align="left">可放可不放</td>
-</tr>
-<tr>
-<td align="center">香叶</td>
-<td align="left">3片左右</td>
-</tr>
-<tr>
-<td align="center">桂皮</td>
-<td align="left">一小块</td>
-</tr>
-<tr>
-<td align="center">八角</td>
-<td align="left">一个</td>
-</tr>
-<tr>
-<td align="center">干辣椒</td>
-<td align="left">若干</td>
-</tr>
-<tr>
-<td align="center">大葱</td>
-<td align="left">三段</td>
-</tr>
-<tr>
-<td align="center">姜</td>
-<td align="left">适量</td>
-</tr>
-<tr>
-<td align="center">大蒜</td>
-<td align="left">适量（半颗左右）</td>
-</tr>
-<tr>
-<td align="center">白萝卜</td>
-<td align="left">随意</td>
-</tr>
-<tr>
-<td align="center">海底捞牛油火锅底料</td>
-<td align="left">小包的半包</td>
-</tr>
-</tbody></table>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>1、一点姜、葱、料酒给羊肉焯水，撇去浮沫后捞出备用</p>
-<p>2、热油炒香姜、大葱、大蒜、和香料，然后倒入火锅底料翻炒均匀，可加入白胡椒，但是感觉没啥区别</p>
-<p>3、加入羊肉翻炒均匀后加水煮90分钟，中途加入萝卜（可高压锅煮45分钟）</p>
-]]></content>
-      <categories>
-        <category>菜谱</category>
-        <category>火锅</category>
-      </categories>
-      <tags>
-        <tag>羊肉火锅</tag>
       </tags>
   </entry>
   <entry>
@@ -2042,6 +1884,164 @@ width: 20%;
       </categories>
       <tags>
         <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>生成密钥 ssh-keygen命令</title>
+    <url>/2024/08/13/%E7%94%9F%E6%88%90%E5%AF%86%E9%92%A5-ssh-keygen%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="生成一个密钥文件"><a href="#生成一个密钥文件" class="headerlink" title="生成一个密钥文件"></a>生成一个密钥文件</h3><p>   生成一个 2048 位的 RSA 密钥对，并将私钥存储在 ~&#x2F;.ssh&#x2F;id_rsa 中，将公钥存储在 ~&#x2F;.ssh&#x2F;id_rsa.pub 中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
+<h3 id="示例详解"><a href="#示例详解" class="headerlink" title="示例详解"></a>示例详解</h3><p>-t rsa: 指定要生成的密钥类型为 RSA。RSA 是一种非对称加密算法，常用于生成 SSH 密钥对。</p>
+<p>-b 2048: 指定生成的密钥的比特数。在这里，生成的密钥将有 2048 位。密钥位数越大，通常越安全，但也会增加计算负担。</p>
+<p>-f ~&#x2F;.ssh&#x2F;id_rsa: 指定生成的密钥文件的路径。在这里，生成的私钥将存储在 ~&#x2F;.ssh&#x2F;id_rsa 文件中，而公钥则存储在 ~&#x2F;.ssh&#x2F;id_rsa.pub 文件中。这是默认的文件路径，可以根据需要指定其他路径。</p>
+<h2 id="参数表格"><a href="#参数表格" class="headerlink" title="参数表格"></a>参数表格</h2><table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-b</td>
+<td align="left">指定密钥长度；</td>
+</tr>
+<tr>
+<td align="center">-e</td>
+<td align="left">读取openssh的私钥或者公钥文件；</td>
+</tr>
+<tr>
+<td align="center">-C</td>
+<td align="left">添加注释；</td>
+</tr>
+<tr>
+<td align="center">-f</td>
+<td align="left">指定用来保存密钥的文件名；</td>
+</tr>
+<tr>
+<td align="center">-i</td>
+<td align="left">读取未加密的ssh-v2兼容的私钥&#x2F;公钥文件，然后在标准输出设备上显示openssh兼容的私钥&#x2F;公钥；</td>
+</tr>
+<tr>
+<td align="center">-l</td>
+<td align="left">显示公钥文件的指纹数据；</td>
+</tr>
+<tr>
+<td align="center">-N</td>
+<td align="left">提供一个新密语；</td>
+</tr>
+<tr>
+<td align="center">-P</td>
+<td align="left">提供（旧）密语；</td>
+</tr>
+<tr>
+<td align="center">-q</td>
+<td align="left">静默模式；</td>
+</tr>
+<tr>
+<td align="center">-t</td>
+<td align="left">指定要创建的密钥类型。</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>deepseek-r1本地部署方法</title>
+    <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="安装ollama"><a href="#安装ollama" class="headerlink" title="安装ollama"></a>安装ollama</h2><p>打开ollama官网，根据系统下载ollama软件：<br><a href="https://ollama.com/">https://ollama.com/</a><br><img src="/images/pasted-76.png" alt="upload successful"></p>
+<h2 id="下载模型"><a href="#下载模型" class="headerlink" title="下载模型"></a>下载模型</h2><p>安装完成ollama后，通过cmd命令行输入运行相关模型的命令，获取地址是官网的Models页面：<br><img src="/images/pasted-77.png" alt="upload successful"></p>
+<p>第一个就是需要下载的模型deepseek-r1，点击名称选择需要的版本，即使不符合也能运行，会很卡：<br><a href="https://ollama.com/library/deepseek-r1:8b">https://ollama.com/library/deepseek-r1:8b</a><br><img src="/images/pasted-78.png" alt="upload successful"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>运行完成后就能正常使用了，这样只能命令行使用；可以通过浏览器插件图形化页面使用本地运行的模型，插件名称是：Page Assist - A Web UI for Local AI Models<br><img src="/images/pasted-79.png" alt="upload successful"></p>
+<p>说是能联网，但是我的不行</p>
+<p>可以用以下话语添加在问题末尾通过其他联网的ai获取信息后给deepseek整理回答，来间接上网：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请先告诉我你要回答这个问题需要检索哪些关键词或者最新消息？我会尝试提供相关数据。</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>ai</tag>
+        <tag>deepseek</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>羊肉火锅-牛油辣味</title>
+    <url>/2025/02/04/%E7%BE%8A%E8%82%89%E7%81%AB%E9%94%85-%E7%89%9B%E6%B2%B9%E8%BE%A3%E5%91%B3/</url>
+    <content><![CDATA[<h2 id="配料"><a href="#配料" class="headerlink" title="配料"></a>配料</h2><p>配料表中的量不包括焯水等步骤的损耗</p>
+<style>
+table th:nth-of-type(1) {
+width: 20%;
+}
+</style>
+<table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="left">量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">羊肉</td>
+<td align="left">一到两斤左右</td>
+</tr>
+<tr>
+<td align="center">花椒</td>
+<td align="left">可放可不放</td>
+</tr>
+<tr>
+<td align="center">香叶</td>
+<td align="left">3片左右</td>
+</tr>
+<tr>
+<td align="center">桂皮</td>
+<td align="left">一小块</td>
+</tr>
+<tr>
+<td align="center">八角</td>
+<td align="left">一个</td>
+</tr>
+<tr>
+<td align="center">干辣椒</td>
+<td align="left">若干</td>
+</tr>
+<tr>
+<td align="center">大葱</td>
+<td align="left">三段</td>
+</tr>
+<tr>
+<td align="center">姜</td>
+<td align="left">适量</td>
+</tr>
+<tr>
+<td align="center">大蒜</td>
+<td align="left">适量（半颗左右）</td>
+</tr>
+<tr>
+<td align="center">白萝卜</td>
+<td align="left">随意</td>
+</tr>
+<tr>
+<td align="center">海底捞牛油火锅底料</td>
+<td align="left">小包的半包</td>
+</tr>
+</tbody></table>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>1、一点姜、葱、料酒给羊肉焯水，撇去浮沫后捞出备用</p>
+<p>2、热油炒香姜、大葱、大蒜、和香料，然后倒入火锅底料翻炒均匀，可加入白胡椒，但是感觉没啥区别</p>
+<p>3、加入羊肉翻炒均匀后加水煮90分钟，中途加入萝卜（可高压锅煮45分钟）</p>
+]]></content>
+      <categories>
+        <category>菜谱</category>
+        <category>火锅</category>
+      </categories>
+      <tags>
+        <tag>羊肉火锅</tag>
       </tags>
   </entry>
 </search>
