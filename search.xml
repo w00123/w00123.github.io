@@ -508,43 +508,6 @@ admin/password
       </tags>
   </entry>
   <entry>
-    <title>分区命令</title>
-    <url>/2025/01/15/fdisk/</url>
-    <content><![CDATA[<h2 id="fdisk"><a href="#fdisk" class="headerlink" title="fdisk"></a>fdisk</h2><h3 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h3><p>fdisk 路径 参数</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
-
-<p>一般配合使用的有<br>df -h<br>lsblk<br>mkfs.ext4<br>…….</p>
-<h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
-
-<h2 id="逻辑卷"><a href="#逻辑卷" class="headerlink" title="逻辑卷"></a>逻辑卷</h2><p>创建常用命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br><span class="line"></span><br><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
-
-
-<p>删除常用命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
-
-<h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><h3 id="设备或资源忙"><a href="#设备或资源忙" class="headerlink" title="设备或资源忙"></a>设备或资源忙</h3><p>如果有返回：</p>
-<pre><code>The partition table has been altered!
-
-Calling ioctl() to re-read partition table.
-
-WARNING: Re-reading the partition table failed with error 16: 设备或资源忙.
-The kernel still uses the old table. The new table will be used at
-the next reboot or after you run partprobe(8) or kpartx(8)
-</code></pre>
-<p>重新识别磁盘即可</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">partprobe /dev/sdb</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ettercap arp欺骗+dns劫持+钓鱼网站</title>
     <url>/2024/10/15/ettercap-arp%E6%AC%BA%E9%AA%97-dns%E5%8A%AB%E6%8C%81-%E9%92%93%E9%B1%BC%E7%BD%91%E7%AB%99/</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>这次主要是使用ettercap在局域网中发现主机并欺骗其arp表，让其mac地址与攻击主机mac一致，使用dns污染其dns解析，将其访问的域名解析到本机的钓鱼网站中。</p>
@@ -591,6 +554,43 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       <tags>
         <tag>kali</tag>
         <tag>ettercap</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分区命令</title>
+    <url>/2025/01/15/fdisk/</url>
+    <content><![CDATA[<h2 id="fdisk"><a href="#fdisk" class="headerlink" title="fdisk"></a>fdisk</h2><h3 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h3><p>fdisk 路径 参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
+
+<p>一般配合使用的有<br>df -h<br>lsblk<br>mkfs.ext4<br>…….</p>
+<h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
+
+<h2 id="逻辑卷"><a href="#逻辑卷" class="headerlink" title="逻辑卷"></a>逻辑卷</h2><p>创建常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br><span class="line"></span><br><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
+
+
+<p>删除常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
+
+<h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><h3 id="设备或资源忙"><a href="#设备或资源忙" class="headerlink" title="设备或资源忙"></a>设备或资源忙</h3><p>如果有返回：</p>
+<pre><code>The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 16: 设备或资源忙.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+</code></pre>
+<p>重新识别磁盘即可</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">partprobe /dev/sdb</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
