@@ -20,9 +20,3 @@
 [data-theme＝"dark"] #page-header::before{
 	background: transparent !important;
 }
-
-/* 文章页背景 */
-.layout_post>#post {
-    /* 以下代表透明度为0.7 可以自行修改*/
-    background: rgba(255,255,255,.8);
-}
