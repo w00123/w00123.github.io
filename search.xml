@@ -209,21 +209,6 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>docker 可用加速镜像2024.08.13</title>
-    <url>/2024/08/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%902024-08-13/</url>
-    <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">        &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">        &quot;https://dockerhub.icu&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<p>源自：小锋学长生活大爆炸[xfxuezhagn.cn]<br>原文链接：<a href="https://blog.csdn.net/sxf1061700625/article/details/140895299">https://blog.csdn.net/sxf1061700625/article/details/140895299</a></p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker 卸载</title>
     <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
     <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
@@ -240,6 +225,21 @@ ansible_ssh_pass=123456 ##密码
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker 可用加速镜像2024.08.13</title>
+    <url>/2024/08/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%902024-08-13/</url>
+    <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">        &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">        &quot;https://dockerhub.icu&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<p>源自：小锋学长生活大爆炸[xfxuezhagn.cn]<br>原文链接：<a href="https://blog.csdn.net/sxf1061700625/article/details/140895299">https://blog.csdn.net/sxf1061700625/article/details/140895299</a></p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -639,6 +639,7 @@ hexo d
       <tags>
         <tag>博客</tag>
         <tag>github</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -663,6 +664,43 @@ hexo d
       </categories>
       <tags>
         <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo-书写</title>
+    <url>/2025/02/08/hexo-%E4%B9%A6%E5%86%99/</url>
+    <content><![CDATA[<h2 id="常用书写"><a href="#常用书写" class="headerlink" title="常用书写"></a>常用书写</h2><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">\```bash</span><br><span class="line"></span><br><span class="line">\```</span><br></pre></td></tr></table></figure>
+
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">一级</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">二级</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>演示</p>
+</blockquote>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><h4 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">*</span><br><span class="line">*</span><br><span class="line">*</span><br></pre></td></tr></table></figure>
+<ul>
+<li>演示</li>
+</ul>
+<h4 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1. </span><br><span class="line">2. </span><br><span class="line">3. </span><br></pre></td></tr></table></figure>
+<ol>
+<li>演示</li>
+<li>ha</li>
+<li>ha</li>
+</ol>
+<h3 id="特殊字效果"><a href="#特殊字效果" class="headerlink" title="特殊字效果"></a>特殊字效果</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;u&gt;下划线演示&lt;/u&gt;</span><br><span class="line"></span><br><span class="line">文字**加粗**演示</span><br><span class="line"></span><br><span class="line">文字*斜体*演示</span><br><span class="line"></span><br><span class="line">文本`高亮`演示</span><br><span class="line"></span><br><span class="line">文本~~删除~~线演示</span><br></pre></td></tr></table></figure>
+
+<p><u>下划线演示</u><br>文字<strong>加粗</strong>演示<br>文字<em>斜体</em>演示<br>文本<code>高亮</code>演示<br>文本<del>删除</del>线演示</p>
+<h3 id="note"><a href="#note" class="headerlink" title="note"></a>note</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&#123;% note &#x27;fab fa-cc-visa&#x27; modern %&#125;</span><br><span class="line">卡</span><br><span class="line">&#123;% endnote %&#125;</span><br><span class="line">&#123;% note red &#x27;fas fa-bullhorn&#x27; modern %&#125;</span><br><span class="line">通知</span><br><span class="line">&#123;% endnote %&#125;</span><br><span class="line">&#123;% note pink &#x27;fas fa-car-crash&#x27; modern %&#125;</span><br><span class="line">车</span><br><span class="line">&#123;% endnote %&#125;</span><br></pre></td></tr></table></figure>
+<div class="note icon-padding modern"><i class="note-icon fab fa-cc-visa"></i><p>卡</p>
+</div>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>通知</p>
+</div>
+<div class="note pink icon-padding modern"><i class="note-icon fas fa-car-crash"></i><p>车</p>
+</div>]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -692,6 +730,7 @@ hexo d
       </categories>
       <tags>
         <tag>博客</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -726,6 +765,7 @@ hexo d
       </categories>
       <tags>
         <tag>博客</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -822,6 +862,38 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       <tags>
         <tag>kali</tag>
         <tag>手机root</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux-代理设置方法</title>
+    <url>/2025/02/08/linux-%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h2><h3 id="临时"><a href="#临时" class="headerlink" title="临时"></a>临时</h3><p>通过以下命令实现临时使用代理服务器：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export http_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export https_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export ftp_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export no_proxy=&quot;localhost, 127.0.0.1, ::1&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="永久"><a href="#永久" class="headerlink" title="永久"></a>永久</h3><p>通过修改profile文件实现：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>末尾添加以下内容</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export http_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export https_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export ftp_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export no_proxy=&quot;localhost, 127.0.0.1, ::1&quot;</span><br></pre></td></tr></table></figure>
+
+<p>执行生效命令即可</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<h2 id="kali"><a href="#kali" class="headerlink" title="kali"></a>kali</h2><p>使用proxychains4代理，与上述类似，安装：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install proxychains4</span><br></pre></td></tr></table></figure>
+
+<p>修改末尾的代理服务器端口即可</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/proxychains.conf</span><br></pre></td></tr></table></figure>
+
+<p>使用方法是命令前加上proxychains4即可</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+        <tag>网络代理</tag>
       </tags>
   </entry>
   <entry>
