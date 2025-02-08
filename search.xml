@@ -209,6 +209,21 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
+    <title>docker 可用加速镜像2024.08.13</title>
+    <url>/2024/08/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%902024-08-13/</url>
+    <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">        &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">        &quot;https://dockerhub.icu&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<p>源自：小锋学长生活大爆炸[xfxuezhagn.cn]<br>原文链接：<a href="https://blog.csdn.net/sxf1061700625/article/details/140895299">https://blog.csdn.net/sxf1061700625/article/details/140895299</a></p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker 卸载</title>
     <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
     <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
@@ -225,21 +240,6 @@ ansible_ssh_pass=123456 ##密码
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker 可用加速镜像2024.08.13</title>
-    <url>/2024/08/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%902024-08-13/</url>
-    <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">        &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">        &quot;https://dockerhub.icu&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<p>源自：小锋学长生活大爆炸[xfxuezhagn.cn]<br>原文链接：<a href="https://blog.csdn.net/sxf1061700625/article/details/140895299">https://blog.csdn.net/sxf1061700625/article/details/140895299</a></p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
