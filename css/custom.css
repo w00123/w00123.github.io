@@ -45,7 +45,7 @@ html[data-theme="light"] #page-header.nav-visible #nav,
 html[data-theme="light"] .search-dialog,
 /* 移动端 */
 html[data-theme="light"] #sidebar #sidebar-menus.open {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(20px);
 }
 
@@ -60,7 +60,7 @@ html[data-theme="dark"] #page-header.nav-visible #nav,
 html[data-theme="dark"] .search-dialog,
 /* 移动端 */
 html[data-theme="dark"] #sidebar #sidebar-menus.open {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(20px);
 }
 
