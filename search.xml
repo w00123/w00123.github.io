@@ -209,25 +209,6 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>docker 卸载</title>
-    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
-    <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker 可用加速镜像2024.08.13</title>
     <url>/2024/08/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%902024-08-13/</url>
     <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">        &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">        &quot;https://dockerhub.icu&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
@@ -315,6 +296,25 @@ mysql:5.7
 <pre><code>docker rm 0c36
 </code></pre>
 ]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker 卸载</title>
+    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
+    <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
@@ -455,29 +455,6 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       </tags>
   </entry>
   <entry>
-    <title>dvwa-命令执行</title>
-    <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
-    <content><![CDATA[<h2 id="Low等级"><a href="#Low等级" class="headerlink" title="Low等级"></a>Low等级</h2><p>命令执行漏洞主要是针对有网络测试的页面，如网络设备的web管理页面等等，利用其执行命令的输入窗口执行其他命令。</p>
-<p>简单演示一下正常使用，输入127.0.0.1，执行：<br><img src="/images/pasted-36.png" alt="upload successful"></p>
-<h3 id="在DVWA靶场点击command-injection设置等级为low"><a href="#在DVWA靶场点击command-injection设置等级为low" class="headerlink" title="在DVWA靶场点击command injection设置等级为low"></a>在DVWA靶场点击command injection设置等级为low</h3><p><img src="/images/pasted-37.png" alt="upload successful"></p>
-<h3 id="使用命令连接符如-、-、-、-来执行命令"><a href="#使用命令连接符如-、-、-、-来执行命令" class="headerlink" title="使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令"></a>使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令</h3><p>相当于与或非，判断前面命令是否成功执行之后的自定义命令<br><img src="/images/pasted-38.png" alt="upload successful"><br><img src="/images/pasted-39.png" alt="upload successful"></p>
-<h2 id="Medium等级"><a href="#Medium等级" class="headerlink" title="Medium等级"></a>Medium等级</h2><p>做了一点防护措施，相当于没有。<br>将这些连接符做了个判断转为空，详情如下：<br><img src="/images/pasted-40.png" alt="upload successful"></p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>测试发现使用命令连接符&amp;&amp;和;都不执行。<br><img src="/images/pasted-41.png" alt="upload successful"></p>
-<p>但是可以使用其他没有被处理的连接符<br><img src="/images/pasted-42.png" alt="upload successful"></p>
-<h2 id="High等级"><a href="#High等级" class="headerlink" title="High等级"></a>High等级</h2><p>连接符连接都不执行,已处理所有连接符<br><img src="/images/pasted-43.png" alt="upload successful"></p>
-<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>其实|是没处理的，加了空格，所以还是能够执行的<br><img src="/images/pasted-44.png" alt="upload successful"></p>
-<p>执行结果：<br><img src="/images/pasted-45.png" alt="upload successful"></p>
-<h2 id="Impossible等级"><a href="#Impossible等级" class="headerlink" title="Impossible等级"></a>Impossible等级</h2><p>是不可能等级，这个采用的是白名单的方式防护，只允许已知的命令执行。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Check Anti-CSRF token</span><br><span class="line">    checkToken( $_REQUEST[ &#x27;user_token&#x27; ], $_SESSION[ &#x27;session_token&#x27; ], &#x27;index.php&#x27; );</span><br><span class="line"></span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line">    $target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">    // Split the IP into 4 octects</span><br><span class="line">    $octet = explode( &quot;.&quot;, $target );</span><br><span class="line"></span><br><span class="line">    // Check IF each octet is an integer</span><br><span class="line">    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet ) == 4 ) ) &#123;</span><br><span class="line">        // If all 4 octets are int&#x27;s put the IP back together.</span><br><span class="line">        $target = $octet[0] . &#x27;.&#x27; . $octet[1] . &#x27;.&#x27; . $octet[2] . &#x27;.&#x27; . $octet[3];</span><br><span class="line"></span><br><span class="line">        // Determine OS and execute the ping command.</span><br><span class="line">        if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">            // Windows</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            // *nix</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Feedback for the end user</span><br><span class="line">        echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // Ops. Let the user name theres a mistake</span><br><span class="line">        echo &#x27;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Generate Anti-CSRF token</span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>dvwa</category>
-      </categories>
-      <tags>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dvwa-部署（docker）</title>
     <url>/2024/10/14/dvwa-%E9%83%A8%E7%BD%B2%EF%BC%88docker%EF%BC%89/</url>
     <content><![CDATA[<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>发现配置了镜像加速也无法通过search查到镜像，但是下载没问题，通过网上查询镜像名称下载即可：</p>
@@ -594,6 +571,29 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       </tags>
   </entry>
   <entry>
+    <title>dvwa-命令执行</title>
+    <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
+    <content><![CDATA[<h2 id="Low等级"><a href="#Low等级" class="headerlink" title="Low等级"></a>Low等级</h2><p>命令执行漏洞主要是针对有网络测试的页面，如网络设备的web管理页面等等，利用其执行命令的输入窗口执行其他命令。</p>
+<p>简单演示一下正常使用，输入127.0.0.1，执行：<br><img src="/images/pasted-36.png" alt="upload successful"></p>
+<h3 id="在DVWA靶场点击command-injection设置等级为low"><a href="#在DVWA靶场点击command-injection设置等级为low" class="headerlink" title="在DVWA靶场点击command injection设置等级为low"></a>在DVWA靶场点击command injection设置等级为low</h3><p><img src="/images/pasted-37.png" alt="upload successful"></p>
+<h3 id="使用命令连接符如-、-、-、-来执行命令"><a href="#使用命令连接符如-、-、-、-来执行命令" class="headerlink" title="使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令"></a>使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令</h3><p>相当于与或非，判断前面命令是否成功执行之后的自定义命令<br><img src="/images/pasted-38.png" alt="upload successful"><br><img src="/images/pasted-39.png" alt="upload successful"></p>
+<h2 id="Medium等级"><a href="#Medium等级" class="headerlink" title="Medium等级"></a>Medium等级</h2><p>做了一点防护措施，相当于没有。<br>将这些连接符做了个判断转为空，详情如下：<br><img src="/images/pasted-40.png" alt="upload successful"></p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>测试发现使用命令连接符&amp;&amp;和;都不执行。<br><img src="/images/pasted-41.png" alt="upload successful"></p>
+<p>但是可以使用其他没有被处理的连接符<br><img src="/images/pasted-42.png" alt="upload successful"></p>
+<h2 id="High等级"><a href="#High等级" class="headerlink" title="High等级"></a>High等级</h2><p>连接符连接都不执行,已处理所有连接符<br><img src="/images/pasted-43.png" alt="upload successful"></p>
+<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>其实|是没处理的，加了空格，所以还是能够执行的<br><img src="/images/pasted-44.png" alt="upload successful"></p>
+<p>执行结果：<br><img src="/images/pasted-45.png" alt="upload successful"></p>
+<h2 id="Impossible等级"><a href="#Impossible等级" class="headerlink" title="Impossible等级"></a>Impossible等级</h2><p>是不可能等级，这个采用的是白名单的方式防护，只允许已知的命令执行。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Check Anti-CSRF token</span><br><span class="line">    checkToken( $_REQUEST[ &#x27;user_token&#x27; ], $_SESSION[ &#x27;session_token&#x27; ], &#x27;index.php&#x27; );</span><br><span class="line"></span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line">    $target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">    // Split the IP into 4 octects</span><br><span class="line">    $octet = explode( &quot;.&quot;, $target );</span><br><span class="line"></span><br><span class="line">    // Check IF each octet is an integer</span><br><span class="line">    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet ) == 4 ) ) &#123;</span><br><span class="line">        // If all 4 octets are int&#x27;s put the IP back together.</span><br><span class="line">        $target = $octet[0] . &#x27;.&#x27; . $octet[1] . &#x27;.&#x27; . $octet[2] . &#x27;.&#x27; . $octet[3];</span><br><span class="line"></span><br><span class="line">        // Determine OS and execute the ping command.</span><br><span class="line">        if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">            // Windows</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            // *nix</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Feedback for the end user</span><br><span class="line">        echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // Ops. Let the user name theres a mistake</span><br><span class="line">        echo &#x27;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Generate Anti-CSRF token</span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>dvwa</category>
+      </categories>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>github部署hexo</title>
     <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
     <content><![CDATA[<h2 id="本地ssh连接-GitHub"><a href="#本地ssh连接-GitHub" class="headerlink" title="本地ssh连接 GitHub"></a>本地ssh连接 GitHub</h2><h4 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h4><p>确保下载了git后输入命令</p>
@@ -699,6 +699,15 @@ hexo d
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line">cover:</span><br><span class="line">  #display the cover or not (是否顯示文章封面)</span><br><span class="line">  index_enable: false	#首页</span><br><span class="line">  aside_enable: false	#侧边</span><br><span class="line">  archives_enable: false#归档</span><br><span class="line">  #the position of cover in home page (封面顯示的位置)</span><br><span class="line">  #left/right/both</span><br><span class="line">  position: both</span><br><span class="line">  #When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)</span><br><span class="line">  default_cover: </span><br><span class="line">    # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg</span><br></pre></td></tr></table></figure>
 
 <h3 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h3><p>分页，也就是文章内中显示的下一页上一页按钮，可通过配置文章封面显示图片，也可以通过设置主题色改变其颜色。</p>
+<h2 id="置顶文章滚动页"><a href="#置顶文章滚动页" class="headerlink" title="置顶文章滚动页"></a>置顶文章滚动页</h2><h3 id="NPM-插件安装"><a href="#NPM-插件安装" class="headerlink" title="NPM 插件安装"></a>NPM 插件安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-swiper-bar --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="新增网站根目录-config-配置项-不是主题的"><a href="#新增网站根目录-config-配置项-不是主题的" class="headerlink" title="新增网站根目录_config 配置项 (不是主题的)"></a>新增网站根目录_config 配置项 (不是主题的)</h3><p>添加以下代码</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  priority: 2</span><br><span class="line">  enable_page: /</span><br><span class="line">  layout:</span><br><span class="line">    <span class="built_in">type</span>: <span class="built_in">id</span></span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  temple_html: <span class="string">&#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;height: auto;width: 100%&quot;&gt;&lt;div class=&quot;blog-slider swiper-container-fade swiper-container-horizontal&quot; id=&quot;swiper_container&quot;&gt;$&#123;temple_html_item&#125;&lt;/div&gt;&lt;/div&gt;&#x27;</span></span><br><span class="line">  plus_style: <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>相关含义小冰老师解释的很详细<br><a href="https://zfe.space/post/hexo-swiper.html">https://zfe.space/post/hexo-swiper.html</a></p>
+</blockquote>
+<h3 id="最后在文章中加入以下内容"><a href="#最后在文章中加入以下内容" class="headerlink" title="最后在文章中加入以下内容"></a>最后在文章中加入以下内容</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper_index: 8</span><br><span class="line">swiper_desc: 简单好用的 hexo 博客文章置顶插件！</span><br><span class="line">swiper_cover: /images/letter/p.png</span><br></pre></td></tr></table></figure>
+<p>最后一行可不写，默认使用文章封面</p>
 <h2 id="主题色"><a href="#主题色" class="headerlink" title="主题色"></a>主题色</h2><p>修改以下内容即可</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line"> theme_color:</span><br><span class="line">   enable: true</span><br><span class="line">   main: &quot;#49B1F5&quot;</span><br><span class="line">   paginator: &quot;#00c4b6&quot;</span><br><span class="line">   button_hover: &quot;#FF7242&quot;</span><br><span class="line">   text_selection: &quot;#00c4b6&quot;</span><br><span class="line">   link_color: &quot;#99a9bf&quot;</span><br><span class="line">   meta_color: &quot;#858585&quot;</span><br><span class="line">   hr_color: &quot;#A4D8FA&quot;</span><br><span class="line">   code_foreground: &quot;#F47466&quot;</span><br><span class="line">   code_background: &quot;rgba(27, 31, 35, .05)&quot;</span><br><span class="line">   toc_color: &quot;#00c4b6&quot;</span><br><span class="line">   blockquote_padding_color: &quot;#49b1f5&quot;</span><br><span class="line">   blockquote_background_color: &quot;#49b1f5&quot;</span><br><span class="line">   scrollbar_color: &quot;#49b1f5&quot;</span><br><span class="line">   meta_theme_color_light: &quot;ffffff&quot;</span><br><span class="line">   meta_theme_color_dark: &quot;#0d0d0d&quot;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
@@ -841,6 +850,26 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
+    <title>linux下载离线安装包</title>
+    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
+    <content><![CDATA[<h2 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h2><p>以wget为例，需要先下载yum-utils，再下载安装包</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
+
+<p>选择保存位置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
+
+<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>yum install –downloadonly –downloaddir&#x3D;&#x2F;root wget</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux-代理设置方法</title>
     <url>/2025/02/08/linux-%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h2 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h2><h3 id="临时"><a href="#临时" class="headerlink" title="临时"></a>临时</h3><p>通过以下命令实现临时使用代理服务器：</p>
@@ -870,26 +899,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       <tags>
         <tag>kali</tag>
         <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux下载离线安装包</title>
-    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
-    <content><![CDATA[<h2 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h2><p>以wget为例，需要先下载yum-utils，再下载安装包</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
-
-<p>选择保存位置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
-
-<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>yum install –downloadonly –downloaddir&#x3D;&#x2F;root wget</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
