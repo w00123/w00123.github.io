@@ -677,7 +677,7 @@ hexo d
 <blockquote>
 <p>演示</p>
 </blockquote>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><h4 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">*</span><br><span class="line">*</span><br><span class="line">*</span><br></pre></td></tr></table></figure>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><h4 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">* 1</span><br><span class="line">* 2</span><br><span class="line">* 3</span><br></pre></td></tr></table></figure>
 <ul>
 <li>演示</li>
 </ul>
@@ -696,7 +696,12 @@ hexo d
 <div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>通知</p>
 </div>
 <div class="note pink icon-padding modern"><i class="note-icon fas fa-car-crash"></i><p>车</p>
-</div>]]></content>
+</div>
+
+<h3 id="插入文章链接"><a href="#插入文章链接" class="headerlink" title="插入文章链接"></a>插入文章链接</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[hexo-书写](/2025/02/08/hexo-书写/)</span><br></pre></td></tr></table></figure>
+
+<p><a href="/2025/02/08/hexo-%E4%B9%A6%E5%86%99/">演示</a>，还是回到本文</p>
+]]></content>
       <categories>
         <category>hexo博客</category>
       </categories>
@@ -1970,17 +1975,41 @@ width: 20%;
       </tags>
   </entry>
   <entry>
-    <title>通话语音服务过防火墙异常</title>
-    <url>/2025/01/19/%E8%AF%AD%E9%9F%B3%E6%9C%8D%E5%8A%A1%E8%BF%87%E9%98%B2%E7%81%AB%E5%A2%99%E5%BC%82%E5%B8%B8/</url>
-    <content><![CDATA[<h2 id="异常现象"><a href="#异常现象" class="headerlink" title="异常现象"></a>异常现象</h2><p>网络双向畅通；<br>业务服务为语音服务时，仅能单向沟通，也就是只能听到声音但是无法输出；<br>通过抓包检查，输出的数据包未能到达服务器。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>检查防火墙的应用层网关ALG功能，该部分会有部分协议不转发，而语音服务使用的时SIP，开启即可</p>
-<p>而且防火墙未开启sip转发也是很正常的，所以当有语音服务过墙时，如果异常最好也同样检查一下是否有开启SIP。<br>语音服务的厂家也反馈，该问题常常出现。</p>
+    <title>过防火墙业务端口畅通但业务异常-云虚拟网络</title>
+    <url>/2025/01/19/%E8%BF%87%E9%98%B2%E7%81%AB%E5%A2%99%E4%B8%9A%E5%8A%A1%E7%AB%AF%E5%8F%A3%E7%95%85%E9%80%9A%E4%BD%86%E4%B8%9A%E5%8A%A1%E5%BC%82%E5%B8%B8-%E4%BA%91%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<h2 id="通话语音服务过防火墙异常"><a href="#通话语音服务过防火墙异常" class="headerlink" title="通话语音服务过防火墙异常"></a>通话语音服务过防火墙异常</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>网络双向畅通；<br>业务服务为语音服务时，仅能单向沟通，也就是只能听到声音但是无法输出；<br>通过抓包检查，输出的数据包未能到达服务器。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p><code>检查防火墙的应用层网关ALG功能，该部分会有部分协议不转发，而语音服务使用的时SIP，开启即可</code></p>
+<ul>
+<li>而且防火墙未开启sip转发也是很正常的，所以当有语音服务过墙时，如果异常最好也同样检查一下是否有开启SIP。</li>
+<li>语音服务的厂家也反馈，该问题常常出现。</li>
+</ul>
+<hr>
+<h2 id="端口畅通但部分业务无法使用"><a href="#端口畅通但部分业务无法使用" class="headerlink" title="端口畅通但部分业务无法使用"></a>端口畅通但部分业务无法使用</h2><h3 id="现象-1"><a href="#现象-1" class="headerlink" title="现象"></a>现象</h3><blockquote>
+<p>以下场景均可能为相同问题：</p>
+</blockquote>
+<ol>
+<li>堡垒机登录web正常，但无法远程主机;</li>
+<li>端口访问正常，业务部分正常，部分异常。</li>
+</ol>
+<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p><code>检查路由发现，堡垒机到远程主机之间为不同子网，主机路由下一跳网关为防火墙，堡垒机则不是，导致防火墙上只有半个会话，来回路径不一致</code></p>
+<ol>
+<li>添加明细路由内网流量不经过防火墙；</li>
+<li>不建议选择这个方法，修改路由让防火墙会话完整，来回一致。</li>
+</ol>
+<hr>
+<h2 id="传输大文件时失败"><a href="#传输大文件时失败" class="headerlink" title="传输大文件时失败"></a>传输大文件时失败</h2><h3 id="现象-2"><a href="#现象-2" class="headerlink" title="现象"></a>现象</h3><p>经过防火墙时，传输稍微大一点的文件发现无法传输；</p>
+<p>其他如果是因为工具限制或者协议限制的情况不考虑，这些比较好判断。</p>
+<h3 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h3><p><code>可能是因为MTU设置太小导致的，数据帧大于MTU被丢弃</code></p>
+<ul>
+<li>调整MTU大小即可</li>
+</ul>
 ]]></content>
       <categories>
         <category>防火墙排障经验</category>
       </categories>
       <tags>
-        <tag>过防火墙异常</tag>
+        <tag>防火墙</tag>
+        <tag>排障</tag>
       </tags>
   </entry>
   <entry>
