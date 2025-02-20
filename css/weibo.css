@@ -67,7 +67,7 @@
 }
 
 .weibo-title {
-    max-width: 180px;
+    max-width: auto;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -75,7 +75,8 @@
 }
 
 .weibo-num {
-    float: right
+    float: right;
+    white-space: nowrap;
 }
 
 .weibo-hotness {
