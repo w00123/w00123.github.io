@@ -87,7 +87,7 @@
 }
 
 #weibo-container a {
-    color: #555;
+    color: #fff;
 }
 
 [data-theme='dark'] #weibo-container a {
