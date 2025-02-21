@@ -972,7 +972,7 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>kali-cupp字典生成工具</title>
+    <title>字典生成工具</title>
     <url>/2025/02/21/kali-cupp%E5%AD%97%E5%85%B8%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>kali有很多字典生成工具，这里主要说cupp这个工具，他是一款社交工程学字典生成工具，可以根据目标用户的个人信息生成定制的密码字典，</p>
 <h2 id="cupp"><a href="#cupp" class="headerlink" title="cupp"></a>cupp</h2><h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>输入命令根据提示输入提示词即可</p>
@@ -982,7 +982,15 @@ hydra -m cloud -P 密码字典 IP cisco-enable
 <blockquote>
 <p>是否启用“Leet 模式”？（例如：leet &#x3D; 1337）<br>如果选择 Y，CUPP 会将单词中的某些字母替换为数字或特殊字符，以生成“Leet Speak”（1337 语言）。<br>例如：<br>a 替换为 4<br>e 替换为 3<br>i 替换为 1<br>o 替换为 0<br>s 替换为 5<br>t 替换为 7<br>例如，单词 password 会被替换为 p@ssw0rd 或 p@ssw0rd7 等。</p>
 </blockquote>
-]]></content>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="SocialEngineeringDictionaryGenerator"><a href="#SocialEngineeringDictionaryGenerator" class="headerlink" title="SocialEngineeringDictionaryGenerator"></a>SocialEngineeringDictionaryGenerator</h3><p>下载<code>index.html</code>打开即可使用；</p>
+<blockquote>
+<p>来自CN-SEC中文网:<br><a href="https://cn-sec.com/archives/2202717.html">https://cn-sec.com/archives/2202717.html</a></p>
+</blockquote>
+<blockquote>
+<p>项目地址：<br><a href="https://github.com/zgjx6/SocialEngineeringDictionaryGenerator">https://github.com/zgjx6/SocialEngineeringDictionaryGenerator</a></p>
+</blockquote>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>注：工具仅供安全研究与学习之用，若将工具做其他用途，由使用者承担全部法律及连带责任，作者及发布者不承担任何法律及连带责任。</p>
+</div>]]></content>
       <categories>
         <category>网络安全</category>
         <category>kali</category>
@@ -991,6 +999,7 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       <tags>
         <tag>kali</tag>
         <tag>cupp</tag>
+        <tag>字典</tag>
       </tags>
   </entry>
   <entry>
