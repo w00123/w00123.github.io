@@ -693,6 +693,45 @@ hexo d
       </tags>
   </entry>
   <entry>
+    <title>hexo-butterfly美化</title>
+    <url>/2024/08/03/hexo-butterfly%E7%BE%8E%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="hexo博客一图流"><a href="#hexo博客一图流" class="headerlink" title="hexo博客一图流"></a>hexo博客一图流</h2><h3 id="实现效果展示"><a href="#实现效果展示" class="headerlink" title="实现效果展示"></a>实现效果展示</h3><p>头部背景与主体部分背景无缝连接<br><img src="/images/pasted-22.png" alt="upload successful"></p>
+<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><p>通过开启butterfly主题留下的inject模块功能</p>
+<h4 id="添加css代码"><a href="#添加css代码" class="headerlink" title="添加css代码"></a>添加css代码</h4><p>先在主题的css文件夹中创建custom.css文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd /themes/butterfly/source/css/</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-24.png" alt="upload successful"></p>
+<p>编辑让顶部背景和页脚背景透明的css文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim custom.css</span><br><span class="line">#footer &#123;</span><br><span class="line">	background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">#page-header &#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#footer::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">#page-header::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[data-theme＝&quot;dark&quot;] #footer::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">[data-theme＝&quot;dark&quot;] #page-header::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="config-yml中开启inject部分功能"><a href="#config-yml中开启inject部分功能" class="headerlink" title="_config.yml中开启inject部分功能"></a>_config.yml中开启inject部分功能</h4><p>将head部分注释取消<br><img src="/images/pasted-23.png" alt="upload successful"></p>
+<h4 id="更换背景"><a href="#更换背景" class="headerlink" title="更换背景"></a>更换背景</h4><p>vim搜索背景，更换background</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /hexo/themes/butterfly/_config.yml</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-25.png" alt="upload successful"></p>
+<h3 id="效果实现"><a href="#效果实现" class="headerlink" title="效果实现"></a>效果实现</h3><h4 id="启动hexo查看效果"><a href="#启动hexo查看效果" class="headerlink" title="启动hexo查看效果"></a>启动hexo查看效果</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<p>刷新页面<br><img src="/images/pasted-22.png" alt="upload successful"></p>
+<h2 id="文章封面"><a href="#文章封面" class="headerlink" title="文章封面"></a>文章封面</h2><h3 id="封面"><a href="#封面" class="headerlink" title="封面"></a>封面</h3><p>修改部分为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line">cover:</span><br><span class="line">  #display the cover or not (是否顯示文章封面)</span><br><span class="line">  index_enable: false	#首页</span><br><span class="line">  aside_enable: false	#侧边</span><br><span class="line">  archives_enable: false#归档</span><br><span class="line">  #the position of cover in home page (封面顯示的位置)</span><br><span class="line">  #left/right/both</span><br><span class="line">  position: both</span><br><span class="line">  #When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)</span><br><span class="line">  default_cover: </span><br><span class="line">    # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h3><p>分页，也就是文章内中显示的下一页上一页按钮，可通过配置文章封面显示图片，也可以通过设置主题色改变其颜色。</p>
+<h2 id="置顶文章滚动页"><a href="#置顶文章滚动页" class="headerlink" title="置顶文章滚动页"></a>置顶文章滚动页</h2><h3 id="NPM-插件安装"><a href="#NPM-插件安装" class="headerlink" title="NPM 插件安装"></a>NPM 插件安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-swiper-bar --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="新增网站根目录-config-配置项-不是主题的"><a href="#新增网站根目录-config-配置项-不是主题的" class="headerlink" title="新增网站根目录_config 配置项 (不是主题的)"></a>新增网站根目录_config 配置项 (不是主题的)</h3><p>添加以下代码</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  priority: 2</span><br><span class="line">  enable_page: /</span><br><span class="line">  layout:</span><br><span class="line">    <span class="built_in">type</span>: <span class="built_in">id</span></span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  temple_html: <span class="string">&#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;height: auto;width: 100%&quot;&gt;&lt;div class=&quot;blog-slider swiper-container-fade swiper-container-horizontal&quot; id=&quot;swiper_container&quot;&gt;$&#123;temple_html_item&#125;&lt;/div&gt;&lt;/div&gt;&#x27;</span></span><br><span class="line">  plus_style: <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>相关含义小冰老师解释的很详细<br><a href="https://zfe.space/post/hexo-swiper.html">https://zfe.space/post/hexo-swiper.html</a></p>
+</blockquote>
+<h3 id="最后在文章中加入以下内容"><a href="#最后在文章中加入以下内容" class="headerlink" title="最后在文章中加入以下内容"></a>最后在文章中加入以下内容</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper_index: 8</span><br><span class="line">swiper_desc: 简单好用的 hexo 博客文章置顶插件！</span><br><span class="line">swiper_cover: /images/letter/p.png</span><br></pre></td></tr></table></figure>
+<p>最后一行可不写，默认使用文章封面</p>
+<h2 id="主题色"><a href="#主题色" class="headerlink" title="主题色"></a>主题色</h2><p>修改以下内容即可</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line"> theme_color:</span><br><span class="line">   enable: true</span><br><span class="line">   main: &quot;#49B1F5&quot;</span><br><span class="line">   paginator: &quot;#00c4b6&quot;</span><br><span class="line">   button_hover: &quot;#FF7242&quot;</span><br><span class="line">   text_selection: &quot;#00c4b6&quot;</span><br><span class="line">   link_color: &quot;#99a9bf&quot;</span><br><span class="line">   meta_color: &quot;#858585&quot;</span><br><span class="line">   hr_color: &quot;#A4D8FA&quot;</span><br><span class="line">   code_foreground: &quot;#F47466&quot;</span><br><span class="line">   code_background: &quot;rgba(27, 31, 35, .05)&quot;</span><br><span class="line">   toc_color: &quot;#00c4b6&quot;</span><br><span class="line">   blockquote_padding_color: &quot;#49b1f5&quot;</span><br><span class="line">   blockquote_background_color: &quot;#49b1f5&quot;</span><br><span class="line">   scrollbar_color: &quot;#49b1f5&quot;</span><br><span class="line">   meta_theme_color_light: &quot;ffffff&quot;</span><br><span class="line">   meta_theme_color_dark: &quot;#0d0d0d&quot;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo-github贡献日历</title>
     <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
     <content><![CDATA[<h2 id="预览"><a href="#预览" class="headerlink" title="预览"></a>预览</h2><p><img src="/images/pasted-84.png" alt="upload successful"></p>
@@ -786,45 +825,6 @@ hexo d
 
 <h2 id="调整侧边栏顺序"><a href="#调整侧边栏顺序" class="headerlink" title="调整侧边栏顺序"></a>调整侧边栏顺序</h2><p>调整<code>sort_order</code>大小即可，数字越大越前，要把公告后的卡片都加上数字（有的资料说是越小越前，但是我测试不是，反正能用就行）</p>
 ]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo-butterfly美化</title>
-    <url>/2024/08/03/hexo%E4%B8%80%E5%9B%BE%E6%B5%81%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="hexo博客一图流"><a href="#hexo博客一图流" class="headerlink" title="hexo博客一图流"></a>hexo博客一图流</h2><h3 id="实现效果展示"><a href="#实现效果展示" class="headerlink" title="实现效果展示"></a>实现效果展示</h3><p>头部背景与主体部分背景无缝连接<br><img src="/images/pasted-22.png" alt="upload successful"></p>
-<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><p>通过开启butterfly主题留下的inject模块功能</p>
-<h4 id="添加css代码"><a href="#添加css代码" class="headerlink" title="添加css代码"></a>添加css代码</h4><p>先在主题的css文件夹中创建custom.css文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd /themes/butterfly/source/css/</span><br></pre></td></tr></table></figure>
-<p><img src="/images/pasted-24.png" alt="upload successful"></p>
-<p>编辑让顶部背景和页脚背景透明的css文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim custom.css</span><br><span class="line">#footer &#123;</span><br><span class="line">	background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">#page-header &#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#footer::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">#page-header::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[data-theme＝&quot;dark&quot;] #footer::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">[data-theme＝&quot;dark&quot;] #page-header::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="config-yml中开启inject部分功能"><a href="#config-yml中开启inject部分功能" class="headerlink" title="_config.yml中开启inject部分功能"></a>_config.yml中开启inject部分功能</h4><p>将head部分注释取消<br><img src="/images/pasted-23.png" alt="upload successful"></p>
-<h4 id="更换背景"><a href="#更换背景" class="headerlink" title="更换背景"></a>更换背景</h4><p>vim搜索背景，更换background</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /hexo/themes/butterfly/_config.yml</span><br></pre></td></tr></table></figure>
-<p><img src="/images/pasted-25.png" alt="upload successful"></p>
-<h3 id="效果实现"><a href="#效果实现" class="headerlink" title="效果实现"></a>效果实现</h3><h4 id="启动hexo查看效果"><a href="#启动hexo查看效果" class="headerlink" title="启动hexo查看效果"></a>启动hexo查看效果</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<p>刷新页面<br><img src="/images/pasted-22.png" alt="upload successful"></p>
-<h2 id="文章封面"><a href="#文章封面" class="headerlink" title="文章封面"></a>文章封面</h2><h3 id="封面"><a href="#封面" class="headerlink" title="封面"></a>封面</h3><p>修改部分为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line">cover:</span><br><span class="line">  #display the cover or not (是否顯示文章封面)</span><br><span class="line">  index_enable: false	#首页</span><br><span class="line">  aside_enable: false	#侧边</span><br><span class="line">  archives_enable: false#归档</span><br><span class="line">  #the position of cover in home page (封面顯示的位置)</span><br><span class="line">  #left/right/both</span><br><span class="line">  position: both</span><br><span class="line">  #When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)</span><br><span class="line">  default_cover: </span><br><span class="line">    # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg</span><br></pre></td></tr></table></figure>
-
-<h3 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h3><p>分页，也就是文章内中显示的下一页上一页按钮，可通过配置文章封面显示图片，也可以通过设置主题色改变其颜色。</p>
-<h2 id="置顶文章滚动页"><a href="#置顶文章滚动页" class="headerlink" title="置顶文章滚动页"></a>置顶文章滚动页</h2><h3 id="NPM-插件安装"><a href="#NPM-插件安装" class="headerlink" title="NPM 插件安装"></a>NPM 插件安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-swiper-bar --save</span><br></pre></td></tr></table></figure>
-
-<h3 id="新增网站根目录-config-配置项-不是主题的"><a href="#新增网站根目录-config-配置项-不是主题的" class="headerlink" title="新增网站根目录_config 配置项 (不是主题的)"></a>新增网站根目录_config 配置项 (不是主题的)</h3><p>添加以下代码</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  priority: 2</span><br><span class="line">  enable_page: /</span><br><span class="line">  layout:</span><br><span class="line">    <span class="built_in">type</span>: <span class="built_in">id</span></span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  temple_html: <span class="string">&#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;height: auto;width: 100%&quot;&gt;&lt;div class=&quot;blog-slider swiper-container-fade swiper-container-horizontal&quot; id=&quot;swiper_container&quot;&gt;$&#123;temple_html_item&#125;&lt;/div&gt;&lt;/div&gt;&#x27;</span></span><br><span class="line">  plus_style: <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>相关含义小冰老师解释的很详细<br><a href="https://zfe.space/post/hexo-swiper.html">https://zfe.space/post/hexo-swiper.html</a></p>
-</blockquote>
-<h3 id="最后在文章中加入以下内容"><a href="#最后在文章中加入以下内容" class="headerlink" title="最后在文章中加入以下内容"></a>最后在文章中加入以下内容</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper_index: 8</span><br><span class="line">swiper_desc: 简单好用的 hexo 博客文章置顶插件！</span><br><span class="line">swiper_cover: /images/letter/p.png</span><br></pre></td></tr></table></figure>
-<p>最后一行可不写，默认使用文章封面</p>
-<h2 id="主题色"><a href="#主题色" class="headerlink" title="主题色"></a>主题色</h2><p>修改以下内容即可</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line"> theme_color:</span><br><span class="line">   enable: true</span><br><span class="line">   main: &quot;#49B1F5&quot;</span><br><span class="line">   paginator: &quot;#00c4b6&quot;</span><br><span class="line">   button_hover: &quot;#FF7242&quot;</span><br><span class="line">   text_selection: &quot;#00c4b6&quot;</span><br><span class="line">   link_color: &quot;#99a9bf&quot;</span><br><span class="line">   meta_color: &quot;#858585&quot;</span><br><span class="line">   hr_color: &quot;#A4D8FA&quot;</span><br><span class="line">   code_foreground: &quot;#F47466&quot;</span><br><span class="line">   code_background: &quot;rgba(27, 31, 35, .05)&quot;</span><br><span class="line">   toc_color: &quot;#00c4b6&quot;</span><br><span class="line">   blockquote_padding_color: &quot;#49b1f5&quot;</span><br><span class="line">   blockquote_background_color: &quot;#49b1f5&quot;</span><br><span class="line">   scrollbar_color: &quot;#49b1f5&quot;</span><br><span class="line">   meta_theme_color_light: &quot;ffffff&quot;</span><br><span class="line">   meta_theme_color_dark: &quot;#0d0d0d&quot;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>hexo博客</category>
       </categories>
@@ -1729,6 +1729,51 @@ run
       <tags>
         <tag>web信息收集</tag>
         <tag>web安全攻防笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows-好用软件</title>
+    <url>/2025/02/24/windows-%E5%A5%BD%E7%94%A8%E8%BD%AF%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="U盘工具"><a href="#U盘工具" class="headerlink" title="U盘工具"></a>U盘工具</h2><h3 id="rufus"><a href="#rufus" class="headerlink" title="rufus"></a>rufus</h3><blockquote>
+<p>下载地址：<br><a href="https://rufus.ie/zh/">https://rufus.ie/zh/</a></p>
+</blockquote>
+<hr>
+<h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><h3 id="7zip"><a href="#7zip" class="headerlink" title="7zip"></a>7zip</h3><blockquote>
+<p>下载地址：<br><a href="https://www.7-zip.org/">https://www.7-zip.org/</a></p>
+</blockquote>
+<hr>
+<h2 id="ssh远程工具"><a href="#ssh远程工具" class="headerlink" title="ssh远程工具"></a>ssh远程工具</h2><h3 id="mobaxterm"><a href="#mobaxterm" class="headerlink" title="mobaxterm"></a>mobaxterm</h3><blockquote>
+<p>下载地址：<br><a href="https://mobaxterm.mobatek.net/download.html">https://mobaxterm.mobatek.net/download.html</a></p>
+</blockquote>
+<hr>
+<h2 id="ps手柄驱动"><a href="#ps手柄驱动" class="headerlink" title="ps手柄驱动"></a>ps手柄驱动</h2><h3 id="ds4-windows"><a href="#ds4-windows" class="headerlink" title="ds4-windows"></a>ds4-windows</h3><p>windows使用ps手柄，会和steam冲突</p>
+<blockquote>
+<p>下载地址：<br><a href="https://ds4-windows.com/download/ryochan7-ds4windows/">https://ds4-windows.com/download/ryochan7-ds4windows/</a></p>
+</blockquote>
+<hr>
+<h2 id="远程同屏游戏"><a href="#远程同屏游戏" class="headerlink" title="远程同屏游戏"></a>远程同屏游戏</h2><h3 id="Parsec"><a href="#Parsec" class="headerlink" title="Parsec"></a>Parsec</h3><blockquote>
+<p>下载地址：<br><a href="https://parsec.app/downloads">https://parsec.app/downloads</a></p>
+</blockquote>
+<hr>
+<h2 id="文件检索"><a href="#文件检索" class="headerlink" title="文件检索"></a>文件检索</h2><h3 id="everything"><a href="#everything" class="headerlink" title="everything"></a>everything</h3><blockquote>
+<p>下载地址：<br><a href="https://www.voidtools.com/zh-cn/downloads/">https://www.voidtools.com/zh-cn/downloads/</a></p>
+</blockquote>
+<hr>
+<h2 id="控制手机"><a href="#控制手机" class="headerlink" title="控制手机"></a>控制手机</h2><h3 id="anlink"><a href="#anlink" class="headerlink" title="anlink"></a>anlink</h3><p>可以在windows应用商店下载安装</p>
+<blockquote>
+<p>下载地址：<br><a href="https://cn.anlinksoft.com/">https://cn.anlinksoft.com/</a></p>
+</blockquote>
+<hr>
+<h2 id="ftp"><a href="#ftp" class="headerlink" title="ftp"></a>ftp</h2><h3 id="universal-ftp-server"><a href="#universal-ftp-server" class="headerlink" title="universal ftp server"></a>universal ftp server</h3><blockquote>
+<p>下载地址：<br>windows应用商店</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>好用软件</category>
+      </categories>
+      <tags>
+        <tag>资源</tag>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
