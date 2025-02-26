@@ -693,6 +693,70 @@ hexo d
       </tags>
   </entry>
   <entry>
+    <title>hashcat爆破压缩包</title>
+    <url>/2025/02/26/hashcat%E7%88%86%E7%A0%B4%E5%8E%8B%E7%BC%A9%E5%8C%85/</url>
+    <content><![CDATA[<h2 id="hashcat下载"><a href="#hashcat下载" class="headerlink" title="hashcat下载"></a>hashcat下载</h2><p>windows需要下载两个工具，一个<code>hashcat</code>，一个<code>John the Ripper</code>，下面是下载地址：</p>
+<blockquote>
+<p>hashcat<br><a href="https://hashcat.net/hashcat/">https://hashcat.net/hashcat/</a></p>
+</blockquote>
+<blockquote>
+<p>John the Ripper<br><a href="https://www.openwall.com/john/">https://www.openwall.com/john/</a></p>
+</blockquote>
+<h2 id="hashcat使用"><a href="#hashcat使用" class="headerlink" title="hashcat使用"></a>hashcat使用</h2><h3 id="获取hash值"><a href="#获取hash值" class="headerlink" title="获取hash值"></a>获取hash值</h3><ol>
+<li><p>通过John the Ripper工具获取hash</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rar2john.exe &lt;文件名&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过windows命令获取md5值</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">certutil -hashfile &lt;文件&gt; MD5</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ol>
+<li><p>-m<br>选择hash模式，通过hash值计算，可以通过命令自动运算</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hashcat &lt;hash值&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>-a<br>选择攻击模式</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-a 0</td>
+<td align="left">字典破解</td>
+</tr>
+<tr>
+<td align="center">-a 1</td>
+<td align="left">多字典组合破解</td>
+</tr>
+<tr>
+<td align="center">-a 3</td>
+<td align="left">掩码破解</td>
+</tr>
+<tr>
+<td align="center">-a 6</td>
+<td align="left">字典+掩码破解</td>
+</tr>
+<tr>
+<td align="center">-a 7</td>
+<td align="left">掩码+字典破解</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h3 id="限制密码长度范围爆破"><a href="#限制密码长度范围爆破" class="headerlink" title="限制密码长度范围爆破"></a>限制密码长度范围爆破</h3><p>rar hash值爆破</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hashcat -m 13000 -a 3 &lt;hash值&gt; ?a?a?a?a?a?a --increment --increment-min 4 --increment-max 6</span><br></pre></td></tr></table></figure>
+
+<h3 id="MD5未知密码爆破"><a href="#MD5未知密码爆破" class="headerlink" title="MD5未知密码爆破"></a>MD5未知密码爆破</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hash -m 0 -a 3 &lt;MD5值&gt; -O</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>hashcat</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo-butterfly美化</title>
     <url>/2024/08/03/hexo-butterfly%E7%BE%8E%E5%8C%96/</url>
     <content><![CDATA[<h2 id="hexo博客一图流"><a href="#hexo博客一图流" class="headerlink" title="hexo博客一图流"></a>hexo博客一图流</h2><h3 id="实现效果展示"><a href="#实现效果展示" class="headerlink" title="实现效果展示"></a>实现效果展示</h3><p>头部背景与主体部分背景无缝连接<br><img src="/images/pasted-22.png" alt="upload successful"></p>
@@ -941,37 +1005,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>java-linux切换安装版本</title>
-    <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
-    <content><![CDATA[<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><ol>
-<li><p>更新</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>下载<br>默认jdk</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure>
-<p>指定版本</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="切换版本"><a href="#切换版本" class="headerlink" title="切换版本"></a>切换版本</h2><ol>
-<li>如果安装了多个java版本，查看的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --list java</span><br></pre></td></tr></table></figure></li>
-<li>切换的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>根据需要填写编号即可。</p>
-</blockquote>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>环境</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>字典生成工具</title>
     <url>/2025/02/21/kali-cupp%E5%AD%97%E5%85%B8%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>kali有很多字典生成工具，这里主要说cupp这个工具，他是一款社交工程学字典生成工具，可以根据目标用户的个人信息生成定制的密码字典，</p>
@@ -1000,6 +1033,37 @@ hydra -m cloud -P 密码字典 IP cisco-enable
         <tag>kali</tag>
         <tag>cupp</tag>
         <tag>字典</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>java-linux切换安装版本</title>
+    <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
+    <content><![CDATA[<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><ol>
+<li><p>更新</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载<br>默认jdk</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure>
+<p>指定版本</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="切换版本"><a href="#切换版本" class="headerlink" title="切换版本"></a>切换版本</h2><ol>
+<li>如果安装了多个java版本，查看的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --list java</span><br></pre></td></tr></table></figure></li>
+<li>切换的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>根据需要填写编号即可。</p>
+</blockquote>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>环境</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -1780,12 +1844,9 @@ run
     <title>压缩包密码爆破</title>
     <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="使用zip2john-hash值破解"><a href="#使用zip2john-hash值破解" class="headerlink" title="使用zip2john hash值破解"></a>使用zip2john hash值破解</h2><p>生成压缩包hash值</p>
-<pre><code>zip2john filename.zip &gt; hash.txt
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip2john filename.zip &gt; hash.txt</span><br></pre></td></tr></table></figure>
 <p>开始破解</p>
-<pre><code>john hash.txt
-</code></pre>
-]]></content>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">john hash.txt</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>网络安全</category>
         <category>kali</category>
@@ -1793,6 +1854,7 @@ run
       <tags>
         <tag>网络安全</tag>
         <tag>kali</tag>
+        <tag>hashcat</tag>
       </tags>
   </entry>
   <entry>
