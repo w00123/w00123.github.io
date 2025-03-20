@@ -589,43 +589,6 @@ admin/password
       </tags>
   </entry>
   <entry>
-    <title>分区命令</title>
-    <url>/2025/01/15/fdisk/</url>
-    <content><![CDATA[<h2 id="fdisk"><a href="#fdisk" class="headerlink" title="fdisk"></a>fdisk</h2><h3 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h3><p>fdisk 路径 参数</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
-
-<p>一般配合使用的有<br>df -h<br>lsblk<br>mkfs.ext4<br>…….</p>
-<h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
-
-<h2 id="逻辑卷"><a href="#逻辑卷" class="headerlink" title="逻辑卷"></a>逻辑卷</h2><p>创建常用命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br><span class="line"></span><br><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
-
-
-<p>删除常用命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
-
-<h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><h3 id="设备或资源忙"><a href="#设备或资源忙" class="headerlink" title="设备或资源忙"></a>设备或资源忙</h3><p>如果有返回：</p>
-<pre><code>The partition table has been altered!
-
-Calling ioctl() to re-read partition table.
-
-WARNING: Re-reading the partition table failed with error 16: 设备或资源忙.
-The kernel still uses the old table. The new table will be used at
-the next reboot or after you run partprobe(8) or kpartx(8)
-</code></pre>
-<p>重新识别磁盘即可</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">partprobe /dev/sdb</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ettercap arp欺骗+dns劫持+钓鱼网站</title>
     <url>/2024/10/15/ettercap-arp%E6%AC%BA%E9%AA%97-dns%E5%8A%AB%E6%8C%81-%E9%92%93%E9%B1%BC%E7%BD%91%E7%AB%99/</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>这次主要是使用ettercap在局域网中发现主机并欺骗其arp表，让其mac地址与攻击主机mac一致，使用dns污染其dns解析，将其访问的域名解析到本机的钓鱼网站中。</p>
@@ -672,6 +635,92 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       <tags>
         <tag>kali</tag>
         <tag>ettercap</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分区命令</title>
+    <url>/2025/01/15/fdisk/</url>
+    <content><![CDATA[<h2 id="fdisk"><a href="#fdisk" class="headerlink" title="fdisk"></a>fdisk</h2><h3 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h3><p>fdisk 路径 参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
+
+<p>一般配合使用的有<br>df -h<br>lsblk<br>mkfs.ext4<br>…….</p>
+<h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
+
+<h2 id="逻辑卷"><a href="#逻辑卷" class="headerlink" title="逻辑卷"></a>逻辑卷</h2><p>创建常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br><span class="line"></span><br><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
+
+
+<p>删除常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
+
+<h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><h3 id="设备或资源忙"><a href="#设备或资源忙" class="headerlink" title="设备或资源忙"></a>设备或资源忙</h3><p>如果有返回：</p>
+<pre><code>The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 16: 设备或资源忙.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+</code></pre>
+<p>重新识别磁盘即可</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">partprobe /dev/sdb</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>github部署hexo</title>
+    <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
+    <content><![CDATA[<h2 id="本地ssh连接-GitHub"><a href="#本地ssh连接-GitHub" class="headerlink" title="本地ssh连接 GitHub"></a>本地ssh连接 GitHub</h2><h4 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h4><p>确保下载了git后输入命令</p>
+<pre><code>git config --global user.name &quot;你的 GitHub 用户名&quot;
+git config --global user.email &quot;你的 GitHub 邮箱&quot;
+</code></pre>
+<p>创建 SSH 密匙（可以-f指定输出目录）</p>
+<pre><code>ssh-keygen -t rsa -C &quot;你的 GitHub 邮箱&quot;
+</code></pre>
+<p>什么都不用管，一路回车就行，创建好之后可以在.ssh看到有id_rsa.pub(.pub是公钥，id_rsa是私钥)。<br>打开 id_rsa.pub 并复制里面的内容。</p>
+<h4 id="在-GitHub-中添加-SSH-密钥"><a href="#在-GitHub-中添加-SSH-密钥" class="headerlink" title="在 GitHub 中添加 SSH 密钥"></a>在 GitHub 中添加 SSH 密钥</h4><p>回到 GitHub，进入 Settings：<br><img src="/images/pasted-11.png" alt="upload successful"></p>
+<p>选择左边栏的 SSH and GPG keys，点击 New SSH key：<br><img src="/images/pasted-12.png" alt="upload successful"></p>
+<p>Title 随便取，然后把 id_rsa.pub 里面的内容到复制到 Key 中，点击 Add SSH key：<br><img src="/images/pasted-13.png" alt="upload successful"></p>
+<p>保存完毕本地验证一下连接</p>
+<pre><code>ssh -T git@github.com
+</code></pre>
+<p>出现 “Are you sure……”，输入 yes 回车确认，若出现下图的提示即连接成功：<br><img src="/images/pasted-14.png" alt="upload successful"></p>
+<h2 id="创建-GitHub-仓库"><a href="#创建-GitHub-仓库" class="headerlink" title="创建 GitHub 仓库"></a>创建 GitHub 仓库</h2><p>GitHub 的主页 repository 中点击右上角的 New：<br><img src="/images/pasted-15.png" alt="upload successful"></p>
+<p>填写基本信息:<br>Repository name 中输入用户名.github.io，一定要是这个名字！<br>勾选 Add a README file<br><img src="/images/pasted-16.png" alt="upload successful"></p>
+<p>填好后点击 Create repository 创建仓库</p>
+<h2 id="上传-hexo-程序到-GitHub"><a href="#上传-hexo-程序到-GitHub" class="headerlink" title="上传 hexo 程序到 GitHub"></a>上传 hexo 程序到 GitHub</h2><p>需要先安装 hexo-deployer-git：</p>
+<pre><code>npm install hexo-deployer-git --save
+</code></pre>
+<p>修改_config.yml 文件末尾的 Deployment 部分：<br><img src="/images/pasted-17.png" alt="upload successful"></p>
+<p>修改成如下（修改为你的用户名与仓库名）<br><img src="/images/pasted-18.png" alt="upload successful"></p>
+<pre><code>deploy:
+  type: git
+  repo: git@github.com:w00123/w00123.github.io.git
+  branch: gh-pages
+</code></pre>
+<p>修改完成保存后运行</p>
+<pre><code>hexo c
+hexo d
+</code></pre>
+<p>出现下面的提示说明已经把网站上传到 GitHub 了：<br><img src="/images/pasted-19.png" alt="upload successful"></p>
+<p>然后我们需要在库设置（Repository Settings）中将默认分支设置为_config.yml 配置中的分支名称。<br><img src="/images/pasted-20.png" alt="upload successful"></p>
+<p>然后在 pages 页面调整源分支：<br><img src="/images/pasted-21.png" alt="upload successful"></p>
+<p>访问用户名.github.io就可以看到默认 hexo 了。</p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>github</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -741,81 +790,6 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       </tags>
   </entry>
   <entry>
-    <title>github部署hexo</title>
-    <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
-    <content><![CDATA[<h2 id="本地ssh连接-GitHub"><a href="#本地ssh连接-GitHub" class="headerlink" title="本地ssh连接 GitHub"></a>本地ssh连接 GitHub</h2><h4 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h4><p>确保下载了git后输入命令</p>
-<pre><code>git config --global user.name &quot;你的 GitHub 用户名&quot;
-git config --global user.email &quot;你的 GitHub 邮箱&quot;
-</code></pre>
-<p>创建 SSH 密匙（可以-f指定输出目录）</p>
-<pre><code>ssh-keygen -t rsa -C &quot;你的 GitHub 邮箱&quot;
-</code></pre>
-<p>什么都不用管，一路回车就行，创建好之后可以在.ssh看到有id_rsa.pub(.pub是公钥，id_rsa是私钥)。<br>打开 id_rsa.pub 并复制里面的内容。</p>
-<h4 id="在-GitHub-中添加-SSH-密钥"><a href="#在-GitHub-中添加-SSH-密钥" class="headerlink" title="在 GitHub 中添加 SSH 密钥"></a>在 GitHub 中添加 SSH 密钥</h4><p>回到 GitHub，进入 Settings：<br><img src="/images/pasted-11.png" alt="upload successful"></p>
-<p>选择左边栏的 SSH and GPG keys，点击 New SSH key：<br><img src="/images/pasted-12.png" alt="upload successful"></p>
-<p>Title 随便取，然后把 id_rsa.pub 里面的内容到复制到 Key 中，点击 Add SSH key：<br><img src="/images/pasted-13.png" alt="upload successful"></p>
-<p>保存完毕本地验证一下连接</p>
-<pre><code>ssh -T git@github.com
-</code></pre>
-<p>出现 “Are you sure……”，输入 yes 回车确认，若出现下图的提示即连接成功：<br><img src="/images/pasted-14.png" alt="upload successful"></p>
-<h2 id="创建-GitHub-仓库"><a href="#创建-GitHub-仓库" class="headerlink" title="创建 GitHub 仓库"></a>创建 GitHub 仓库</h2><p>GitHub 的主页 repository 中点击右上角的 New：<br><img src="/images/pasted-15.png" alt="upload successful"></p>
-<p>填写基本信息:<br>Repository name 中输入用户名.github.io，一定要是这个名字！<br>勾选 Add a README file<br><img src="/images/pasted-16.png" alt="upload successful"></p>
-<p>填好后点击 Create repository 创建仓库</p>
-<h2 id="上传-hexo-程序到-GitHub"><a href="#上传-hexo-程序到-GitHub" class="headerlink" title="上传 hexo 程序到 GitHub"></a>上传 hexo 程序到 GitHub</h2><p>需要先安装 hexo-deployer-git：</p>
-<pre><code>npm install hexo-deployer-git --save
-</code></pre>
-<p>修改_config.yml 文件末尾的 Deployment 部分：<br><img src="/images/pasted-17.png" alt="upload successful"></p>
-<p>修改成如下（修改为你的用户名与仓库名）<br><img src="/images/pasted-18.png" alt="upload successful"></p>
-<pre><code>deploy:
-  type: git
-  repo: git@github.com:w00123/w00123.github.io.git
-  branch: gh-pages
-</code></pre>
-<p>修改完成保存后运行</p>
-<pre><code>hexo c
-hexo d
-</code></pre>
-<p>出现下面的提示说明已经把网站上传到 GitHub 了：<br><img src="/images/pasted-19.png" alt="upload successful"></p>
-<p>然后我们需要在库设置（Repository Settings）中将默认分支设置为_config.yml 配置中的分支名称。<br><img src="/images/pasted-20.png" alt="upload successful"></p>
-<p>然后在 pages 页面调整源分支：<br><img src="/images/pasted-21.png" alt="upload successful"></p>
-<p>访问用户名.github.io就可以看到默认 hexo 了。</p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>github</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo-github贡献日历</title>
-    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
-    <content><![CDATA[<h2 id="预览"><a href="#预览" class="headerlink" title="预览"></a>预览</h2><p><img src="/images/pasted-84.png" alt="upload successful"></p>
-<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><p>执行命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
-<h2 id="添加配置"><a href="#添加配置" class="headerlink" title="添加配置"></a>添加配置</h2><p>要放到hexo根目录下_config.yml文件，非主题:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
-
-<h2 id="自建api"><a href="#自建api" class="headerlink" title="自建api"></a>自建api</h2><blockquote>
-<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
-</blockquote>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
-</div>
-
-<h2 id="记录500错误处理方法"><a href="#记录500错误处理方法" class="headerlink" title="记录500错误处理方法"></a>记录500错误处理方法</h2><h4 id="进入项目选择setting"><a href="#进入项目选择setting" class="headerlink" title="进入项目选择setting"></a>进入项目选择setting</h4><p>下拉找到<code>Node.js Version</code>修改版本为18.0<br><img src="/images/pasted-82.png" alt="upload successful"></p>
-<h4 id="重新部署"><a href="#重新部署" class="headerlink" title="重新部署"></a>重新部署</h4><p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br><img src="/images/pasted-83.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo-butterfly美化</title>
     <url>/2024/08/03/hexo-butterfly%E7%BE%8E%E5%8C%96/</url>
     <content><![CDATA[<h2 id="hexo博客一图流"><a href="#hexo博客一图流" class="headerlink" title="hexo博客一图流"></a>hexo博客一图流</h2><h3 id="实现效果展示"><a href="#实现效果展示" class="headerlink" title="实现效果展示"></a>实现效果展示</h3><p>头部背景与主体部分背景无缝连接<br><img src="/images/pasted-22.png" alt="upload successful"></p>
@@ -846,6 +820,32 @@ hexo d
 <p>最后一行可不写，默认使用文章封面</p>
 <h2 id="主题色"><a href="#主题色" class="headerlink" title="主题色"></a>主题色</h2><p>修改以下内容即可</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line"> theme_color:</span><br><span class="line">   enable: true</span><br><span class="line">   main: &quot;#49B1F5&quot;</span><br><span class="line">   paginator: &quot;#00c4b6&quot;</span><br><span class="line">   button_hover: &quot;#FF7242&quot;</span><br><span class="line">   text_selection: &quot;#00c4b6&quot;</span><br><span class="line">   link_color: &quot;#99a9bf&quot;</span><br><span class="line">   meta_color: &quot;#858585&quot;</span><br><span class="line">   hr_color: &quot;#A4D8FA&quot;</span><br><span class="line">   code_foreground: &quot;#F47466&quot;</span><br><span class="line">   code_background: &quot;rgba(27, 31, 35, .05)&quot;</span><br><span class="line">   toc_color: &quot;#00c4b6&quot;</span><br><span class="line">   blockquote_padding_color: &quot;#49b1f5&quot;</span><br><span class="line">   blockquote_background_color: &quot;#49b1f5&quot;</span><br><span class="line">   scrollbar_color: &quot;#49b1f5&quot;</span><br><span class="line">   meta_theme_color_light: &quot;ffffff&quot;</span><br><span class="line">   meta_theme_color_dark: &quot;#0d0d0d&quot;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo-github贡献日历</title>
+    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
+    <content><![CDATA[<h2 id="预览"><a href="#预览" class="headerlink" title="预览"></a>预览</h2><p><img src="/images/pasted-84.png" alt="upload successful"></p>
+<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><p>执行命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
+<h2 id="添加配置"><a href="#添加配置" class="headerlink" title="添加配置"></a>添加配置</h2><p>要放到hexo根目录下_config.yml文件，非主题:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="自建api"><a href="#自建api" class="headerlink" title="自建api"></a>自建api</h2><blockquote>
+<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
+</blockquote>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
+</div>
+
+<h2 id="记录500错误处理方法"><a href="#记录500错误处理方法" class="headerlink" title="记录500错误处理方法"></a>记录500错误处理方法</h2><h4 id="进入项目选择setting"><a href="#进入项目选择setting" class="headerlink" title="进入项目选择setting"></a>进入项目选择setting</h4><p>下拉找到<code>Node.js Version</code>修改版本为18.0<br><img src="/images/pasted-82.png" alt="upload successful"></p>
+<h4 id="重新部署"><a href="#重新部署" class="headerlink" title="重新部署"></a>重新部署</h4><p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br><img src="/images/pasted-83.png" alt="upload successful"></p>
+]]></content>
       <categories>
         <category>hexo博客</category>
       </categories>
@@ -966,6 +966,46 @@ hexo d
       </tags>
   </entry>
   <entry>
+    <title>java-linux安装卸载</title>
+    <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
+    <content><![CDATA[<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><ol>
+<li><p>更新</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载<br>默认jdk</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure>
+<p>指定版本</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="切换版本"><a href="#切换版本" class="headerlink" title="切换版本"></a>切换版本</h2><ol>
+<li>如果安装了多个java版本，查看的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --list java</span><br></pre></td></tr></table></figure></li>
+<li>切换的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>根据需要填写编号即可。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h3 id="查看已有版本"><a href="#查看已有版本" class="headerlink" title="查看已有版本"></a>查看已有版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep -i &quot;jdk\|jre\|java&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h3><ol>
+<li><p>卸载</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt purge openjdk-11-jdk openjdk-11-jre</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除多余残余设置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt clean</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>环境</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hydra命令</title>
     <url>/2024/08/01/hydra%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h2><pre><code>-l login 小写，指定用户名进行破解
@@ -1035,46 +1075,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>渗透命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>java-linux安装卸载</title>
-    <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
-    <content><![CDATA[<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><ol>
-<li><p>更新</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>下载<br>默认jdk</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure>
-<p>指定版本</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="切换版本"><a href="#切换版本" class="headerlink" title="切换版本"></a>切换版本</h2><ol>
-<li>如果安装了多个java版本，查看的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --list java</span><br></pre></td></tr></table></figure></li>
-<li>切换的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>根据需要填写编号即可。</p>
-</blockquote>
-</li>
-</ol>
-<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h3 id="查看已有版本"><a href="#查看已有版本" class="headerlink" title="查看已有版本"></a>查看已有版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep -i &quot;jdk\|jre\|java&quot;</span><br></pre></td></tr></table></figure>
-
-<h3 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h3><ol>
-<li><p>卸载</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt purge openjdk-11-jdk openjdk-11-jre</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>删除多余残余设置</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt clean</span><br></pre></td></tr></table></figure></li>
-</ol>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>环境</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-        <tag>java</tag>
       </tags>
   </entry>
   <entry>
