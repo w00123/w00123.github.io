@@ -406,6 +406,65 @@ mysql:5.7
       </tags>
   </entry>
   <entry>
+    <title>CentOS Docker 安装</title>
+    <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h2 id="自动安装docker"><a href="#自动安装docker" class="headerlink" title="自动安装docker"></a>自动安装docker</h2><p>使用官方安装脚本自动安装：</p>
+<pre><code>curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+</code></pre>
+<p>国内安装命令：</p>
+<pre><code>curl -sSL https://get.daocloud.io/docker | sh
+</code></pre>
+<h2 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h2><h4 id="卸载旧版本"><a href="#卸载旧版本" class="headerlink" title="卸载旧版本"></a>卸载旧版本</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine 。如果已安装这些程序，请卸载它们以及相关的依赖项。</p>
+<pre><code>yum remove docker \
+      docker-client \
+      docker-client-latest \
+      docker-common \
+      docker-latest \
+      docker-latest-logrotate \
+      docker-logrotate \
+      docker-engine
+      
+</code></pre>
+<h2 id="安装-Docker-Engine-Community"><a href="#安装-Docker-Engine-Community" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h2><p>Docker Engine-Community：这是 Docker Engine 的开源社区版本，也是最常用的版本。Docker Engine 是 Docker 的核心组件，负责运行容器。Docker Engine-Community 是由 Docker, Inc. 提供的免费版本，适合个人开发者和小团队使用。</p>
+<h4 id="设置仓库"><a href="#设置仓库" class="headerlink" title="设置仓库"></a>设置仓库</h4><p>yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。</p>
+<pre><code>yum install -y yum-utils
+</code></pre>
+<p>设置仓库</p>
+<pre><code>官方源地址（比较慢）
+sudo yum-config-manager \
+--add-repo \
+https://download.docker.com/linux/centos/docker-ce.repo
+
+阿里云
+sudo yum-config-manager \
+--add-repo \
+https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+</code></pre>
+<h4 id="安装-Docker-Engine-Community-1"><a href="#安装-Docker-Engine-Community-1" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h4><p>最新版本安装</p>
+<pre><code>yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+</code></pre>
+<p>查看版本</p>
+<pre><code>yum list docker-ce --showduplicates | sort -r
+</code></pre>
+<p>指定版本安装（仅需修改26.1.1）</p>
+<pre><code>yum install docker-ce-26.1.1 docker-ce-cli-26.1.1.1 containerd.io
+</code></pre>
+<h2 id="卸载-docker"><a href="#卸载-docker" class="headerlink" title="卸载 docker"></a>卸载 docker</h2><p>删除安装包：</p>
+<pre><code>yum remove docker-ce
+</code></pre>
+<p>删除镜像、容器、配置文件等内容：</p>
+<pre><code>rm -rf /var/lib/docker
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker安装awvs并激活</title>
     <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
     <content><![CDATA[<h2 id="安装awvs"><a href="#安装awvs" class="headerlink" title="安装awvs"></a>安装awvs</h2><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><p>搜索</p>
@@ -497,65 +556,6 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       </categories>
       <tags>
         <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CentOS Docker 安装</title>
-    <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
-    <content><![CDATA[<h2 id="自动安装docker"><a href="#自动安装docker" class="headerlink" title="自动安装docker"></a>自动安装docker</h2><p>使用官方安装脚本自动安装：</p>
-<pre><code>curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-</code></pre>
-<p>国内安装命令：</p>
-<pre><code>curl -sSL https://get.daocloud.io/docker | sh
-</code></pre>
-<h2 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h2><h4 id="卸载旧版本"><a href="#卸载旧版本" class="headerlink" title="卸载旧版本"></a>卸载旧版本</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine 。如果已安装这些程序，请卸载它们以及相关的依赖项。</p>
-<pre><code>yum remove docker \
-      docker-client \
-      docker-client-latest \
-      docker-common \
-      docker-latest \
-      docker-latest-logrotate \
-      docker-logrotate \
-      docker-engine
-      
-</code></pre>
-<h2 id="安装-Docker-Engine-Community"><a href="#安装-Docker-Engine-Community" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h2><p>Docker Engine-Community：这是 Docker Engine 的开源社区版本，也是最常用的版本。Docker Engine 是 Docker 的核心组件，负责运行容器。Docker Engine-Community 是由 Docker, Inc. 提供的免费版本，适合个人开发者和小团队使用。</p>
-<h4 id="设置仓库"><a href="#设置仓库" class="headerlink" title="设置仓库"></a>设置仓库</h4><p>yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。</p>
-<pre><code>yum install -y yum-utils
-</code></pre>
-<p>设置仓库</p>
-<pre><code>官方源地址（比较慢）
-sudo yum-config-manager \
---add-repo \
-https://download.docker.com/linux/centos/docker-ce.repo
-
-阿里云
-sudo yum-config-manager \
---add-repo \
-https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-</code></pre>
-<h4 id="安装-Docker-Engine-Community-1"><a href="#安装-Docker-Engine-Community-1" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h4><p>最新版本安装</p>
-<pre><code>yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-</code></pre>
-<p>查看版本</p>
-<pre><code>yum list docker-ce --showduplicates | sort -r
-</code></pre>
-<p>指定版本安装（仅需修改26.1.1）</p>
-<pre><code>yum install docker-ce-26.1.1 docker-ce-cli-26.1.1.1 containerd.io
-</code></pre>
-<h2 id="卸载-docker"><a href="#卸载-docker" class="headerlink" title="卸载 docker"></a>卸载 docker</h2><p>删除安装包：</p>
-<pre><code>yum remove docker-ce
-</code></pre>
-<p>删除镜像、容器、配置文件等内容：</p>
-<pre><code>rm -rf /var/lib/docker
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -829,6 +829,32 @@ hexo d
       </tags>
   </entry>
   <entry>
+    <title>hexo-github贡献日历</title>
+    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
+    <content><![CDATA[<h2 id="预览"><a href="#预览" class="headerlink" title="预览"></a>预览</h2><p><img src="/images/pasted-84.png" alt="upload successful"></p>
+<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><p>执行命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
+<h2 id="添加配置"><a href="#添加配置" class="headerlink" title="添加配置"></a>添加配置</h2><p>要放到hexo根目录下_config.yml文件，非主题:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="自建api"><a href="#自建api" class="headerlink" title="自建api"></a>自建api</h2><blockquote>
+<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
+</blockquote>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
+</div>
+
+<h2 id="记录500错误处理方法"><a href="#记录500错误处理方法" class="headerlink" title="记录500错误处理方法"></a>记录500错误处理方法</h2><h4 id="进入项目选择setting"><a href="#进入项目选择setting" class="headerlink" title="进入项目选择setting"></a>进入项目选择setting</h4><p>下拉找到<code>Node.js Version</code>修改版本为18.0<br><img src="/images/pasted-82.png" alt="upload successful"></p>
+<h4 id="重新部署"><a href="#重新部署" class="headerlink" title="重新部署"></a>重新部署</h4><p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br><img src="/images/pasted-83.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo-书写</title>
     <url>/2025/02/08/hexo-%E4%B9%A6%E5%86%99/</url>
     <content><![CDATA[<h2 id="常用书写"><a href="#常用书写" class="headerlink" title="常用书写"></a>常用书写</h2><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">\```bash</span><br><span class="line"></span><br><span class="line">\```</span><br></pre></td></tr></table></figure>
@@ -895,32 +921,6 @@ hexo d
 <h3 id="加入卡片"><a href="#加入卡片" class="headerlink" title="加入卡片"></a>加入卡片</h3><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">aside:</span></span><br><span class="line"><span class="string">..........</span></span><br><span class="line">    <span class="attr">card_webinfo:</span></span><br><span class="line">        <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">post_count:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="调整侧边栏顺序"><a href="#调整侧边栏顺序" class="headerlink" title="调整侧边栏顺序"></a>调整侧边栏顺序</h2><p>调整<code>sort_order</code>大小即可，数字越大越前，要把公告后的卡片都加上数字（有的资料说是越小越前，但是我测试不是，反正能用就行）</p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo-github贡献日历</title>
-    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
-    <content><![CDATA[<h2 id="预览"><a href="#预览" class="headerlink" title="预览"></a>预览</h2><p><img src="/images/pasted-84.png" alt="upload successful"></p>
-<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><p>执行命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
-<h2 id="添加配置"><a href="#添加配置" class="headerlink" title="添加配置"></a>添加配置</h2><p>要放到hexo根目录下_config.yml文件，非主题:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
-
-<h2 id="自建api"><a href="#自建api" class="headerlink" title="自建api"></a>自建api</h2><blockquote>
-<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
-</blockquote>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
-</div>
-
-<h2 id="记录500错误处理方法"><a href="#记录500错误处理方法" class="headerlink" title="记录500错误处理方法"></a>记录500错误处理方法</h2><h4 id="进入项目选择setting"><a href="#进入项目选择setting" class="headerlink" title="进入项目选择setting"></a>进入项目选择setting</h4><p>下拉找到<code>Node.js Version</code>修改版本为18.0<br><img src="/images/pasted-82.png" alt="upload successful"></p>
-<h4 id="重新部署"><a href="#重新部署" class="headerlink" title="重新部署"></a>重新部署</h4><p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br><img src="/images/pasted-83.png" alt="upload successful"></p>
 ]]></content>
       <categories>
         <category>hexo博客</category>
@@ -2196,6 +2196,36 @@ run
       </categories>
       <tags>
         <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>笔记本无线网卡异常</title>
+    <url>/2025/03/22/%E7%AC%94%E8%AE%B0%E6%9C%AC%E6%97%A0%E7%BA%BF%E7%BD%91%E5%8D%A1%E5%BC%82%E5%B8%B8/</url>
+    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>这次遇到的问题现象是一开始网卡会时不时异常，通过重启和去除静电的方法会恢复正常，但是突然有一天就开始无法恢复了，始终保持异常的状态，怎么重新安装驱动都没用。</p>
+<p>但是主机是一直有识别到网卡的，设备管理显示黄色告警。</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><h3 id="拆机拔插网卡"><a href="#拆机拔插网卡" class="headerlink" title="拆机拔插网卡"></a>拆机拔插网卡</h3><p>网卡拆下来用纸巾擦干净，或者酒精，重新安装即恢复</p>
+<p><del>原本是一直用手机usb共享网络使用网络了，但是有一天突然想到小时候的小霸王游戏卡都是擦擦金手指解决的， 尝试后没想到真有用</del></p>
+<blockquote>
+<p>这个是我这次的问题解决办法，正常解决途径有以下方法</p>
+</blockquote>
+<h3 id="去除静电"><a href="#去除静电" class="headerlink" title="去除静电"></a>去除静电</h3><ol>
+<li>拔掉电脑上所有的线</li>
+<li>启动键一直按，按到关机后再按20秒</li>
+</ol>
+<p>操作成功后启动我的联想y7000键盘灯会是熄灭的</p>
+<h3 id="更新-重新下载网卡驱动"><a href="#更新-重新下载网卡驱动" class="headerlink" title="更新&#x2F;重新下载网卡驱动"></a>更新&#x2F;重新下载网卡驱动</h3><ul>
+<li>使用intel网卡驱动自动检测下载工具<blockquote>
+<p>下载地址：<br><a href="https://www.intel.cn/content/www/cn/zh/download/19351/intel-wireless-wi-fi-drivers-for-windows-10-and-windows-11.html">https://www.intel.cn/content/www/cn/zh/download/19351/intel-wireless-wi-fi-drivers-for-windows-10-and-windows-11.html</a><br>其他驱动：<br><a href="https://www.intel.cn/content/www/cn/zh/download-center/home.html">https://www.intel.cn/content/www/cn/zh/download-center/home.html</a></p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>笔记本维修</category>
+      </categories>
+      <tags>
+        <tag>笔记本无线网卡</tag>
+        <tag>维修</tag>
       </tags>
   </entry>
   <entry>
