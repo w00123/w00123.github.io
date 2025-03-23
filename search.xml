@@ -285,6 +285,25 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
+    <title>docker 卸载</title>
+    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
+    <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>deepseek-r1本地部署方法</title>
     <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h2 id="安装ollama"><a href="#安装ollama" class="headerlink" title="安装ollama"></a>安装ollama</h2><p>打开ollama官网，根据系统下载ollama软件：<br><a href="https://ollama.com/">https://ollama.com/</a><br><img src="/images/pasted-76.png" alt="upload successful"></p>
@@ -318,25 +337,6 @@ ansible_ssh_pass=123456 ##密码
 
 <h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
 ]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker 卸载</title>
-    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
-    <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
@@ -429,52 +429,6 @@ mysql:5.7
       </tags>
   </entry>
   <entry>
-    <title>docker安装awvs并激活</title>
-    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h2 id="安装awvs"><a href="#安装awvs" class="headerlink" title="安装awvs"></a>安装awvs</h2><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><p>搜索</p>
-<pre><code>docker search awvs
-</code></pre>
-<p>选择一个awvs镜像下载<br><img src="/images/pasted-35.png" alt="upload successful"></p>
-<p>选择secfa&#x2F;awvs的镜像</p>
-<pre><code>docker pull secfa/awvs
-docker images -a
-</code></pre>
-<h4 id="创建并启动容器"><a href="#创建并启动容器" class="headerlink" title="创建并启动容器"></a>创建并启动容器</h4><p>运行命令</p>
-<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
-</code></pre>
-<p>如果报错！（提示crack失败）<br>添加参数–cap-add LINUX_IMMUTABLE</p>
-<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
-</code></pre>
-<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><p>账号密码：</p>
-<pre><code>awvs username: admin@admin.com
-awvs password: Admin123
-</code></pre>
-<h2 id="激活"><a href="#激活" class="headerlink" title="激活"></a>激活</h2><p>需要下载破解版的两个文件替换，分别是：</p>
-<pre><code>license_info.json
-wa_data.dat
-</code></pre>
-<p>windows和linux文件通用<br>替换目录为容器内目录：</p>
-<pre><code>/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>文件传输进入容器命令为：</p>
-<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
-docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>重启容器</p>
-<pre><code>docker restart 容器id
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>awvs安装</tag>
-        <tag>awvs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CentOS Docker 安装</title>
     <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<h2 id="自动安装docker"><a href="#自动安装docker" class="headerlink" title="自动安装docker"></a>自动安装docker</h2><p>使用官方安装脚本自动安装：</p>
@@ -531,6 +485,52 @@ https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
       </categories>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker安装awvs并激活</title>
+    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h2 id="安装awvs"><a href="#安装awvs" class="headerlink" title="安装awvs"></a>安装awvs</h2><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><p>搜索</p>
+<pre><code>docker search awvs
+</code></pre>
+<p>选择一个awvs镜像下载<br><img src="/images/pasted-35.png" alt="upload successful"></p>
+<p>选择secfa&#x2F;awvs的镜像</p>
+<pre><code>docker pull secfa/awvs
+docker images -a
+</code></pre>
+<h4 id="创建并启动容器"><a href="#创建并启动容器" class="headerlink" title="创建并启动容器"></a>创建并启动容器</h4><p>运行命令</p>
+<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
+</code></pre>
+<p>如果报错！（提示crack失败）<br>添加参数–cap-add LINUX_IMMUTABLE</p>
+<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
+</code></pre>
+<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><p>账号密码：</p>
+<pre><code>awvs username: admin@admin.com
+awvs password: Admin123
+</code></pre>
+<h2 id="激活"><a href="#激活" class="headerlink" title="激活"></a>激活</h2><p>需要下载破解版的两个文件替换，分别是：</p>
+<pre><code>license_info.json
+wa_data.dat
+</code></pre>
+<p>windows和linux文件通用<br>替换目录为容器内目录：</p>
+<pre><code>/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>文件传输进入容器命令为：</p>
+<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
+docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>重启容器</p>
+<pre><code>docker restart 容器id
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>awvs安装</tag>
+        <tag>awvs</tag>
       </tags>
   </entry>
   <entry>
@@ -1208,54 +1208,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>linux硬盘分区挂载和扩容</title>
-    <url>/2025/01/15/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98/</url>
-    <content><![CDATA[<h2 id="分区和挂载"><a href="#分区和挂载" class="headerlink" title="分区和挂载"></a>分区和挂载</h2><h3 id="非逻辑分区和挂载"><a href="#非逻辑分区和挂载" class="headerlink" title="非逻辑分区和挂载"></a>非逻辑分区和挂载</h3><h4 id="先将空闲磁盘通过fdisk分区"><a href="#先将空闲磁盘通过fdisk分区" class="headerlink" title="先将空闲磁盘通过fdisk分区"></a>先将空闲磁盘通过fdisk分区</h4><p>命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb </span><br><span class="line">依次选择	n/p/n/回车默认/+size&#123;K,M,G&#125;</span><br></pre></td></tr></table></figure>
-
-<p>帮助</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
-
-<h4 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化</span><br><span class="line">mkfs.ext4 /dev/sdb1</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/mydisk</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/sdb1 /mnt/mydisk</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/mydisk</span><br></pre></td></tr></table></figure>
-
-<h3 id="逻辑卷及挂载"><a href="#逻辑卷及挂载" class="headerlink" title="逻辑卷及挂载"></a>逻辑卷及挂载</h3><p>首先和上步一样，使用fdisk创建一个分区&#x2F;dev&#x2F;sdb1</p>
-<h4 id="创建物理卷（PV）"><a href="#创建物理卷（PV）" class="headerlink" title="创建物理卷（PV）"></a>创建物理卷（PV）</h4><p>将新创建的分区转化成物理卷，主要是添加LVM属性信息并划分PE存储单元，多个一起设置 pvcreate &#x2F;dev&#x2F;sdb{1,2,3,4,5}</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br></pre></td></tr></table></figure>
-
-<h4 id="创建卷组（VG）"><a href="#创建卷组（VG）" class="headerlink" title="创建卷组（VG）"></a>创建卷组（VG）</h4><p>创建卷组vgtest ,并将刚才创建好的物理卷加入该卷组.默认PE大小为4MB,PE是卷组的最小存储单元.可以通过 –s参数修改大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br></pre></td></tr></table></figure>
-
-<h4 id="创建逻辑卷（LV）"><a href="#创建逻辑卷（LV）" class="headerlink" title="创建逻辑卷（LV）"></a>创建逻辑卷（LV）</h4><p>创建逻辑卷，将卷组vgtest上面分割4G给新的逻辑卷lvtest1，将卷组vgtest上剩余空间分配给新的逻辑卷lvtest2</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
-
-<h4 id="挂载-1"><a href="#挂载-1" class="headerlink" title="挂载"></a>挂载</h4><p>和非逻辑分区挂载方式一样，先格式化再挂载目录</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化(文件系统)</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest01</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest02</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/test</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/vgtest/lvtest01 /mnt/test</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
-
-<h2 id="分区扩容"><a href="#分区扩容" class="headerlink" title="分区扩容"></a>分区扩容</h2><h3 id="非逻辑分区"><a href="#非逻辑分区" class="headerlink" title="非逻辑分区"></a>非逻辑分区</h3><p>两种情况，一种是已经分区的扩容然后盘还有空间扩容，一种是未分区使用整个磁盘的需要扩容。第二种其实算是第一种的后半部分。</p>
-<h4 id="已分区扩容"><a href="#已分区扩容" class="headerlink" title="已分区扩容"></a>已分区扩容</h4><p>以&#x2F;dev&#x2F;sdb1为例子，使用了5G大小，盘总共10G，sdb1需要扩容为10G。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、解除挂载</span><br><span class="line">umount /mnt/test</span><br><span class="line">2、调整分区大小</span><br><span class="line">parted /dev/sdb</span><br><span class="line">resizepart 1（回车然后输入大小，可以是%，也可以直接指定大小，需要加上单位）</span><br><span class="line">quit</span><br><span class="line">3、重新识别大小</span><br><span class="line">resize2fs /dev/sdb1</span><br><span class="line">4、重新挂载即可</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
-
-<h4 id="未分区扩容"><a href="#未分区扩容" class="headerlink" title="未分区扩容"></a>未分区扩容</h4><p>使用整个磁盘大小，在原基础磁盘上扩容磁盘后调整，相当于不需要重新调整分区大小，直接重新识别即可，一般在虚拟环境</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">resize2fs /dev/sdb1</span><br></pre></td></tr></table></figure>
-
-<h3 id="逻辑分区"><a href="#逻辑分区" class="headerlink" title="逻辑分区"></a>逻辑分区</h3><p>总体是将新物理卷扩容到卷组，然后将卷组空间分配给已有逻辑卷中</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb2</span><br><span class="line">vgextend vgtest /dev/sdb2</span><br><span class="line">lvextend -l +100%FREE  /dev/mapper/vgtest-lvtest01</span><br></pre></td></tr></table></figure>
-<p>最后重新挂载即可，可以将-l改成-L指定磁盘大小</p>
-<h2 id="删除分区操作"><a href="#删除分区操作" class="headerlink" title="删除分区操作"></a>删除分区操作</h2><p>命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
-
-<h2 id="开机自动挂载"><a href="#开机自动挂载" class="headerlink" title="开机自动挂载"></a>开机自动挂载</h2><p>通过df -h查看文件系统名称，然后修改&#x2F;etc&#x2F;fstab最后一行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/dev/mapper/vgtest-lvtest01     /mnt/test        ext4    defaults        0 0</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>硬盘分区</tag>
-        <tag>分区扩容</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>msfconsole命令</title>
     <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="攻击模块"><a href="#攻击模块" class="headerlink" title="攻击模块"></a>攻击模块</h2><p>软件更新</p>
@@ -1311,6 +1263,54 @@ run
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>渗透命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux硬盘分区挂载和扩容</title>
+    <url>/2025/01/15/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98/</url>
+    <content><![CDATA[<h2 id="分区和挂载"><a href="#分区和挂载" class="headerlink" title="分区和挂载"></a>分区和挂载</h2><h3 id="非逻辑分区和挂载"><a href="#非逻辑分区和挂载" class="headerlink" title="非逻辑分区和挂载"></a>非逻辑分区和挂载</h3><h4 id="先将空闲磁盘通过fdisk分区"><a href="#先将空闲磁盘通过fdisk分区" class="headerlink" title="先将空闲磁盘通过fdisk分区"></a>先将空闲磁盘通过fdisk分区</h4><p>命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb </span><br><span class="line">依次选择	n/p/n/回车默认/+size&#123;K,M,G&#125;</span><br></pre></td></tr></table></figure>
+
+<p>帮助</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
+
+<h4 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化</span><br><span class="line">mkfs.ext4 /dev/sdb1</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/mydisk</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/sdb1 /mnt/mydisk</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/mydisk</span><br></pre></td></tr></table></figure>
+
+<h3 id="逻辑卷及挂载"><a href="#逻辑卷及挂载" class="headerlink" title="逻辑卷及挂载"></a>逻辑卷及挂载</h3><p>首先和上步一样，使用fdisk创建一个分区&#x2F;dev&#x2F;sdb1</p>
+<h4 id="创建物理卷（PV）"><a href="#创建物理卷（PV）" class="headerlink" title="创建物理卷（PV）"></a>创建物理卷（PV）</h4><p>将新创建的分区转化成物理卷，主要是添加LVM属性信息并划分PE存储单元，多个一起设置 pvcreate &#x2F;dev&#x2F;sdb{1,2,3,4,5}</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建卷组（VG）"><a href="#创建卷组（VG）" class="headerlink" title="创建卷组（VG）"></a>创建卷组（VG）</h4><p>创建卷组vgtest ,并将刚才创建好的物理卷加入该卷组.默认PE大小为4MB,PE是卷组的最小存储单元.可以通过 –s参数修改大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建逻辑卷（LV）"><a href="#创建逻辑卷（LV）" class="headerlink" title="创建逻辑卷（LV）"></a>创建逻辑卷（LV）</h4><p>创建逻辑卷，将卷组vgtest上面分割4G给新的逻辑卷lvtest1，将卷组vgtest上剩余空间分配给新的逻辑卷lvtest2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
+
+<h4 id="挂载-1"><a href="#挂载-1" class="headerlink" title="挂载"></a>挂载</h4><p>和非逻辑分区挂载方式一样，先格式化再挂载目录</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化(文件系统)</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest01</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest02</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/test</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/vgtest/lvtest01 /mnt/test</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
+
+<h2 id="分区扩容"><a href="#分区扩容" class="headerlink" title="分区扩容"></a>分区扩容</h2><h3 id="非逻辑分区"><a href="#非逻辑分区" class="headerlink" title="非逻辑分区"></a>非逻辑分区</h3><p>两种情况，一种是已经分区的扩容然后盘还有空间扩容，一种是未分区使用整个磁盘的需要扩容。第二种其实算是第一种的后半部分。</p>
+<h4 id="已分区扩容"><a href="#已分区扩容" class="headerlink" title="已分区扩容"></a>已分区扩容</h4><p>以&#x2F;dev&#x2F;sdb1为例子，使用了5G大小，盘总共10G，sdb1需要扩容为10G。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、解除挂载</span><br><span class="line">umount /mnt/test</span><br><span class="line">2、调整分区大小</span><br><span class="line">parted /dev/sdb</span><br><span class="line">resizepart 1（回车然后输入大小，可以是%，也可以直接指定大小，需要加上单位）</span><br><span class="line">quit</span><br><span class="line">3、重新识别大小</span><br><span class="line">resize2fs /dev/sdb1</span><br><span class="line">4、重新挂载即可</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
+
+<h4 id="未分区扩容"><a href="#未分区扩容" class="headerlink" title="未分区扩容"></a>未分区扩容</h4><p>使用整个磁盘大小，在原基础磁盘上扩容磁盘后调整，相当于不需要重新调整分区大小，直接重新识别即可，一般在虚拟环境</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">resize2fs /dev/sdb1</span><br></pre></td></tr></table></figure>
+
+<h3 id="逻辑分区"><a href="#逻辑分区" class="headerlink" title="逻辑分区"></a>逻辑分区</h3><p>总体是将新物理卷扩容到卷组，然后将卷组空间分配给已有逻辑卷中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb2</span><br><span class="line">vgextend vgtest /dev/sdb2</span><br><span class="line">lvextend -l +100%FREE  /dev/mapper/vgtest-lvtest01</span><br></pre></td></tr></table></figure>
+<p>最后重新挂载即可，可以将-l改成-L指定磁盘大小</p>
+<h2 id="删除分区操作"><a href="#删除分区操作" class="headerlink" title="删除分区操作"></a>删除分区操作</h2><p>命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
+
+<h2 id="开机自动挂载"><a href="#开机自动挂载" class="headerlink" title="开机自动挂载"></a>开机自动挂载</h2><p>通过df -h查看文件系统名称，然后修改&#x2F;etc&#x2F;fstab最后一行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/dev/mapper/vgtest-lvtest01     /mnt/test        ext4    defaults        0 0</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>硬盘分区</tag>
+        <tag>分区扩容</tag>
       </tags>
   </entry>
   <entry>
@@ -2180,25 +2180,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>安全-内网渗透</title>
-    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
-    <content><![CDATA[<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>主机存活<br>    ettercap -G 蜘蛛<br>    nmap<br>    nmap -sS 网段</p>
-<p>漏洞搜集<br>    awvs			网站扫描<br>    gvm(openvas)	系统扫描<br>    nmap<br>    nmap –script&#x3D;vuln &#x2F;&#x2F;常见漏洞<br>    nmap –script-default &#x2F;&#x2F;默认收集信息脚本</p>
-<h2 id="进入目标后"><a href="#进入目标后" class="headerlink" title="进入目标后"></a>进入目标后</h2><p>提权<br>    创建高权限用户<br>        windows<br>            net use<br>        linux<br>            user add</p>
-<p>留后门<br>    创建木马<br>        木马(msfconsole)<br>    上传木马<br>        meterpreter<br>            upload</p>
-<h2 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h2><p>改变流量走向<br>    ettercap(arp欺骗、dns劫持等)<br>    arpspoof<br>    arpspoof -i 网卡名称 -t 目标IP 网关</p>
-<p>爆破密码<br>    hydra（九头蛇）<br>    msfconsole（爆破密码模块）</p>
-<p>漏洞攻击<br>    msfconsole（漏洞攻击目录）</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>生成密钥 ssh-keygen命令</title>
     <url>/2024/08/13/%E7%94%9F%E6%88%90%E5%AF%86%E9%92%A5-ssh-keygen%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="生成一个密钥文件"><a href="#生成一个密钥文件" class="headerlink" title="生成一个密钥文件"></a>生成一个密钥文件</h3><p>   生成一个 2048 位的 RSA 密钥对，并将私钥存储在 ~&#x2F;.ssh&#x2F;id_rsa 中，将公钥存储在 ~&#x2F;.ssh&#x2F;id_rsa.pub 中</p>
@@ -2262,6 +2243,25 @@ run
       </categories>
       <tags>
         <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安全-内网渗透</title>
+    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
+    <content><![CDATA[<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>主机存活<br>    ettercap -G 蜘蛛<br>    nmap<br>    nmap -sS 网段</p>
+<p>漏洞搜集<br>    awvs			网站扫描<br>    gvm(openvas)	系统扫描<br>    nmap<br>    nmap –script&#x3D;vuln &#x2F;&#x2F;常见漏洞<br>    nmap –script-default &#x2F;&#x2F;默认收集信息脚本</p>
+<h2 id="进入目标后"><a href="#进入目标后" class="headerlink" title="进入目标后"></a>进入目标后</h2><p>提权<br>    创建高权限用户<br>        windows<br>            net use<br>        linux<br>            user add</p>
+<p>留后门<br>    创建木马<br>        木马(msfconsole)<br>    上传木马<br>        meterpreter<br>            upload</p>
+<h2 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h2><p>改变流量走向<br>    ettercap(arp欺骗、dns劫持等)<br>    arpspoof<br>    arpspoof -i 网卡名称 -t 目标IP 网关</p>
+<p>爆破密码<br>    hydra（九头蛇）<br>    msfconsole（爆破密码模块）</p>
+<p>漏洞攻击<br>    msfconsole（漏洞攻击目录）</p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
       </tags>
   </entry>
   <entry>
@@ -2388,49 +2388,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>算命</title>
-    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
-    <content><![CDATA[<h2 id="六神"><a href="#六神" class="headerlink" title="六神"></a>六神</h2><h3 id="手势位置"><a href="#手势位置" class="headerlink" title="手势位置"></a>手势位置</h3><p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br><img src="/images/pasted-71.png" alt="upload successful"></p>
-<p>速记：大、流、速、赤、小、空。</p>
-<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><h4 id="大安"><a href="#大安" class="headerlink" title="大安"></a>大安</h4><p>1、身不动时（如果算一个人在干什么）<br>2、五行：属木<br>3、方位：东<br>4、神煞：青龙<br>5、数字：1、5、7<br>6、安心吉祥的意思</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
-
-<h4 id="留连"><a href="#留连" class="headerlink" title="留连"></a>留连</h4><p>1、人未归时<br>2、五行属水<br>3、黑色<br>4、方位北<br>5、玄武<br>6、数字：2、8、10<br>7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
-
-<h4 id="速喜"><a href="#速喜" class="headerlink" title="速喜"></a>速喜</h4><p>1、人即至时<br>2、五行属火<br>3、红色<br>4、方位为南方<br>5、数字：3,6,9<br>6、有快速、吉利、时机已到之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
-
-<h4 id="赤口"><a href="#赤口" class="headerlink" title="赤口"></a>赤口</h4><p>1、官事凶时<br>2、五行属金<br>3、白色<br>4、西方<br>5、白虎<br>6、数字：4，7，10<br>7、有不吉、惊恐、凶险、口舌是非之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
-
-<h4 id="小吉"><a href="#小吉" class="headerlink" title="小吉"></a>小吉</h4><p>1、人来喜时<br>2、五行属木<br>3、六合<br>4、数字：1,5,7<br>5、有和合、吉利之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
-
-<h4 id="空亡"><a href="#空亡" class="headerlink" title="空亡"></a>空亡</h4><p>1、音信稀时<br>2、五行属土<br>3、黄色<br>4、中央<br>5、勾陈<br>6、数字：3,6,9<br>7、有不吉、无果之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
-
-<h2 id="奇门"><a href="#奇门" class="headerlink" title="奇门"></a>奇门</h2><h3 id="九宫五行"><a href="#九宫五行" class="headerlink" title="九宫五行"></a>九宫五行</h3><p>五行生克关系<br><img src="/images/pasted-74.png" alt="upload successful"><br>九宫位置<br><img src="/images/pasted-73.png" alt="upload successful"><br>东南西北位置<br><img src="/images/pasted-75.png" alt="upload successful"></p>
-<h2 id="干支"><a href="#干支" class="headerlink" title="干支"></a>干支</h2><p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
-<p>寅卯为木居东方，巳午为火居正南，<br>申酉属金位在西，子亥属水在北边，<br>辰戌丑未皆属土，分别居于四维偏，<br>辰在东南戌西北，丑在东北未西南。</p>
-<h2 id="时辰"><a href="#时辰" class="headerlink" title="时辰"></a>时辰</h2><p>子丑寅卯辰巳午未申酉戌亥</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>玄学</category>
-      </categories>
-      <tags>
-        <tag>算命知识</tag>
-        <tag>小六壬</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>羊肉火锅-牛油辣味</title>
     <url>/2025/02/04/%E7%BE%8A%E8%82%89%E7%81%AB%E9%94%85-%E7%89%9B%E6%B2%B9%E8%BE%A3%E5%91%B3/</url>
     <content><![CDATA[<h2 id="配料"><a href="#配料" class="headerlink" title="配料"></a>配料</h2><p>配料表中的量不包括焯水等步骤的损耗</p>
@@ -2502,6 +2459,87 @@ width: 20%;
       <tags>
         <tag>羊肉火锅</tag>
         <tag>菜谱</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算命</title>
+    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
+    <content><![CDATA[<h2 id="六神"><a href="#六神" class="headerlink" title="六神"></a>六神</h2><h3 id="手势位置"><a href="#手势位置" class="headerlink" title="手势位置"></a>手势位置</h3><p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br><img src="/images/pasted-71.png" alt="upload successful"></p>
+<p>速记：大、流、速、赤、小、空。</p>
+<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><h4 id="大安"><a href="#大安" class="headerlink" title="大安"></a>大安</h4><p>1、身不动时（如果算一个人在干什么）<br>2、五行：属木<br>3、方位：东<br>4、神煞：青龙<br>5、数字：1、5、7<br>6、安心吉祥的意思</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
+
+<h4 id="留连"><a href="#留连" class="headerlink" title="留连"></a>留连</h4><p>1、人未归时<br>2、五行属水<br>3、黑色<br>4、方位北<br>5、玄武<br>6、数字：2、8、10<br>7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
+
+<h4 id="速喜"><a href="#速喜" class="headerlink" title="速喜"></a>速喜</h4><p>1、人即至时<br>2、五行属火<br>3、红色<br>4、方位为南方<br>5、数字：3,6,9<br>6、有快速、吉利、时机已到之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
+
+<h4 id="赤口"><a href="#赤口" class="headerlink" title="赤口"></a>赤口</h4><p>1、官事凶时<br>2、五行属金<br>3、白色<br>4、西方<br>5、白虎<br>6、数字：4，7，10<br>7、有不吉、惊恐、凶险、口舌是非之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
+
+<h4 id="小吉"><a href="#小吉" class="headerlink" title="小吉"></a>小吉</h4><p>1、人来喜时<br>2、五行属木<br>3、六合<br>4、数字：1,5,7<br>5、有和合、吉利之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
+
+<h4 id="空亡"><a href="#空亡" class="headerlink" title="空亡"></a>空亡</h4><p>1、音信稀时<br>2、五行属土<br>3、黄色<br>4、中央<br>5、勾陈<br>6、数字：3,6,9<br>7、有不吉、无果之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
+
+<h2 id="奇门"><a href="#奇门" class="headerlink" title="奇门"></a>奇门</h2><h3 id="九宫五行"><a href="#九宫五行" class="headerlink" title="九宫五行"></a>九宫五行</h3><p>五行生克关系<br><img src="/images/pasted-74.png" alt="upload successful"><br>九宫位置<br><img src="/images/pasted-73.png" alt="upload successful"><br>东南西北位置<br><img src="/images/pasted-75.png" alt="upload successful"></p>
+<h2 id="干支"><a href="#干支" class="headerlink" title="干支"></a>干支</h2><p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
+<p>寅卯为木居东方，巳午为火居正南，<br>申酉属金位在西，子亥属水在北边，<br>辰戌丑未皆属土，分别居于四维偏，<br>辰在东南戌西北，丑在东北未西南。</p>
+<h2 id="时辰"><a href="#时辰" class="headerlink" title="时辰"></a>时辰</h2><p>子丑寅卯辰巳午未申酉戌亥</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>玄学</category>
+      </categories>
+      <tags>
+        <tag>算命知识</tag>
+        <tag>小六壬</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>过防火墙业务端口畅通但业务异常-云虚拟网络</title>
+    <url>/2025/01/19/%E8%BF%87%E9%98%B2%E7%81%AB%E5%A2%99%E4%B8%9A%E5%8A%A1%E7%AB%AF%E5%8F%A3%E7%95%85%E9%80%9A%E4%BD%86%E4%B8%9A%E5%8A%A1%E5%BC%82%E5%B8%B8-%E4%BA%91%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<h2 id="通话语音服务过防火墙异常"><a href="#通话语音服务过防火墙异常" class="headerlink" title="通话语音服务过防火墙异常"></a>通话语音服务过防火墙异常</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>网络双向畅通；<br>业务服务为语音服务时，仅能单向沟通，也就是只能听到声音但是无法输出；<br>通过抓包检查，输出的数据包未能到达服务器。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p><code>检查防火墙的应用层网关ALG功能，该部分会有部分协议不转发，而语音服务使用的时SIP，开启即可</code></p>
+<ul>
+<li>而且防火墙未开启sip转发也是很正常的，所以当有语音服务过墙时，如果异常最好也同样检查一下是否有开启SIP。</li>
+<li>语音服务的厂家也反馈，该问题常常出现。</li>
+</ul>
+<hr>
+<h2 id="端口畅通但部分业务无法使用"><a href="#端口畅通但部分业务无法使用" class="headerlink" title="端口畅通但部分业务无法使用"></a>端口畅通但部分业务无法使用</h2><h3 id="现象-1"><a href="#现象-1" class="headerlink" title="现象"></a>现象</h3><blockquote>
+<p>以下场景均可能为相同问题：</p>
+</blockquote>
+<ol>
+<li>堡垒机登录web正常，但无法远程主机;</li>
+<li>端口访问正常，业务部分正常，部分异常。</li>
+</ol>
+<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p><code>检查路由发现，堡垒机到远程主机之间为不同子网，主机路由下一跳网关为防火墙，堡垒机则不是，导致防火墙上只有半个会话，来回路径不一致</code></p>
+<ol>
+<li>添加明细路由内网流量不经过防火墙；</li>
+<li>不建议选择这个方法，修改路由让防火墙会话完整，来回一致。</li>
+</ol>
+<hr>
+<h2 id="传输大文件时失败"><a href="#传输大文件时失败" class="headerlink" title="传输大文件时失败"></a>传输大文件时失败</h2><h3 id="现象-2"><a href="#现象-2" class="headerlink" title="现象"></a>现象</h3><p>经过防火墙时，传输稍微大一点的文件发现无法传输；</p>
+<p>其他如果是因为工具限制或者协议限制的情况不考虑，这些比较好判断。</p>
+<h3 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h3><p><code>可能是因为MTU设置太小导致的，数据帧大于MTU被丢弃</code></p>
+<ul>
+<li>调整MTU大小即可</li>
+</ul>
+]]></content>
+      <categories>
+        <category>防火墙排障经验</category>
+      </categories>
+      <tags>
+        <tag>防火墙</tag>
+        <tag>排障</tag>
       </tags>
   </entry>
   <entry>
@@ -2577,44 +2615,6 @@ width: 20%;
       </categories>
       <tags>
         <tag>菜谱</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>过防火墙业务端口畅通但业务异常-云虚拟网络</title>
-    <url>/2025/01/19/%E8%BF%87%E9%98%B2%E7%81%AB%E5%A2%99%E4%B8%9A%E5%8A%A1%E7%AB%AF%E5%8F%A3%E7%95%85%E9%80%9A%E4%BD%86%E4%B8%9A%E5%8A%A1%E5%BC%82%E5%B8%B8-%E4%BA%91%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C/</url>
-    <content><![CDATA[<h2 id="通话语音服务过防火墙异常"><a href="#通话语音服务过防火墙异常" class="headerlink" title="通话语音服务过防火墙异常"></a>通话语音服务过防火墙异常</h2><h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>网络双向畅通；<br>业务服务为语音服务时，仅能单向沟通，也就是只能听到声音但是无法输出；<br>通过抓包检查，输出的数据包未能到达服务器。</p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p><code>检查防火墙的应用层网关ALG功能，该部分会有部分协议不转发，而语音服务使用的时SIP，开启即可</code></p>
-<ul>
-<li>而且防火墙未开启sip转发也是很正常的，所以当有语音服务过墙时，如果异常最好也同样检查一下是否有开启SIP。</li>
-<li>语音服务的厂家也反馈，该问题常常出现。</li>
-</ul>
-<hr>
-<h2 id="端口畅通但部分业务无法使用"><a href="#端口畅通但部分业务无法使用" class="headerlink" title="端口畅通但部分业务无法使用"></a>端口畅通但部分业务无法使用</h2><h3 id="现象-1"><a href="#现象-1" class="headerlink" title="现象"></a>现象</h3><blockquote>
-<p>以下场景均可能为相同问题：</p>
-</blockquote>
-<ol>
-<li>堡垒机登录web正常，但无法远程主机;</li>
-<li>端口访问正常，业务部分正常，部分异常。</li>
-</ol>
-<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p><code>检查路由发现，堡垒机到远程主机之间为不同子网，主机路由下一跳网关为防火墙，堡垒机则不是，导致防火墙上只有半个会话，来回路径不一致</code></p>
-<ol>
-<li>添加明细路由内网流量不经过防火墙；</li>
-<li>不建议选择这个方法，修改路由让防火墙会话完整，来回一致。</li>
-</ol>
-<hr>
-<h2 id="传输大文件时失败"><a href="#传输大文件时失败" class="headerlink" title="传输大文件时失败"></a>传输大文件时失败</h2><h3 id="现象-2"><a href="#现象-2" class="headerlink" title="现象"></a>现象</h3><p>经过防火墙时，传输稍微大一点的文件发现无法传输；</p>
-<p>其他如果是因为工具限制或者协议限制的情况不考虑，这些比较好判断。</p>
-<h3 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h3><p><code>可能是因为MTU设置太小导致的，数据帧大于MTU被丢弃</code></p>
-<ul>
-<li>调整MTU大小即可</li>
-</ul>
-]]></content>
-      <categories>
-        <category>防火墙排障经验</category>
-      </categories>
-      <tags>
-        <tag>防火墙</tag>
-        <tag>排障</tag>
       </tags>
   </entry>
   <entry>
