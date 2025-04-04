@@ -911,7 +911,28 @@ hexo d
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[hexo-书写](/2025/02/08/hexo-书写/)</span><br></pre></td></tr></table></figure>
 
 <p><a href="/2025/02/08/hexo-%E4%B9%A6%E5%86%99/">演示</a>，还是回到本文</p>
-]]></content>
+<h2 id="标签外挂"><a href="#标签外挂" class="headerlink" title="标签外挂"></a>标签外挂</h2><h3 id="Gallery-相册图库"><a href="#Gallery-相册图库" class="headerlink" title="Gallery 相册图库"></a>Gallery 相册图库</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;div class=&quot;gallery-group-main&quot;&gt;</span><br><span class="line">&#123;% galleryGroup &#x27;壁纸&#x27; &#x27;收藏的一些壁纸&#x27; &#x27;壁纸/index.html&#x27; https://api.aqcoder.cn/today %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<div class="gallery-group-main">
+<figure class="gallery-group">
+  <img class="gallery-group-img no-lightbox" src='https://i.postimg.cc/3RcrjP4F/image.jpg' alt="Group Image Gallery">
+  <figcaption>
+  <div class="gallery-group-name">壁纸</div>
+  <p>收藏的一些壁纸</p>
+  <a href='/%E5%A3%81%E7%BA%B8/index.html'></a>
+  </figcaption>
+  </figure>
+  
+</div>
+
+<h3 id="Gallery-相册"><a href="#Gallery-相册" class="headerlink" title="Gallery 相册"></a>Gallery 相册</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;% gallery %&#125;</span><br><span class="line">![](https://i.postimg.cc/nL8wr5jT/image.jpg)</span><br><span class="line">![](https://i.postimg.cc/3RcrjP4F/image.jpg)</span><br><span class="line">![](https://i.postimg.cc/Nfq41Tff/image.png)</span><br><span class="line">![](https://i.postimg.cc/y8ny4bhk/image.png)</span><br><span class="line">![](https://i.postimg.cc/Gp2Jcxzz/wallhaven-x6vx93.jpg)</span><br><span class="line">&#123;% endgallery %&#125;</span><br></pre></td></tr></table></figure>
+<div class="gallery-container" data-type="data" data-button="">
+      <div class="gallery-data">[{"url":"https://i.postimg.cc/nL8wr5jT/image.jpg","alt":""},{"url":"https://i.postimg.cc/3RcrjP4F/image.jpg","alt":""},{"url":"https://i.postimg.cc/Nfq41Tff/image.png","alt":""},{"url":"https://i.postimg.cc/y8ny4bhk/image.png","alt":""},{"url":"https://i.postimg.cc/Gp2Jcxzz/wallhaven-x6vx93.jpg","alt":""}]</div>
+      <div class="gallery-items">
+      </div>
+    </div>]]></content>
       <categories>
         <category>hexo博客</category>
       </categories>
