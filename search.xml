@@ -1,6 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>ansible命令</title>
+    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
+<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
+<pre><code>yum install epel-release -y
+</code></pre>
+<p>安装 Ansible</p>
+<pre><code>yum install ansible -y
+</code></pre>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
+<p>hosts.ini：</p>
+<pre><code>[hostst_g]
+此处填写ip
+[hosts_g:vars]
+ansible_ssh_user=root ##账号
+ansible_ssh_pass=123456 ##密码
+</code></pre>
+<p>command.yml：</p>
+<pre><code>- name: 在远程主机上执行任意命令 
+    hosts: all
+    gather_facts: no
+    tasks:
+        - name: 执行一个特定命令
+            command: echo &quot;你好，世界！&quot;
+            # 使用 command 模块执行简单命令，不支持管道和重定向
+        - name: 列出目录中的文件
+            command: ls /path/to/directory
+            # 列出指定目录中的所有文件
+        - name: 使用 shell 运行包含管道的命令
+            shell: echo &quot;你好，世界！&quot; | grep 你好
+            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
+        - name: 使用 shell 特性运行命令
+            shell: cat /etc/passwd | grep root
+            # 通过管道过滤包含 &quot;root&quot; 的行
+</code></pre>
+<p>可使用shell：模拟终端上所有执行的命令。</p>
+<p>使用命令</p>
+<pre><code>ansible-playbook -i hosts.ini command.yml
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>arp欺骗</title>
+    <url>/2024/08/01/arpspoof/</url>
+    <content><![CDATA[<h2 id="使用arpspoof命令："><a href="#使用arpspoof命令：" class="headerlink" title="使用arpspoof命令："></a>使用arpspoof命令：</h2><pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
+</code></pre>
+<p>-i interface          指定要使用的接口。<br>-c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>-t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>-r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>host               指定您希望抓取数据包的host（通常是本地网关）</p>
+<h2 id="使用ettercap-G-蜘蛛工具"><a href="#使用ettercap-G-蜘蛛工具" class="headerlink" title="使用ettercap -G 蜘蛛工具"></a>使用ettercap -G 蜘蛛工具</h2><p>实例演示-arp欺骗</p>
+<p>1.打开ettercap，选择你要使用的网卡，点击”对号”。<br><img src="/images/pasted-4.png" alt="upload successful"></p>
+<p>2.点击”搜索”按钮，进行主机发现。<br><img src="/images/pasted-5.png" alt="upload successful"></p>
+<p>3.点击”红色方框里面的按钮”，我们可以查看”host list”.<br><img src="/images/pasted-6.png" alt="upload successful"></p>
+<p>4.将想要欺骗的网关和受害者分别添加到”add to target 1”和”add to target 2”。<br><img src="/images/pasted-7.png" alt="upload successful"></p>
+<p>5.点击”圆圈”，选择”arp poisoning spoofing”。<br><img src="/images/pasted-8.png" alt="upload successful"></p>
+<p>6.选择”sniff remote connections”，然后点击”OK”。这样就配置完成，ettercap会自动开始arp欺骗。<br><img src="/images/pasted-9.png" alt="upload successful"></p>
+<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br><img src="/images/pasted-10.png" alt="upload successful"></p>
+<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>实战演示</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Dockerfile命令</title>
     <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<table>
@@ -94,81 +169,6 @@
       </tags>
   </entry>
   <entry>
-    <title>arp欺骗</title>
-    <url>/2024/08/01/arpspoof/</url>
-    <content><![CDATA[<h2 id="使用arpspoof命令："><a href="#使用arpspoof命令：" class="headerlink" title="使用arpspoof命令："></a>使用arpspoof命令：</h2><pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
-</code></pre>
-<p>-i interface          指定要使用的接口。<br>-c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>-t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>-r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>host               指定您希望抓取数据包的host（通常是本地网关）</p>
-<h2 id="使用ettercap-G-蜘蛛工具"><a href="#使用ettercap-G-蜘蛛工具" class="headerlink" title="使用ettercap -G 蜘蛛工具"></a>使用ettercap -G 蜘蛛工具</h2><p>实例演示-arp欺骗</p>
-<p>1.打开ettercap，选择你要使用的网卡，点击”对号”。<br><img src="/images/pasted-4.png" alt="upload successful"></p>
-<p>2.点击”搜索”按钮，进行主机发现。<br><img src="/images/pasted-5.png" alt="upload successful"></p>
-<p>3.点击”红色方框里面的按钮”，我们可以查看”host list”.<br><img src="/images/pasted-6.png" alt="upload successful"></p>
-<p>4.将想要欺骗的网关和受害者分别添加到”add to target 1”和”add to target 2”。<br><img src="/images/pasted-7.png" alt="upload successful"></p>
-<p>5.点击”圆圈”，选择”arp poisoning spoofing”。<br><img src="/images/pasted-8.png" alt="upload successful"></p>
-<p>6.选择”sniff remote connections”，然后点击”OK”。这样就配置完成，ettercap会自动开始arp欺骗。<br><img src="/images/pasted-9.png" alt="upload successful"></p>
-<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br><img src="/images/pasted-10.png" alt="upload successful"></p>
-<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>实战演示</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ansible命令</title>
-    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
-<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
-<pre><code>yum install epel-release -y
-</code></pre>
-<p>安装 Ansible</p>
-<pre><code>yum install ansible -y
-</code></pre>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
-<p>hosts.ini：</p>
-<pre><code>[hostst_g]
-此处填写ip
-[hosts_g:vars]
-ansible_ssh_user=root ##账号
-ansible_ssh_pass=123456 ##密码
-</code></pre>
-<p>command.yml：</p>
-<pre><code>- name: 在远程主机上执行任意命令 
-    hosts: all
-    gather_facts: no
-    tasks:
-        - name: 执行一个特定命令
-            command: echo &quot;你好，世界！&quot;
-            # 使用 command 模块执行简单命令，不支持管道和重定向
-        - name: 列出目录中的文件
-            command: ls /path/to/directory
-            # 列出指定目录中的所有文件
-        - name: 使用 shell 运行包含管道的命令
-            shell: echo &quot;你好，世界！&quot; | grep 你好
-            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
-        - name: 使用 shell 特性运行命令
-            shell: cat /etc/passwd | grep root
-            # 通过管道过滤包含 &quot;root&quot; 的行
-</code></pre>
-<p>可使用shell：模拟终端上所有执行的命令。</p>
-<p>使用命令</p>
-<pre><code>ansible-playbook -i hosts.ini command.yml
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>astrbot-ai接入微信和qq</title>
     <url>/2025/03/20/astrbot-ai%E6%8E%A5%E5%85%A5%E5%BE%AE%E4%BF%A1%E5%92%8Cqq/</url>
     <content><![CDATA[<h2 id="astrbot"><a href="#astrbot" class="headerlink" title="astrbot"></a>astrbot</h2><p>一个易于上手的多平台聊天机器人及开发框架，官方已经有详细的部署步骤，只写一下我规避遇到的问题的部署方法</p>
@@ -209,29 +209,6 @@ ansible_ssh_pass=123456 ##密码
         <tag>astrbot</tag>
         <tag>napcat</tag>
         <tag>Gewechat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>centos-release-scl安装换源</title>
-    <url>/2025/03/23/centos-release-scl%E6%8A%A5%E9%94%99/</url>
-    <content><![CDATA[<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum -y install centos-release-scl</span><br></pre></td></tr></table></figure>
-<p>centos7.9安装后遇到无法使用yum的问题，报错无法访问 <a href="http://mirrorlist.centos.org/?arch=x86_64&release=7&repo=sclo-sclo">http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo</a> ，换国内源即可解决</p>
-<h2 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h2><p>修改两个文件内容</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl.repo /etc/yum.repos.d/CentOS-SCLo-scl.repo.bak</span><br><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo.bak</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl.repo</span><br><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo</span><br></pre></td></tr></table></figure>
-
-<p>更换为</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[centos-sclo-rh]</span><br><span class="line">name=CentOS-7 - SCLo rh</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/rh/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br><span class="line"></span><br><span class="line">[centos-sclo-sclo]</span><br><span class="line">name=CentOS-7 - SCLo sclo</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/sclo/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br></pre></td></tr></table></figure>
-
-<p>清理缓存并生成新缓存</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo yum clean all</span><br><span class="line">sudo yum makecache</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>centos</tag>
-        <tag>centos-release-scl</tag>
       </tags>
   </entry>
   <entry>
@@ -285,25 +262,26 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>deepseek-r1本地部署方法</title>
-    <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="安装ollama"><a href="#安装ollama" class="headerlink" title="安装ollama"></a>安装ollama</h2><p>打开ollama官网，根据系统下载ollama软件：<br><a href="https://ollama.com/">https://ollama.com/</a><br><img src="/images/pasted-76.png" alt="upload successful"></p>
-<h2 id="下载模型"><a href="#下载模型" class="headerlink" title="下载模型"></a>下载模型</h2><p>安装完成ollama后，通过cmd命令行输入运行相关模型的命令，获取地址是官网的Models页面：<br><img src="/images/pasted-77.png" alt="upload successful"></p>
-<p>第一个就是需要下载的模型deepseek-r1，点击名称选择需要的版本，即使不符合也能运行，会很卡：<br><a href="https://ollama.com/library/deepseek-r1:8b">https://ollama.com/library/deepseek-r1:8b</a><br><img src="/images/pasted-78.png" alt="upload successful"></p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>运行完成后就能正常使用了，这样只能命令行使用；可以通过浏览器插件图形化页面使用本地运行的模型，插件名称是：Page Assist - A Web UI for Local AI Models<br><img src="/images/pasted-79.png" alt="upload successful"></p>
-<p>说是能联网，但是我的不行</p>
-<p>可以用以下话语添加在问题末尾通过其他联网的ai获取信息后给deepseek整理回答，来间接上网：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请先告诉我你要回答这个问题需要检索哪些关键词或者最新消息？我会尝试提供相关数据。</span><br></pre></td></tr></table></figure>
+    <title>centos-release-scl安装换源</title>
+    <url>/2025/03/23/centos-release-scl%E6%8A%A5%E9%94%99/</url>
+    <content><![CDATA[<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum -y install centos-release-scl</span><br></pre></td></tr></table></figure>
+<p>centos7.9安装后遇到无法使用yum的问题，报错无法访问 <a href="http://mirrorlist.centos.org/?arch=x86_64&release=7&repo=sclo-sclo">http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo</a> ，换国内源即可解决</p>
+<h2 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h2><p>修改两个文件内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl.repo /etc/yum.repos.d/CentOS-SCLo-scl.repo.bak</span><br><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo.bak</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl.repo</span><br><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo</span><br></pre></td></tr></table></figure>
 
-<h2 id="api参数"><a href="#api参数" class="headerlink" title="api参数"></a>api参数</h2><p>python使用参数</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;http://localhost:11434/api/generate&quot;</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;model&quot;</span>: <span class="string">&quot;deepseek-r1:1.5b&quot;</span>,  <span class="comment"># 替换为你的模型名称</span></span><br><span class="line">    <span class="string">&quot;prompt&quot;</span>: <span class="string">&quot;你好&quot;</span>,</span><br><span class="line">    <span class="string">&quot;stream&quot;</span>: <span class="literal">False</span>  <span class="comment"># 是否启用流式响应</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<p>更换为</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[centos-sclo-rh]</span><br><span class="line">name=CentOS-7 - SCLo rh</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/rh/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br><span class="line"></span><br><span class="line">[centos-sclo-sclo]</span><br><span class="line">name=CentOS-7 - SCLo sclo</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/sclo/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br></pre></td></tr></table></figure>
+
+<p>清理缓存并生成新缓存</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo yum clean all</span><br><span class="line">sudo yum makecache</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
-        <category>娱乐</category>
+        <category>linux</category>
       </categories>
       <tags>
-        <tag>ai</tag>
-        <tag>deepseek</tag>
+        <tag>centos</tag>
+        <tag>centos-release-scl</tag>
       </tags>
   </entry>
   <entry>
@@ -328,20 +306,6 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>docker 可用镜像源加速镜像025.2.27</title>
-    <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
-    <content><![CDATA[<h2 id="2025-2-27测试可用"><a href="#2025-2-27测试可用" class="headerlink" title="2025.2.27测试可用"></a>2025.2.27测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://docker.1ms.run&quot;,</span><br><span class="line">    &quot;https://docker.xuanyuan.me&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker 卸载</title>
     <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
     <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
@@ -358,6 +322,101 @@ ansible_ssh_pass=123456 ##密码
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker 可用镜像源加速镜像025.2.27</title>
+    <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
+    <content><![CDATA[<h2 id="2025-2-27测试可用"><a href="#2025-2-27测试可用" class="headerlink" title="2025.2.27测试可用"></a>2025.2.27测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://docker.1ms.run&quot;,</span><br><span class="line">    &quot;https://docker.xuanyuan.me&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>deepseek-r1本地部署方法</title>
+    <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="安装ollama"><a href="#安装ollama" class="headerlink" title="安装ollama"></a>安装ollama</h2><p>打开ollama官网，根据系统下载ollama软件：<br><a href="https://ollama.com/">https://ollama.com/</a><br><img src="/images/pasted-76.png" alt="upload successful"></p>
+<h2 id="下载模型"><a href="#下载模型" class="headerlink" title="下载模型"></a>下载模型</h2><p>安装完成ollama后，通过cmd命令行输入运行相关模型的命令，获取地址是官网的Models页面：<br><img src="/images/pasted-77.png" alt="upload successful"></p>
+<p>第一个就是需要下载的模型deepseek-r1，点击名称选择需要的版本，即使不符合也能运行，会很卡：<br><a href="https://ollama.com/library/deepseek-r1:8b">https://ollama.com/library/deepseek-r1:8b</a><br><img src="/images/pasted-78.png" alt="upload successful"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>运行完成后就能正常使用了，这样只能命令行使用；可以通过浏览器插件图形化页面使用本地运行的模型，插件名称是：Page Assist - A Web UI for Local AI Models<br><img src="/images/pasted-79.png" alt="upload successful"></p>
+<p>说是能联网，但是我的不行</p>
+<p>可以用以下话语添加在问题末尾通过其他联网的ai获取信息后给deepseek整理回答，来间接上网：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请先告诉我你要回答这个问题需要检索哪些关键词或者最新消息？我会尝试提供相关数据。</span><br></pre></td></tr></table></figure>
+
+<h2 id="api参数"><a href="#api参数" class="headerlink" title="api参数"></a>api参数</h2><p>python使用参数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;http://localhost:11434/api/generate&quot;</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;model&quot;</span>: <span class="string">&quot;deepseek-r1:1.5b&quot;</span>,  <span class="comment"># 替换为你的模型名称</span></span><br><span class="line">    <span class="string">&quot;prompt&quot;</span>: <span class="string">&quot;你好&quot;</span>,</span><br><span class="line">    <span class="string">&quot;stream&quot;</span>: <span class="literal">False</span>  <span class="comment"># 是否启用流式响应</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>ai</tag>
+        <tag>deepseek</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CentOS Docker 安装</title>
+    <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h2 id="自动安装docker"><a href="#自动安装docker" class="headerlink" title="自动安装docker"></a>自动安装docker</h2><p>使用官方安装脚本自动安装：</p>
+<pre><code>curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+</code></pre>
+<p>国内安装命令：</p>
+<pre><code>curl -sSL https://get.daocloud.io/docker | sh
+</code></pre>
+<h2 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h2><h4 id="卸载旧版本"><a href="#卸载旧版本" class="headerlink" title="卸载旧版本"></a>卸载旧版本</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine 。如果已安装这些程序，请卸载它们以及相关的依赖项。</p>
+<pre><code>yum remove docker \
+      docker-client \
+      docker-client-latest \
+      docker-common \
+      docker-latest \
+      docker-latest-logrotate \
+      docker-logrotate \
+      docker-engine
+      
+</code></pre>
+<h2 id="安装-Docker-Engine-Community"><a href="#安装-Docker-Engine-Community" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h2><p>Docker Engine-Community：这是 Docker Engine 的开源社区版本，也是最常用的版本。Docker Engine 是 Docker 的核心组件，负责运行容器。Docker Engine-Community 是由 Docker, Inc. 提供的免费版本，适合个人开发者和小团队使用。</p>
+<h4 id="设置仓库"><a href="#设置仓库" class="headerlink" title="设置仓库"></a>设置仓库</h4><p>yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。</p>
+<pre><code>yum install -y yum-utils
+</code></pre>
+<p>设置仓库</p>
+<pre><code>官方源地址（比较慢）
+sudo yum-config-manager \
+--add-repo \
+https://download.docker.com/linux/centos/docker-ce.repo
+
+阿里云
+sudo yum-config-manager \
+--add-repo \
+https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+</code></pre>
+<h4 id="安装-Docker-Engine-Community-1"><a href="#安装-Docker-Engine-Community-1" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h4><p>最新版本安装</p>
+<pre><code>yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+</code></pre>
+<p>查看版本</p>
+<pre><code>yum list docker-ce --showduplicates | sort -r
+</code></pre>
+<p>指定版本安装（仅需修改26.1.1）</p>
+<pre><code>yum install docker-ce-26.1.1 docker-ce-cli-26.1.1.1 containerd.io
+</code></pre>
+<h2 id="卸载-docker"><a href="#卸载-docker" class="headerlink" title="卸载 docker"></a>卸载 docker</h2><p>删除安装包：</p>
+<pre><code>yum remove docker-ce
+</code></pre>
+<p>删除镜像、容器、配置文件等内容：</p>
+<pre><code>rm -rf /var/lib/docker
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -454,62 +513,56 @@ mysql:5.7
       </tags>
   </entry>
   <entry>
-    <title>CentOS Docker 安装</title>
-    <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
-    <content><![CDATA[<h2 id="自动安装docker"><a href="#自动安装docker" class="headerlink" title="自动安装docker"></a>自动安装docker</h2><p>使用官方安装脚本自动安装：</p>
-<pre><code>curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+    <title>dvwa-部署（docker）</title>
+    <url>/2024/10/14/dvwa-%E9%83%A8%E7%BD%B2%EF%BC%88docker%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>发现配置了镜像加速也无法通过search查到镜像，但是下载没问题，通过网上查询镜像名称下载即可：</p>
+<pre><code>https://hub.docker.com/
 </code></pre>
-<p>国内安装命令：</p>
-<pre><code>curl -sSL https://get.daocloud.io/docker | sh
-</code></pre>
-<h2 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h2><h4 id="卸载旧版本"><a href="#卸载旧版本" class="headerlink" title="卸载旧版本"></a>卸载旧版本</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine 。如果已安装这些程序，请卸载它们以及相关的依赖项。</p>
-<pre><code>yum remove docker \
-      docker-client \
-      docker-client-latest \
-      docker-common \
-      docker-latest \
-      docker-latest-logrotate \
-      docker-logrotate \
-      docker-engine
-      
-</code></pre>
-<h2 id="安装-Docker-Engine-Community"><a href="#安装-Docker-Engine-Community" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h2><p>Docker Engine-Community：这是 Docker Engine 的开源社区版本，也是最常用的版本。Docker Engine 是 Docker 的核心组件，负责运行容器。Docker Engine-Community 是由 Docker, Inc. 提供的免费版本，适合个人开发者和小团队使用。</p>
-<h4 id="设置仓库"><a href="#设置仓库" class="headerlink" title="设置仓库"></a>设置仓库</h4><p>yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。</p>
-<pre><code>yum install -y yum-utils
-</code></pre>
-<p>设置仓库</p>
-<pre><code>官方源地址（比较慢）
-sudo yum-config-manager \
---add-repo \
-https://download.docker.com/linux/centos/docker-ce.repo
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull docker pull sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
 
-阿里云
-sudo yum-config-manager \
---add-repo \
-https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+<h2 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
+
+<p>默认账号密码</p>
+<pre><code>dvwa/dvwa
+admin/password
 </code></pre>
-<h4 id="安装-Docker-Engine-Community-1"><a href="#安装-Docker-Engine-Community-1" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h4><p>最新版本安装</p>
-<pre><code>yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-</code></pre>
-<p>查看版本</p>
-<pre><code>yum list docker-ce --showduplicates | sort -r
-</code></pre>
-<p>指定版本安装（仅需修改26.1.1）</p>
-<pre><code>yum install docker-ce-26.1.1 docker-ce-cli-26.1.1.1 containerd.io
-</code></pre>
-<h2 id="卸载-docker"><a href="#卸载-docker" class="headerlink" title="卸载 docker"></a>卸载 docker</h2><p>删除安装包：</p>
-<pre><code>yum remove docker-ce
-</code></pre>
-<p>删除镜像、容器、配置文件等内容：</p>
-<pre><code>rm -rf /var/lib/docker
-</code></pre>
-]]></content>
+<h2 id="许可证"><a href="#许可证" class="headerlink" title="许可证"></a>许可证</h2><p>通过网上使用方法使用其他人的密钥发现导入无法使用，可能是方式有问题，我是用的镜像提供的命令导入密钥</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 -e RECAPTCHA_PUBLIC_KEY=YOUR_KEY -e RECAPTCHA_PRIVATE_KEY=YOUR_KEY sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
+
+<p>网上的使用方法<br>在DVWA-master&#x2F;config&#x2F;config.inc.php文件中找到下面代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27; &#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27; &#x27;;</span><br></pre></td></tr></table></figure>
+<p>将其修改为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27;6LdK7xITAAzzAAJQTfL7fu6I-0aPl8KHHieAT_yJg&#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27;6LdK7xITAzzAAL_uw9YXVUOPoIHPZLfw2K1n5NVQ&#x27;;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>系统运维</category>
-        <category>docker</category>
+        <category>网络安全</category>
+        <category>dvwa</category>
       </categories>
       <tags>
         <tag>docker</tag>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dvwa-命令执行</title>
+    <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
+    <content><![CDATA[<h2 id="Low等级"><a href="#Low等级" class="headerlink" title="Low等级"></a>Low等级</h2><p>命令执行漏洞主要是针对有网络测试的页面，如网络设备的web管理页面等等，利用其执行命令的输入窗口执行其他命令。</p>
+<p>简单演示一下正常使用，输入127.0.0.1，执行：<br><img src="/images/pasted-36.png" alt="upload successful"></p>
+<h3 id="在DVWA靶场点击command-injection设置等级为low"><a href="#在DVWA靶场点击command-injection设置等级为low" class="headerlink" title="在DVWA靶场点击command injection设置等级为low"></a>在DVWA靶场点击command injection设置等级为low</h3><p><img src="/images/pasted-37.png" alt="upload successful"></p>
+<h3 id="使用命令连接符如-、-、-、-来执行命令"><a href="#使用命令连接符如-、-、-、-来执行命令" class="headerlink" title="使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令"></a>使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令</h3><p>相当于与或非，判断前面命令是否成功执行之后的自定义命令<br><img src="/images/pasted-38.png" alt="upload successful"><br><img src="/images/pasted-39.png" alt="upload successful"></p>
+<h2 id="Medium等级"><a href="#Medium等级" class="headerlink" title="Medium等级"></a>Medium等级</h2><p>做了一点防护措施，相当于没有。<br>将这些连接符做了个判断转为空，详情如下：<br><img src="/images/pasted-40.png" alt="upload successful"></p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>测试发现使用命令连接符&amp;&amp;和;都不执行。<br><img src="/images/pasted-41.png" alt="upload successful"></p>
+<p>但是可以使用其他没有被处理的连接符<br><img src="/images/pasted-42.png" alt="upload successful"></p>
+<h2 id="High等级"><a href="#High等级" class="headerlink" title="High等级"></a>High等级</h2><p>连接符连接都不执行,已处理所有连接符<br><img src="/images/pasted-43.png" alt="upload successful"></p>
+<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>其实|是没处理的，加了空格，所以还是能够执行的<br><img src="/images/pasted-44.png" alt="upload successful"></p>
+<p>执行结果：<br><img src="/images/pasted-45.png" alt="upload successful"></p>
+<h2 id="Impossible等级"><a href="#Impossible等级" class="headerlink" title="Impossible等级"></a>Impossible等级</h2><p>是不可能等级，这个采用的是白名单的方式防护，只允许已知的命令执行。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Check Anti-CSRF token</span><br><span class="line">    checkToken( $_REQUEST[ &#x27;user_token&#x27; ], $_SESSION[ &#x27;session_token&#x27; ], &#x27;index.php&#x27; );</span><br><span class="line"></span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line">    $target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">    // Split the IP into 4 octects</span><br><span class="line">    $octet = explode( &quot;.&quot;, $target );</span><br><span class="line"></span><br><span class="line">    // Check IF each octet is an integer</span><br><span class="line">    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet ) == 4 ) ) &#123;</span><br><span class="line">        // If all 4 octets are int&#x27;s put the IP back together.</span><br><span class="line">        $target = $octet[0] . &#x27;.&#x27; . $octet[1] . &#x27;.&#x27; . $octet[2] . &#x27;.&#x27; . $octet[3];</span><br><span class="line"></span><br><span class="line">        // Determine OS and execute the ping command.</span><br><span class="line">        if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">            // Windows</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            // *nix</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Feedback for the end user</span><br><span class="line">        echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // Ops. Let the user name theres a mistake</span><br><span class="line">        echo &#x27;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Generate Anti-CSRF token</span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>dvwa</category>
+      </categories>
+      <tags>
+        <tag>dvwa</tag>
       </tags>
   </entry>
   <entry>
@@ -556,59 +609,6 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
         <tag>docker</tag>
         <tag>awvs安装</tag>
         <tag>awvs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dvwa-命令执行</title>
-    <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
-    <content><![CDATA[<h2 id="Low等级"><a href="#Low等级" class="headerlink" title="Low等级"></a>Low等级</h2><p>命令执行漏洞主要是针对有网络测试的页面，如网络设备的web管理页面等等，利用其执行命令的输入窗口执行其他命令。</p>
-<p>简单演示一下正常使用，输入127.0.0.1，执行：<br><img src="/images/pasted-36.png" alt="upload successful"></p>
-<h3 id="在DVWA靶场点击command-injection设置等级为low"><a href="#在DVWA靶场点击command-injection设置等级为low" class="headerlink" title="在DVWA靶场点击command injection设置等级为low"></a>在DVWA靶场点击command injection设置等级为low</h3><p><img src="/images/pasted-37.png" alt="upload successful"></p>
-<h3 id="使用命令连接符如-、-、-、-来执行命令"><a href="#使用命令连接符如-、-、-、-来执行命令" class="headerlink" title="使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令"></a>使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令</h3><p>相当于与或非，判断前面命令是否成功执行之后的自定义命令<br><img src="/images/pasted-38.png" alt="upload successful"><br><img src="/images/pasted-39.png" alt="upload successful"></p>
-<h2 id="Medium等级"><a href="#Medium等级" class="headerlink" title="Medium等级"></a>Medium等级</h2><p>做了一点防护措施，相当于没有。<br>将这些连接符做了个判断转为空，详情如下：<br><img src="/images/pasted-40.png" alt="upload successful"></p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>测试发现使用命令连接符&amp;&amp;和;都不执行。<br><img src="/images/pasted-41.png" alt="upload successful"></p>
-<p>但是可以使用其他没有被处理的连接符<br><img src="/images/pasted-42.png" alt="upload successful"></p>
-<h2 id="High等级"><a href="#High等级" class="headerlink" title="High等级"></a>High等级</h2><p>连接符连接都不执行,已处理所有连接符<br><img src="/images/pasted-43.png" alt="upload successful"></p>
-<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>其实|是没处理的，加了空格，所以还是能够执行的<br><img src="/images/pasted-44.png" alt="upload successful"></p>
-<p>执行结果：<br><img src="/images/pasted-45.png" alt="upload successful"></p>
-<h2 id="Impossible等级"><a href="#Impossible等级" class="headerlink" title="Impossible等级"></a>Impossible等级</h2><p>是不可能等级，这个采用的是白名单的方式防护，只允许已知的命令执行。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Check Anti-CSRF token</span><br><span class="line">    checkToken( $_REQUEST[ &#x27;user_token&#x27; ], $_SESSION[ &#x27;session_token&#x27; ], &#x27;index.php&#x27; );</span><br><span class="line"></span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line">    $target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">    // Split the IP into 4 octects</span><br><span class="line">    $octet = explode( &quot;.&quot;, $target );</span><br><span class="line"></span><br><span class="line">    // Check IF each octet is an integer</span><br><span class="line">    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet ) == 4 ) ) &#123;</span><br><span class="line">        // If all 4 octets are int&#x27;s put the IP back together.</span><br><span class="line">        $target = $octet[0] . &#x27;.&#x27; . $octet[1] . &#x27;.&#x27; . $octet[2] . &#x27;.&#x27; . $octet[3];</span><br><span class="line"></span><br><span class="line">        // Determine OS and execute the ping command.</span><br><span class="line">        if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">            // Windows</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            // *nix</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Feedback for the end user</span><br><span class="line">        echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // Ops. Let the user name theres a mistake</span><br><span class="line">        echo &#x27;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Generate Anti-CSRF token</span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>dvwa</category>
-      </categories>
-      <tags>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dvwa-部署（docker）</title>
-    <url>/2024/10/14/dvwa-%E9%83%A8%E7%BD%B2%EF%BC%88docker%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>发现配置了镜像加速也无法通过search查到镜像，但是下载没问题，通过网上查询镜像名称下载即可：</p>
-<pre><code>https://hub.docker.com/
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull docker pull sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
-
-<h2 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
-
-<p>默认账号密码</p>
-<pre><code>dvwa/dvwa
-admin/password
-</code></pre>
-<h2 id="许可证"><a href="#许可证" class="headerlink" title="许可证"></a>许可证</h2><p>通过网上使用方法使用其他人的密钥发现导入无法使用，可能是方式有问题，我是用的镜像提供的命令导入密钥</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 -e RECAPTCHA_PUBLIC_KEY=YOUR_KEY -e RECAPTCHA_PRIVATE_KEY=YOUR_KEY sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
-
-<p>网上的使用方法<br>在DVWA-master&#x2F;config&#x2F;config.inc.php文件中找到下面代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27; &#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27; &#x27;;</span><br></pre></td></tr></table></figure>
-<p>将其修改为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27;6LdK7xITAAzzAAJQTfL7fu6I-0aPl8KHHieAT_yJg&#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27;6LdK7xITAzzAAL_uw9YXVUOPoIHPZLfw2K1n5NVQ&#x27;;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>dvwa</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>dvwa</tag>
       </tags>
   </entry>
   <entry>
@@ -661,59 +661,23 @@ admin/password
       </tags>
   </entry>
   <entry>
-    <title>分区命令</title>
-    <url>/2025/01/15/fdisk/</url>
-    <content><![CDATA[<h2 id="fdisk"><a href="#fdisk" class="headerlink" title="fdisk"></a>fdisk</h2><h3 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h3><p>fdisk 路径 参数</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
-
-<p>一般配合使用的有<br>df -h<br>lsblk<br>mkfs.ext4<br>…….</p>
-<h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
-
-<h2 id="逻辑卷"><a href="#逻辑卷" class="headerlink" title="逻辑卷"></a>逻辑卷</h2><p>创建常用命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br><span class="line"></span><br><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
-
-
-<p>删除常用命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
-
-<h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><h3 id="设备或资源忙"><a href="#设备或资源忙" class="headerlink" title="设备或资源忙"></a>设备或资源忙</h3><p>如果有返回：</p>
-<pre><code>The partition table has been altered!
-
-Calling ioctl() to re-read partition table.
-
-WARNING: Re-reading the partition table failed with error 16: 设备或资源忙.
-The kernel still uses the old table. The new table will be used at
-the next reboot or after you run partprobe(8) or kpartx(8)
-</code></pre>
-<p>重新识别磁盘即可</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">partprobe /dev/sdb</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>github部署hexo</title>
     <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
-    <content><![CDATA[<h2 id="本地ssh连接-GitHub"><a href="#本地ssh连接-GitHub" class="headerlink" title="本地ssh连接 GitHub"></a>本地ssh连接 GitHub</h2><h4 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h4><p>确保下载了git后输入命令</p>
-<pre><code>git config --global user.name &quot;你的 GitHub 用户名&quot;
-git config --global user.email &quot;你的 GitHub 邮箱&quot;
-</code></pre>
+    <content><![CDATA[<h2 id="本地ssh连接-GitHub"><a href="#本地ssh连接-GitHub" class="headerlink" title="本地ssh连接 GitHub"></a>本地ssh连接 GitHub</h2><h3 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h3><p>确保下载了git后输入命令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 GitHub 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
+<p>这一步windows需要设置ssh用户名和，不确定要不要指定密钥文件：</p>
+<ol>
+<li>用户名执行命令：<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">git config --global --add safe.directory D:/hexo/.deploy_git</span><br></pre></td></tr></table></figure></li>
+<li>指定密钥文件，在保存密钥文件的目录中创建文件：config<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  User git</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa</span><br><span class="line">  IdentitiesOnly yes</span><br></pre></td></tr></table></figure></li>
+</ol>
 <p>创建 SSH 密匙（可以-f指定输出目录）</p>
-<pre><code>ssh-keygen -t rsa -C &quot;你的 GitHub 邮箱&quot;
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
 <p>什么都不用管，一路回车就行，创建好之后可以在.ssh看到有id_rsa.pub(.pub是公钥，id_rsa是私钥)。<br>打开 id_rsa.pub 并复制里面的内容。</p>
-<h4 id="在-GitHub-中添加-SSH-密钥"><a href="#在-GitHub-中添加-SSH-密钥" class="headerlink" title="在 GitHub 中添加 SSH 密钥"></a>在 GitHub 中添加 SSH 密钥</h4><p>回到 GitHub，进入 Settings：<br><img src="/images/pasted-11.png" alt="upload successful"></p>
+<h3 id="在-GitHub-中添加-SSH-密钥"><a href="#在-GitHub-中添加-SSH-密钥" class="headerlink" title="在 GitHub 中添加 SSH 密钥"></a>在 GitHub 中添加 SSH 密钥</h3><p>回到 GitHub，进入 Settings：<br><img src="/images/pasted-11.png" alt="upload successful"></p>
 <p>选择左边栏的 SSH and GPG keys，点击 New SSH key：<br><img src="/images/pasted-12.png" alt="upload successful"></p>
 <p>Title 随便取，然后把 id_rsa.pub 里面的内容到复制到 Key 中，点击 Add SSH key：<br><img src="/images/pasted-13.png" alt="upload successful"></p>
 <p>保存完毕本地验证一下连接</p>
-<pre><code>ssh -T git@github.com
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
 <p>出现 “Are you sure……”，输入 yes 回车确认，若出现下图的提示即连接成功：<br><img src="/images/pasted-14.png" alt="upload successful"></p>
 <h2 id="创建-GitHub-仓库"><a href="#创建-GitHub-仓库" class="headerlink" title="创建 GitHub 仓库"></a>创建 GitHub 仓库</h2><p>GitHub 的主页 repository 中点击右上角的 New：<br><img src="/images/pasted-15.png" alt="upload successful"></p>
 <p>填写基本信息:<br>Repository name 中输入用户名.github.io，一定要是这个名字！<br>勾选 Add a README file<br><img src="/images/pasted-16.png" alt="upload successful"></p>
@@ -723,15 +687,9 @@ git config --global user.email &quot;你的 GitHub 邮箱&quot;
 </code></pre>
 <p>修改_config.yml 文件末尾的 Deployment 部分：<br><img src="/images/pasted-17.png" alt="upload successful"></p>
 <p>修改成如下（修改为你的用户名与仓库名）<br><img src="/images/pasted-18.png" alt="upload successful"></p>
-<pre><code>deploy:
-  type: git
-  repo: git@github.com:w00123/w00123.github.io.git
-  branch: gh-pages
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">   type: git</span><br><span class="line">   repo: git@github.com:w00123/w00123.github.io.git</span><br><span class="line">   branch: gh-pages</span><br></pre></td></tr></table></figure>
 <p>修改完成保存后运行</p>
-<pre><code>hexo c
-hexo d
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo c</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 <p>出现下面的提示说明已经把网站上传到 GitHub 了：<br><img src="/images/pasted-19.png" alt="upload successful"></p>
 <p>然后我们需要在库设置（Repository Settings）中将默认分支设置为_config.yml 配置中的分支名称。<br><img src="/images/pasted-20.png" alt="upload successful"></p>
 <p>然后在 pages 页面调整源分支：<br><img src="/images/pasted-21.png" alt="upload successful"></p>
@@ -810,6 +768,43 @@ hexo d
       <tags>
         <tag>网络安全</tag>
         <tag>hashcat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分区命令</title>
+    <url>/2025/01/15/fdisk/</url>
+    <content><![CDATA[<h2 id="fdisk"><a href="#fdisk" class="headerlink" title="fdisk"></a>fdisk</h2><h3 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h3><p>fdisk 路径 参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
+
+<p>一般配合使用的有<br>df -h<br>lsblk<br>mkfs.ext4<br>…….</p>
+<h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
+
+<h2 id="逻辑卷"><a href="#逻辑卷" class="headerlink" title="逻辑卷"></a>逻辑卷</h2><p>创建常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br><span class="line"></span><br><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
+
+
+<p>删除常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
+
+<h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><h3 id="设备或资源忙"><a href="#设备或资源忙" class="headerlink" title="设备或资源忙"></a>设备或资源忙</h3><p>如果有返回：</p>
+<pre><code>The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 16: 设备或资源忙.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+</code></pre>
+<p>重新识别磁盘即可</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">partprobe /dev/sdb</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
@@ -911,6 +906,41 @@ hexo d
       </tags>
   </entry>
   <entry>
+    <title>hexo博客安装方法</title>
+    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="termux"><a href="#termux" class="headerlink" title="termux"></a>termux</h2><h3 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h3><p>pkg换源</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@&#x27; $PREFIX/etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">pkg update</span><br><span class="line"></span><br><span class="line">pkg install nodejs-lts</span><br><span class="line">pkg install git</span><br><span class="line">pkg install vim</span><br></pre></td></tr></table></figure>
+
+<p>需要在目录下运行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir hexo</span><br><span class="line">chmod 777 hexo</span><br><span class="line">cd hexo</span><br></pre></td></tr></table></figure>
+
+<h3 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h3><p>npm换源（淘宝）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm config set registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
+
+<p>安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+
+<p>启动命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>下载主题</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
+
+<p>vim编辑根目录下_config.yml中的theme：butterfly<br>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
+<p>安装插件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h3><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo-书写</title>
     <url>/2025/02/08/hexo-%E4%B9%A6%E5%86%99/</url>
     <content><![CDATA[<h2 id="常用书写"><a href="#常用书写" class="headerlink" title="常用书写"></a>常用书写</h2><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">\```bash</span><br><span class="line"></span><br><span class="line">\```</span><br></pre></td></tr></table></figure>
@@ -975,38 +1005,43 @@ hexo d
       </tags>
   </entry>
   <entry>
-    <title>hexo博客安装方法</title>
-    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="termux"><a href="#termux" class="headerlink" title="termux"></a>termux</h2><h3 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h3><p>pkg换源</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@&#x27; $PREFIX/etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">pkg update</span><br><span class="line"></span><br><span class="line">pkg install nodejs-lts</span><br><span class="line">pkg install git</span><br><span class="line">pkg install vim</span><br></pre></td></tr></table></figure>
+    <title>java-linux安装卸载</title>
+    <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
+    <content><![CDATA[<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><ol>
+<li><p>更新</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载<br>默认jdk</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure>
+<p>指定版本</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="切换版本"><a href="#切换版本" class="headerlink" title="切换版本"></a>切换版本</h2><ol>
+<li>如果安装了多个java版本，查看的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --list java</span><br></pre></td></tr></table></figure></li>
+<li>切换的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>根据需要填写编号即可。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h3 id="查看已有版本"><a href="#查看已有版本" class="headerlink" title="查看已有版本"></a>查看已有版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep -i &quot;jdk\|jre\|java&quot;</span><br></pre></td></tr></table></figure>
 
-<p>需要在目录下运行安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir hexo</span><br><span class="line">chmod 777 hexo</span><br><span class="line">cd hexo</span><br></pre></td></tr></table></figure>
-
-<h3 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h3><p>npm换源（淘宝）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm config set registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
-
-<p>安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-
-<p>启动命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-
-<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>下载主题</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
-
-<p>vim编辑根目录下_config.yml中的theme：butterfly<br>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
-<p>安装插件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
-
-<h3 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h3><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
+<h3 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h3><ol>
+<li><p>卸载</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt purge openjdk-11-jdk openjdk-11-jre</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除多余残余设置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt clean</span><br></pre></td></tr></table></figure></li>
+</ol>
 ]]></content>
       <categories>
-        <category>hexo博客</category>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>环境</category>
       </categories>
       <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
+        <tag>linux命令</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -1079,46 +1114,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>渗透命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>java-linux安装卸载</title>
-    <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
-    <content><![CDATA[<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><ol>
-<li><p>更新</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>下载<br>默认jdk</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure>
-<p>指定版本</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="切换版本"><a href="#切换版本" class="headerlink" title="切换版本"></a>切换版本</h2><ol>
-<li>如果安装了多个java版本，查看的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --list java</span><br></pre></td></tr></table></figure></li>
-<li>切换的命令是<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>根据需要填写编号即可。</p>
-</blockquote>
-</li>
-</ol>
-<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h3 id="查看已有版本"><a href="#查看已有版本" class="headerlink" title="查看已有版本"></a>查看已有版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep -i &quot;jdk\|jre\|java&quot;</span><br></pre></td></tr></table></figure>
-
-<h3 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h3><ol>
-<li><p>卸载</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt purge openjdk-11-jdk openjdk-11-jre</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>删除多余残余设置</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt clean</span><br></pre></td></tr></table></figure></li>
-</ol>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>环境</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -1519,53 +1514,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>portainer docker的web管理页面</title>
-    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="portainer"><a href="#portainer" class="headerlink" title="portainer"></a>portainer</h2><p>一个web可视化的docker管理页面</p>
-<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>先搜索镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
-<p>一般我下载最多下载的那几个</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
-<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
-<p>接下来就可以登录管理了</p>
-<h2 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h2><p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
-<p>也可通过上传配置文件创建</p>
-<p>选其中一个即可</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>pycharm激活</title>
-    <url>/2024/08/10/pycharm%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h2 id="检查链接"><a href="#检查链接" class="headerlink" title="检查链接"></a>检查链接</h2><p>网址：<a href="https://3.jetbra.in/">https://3.jetbra.in/</a></p>
-<p>带小地图和*的标志，我们点进去<br><img src="/images/pasted-27.png" alt="upload successful"></p>
-<h2 id="下载工具软件"><a href="#下载工具软件" class="headerlink" title="下载工具软件"></a>下载工具软件</h2><p>下载图中jetbra.zip<br><img src="/images/pasted-28.png" alt="upload successful"></p>
-<p>解压，打开文件，进入scripts，双击图中文件<br><img src="/images/pasted-30.png" alt="upload successful"></p>
-<p>等待10~20秒，会出现一个弹窗done，一般这个时候重启pycharm就已经激活，没有激活可以继续下面步骤。<br><img src="/images/pasted-31.png" alt="upload successful"></p>
-<h2 id="激活码激活"><a href="#激活码激活" class="headerlink" title="激活码激活"></a>激活码激活</h2><p>点击图中pycharm复制<br><img src="/images/pasted-32.png" alt="upload successful"></p>
-<p>复制激活<br><img src="/images/pasted-34.png" alt="upload successful"></p>
-<p><img src="/images/pasted-33.png" alt="upload successful"></p>
-<h1 id="下载的工具软件不能删除，删除失效！！"><a href="#下载的工具软件不能删除，删除失效！！" class="headerlink" title="下载的工具软件不能删除，删除失效！！"></a>下载的工具软件不能删除，删除失效！！</h1>]]></content>
-      <categories>
-        <category>代码</category>
-        <category>工具安装</category>
-      </categories>
-      <tags>
-        <tag>工具安装</tag>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sqlmap</title>
     <url>/2025/03/05/sqlmap/</url>
     <content><![CDATA[<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>自动测试注入已找到的sql注入漏洞点</p>
@@ -1765,23 +1713,50 @@ run
       </tags>
   </entry>
   <entry>
-    <title>switch-大气层与模拟器局域网联机</title>
-    <url>/2025/05/01/switch-%E5%A4%A7%E6%B0%94%E5%B1%82%E4%B8%8E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%B1%80%E5%9F%9F%E7%BD%91%E8%81%94%E6%9C%BA/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>大气层与大气层，模拟器与模拟器都有了联机方法，但是大气层与模拟器不能直接联机</p>
-<h2 id="安装ldn-mitm"><a href="#安装ldn-mitm" class="headerlink" title="安装ldn_mitm"></a>安装ldn_mitm</h2><p>是一个用于 Nintendo Switch 的中间人（MITM）系统模块，它通过替换系统中的 ldn 服务来实现局域网（LAN）连接。原本是可以实现互联网连接的插件，龙神模拟器中网络设置支持ldn_mitm，所以无需中间服务器就能让大气层和模拟器连接。</p>
-<blockquote>
-<p>项目地址：<br><a href="https://github.com/spacemeowx2/ldn_mitm">https://github.com/spacemeowx2/ldn_mitm</a></p>
-</blockquote>
-<blockquote>
-<p>下载安装后，就能局域网搜索到了</p>
-</blockquote>
-]]></content>
+    <title>pycharm激活</title>
+    <url>/2024/08/10/pycharm%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h2 id="检查链接"><a href="#检查链接" class="headerlink" title="检查链接"></a>检查链接</h2><p>网址：<a href="https://3.jetbra.in/">https://3.jetbra.in/</a></p>
+<p>带小地图和*的标志，我们点进去<br><img src="/images/pasted-27.png" alt="upload successful"></p>
+<h2 id="下载工具软件"><a href="#下载工具软件" class="headerlink" title="下载工具软件"></a>下载工具软件</h2><p>下载图中jetbra.zip<br><img src="/images/pasted-28.png" alt="upload successful"></p>
+<p>解压，打开文件，进入scripts，双击图中文件<br><img src="/images/pasted-30.png" alt="upload successful"></p>
+<p>等待10~20秒，会出现一个弹窗done，一般这个时候重启pycharm就已经激活，没有激活可以继续下面步骤。<br><img src="/images/pasted-31.png" alt="upload successful"></p>
+<h2 id="激活码激活"><a href="#激活码激活" class="headerlink" title="激活码激活"></a>激活码激活</h2><p>点击图中pycharm复制<br><img src="/images/pasted-32.png" alt="upload successful"></p>
+<p>复制激活<br><img src="/images/pasted-34.png" alt="upload successful"></p>
+<p><img src="/images/pasted-33.png" alt="upload successful"></p>
+<h1 id="下载的工具软件不能删除，删除失效！！"><a href="#下载的工具软件不能删除，删除失效！！" class="headerlink" title="下载的工具软件不能删除，删除失效！！"></a>下载的工具软件不能删除，删除失效！！</h1>]]></content>
       <categories>
-        <category>switch</category>
+        <category>代码</category>
+        <category>工具安装</category>
       </categories>
       <tags>
-        <tag>switch</tag>
-        <tag>大气层</tag>
+        <tag>工具安装</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>portainer docker的web管理页面</title>
+    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="portainer"><a href="#portainer" class="headerlink" title="portainer"></a>portainer</h2><p>一个web可视化的docker管理页面</p>
+<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>先搜索镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
+<p>一般我下载最多下载的那几个</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
+<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
+<p>接下来就可以登录管理了</p>
+<h2 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h2><p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
+<p>也可通过上传配置文件创建</p>
+<p>选其中一个即可</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -2204,6 +2179,43 @@ run
       </tags>
   </entry>
   <entry>
+    <title>switch-大气层与模拟器局域网联机</title>
+    <url>/2025/05/01/switch-%E5%A4%A7%E6%B0%94%E5%B1%82%E4%B8%8E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%B1%80%E5%9F%9F%E7%BD%91%E8%81%94%E6%9C%BA/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>大气层与大气层，模拟器与模拟器都有了联机方法，但是大气层与模拟器不能直接联机</p>
+<h2 id="安装ldn-mitm"><a href="#安装ldn-mitm" class="headerlink" title="安装ldn_mitm"></a>安装ldn_mitm</h2><p>是一个用于 Nintendo Switch 的中间人（MITM）系统模块，它通过替换系统中的 ldn 服务来实现局域网（LAN）连接。原本是可以实现互联网连接的插件，龙神模拟器中网络设置支持ldn_mitm，所以无需中间服务器就能让大气层和模拟器连接。</p>
+<blockquote>
+<p>项目地址：<br><a href="https://github.com/spacemeowx2/ldn_mitm">https://github.com/spacemeowx2/ldn_mitm</a></p>
+</blockquote>
+<blockquote>
+<p>下载安装后，就能局域网搜索到了</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>switch</category>
+      </categories>
+      <tags>
+        <tag>switch</tag>
+        <tag>大气层</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>压缩包密码爆破</title>
+    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="使用zip2john-hash值破解"><a href="#使用zip2john-hash值破解" class="headerlink" title="使用zip2john hash值破解"></a>使用zip2john hash值破解</h2><p>生成压缩包hash值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip2john filename.zip &gt; hash.txt</span><br></pre></td></tr></table></figure>
+<p>开始破解</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">john hash.txt</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>hashcat</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>windows域部署及管理</title>
     <url>/2025/04/26/windows%E5%9F%9F%E9%83%A8%E7%BD%B2%E5%8F%8A%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h2 id="windows域"><a href="#windows域" class="headerlink" title="windows域"></a>windows域</h2><ul>
@@ -2240,66 +2252,6 @@ run
       <tags>
         <tag>windows域</tag>
         <tag>AD DC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>windows没有图形化页面</title>
-    <url>/2025/04/26/windows%E6%B2%A1%E6%9C%89%E5%9B%BE%E5%BD%A2%E5%8C%96%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果安装windows时候选择了没有带gui的选项，仅核心，则会出现没有图形化的问题。</p>
-<blockquote>
-<p>以下的方法其实没什么用，不如重装，下面是我网上搜集来的方法，都没成功</p>
-</blockquote>
-<h2 id="检查图形化程序"><a href="#检查图形化程序" class="headerlink" title="检查图形化程序"></a>检查图形化程序</h2><p>查找位置</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dir</span> /s explorer.exe</span><br></pre></td></tr></table></figure>
-
-<p>找到可以运行试试</p>
-<h2 id="安装图形化"><a href="#安装图形化" class="headerlink" title="安装图形化"></a>安装图形化</h2><h3 id="安装gui"><a href="#安装gui" class="headerlink" title="安装gui"></a>安装gui</h3><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">powershell</span><br><span class="line">Install-WindowsFeature Server-Gui-Shell, Server-Gui-Mgmt-Infra</span><br></pre></td></tr></table></figure>
-
-<h3 id="通过映像文件安装"><a href="#通过映像文件安装" class="headerlink" title="通过映像文件安装"></a>通过映像文件安装</h3><p>d:对应的是d盘，如果iso文件是其他盘时改为对应盘符</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">dism /get-wiminfo /wimfile:d:\sources\install.wim</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>windows图形化</tag>
-        <tag>cmd</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>压缩包密码爆破</title>
-    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="使用zip2john-hash值破解"><a href="#使用zip2john-hash值破解" class="headerlink" title="使用zip2john hash值破解"></a>使用zip2john hash值破解</h2><p>生成压缩包hash值</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip2john filename.zip &gt; hash.txt</span><br></pre></td></tr></table></figure>
-<p>开始破解</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">john hash.txt</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>hashcat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>安全-内网渗透</title>
-    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
-    <content><![CDATA[<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>主机存活<br>    ettercap -G 蜘蛛<br>    nmap<br>    nmap -sS 网段</p>
-<p>漏洞搜集<br>    awvs			网站扫描<br>    gvm(openvas)	系统扫描<br>    nmap<br>    nmap –script&#x3D;vuln &#x2F;&#x2F;常见漏洞<br>    nmap –script-default &#x2F;&#x2F;默认收集信息脚本</p>
-<h2 id="进入目标后"><a href="#进入目标后" class="headerlink" title="进入目标后"></a>进入目标后</h2><p>提权<br>    创建高权限用户<br>        windows<br>            net use<br>        linux<br>            user add</p>
-<p>留后门<br>    创建木马<br>        木马(msfconsole)<br>    上传木马<br>        meterpreter<br>            upload</p>
-<h2 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h2><p>改变流量走向<br>    ettercap(arp欺骗、dns劫持等)<br>    arpspoof<br>    arpspoof -i 网卡名称 -t 目标IP 网关</p>
-<p>爆破密码<br>    hydra（九头蛇）<br>    msfconsole（爆破密码模块）</p>
-<p>漏洞攻击<br>    msfconsole（漏洞攻击目录）</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
       </tags>
   </entry>
   <entry>
@@ -2354,6 +2306,30 @@ run
       </categories>
       <tags>
         <tag>菜谱</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows没有图形化页面</title>
+    <url>/2025/04/26/windows%E6%B2%A1%E6%9C%89%E5%9B%BE%E5%BD%A2%E5%8C%96%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果安装windows时候选择了没有带gui的选项，仅核心，则会出现没有图形化的问题。</p>
+<blockquote>
+<p>以下的方法其实没什么用，不如重装，下面是我网上搜集来的方法，都没成功</p>
+</blockquote>
+<h2 id="检查图形化程序"><a href="#检查图形化程序" class="headerlink" title="检查图形化程序"></a>检查图形化程序</h2><p>查找位置</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dir</span> /s explorer.exe</span><br></pre></td></tr></table></figure>
+
+<p>找到可以运行试试</p>
+<h2 id="安装图形化"><a href="#安装图形化" class="headerlink" title="安装图形化"></a>安装图形化</h2><h3 id="安装gui"><a href="#安装gui" class="headerlink" title="安装gui"></a>安装gui</h3><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">powershell</span><br><span class="line">Install-WindowsFeature Server-Gui-Shell, Server-Gui-Mgmt-Infra</span><br></pre></td></tr></table></figure>
+
+<h3 id="通过映像文件安装"><a href="#通过映像文件安装" class="headerlink" title="通过映像文件安装"></a>通过映像文件安装</h3><p>d:对应的是d盘，如果iso文件是其他盘时改为对应盘符</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">dism /get-wiminfo /wimfile:d:\sources\install.wim</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows图形化</tag>
+        <tag>cmd</tag>
       </tags>
   </entry>
   <entry>
@@ -2420,6 +2396,98 @@ run
       </categories>
       <tags>
         <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>笔记本无线网卡异常</title>
+    <url>/2025/03/22/%E7%AC%94%E8%AE%B0%E6%9C%AC%E6%97%A0%E7%BA%BF%E7%BD%91%E5%8D%A1%E5%BC%82%E5%B8%B8/</url>
+    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>这次遇到的问题现象是一开始网卡会时不时异常，通过重启和去除静电的方法会恢复正常，但是突然有一天就开始无法恢复了，始终保持异常的状态，怎么重新安装驱动都没用。</p>
+<p>但是主机是一直有识别到网卡的，设备管理显示黄色告警。</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><h3 id="拆机拔插网卡"><a href="#拆机拔插网卡" class="headerlink" title="拆机拔插网卡"></a>拆机拔插网卡</h3><p>网卡拆下来用纸巾擦干净，或者酒精，重新安装即恢复</p>
+<p><del>原本是一直用手机usb共享网络使用网络了，但是有一天突然想到小时候的小霸王游戏卡都是擦擦金手指解决的， 尝试后没想到真有用</del></p>
+<blockquote>
+<p>这个是我这次的问题解决办法，正常解决途径有以下方法</p>
+</blockquote>
+<h3 id="去除静电"><a href="#去除静电" class="headerlink" title="去除静电"></a>去除静电</h3><ol>
+<li>拔掉电脑上所有的线</li>
+<li>启动键一直按，按到关机后再按20秒</li>
+</ol>
+<p>操作成功后启动我的联想y7000键盘灯会是熄灭的</p>
+<h3 id="更新-重新下载网卡驱动"><a href="#更新-重新下载网卡驱动" class="headerlink" title="更新&#x2F;重新下载网卡驱动"></a>更新&#x2F;重新下载网卡驱动</h3><ul>
+<li>使用intel网卡驱动自动检测下载工具<blockquote>
+<p>下载地址：<br><a href="https://www.intel.cn/content/www/cn/zh/download/19351/intel-wireless-wi-fi-drivers-for-windows-10-and-windows-11.html">https://www.intel.cn/content/www/cn/zh/download/19351/intel-wireless-wi-fi-drivers-for-windows-10-and-windows-11.html</a><br>其他驱动：<br><a href="https://www.intel.cn/content/www/cn/zh/download-center/home.html">https://www.intel.cn/content/www/cn/zh/download-center/home.html</a></p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>笔记本维修</category>
+      </categories>
+      <tags>
+        <tag>笔记本无线网卡</tag>
+        <tag>维修</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安全-内网渗透</title>
+    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
+    <content><![CDATA[<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>主机存活<br>    ettercap -G 蜘蛛<br>    nmap<br>    nmap -sS 网段</p>
+<p>漏洞搜集<br>    awvs			网站扫描<br>    gvm(openvas)	系统扫描<br>    nmap<br>    nmap –script&#x3D;vuln &#x2F;&#x2F;常见漏洞<br>    nmap –script-default &#x2F;&#x2F;默认收集信息脚本</p>
+<h2 id="进入目标后"><a href="#进入目标后" class="headerlink" title="进入目标后"></a>进入目标后</h2><p>提权<br>    创建高权限用户<br>        windows<br>            net use<br>        linux<br>            user add</p>
+<p>留后门<br>    创建木马<br>        木马(msfconsole)<br>    上传木马<br>        meterpreter<br>            upload</p>
+<h2 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h2><p>改变流量走向<br>    ettercap(arp欺骗、dns劫持等)<br>    arpspoof<br>    arpspoof -i 网卡名称 -t 目标IP 网关</p>
+<p>爆破密码<br>    hydra（九头蛇）<br>    msfconsole（爆破密码模块）</p>
+<p>漏洞攻击<br>    msfconsole（漏洞攻击目录）</p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算命</title>
+    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
+    <content><![CDATA[<h2 id="六神"><a href="#六神" class="headerlink" title="六神"></a>六神</h2><h3 id="手势位置"><a href="#手势位置" class="headerlink" title="手势位置"></a>手势位置</h3><p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br><img src="/images/pasted-71.png" alt="upload successful"></p>
+<p>速记：大、流、速、赤、小、空。</p>
+<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><h4 id="大安"><a href="#大安" class="headerlink" title="大安"></a>大安</h4><p>1、身不动时（如果算一个人在干什么）<br>2、五行：属木<br>3、方位：东<br>4、神煞：青龙<br>5、数字：1、5、7<br>6、安心吉祥的意思</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
+
+<h4 id="留连"><a href="#留连" class="headerlink" title="留连"></a>留连</h4><p>1、人未归时<br>2、五行属水<br>3、黑色<br>4、方位北<br>5、玄武<br>6、数字：2、8、10<br>7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
+
+<h4 id="速喜"><a href="#速喜" class="headerlink" title="速喜"></a>速喜</h4><p>1、人即至时<br>2、五行属火<br>3、红色<br>4、方位为南方<br>5、数字：3,6,9<br>6、有快速、吉利、时机已到之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
+
+<h4 id="赤口"><a href="#赤口" class="headerlink" title="赤口"></a>赤口</h4><p>1、官事凶时<br>2、五行属金<br>3、白色<br>4、西方<br>5、白虎<br>6、数字：4，7，10<br>7、有不吉、惊恐、凶险、口舌是非之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
+
+<h4 id="小吉"><a href="#小吉" class="headerlink" title="小吉"></a>小吉</h4><p>1、人来喜时<br>2、五行属木<br>3、六合<br>4、数字：1,5,7<br>5、有和合、吉利之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
+
+<h4 id="空亡"><a href="#空亡" class="headerlink" title="空亡"></a>空亡</h4><p>1、音信稀时<br>2、五行属土<br>3、黄色<br>4、中央<br>5、勾陈<br>6、数字：3,6,9<br>7、有不吉、无果之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
+
+<h2 id="奇门"><a href="#奇门" class="headerlink" title="奇门"></a>奇门</h2><h3 id="九宫五行"><a href="#九宫五行" class="headerlink" title="九宫五行"></a>九宫五行</h3><p>五行生克关系<br><img src="/images/pasted-74.png" alt="upload successful"><br>九宫位置<br><img src="/images/pasted-73.png" alt="upload successful"><br>东南西北位置<br><img src="/images/pasted-75.png" alt="upload successful"></p>
+<h2 id="干支"><a href="#干支" class="headerlink" title="干支"></a>干支</h2><p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
+<p>寅卯为木居东方，巳午为火居正南，<br>申酉属金位在西，子亥属水在北边，<br>辰戌丑未皆属土，分别居于四维偏，<br>辰在东南戌西北，丑在东北未西南。</p>
+<h2 id="时辰"><a href="#时辰" class="headerlink" title="时辰"></a>时辰</h2><p>子丑寅卯辰巳午未申酉戌亥</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>玄学</category>
+      </categories>
+      <tags>
+        <tag>算命知识</tag>
+        <tag>小六壬</tag>
       </tags>
   </entry>
   <entry>
@@ -2513,79 +2581,6 @@ run
       <tags>
         <tag>docker</tag>
         <tag>k8s</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>笔记本无线网卡异常</title>
-    <url>/2025/03/22/%E7%AC%94%E8%AE%B0%E6%9C%AC%E6%97%A0%E7%BA%BF%E7%BD%91%E5%8D%A1%E5%BC%82%E5%B8%B8/</url>
-    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>这次遇到的问题现象是一开始网卡会时不时异常，通过重启和去除静电的方法会恢复正常，但是突然有一天就开始无法恢复了，始终保持异常的状态，怎么重新安装驱动都没用。</p>
-<p>但是主机是一直有识别到网卡的，设备管理显示黄色告警。</p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><h3 id="拆机拔插网卡"><a href="#拆机拔插网卡" class="headerlink" title="拆机拔插网卡"></a>拆机拔插网卡</h3><p>网卡拆下来用纸巾擦干净，或者酒精，重新安装即恢复</p>
-<p><del>原本是一直用手机usb共享网络使用网络了，但是有一天突然想到小时候的小霸王游戏卡都是擦擦金手指解决的， 尝试后没想到真有用</del></p>
-<blockquote>
-<p>这个是我这次的问题解决办法，正常解决途径有以下方法</p>
-</blockquote>
-<h3 id="去除静电"><a href="#去除静电" class="headerlink" title="去除静电"></a>去除静电</h3><ol>
-<li>拔掉电脑上所有的线</li>
-<li>启动键一直按，按到关机后再按20秒</li>
-</ol>
-<p>操作成功后启动我的联想y7000键盘灯会是熄灭的</p>
-<h3 id="更新-重新下载网卡驱动"><a href="#更新-重新下载网卡驱动" class="headerlink" title="更新&#x2F;重新下载网卡驱动"></a>更新&#x2F;重新下载网卡驱动</h3><ul>
-<li>使用intel网卡驱动自动检测下载工具<blockquote>
-<p>下载地址：<br><a href="https://www.intel.cn/content/www/cn/zh/download/19351/intel-wireless-wi-fi-drivers-for-windows-10-and-windows-11.html">https://www.intel.cn/content/www/cn/zh/download/19351/intel-wireless-wi-fi-drivers-for-windows-10-and-windows-11.html</a><br>其他驱动：<br><a href="https://www.intel.cn/content/www/cn/zh/download-center/home.html">https://www.intel.cn/content/www/cn/zh/download-center/home.html</a></p>
-</blockquote>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>笔记本维修</category>
-      </categories>
-      <tags>
-        <tag>笔记本无线网卡</tag>
-        <tag>维修</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>算命</title>
-    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
-    <content><![CDATA[<h2 id="六神"><a href="#六神" class="headerlink" title="六神"></a>六神</h2><h3 id="手势位置"><a href="#手势位置" class="headerlink" title="手势位置"></a>手势位置</h3><p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br><img src="/images/pasted-71.png" alt="upload successful"></p>
-<p>速记：大、流、速、赤、小、空。</p>
-<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><h4 id="大安"><a href="#大安" class="headerlink" title="大安"></a>大安</h4><p>1、身不动时（如果算一个人在干什么）<br>2、五行：属木<br>3、方位：东<br>4、神煞：青龙<br>5、数字：1、5、7<br>6、安心吉祥的意思</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
-
-<h4 id="留连"><a href="#留连" class="headerlink" title="留连"></a>留连</h4><p>1、人未归时<br>2、五行属水<br>3、黑色<br>4、方位北<br>5、玄武<br>6、数字：2、8、10<br>7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
-
-<h4 id="速喜"><a href="#速喜" class="headerlink" title="速喜"></a>速喜</h4><p>1、人即至时<br>2、五行属火<br>3、红色<br>4、方位为南方<br>5、数字：3,6,9<br>6、有快速、吉利、时机已到之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
-
-<h4 id="赤口"><a href="#赤口" class="headerlink" title="赤口"></a>赤口</h4><p>1、官事凶时<br>2、五行属金<br>3、白色<br>4、西方<br>5、白虎<br>6、数字：4，7，10<br>7、有不吉、惊恐、凶险、口舌是非之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
-
-<h4 id="小吉"><a href="#小吉" class="headerlink" title="小吉"></a>小吉</h4><p>1、人来喜时<br>2、五行属木<br>3、六合<br>4、数字：1,5,7<br>5、有和合、吉利之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
-
-<h4 id="空亡"><a href="#空亡" class="headerlink" title="空亡"></a>空亡</h4><p>1、音信稀时<br>2、五行属土<br>3、黄色<br>4、中央<br>5、勾陈<br>6、数字：3,6,9<br>7、有不吉、无果之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
-
-<h2 id="奇门"><a href="#奇门" class="headerlink" title="奇门"></a>奇门</h2><h3 id="九宫五行"><a href="#九宫五行" class="headerlink" title="九宫五行"></a>九宫五行</h3><p>五行生克关系<br><img src="/images/pasted-74.png" alt="upload successful"><br>九宫位置<br><img src="/images/pasted-73.png" alt="upload successful"><br>东南西北位置<br><img src="/images/pasted-75.png" alt="upload successful"></p>
-<h2 id="干支"><a href="#干支" class="headerlink" title="干支"></a>干支</h2><p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
-<p>寅卯为木居东方，巳午为火居正南，<br>申酉属金位在西，子亥属水在北边，<br>辰戌丑未皆属土，分别居于四维偏，<br>辰在东南戌西北，丑在东北未西南。</p>
-<h2 id="时辰"><a href="#时辰" class="headerlink" title="时辰"></a>时辰</h2><p>子丑寅卯辰巳午未申酉戌亥</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>玄学</category>
-      </categories>
-      <tags>
-        <tag>算命知识</tag>
-        <tag>小六壬</tag>
       </tags>
   </entry>
   <entry>
