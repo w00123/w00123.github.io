@@ -1,0 +1,235 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>docker pull 镜像ai的理解 | HAHA</title><meta name="author" content="haha"><meta name="copyright" content="haha"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="🧪 场景你执行 docker pull nginx:latest 时，Docker 是怎么一步步“下载镜像”的？我们来把这个过程分解为实际步骤，同时继续用“汉堡 🍔”比喻帮助理解每一层。 ✅ 第 1 步：解析镜像名你输入的命令：docker pull nginx:latest Docker 其实会自动转换为：registry-1.docker.io&#x2F;library&#x2F;ngin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker pull 镜像ai的理解">
+<meta property="og:url" content="http://w00123.github.io/2025/05/27/docker-pull-%E9%95%9C%E5%83%8Fai%E7%9A%84%E7%90%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="HAHA">
+<meta property="og:description" content="🧪 场景你执行 docker pull nginx:latest 时，Docker 是怎么一步步“下载镜像”的？我们来把这个过程分解为实际步骤，同时继续用“汉堡 🍔”比喻帮助理解每一层。 ✅ 第 1 步：解析镜像名你输入的命令：docker pull nginx:latest Docker 其实会自动转换为：registry-1.docker.io&#x2F;library&#x2F;ngin">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://w00123.github.io/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg">
+<meta property="article:published_time" content="2025-05-27T11:28:02.000Z">
+<meta property="article:modified_time" content="2025-05-27T12:42:16.132Z">
+<meta property="article:author" content="haha">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://w00123.github.io/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg"><link rel="shortcut icon" href="/img/head1.png"><link rel="canonical" href="http://w00123.github.io/2025/05/27/docker-pull-%E9%95%9C%E5%83%8Fai%E7%9A%84%E7%90%86%E8%A7%A3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'docker pull 镜像ai的理解',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-05-27 20:42:16'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/weibo.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiperstyle.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head1.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">56</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">29</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/%E5%A3%81%E7%BA%B8/"><i class="fa-fw fas fa-image"></i><span> 壁纸</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="HAHA"><span class="site-name">HAHA</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/%E5%A3%81%E7%BA%B8/"><i class="fa-fw fas fa-image"></i><span> 壁纸</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">docker pull 镜像ai的理解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-05-27T11:28:02.000Z" title="发表于 2025-05-27 19:28:02">2025-05-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-05-27T12:42:16.132Z" title="更新于 2025-05-27 20:42:16">2025-05-27</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="docker pull 镜像ai的理解"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="🧪-场景"><a href="#🧪-场景" class="headerlink" title="🧪 场景"></a>🧪 场景</h2><p>你执行 docker pull nginx:latest 时，Docker 是怎么一步步“下载镜像”的？<br>我们来把这个过程分解为实际步骤，同时继续用“汉堡 🍔”比喻帮助理解每一层。</p>
+<h3 id="✅-第-1-步：解析镜像名"><a href="#✅-第-1-步：解析镜像名" class="headerlink" title="✅ 第 1 步：解析镜像名"></a>✅ 第 1 步：解析镜像名</h3><p>你输入的命令：<br>docker pull nginx:latest</p>
+<p>Docker 其实会自动转换为：<br>registry-1.docker.io&#x2F;library&#x2F;nginx:latest</p>
+<p>这个地址指的是：</p>
+<ol>
+<li>官方 Docker Hub（registry-1.docker.io）</li>
+<li>官方镜像库（library）</li>
+<li>镜像名：nginx</li>
+<li>标签：latest</li>
+</ol>
+<h3 id="✅-第-2-步：联系-Docker-Hub"><a href="#✅-第-2-步：联系-Docker-Hub" class="headerlink" title="✅ 第 2 步：联系 Docker Hub"></a>✅ 第 2 步：联系 Docker Hub</h3><p>Docker 客户端向 Docker Hub 发出请求：<br>GET &#x2F;v2&#x2F;library&#x2F;nginx&#x2F;manifests&#x2F;latest</p>
+<p>这一步是拿到清单（manifest），这个清单里记录了：</p>
+<ol>
+<li>这个镜像由哪些层组成</li>
+<li>每一层的校验和（sha256）</li>
+<li>每层的大小</li>
+<li>支持的平台（比如 amd64、arm64）</li>
+</ol>
+<blockquote>
+<p>📦 比喻：这就像餐厅菜单告诉你：这个汉堡由 5 层组成，分别是面包、生菜、牛肉、奶酪、酱料。</p>
+</blockquote>
+<h3 id="✅-第-3-步：依次下载每一层（layer）"><a href="#✅-第-3-步：依次下载每一层（layer）" class="headerlink" title="✅ 第 3 步：依次下载每一层（layer）"></a>✅ 第 3 步：依次下载每一层（layer）</h3><p>Docker 开始一个个去下载镜像层（也叫“blob”），请求长这样：<br>GET &#x2F;v2&#x2F;library&#x2F;nginx&#x2F;blobs&#x2F;sha256:xxxxxxxxx</p>
+<ul>
+<li>每一层都是一个压缩包（通常是 tar.gz 文件），里面包含一部分文件系统的变更（新增&#x2F;修改&#x2F;删除文件）。</li>
+</ul>
+<blockquote>
+<p>💡 这些“层”可以是：<br>层编号内容类比<br>Layer 1 Ubuntu OS 的基础文件系统 汉堡面包底<br>Layer 2 安装了一些库 加了生菜<br>Layer 3 加入了 Nginx 服务器 加了牛肉<br>Layer 4 默认配置文件等 加了酱<br>Layer 5 启动命令 插了一根旗子（告诉吃法） </p>
+</blockquote>
+<h3 id="✅-第-4-步：校验层的完整性"><a href="#✅-第-4-步：校验层的完整性" class="headerlink" title="✅ 第 4 步：校验层的完整性"></a>✅ 第 4 步：校验层的完整性</h3><ul>
+<li>每层下载后，Docker 会对文件做 SHA256 校验，确保没有被篡改、损坏。</li>
+</ul>
+<h3 id="✅-第-5-步：将层缓存到本地"><a href="#✅-第-5-步：将层缓存到本地" class="headerlink" title="✅ 第 5 步：将层缓存到本地"></a>✅ 第 5 步：将层缓存到本地</h3><p>层保存到你的本地磁盘：<br>Linux 路径通常是 &#x2F;var&#x2F;lib&#x2F;docker&#x2F;overlay2&#x2F;（默认）</p>
+<ul>
+<li>每一层是增量的，可复用（比如多个镜像用的是同一个 ubuntu 基础层）</li>
+</ul>
+<blockquote>
+<p>🧠 你下过 nginx 后再下 redis，可能会发现部分层都已经存在，不需要重新下载。</p>
+</blockquote>
+<h3 id="✅-第-6-步：镜像构建完成，可以运行了"><a href="#✅-第-6-步：镜像构建完成，可以运行了" class="headerlink" title="✅ 第 6 步：镜像构建完成，可以运行了"></a>✅ 第 6 步：镜像构建完成，可以运行了</h3><p>所有层都下载完之后，Docker 会将它们组合起来，做出一个“可以运行的汉堡”。<br>你可以用这个命令运行容器：<br>docker run -d nginx</p>
+<ul>
+<li>此时容器运行的文件系统，其实是多个只读层 + 一个可写层叠加起来的视图。</li>
+</ul>
+<blockquote>
+<p>🧭 下载时你看到的输出，其实就是每一层：<br>比如执行时会看到这样的输出：<br>docker pull nginx:latest<br>latest: Pulling from library&#x2F;nginx<br>ab5ef0e58194: Pull complete     ← 第1层<br>9d6b7f3f1b66: Pull complete     ← 第2层<br>e379e8d9f7cd: Pull complete     ← 第3层<br>…<br>Digest: sha256:xxx…<br>每一条 Pull complete 就是一层成功下载并校验完成了。</p>
+</blockquote>
+<h2 id="✅-小结一句话："><a href="#✅-小结一句话：" class="headerlink" title="✅ 小结一句话："></a>✅ 小结一句话：</h2><p>Docker 下载镜像时，不是一次性拿一个“压缩包”，而是像“叠汉堡”一样，一个个去下载构成镜像的文件系统层（layers），最后组合成可运行的镜像。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://w00123.github.io">haha</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://w00123.github.io/2025/05/27/docker-pull-%E9%95%9C%E5%83%8Fai%E7%9A%84%E7%90%86%E8%A7%A3/">http://w00123.github.io/2025/05/27/docker-pull-%E9%95%9C%E5%83%8Fai%E7%9A%84%E7%90%86%E8%A7%A3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://w00123.github.io" target="_blank">HAHA</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/" title="滑蛋饭"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">滑蛋饭</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head1.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">haha</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">56</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">29</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/w00123"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">放假!快快放假！！！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A7%AA-%E5%9C%BA%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">🧪 场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E7%AC%AC-1-%E6%AD%A5%EF%BC%9A%E8%A7%A3%E6%9E%90%E9%95%9C%E5%83%8F%E5%90%8D"><span class="toc-number">1.1.</span> <span class="toc-text">✅ 第 1 步：解析镜像名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E7%AC%AC-2-%E6%AD%A5%EF%BC%9A%E8%81%94%E7%B3%BB-Docker-Hub"><span class="toc-number">1.2.</span> <span class="toc-text">✅ 第 2 步：联系 Docker Hub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E7%AC%AC-3-%E6%AD%A5%EF%BC%9A%E4%BE%9D%E6%AC%A1%E4%B8%8B%E8%BD%BD%E6%AF%8F%E4%B8%80%E5%B1%82%EF%BC%88layer%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">✅ 第 3 步：依次下载每一层（layer）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E7%AC%AC-4-%E6%AD%A5%EF%BC%9A%E6%A0%A1%E9%AA%8C%E5%B1%82%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="toc-number">1.4.</span> <span class="toc-text">✅ 第 4 步：校验层的完整性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E7%AC%AC-5-%E6%AD%A5%EF%BC%9A%E5%B0%86%E5%B1%82%E7%BC%93%E5%AD%98%E5%88%B0%E6%9C%AC%E5%9C%B0"><span class="toc-number">1.5.</span> <span class="toc-text">✅ 第 5 步：将层缓存到本地</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E7%AC%AC-6-%E6%AD%A5%EF%BC%9A%E9%95%9C%E5%83%8F%E6%9E%84%E5%BB%BA%E5%AE%8C%E6%88%90%EF%BC%8C%E5%8F%AF%E4%BB%A5%E8%BF%90%E8%A1%8C%E4%BA%86"><span class="toc-number">1.6.</span> <span class="toc-text">✅ 第 6 步：镜像构建完成，可以运行了</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9C%85-%E5%B0%8F%E7%BB%93%E4%B8%80%E5%8F%A5%E8%AF%9D%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">✅ 小结一句话：</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By haha</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.iife.min.js"></script><div class="js-pjax"></div><script src="/js/weibo.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && location.pathname =='/'){
+    
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="../../images/pasted-22.png" alt="../../images/pasted-22.png"/></div><div class="blog-slider__content"><span class="blog-slider__code">2025-02-08</span><a class="blog-slider__title" href="2025/02/08/hexo-书写/">hexo-书写</a><div class="blog-slider__text">书写的格式记录</div><a class="blog-slider__button" href="2025/02/08/hexo-书写/">详情</a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/images/pasted-85.png" alt="/images/pasted-85.png"/></div><div class="blog-slider__content"><span class="blog-slider__code">2025-02-20</span><a class="blog-slider__title" href="2025/02/20/hexo-微博热搜侧边栏/">hexo-微博热搜侧边栏</a><div class="blog-slider__text">hexo-丰富侧边栏，添加微博api，显示微博热搜排行</div><a class="blog-slider__button" href="2025/02/20/hexo-微博热搜侧边栏/">详情</a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/images/pasted-84.png" alt="/images/pasted-84.png"/></div><div class="blog-slider__content"><span class="blog-slider__code">2025-02-12</span><a class="blog-slider__title" href="2025/02/12/hexo-github贡献日历/">hexo-github贡献日历</a><div class="blog-slider__text">将github的贡献日历放到博客中</div><a class="blog-slider__button" href="2025/02/12/hexo-github贡献日历/">详情</a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="../../images/pasted-22.png" alt="../../images/pasted-22.png"/></div><div class="blog-slider__content"><span class="blog-slider__code">2024-08-03</span><a class="blog-slider__title" href="2024/08/03/hexo-butterfly美化/">hexo-butterfly美化</a><div class="blog-slider__text">hexo-butterfly美化</div><a class="blog-slider__button" href="2024/08/03/hexo-butterfly美化/">详情</a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="../../images/pasted-22.png" alt="../../images/pasted-22.png"/></div><div class="blog-slider__content"><span class="blog-slider__code">2024-08-02</span><a class="blog-slider__title" href="2024/08/02/github部署hexo/">github部署hexo</a><div class="blog-slider__text">github部署hexo</div><a class="blog-slider__button" href="2024/08/02/github部署hexo/">详情</a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="../../images/pasted-22.png" alt="../../images/pasted-22.png"/></div><div class="blog-slider__content"><span class="blog-slider__code">2024-07-31</span><a class="blog-slider__title" href="2024/07/31/hexo博客安装方法/">hexo博客安装方法</a><div class="blog-slider__text">hexo博客安装方法</div><a class="blog-slider__button" href="2024/07/31/hexo博客安装方法/">详情</a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载swiper')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.js"></script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper@0.18/swiper/swiperindex.js"></script>
+<style></style>
+  <script data-pjax src="/js/hexo_githubcalendar.js"></script>
+  <script data-pjax>
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://github-api-bay-tau.vercel.app/api?user=w00123";
+            var git_color =['rgba(255, 255, 255, 0.3)', '#fdcdec', '#fc9bd9', '#fa6ac5', '#f838b2', '#f5089f', '#c4067e', '#92055e', '#540336', '#48022f', '#30021f'];
+            var git_user ="user=w00123";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log('已挂载github calendar')
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        if(document.getElementById('recent-posts')){
+            GithubCalendarConfig()
+        }
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style></style><!-- hexo injector body_end end --></body></html>
