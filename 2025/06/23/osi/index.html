@@ -1,0 +1,323 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>OSI模型 | HAHA</title><meta name="author" content="haha"><meta name="copyright" content="haha"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="OSIOpen Systems Interconnection Model「开放式系统互联参考模型」 模型内容   层次 名称 常见协议 主要作用 封装结构    7 应用层 HTTP、HTTPS、FTP、DNS、SSH、Telnet 提供应用接口，和应用直接交互 原始数据 (Data)   6 表示层 JPEG、MPEG、TLS、SSL 对数据进行编解码、加密解密、压缩解压 原始数据 (Data">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OSI模型">
+<meta property="og:url" content="http://w00123.github.io/2025/06/23/osi/index.html">
+<meta property="og:site_name" content="HAHA">
+<meta property="og:description" content="OSIOpen Systems Interconnection Model「开放式系统互联参考模型」 模型内容   层次 名称 常见协议 主要作用 封装结构    7 应用层 HTTP、HTTPS、FTP、DNS、SSH、Telnet 提供应用接口，和应用直接交互 原始数据 (Data)   6 表示层 JPEG、MPEG、TLS、SSL 对数据进行编解码、加密解密、压缩解压 原始数据 (Data">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://w00123.github.io/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg">
+<meta property="article:published_time" content="2025-06-23T13:23:22.000Z">
+<meta property="article:modified_time" content="2025-06-23T13:50:13.074Z">
+<meta property="article:author" content="haha">
+<meta property="article:tag" content="osi">
+<meta property="article:tag" content="网络基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://w00123.github.io/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg"><link rel="shortcut icon" href="/img/head1.png"><link rel="canonical" href="http://w00123.github.io/2025/06/23/osi/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'OSI模型',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-06-23 21:50:13'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/weibo.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiperstyle.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head1.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">69</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">75</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">35</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/%E5%A3%81%E7%BA%B8/"><i class="fa-fw fas fa-image"></i><span> 壁纸</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="HAHA"><span class="site-name">HAHA</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/%E5%A3%81%E7%BA%B8/"><i class="fa-fw fas fa-image"></i><span> 壁纸</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">OSI模型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-23T13:23:22.000Z" title="发表于 2025-06-23 21:23:22">2025-06-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-23T13:50:13.074Z" title="更新于 2025-06-23 21:50:13">2025-06-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">网络基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="OSI模型"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="OSI"><a href="#OSI" class="headerlink" title="OSI"></a>OSI</h2><p>Open Systems Interconnection Model<br>「开放式系统互联参考模型」</p>
+<h2 id="模型内容"><a href="#模型内容" class="headerlink" title="模型内容"></a>模型内容</h2><table>
+<thead>
+<tr>
+<th>层次</th>
+<th>名称</th>
+<th>常见协议</th>
+<th>主要作用</th>
+<th>封装结构</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>7</td>
+<td>应用层</td>
+<td>HTTP、HTTPS、FTP、DNS、SSH、Telnet</td>
+<td>提供应用接口，和应用直接交互</td>
+<td>原始数据 (Data)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>表示层</td>
+<td>JPEG、MPEG、TLS、SSL</td>
+<td>对数据进行编解码、加密解密、压缩解压</td>
+<td>原始数据 (Data)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>会话层</td>
+<td>RPC、PPTP、SIP</td>
+<td>管理建立、维持和终止应用之间的会话</td>
+<td>原始数据 (Data)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>传输层</td>
+<td>TCP、UDP</td>
+<td>提供端到端传输、流量控制、错误检测</td>
+<td>段 (Segment) 或 报文 (Datagram)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>网络层</td>
+<td>IP、ICMP、IGMP、OSPF、BGP</td>
+<td>路由、寻址、分片及转发</td>
+<td>包 (Packet)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>数据链路层</td>
+<td>Ethernet、PPP、ARP、STP</td>
+<td>节点之间的数据帧封装、媒体访问控制</td>
+<td>帧 (Frame)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>物理层</td>
+<td>以太网接口、WiFi、光纤</td>
+<td>比特传输、定义接口和传输标准</td>
+<td>比特 (Bit)</td>
+</tr>
+</tbody></table>
+<h3 id="简单示意封装结构"><a href="#简单示意封装结构" class="headerlink" title="简单示意封装结构"></a>简单示意封装结构</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">应用层 (Data) </span><br><span class="line">   ↓ </span><br><span class="line">传输层 (Header + Data) -&gt; Segment/Datagram</span><br><span class="line">   ↓ </span><br><span class="line">网络层 (Header + Segment) -&gt; Packet</span><br><span class="line">   ↓ </span><br><span class="line">数据链路层 (Header + Packet + Trailer) -&gt; Frame</span><br><span class="line">   ↓ </span><br><span class="line">物理层 (Bit Stream) -&gt; 比特传输</span><br></pre></td></tr></table></figure>
+
+<p>好，我来<strong>详细解释封装结构</strong>，让你彻底明白 OSI 模型中每层是如何一层层封装起来的：</p>
+<hr>
+<h2 id="详细"><a href="#详细" class="headerlink" title="详细"></a>详细</h2><h3 id="1-应用层、表示层、会话层"><a href="#1-应用层、表示层、会话层" class="headerlink" title="1. 应用层、表示层、会话层"></a>1. 应用层、表示层、会话层</h3><p><strong>结构</strong>：原始数据</p>
+<ul>
+<li>在应用层、表示层、会话层阶段，传输的数据其实就是<strong>应用生成的原始数据</strong>，没有额外的数据头。</li>
+<li>例如：一封邮件内容、一段 HTTP 请求。</li>
+</ul>
+<hr>
+<h3 id="2-传输层"><a href="#2-传输层" class="headerlink" title="2. 传输层"></a>2. 传输层</h3><p><strong>结构</strong>：<code>传输层头部 + 原始数据</code> → 段 (Segment) 或 报文 (Datagram)</p>
+<ul>
+<li><p>在这一层，传输层（TCP 或 UDP）为原始数据添加自己的<strong>头部</strong>。</p>
+</li>
+<li><p>这个头部里有：</p>
+<ul>
+<li>源端口、目标端口</li>
+<li>序列号、确认号</li>
+<li>检查和控制标记</li>
+</ul>
+</li>
+<li><p>完成后，形成 <strong>“段”</strong> (TCP) 或 <strong>“报文”</strong> (UDP)。</p>
+</li>
+</ul>
+<p>💡 示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[传输层头] + [应用层的数据]</span><br><span class="line">       ↓</span><br><span class="line">     Segment / Datagram</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-网络层"><a href="#3-网络层" class="headerlink" title="3. 网络层"></a>3. 网络层</h3><p><strong>结构</strong>：<code>网络层头 + 段</code> → 包 (Packet)</p>
+<ul>
+<li><p>网络层（如 IP）在段的外面再套一层<strong>网络层头</strong>。</p>
+</li>
+<li><p>网络层头里有：</p>
+<ul>
+<li>源 IP、目标 IP</li>
+<li>路由标记、TTL (生存时间) 等</li>
+</ul>
+</li>
+<li><p>完成后，形成 <strong>“包”</strong>。</p>
+</li>
+</ul>
+<p>💡 示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[网络层头] + [传输层段] </span><br><span class="line">       ↓</span><br><span class="line">       Packet</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="4-数据链路层"><a href="#4-数据链路层" class="headerlink" title="4. 数据链路层"></a>4. 数据链路层</h3><p><strong>结构</strong>：<code>链路层头 + 包 + 链路层尾</code> → 帧 (Frame)</p>
+<ul>
+<li><p>在这个阶段，数据链路层（以太网、PPP）为网络层的包添加：</p>
+<ul>
+<li>源 MAC、目标 MAC</li>
+<li>类型字段</li>
+<li>CRC 校验等</li>
+</ul>
+</li>
+<li><p>完成后，形成 <strong>“帧”</strong>。</p>
+</li>
+</ul>
+<p>💡 示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[链路层头] + [网络层包] + [链路层尾]</span><br><span class="line">       ↓</span><br><span class="line">       Frame</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="5-物理层"><a href="#5-物理层" class="headerlink" title="5. 物理层"></a>5. 物理层</h3><p><strong>结构</strong>：比特流 (Bit Stream)</p>
+<ul>
+<li>物理层只是对<strong>帧</strong>进行电气、光学、射频等调制，形成连续的比特序列。</li>
+<li>在这一层，数据就是真正以<strong>位</strong>(Bit)的形式在网线、光纤、无线等媒体上传输。</li>
+</ul>
+<p>💡 示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Frame ---&gt; 011011001100101011... (Bit Stream)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="简单总结结构"><a href="#简单总结结构" class="headerlink" title="简单总结结构"></a>简单总结结构</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">应用层 ：Data</span><br><span class="line">传输层 ：Header + Data           ➔ Segment / Datagram</span><br><span class="line">网络层 ：Header + Segment        ➔ Packet</span><br><span class="line">链路层 ：Header + Packet + Tail ➔ Frame</span><br><span class="line">物理层 ：Bit Stream              ➔ Bits</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://w00123.github.io">haha</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://w00123.github.io/2025/06/23/osi/">http://w00123.github.io/2025/06/23/osi/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://w00123.github.io" target="_blank">HAHA</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/osi/">osi</a><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">网络基础</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2025/06/23/nginx%E5%92%8Capache/" title="nginx和apache-简单配置"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">nginx和apache-简单配置</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head1.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">haha</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">69</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">75</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">35</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/w00123"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">放假!快快放假！！！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OSI"><span class="toc-number">1.</span> <span class="toc-text">OSI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E5%86%85%E5%AE%B9"><span class="toc-number">2.</span> <span class="toc-text">模型内容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%A4%BA%E6%84%8F%E5%B0%81%E8%A3%85%E7%BB%93%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">简单示意封装结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86"><span class="toc-number">3.</span> <span class="toc-text">详细</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BA%94%E7%94%A8%E5%B1%82%E3%80%81%E8%A1%A8%E7%A4%BA%E5%B1%82%E3%80%81%E4%BC%9A%E8%AF%9D%E5%B1%82"><span class="toc-number">3.1.</span> <span class="toc-text">1. 应用层、表示层、会话层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-number">3.2.</span> <span class="toc-text">2. 传输层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-number">3.3.</span> <span class="toc-text">3. 网络层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">3.4.</span> <span class="toc-text">4. 数据链路层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-number">3.5.</span> <span class="toc-text">5. 物理层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93%E7%BB%93%E6%9E%84"><span class="toc-number">3.6.</span> <span class="toc-text">简单总结结构</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By haha</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.iife.min.js"></script><div class="js-pjax"></div><script src="/js/weibo.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && location.pathname =='/'){
+    
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="../../images/pasted-22.png" alt="../../images/pasted-22.png"/></div><div class="blog-slider__content"><span class="blog-slider__code">2025-02-08</span><a class="blog-slider__title" href="2025/02/08/hexo-书写/">hexo-书写</a><div class="blog-slider__text">书写的格式记录</div><a class="blog-slider__button" href="2025/02/08/hexo-书写/">详情</a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/images/pasted-85.png" alt="/images/pasted-85.png"/></div><div class="blog-slider__content"><span class="blog-slider__code">2025-02-20</span><a class="blog-slider__title" href="2025/02/20/hexo-微博热搜侧边栏/">hexo-微博热搜侧边栏</a><div class="blog-slider__text">hexo-丰富侧边栏，添加微博api，显示微博热搜排行</div><a class="blog-slider__button" href="2025/02/20/hexo-微博热搜侧边栏/">详情</a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/images/pasted-84.png" alt="/images/pasted-84.png"/></div><div class="blog-slider__content"><span class="blog-slider__code">2025-02-12</span><a class="blog-slider__title" href="2025/02/12/hexo-github贡献日历/">hexo-github贡献日历</a><div class="blog-slider__text">将github的贡献日历放到博客中</div><a class="blog-slider__button" href="2025/02/12/hexo-github贡献日历/">详情</a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="../../images/pasted-22.png" alt="../../images/pasted-22.png"/></div><div class="blog-slider__content"><span class="blog-slider__code">2024-08-03</span><a class="blog-slider__title" href="2024/08/03/hexo-butterfly美化/">hexo-butterfly美化</a><div class="blog-slider__text">hexo-butterfly美化</div><a class="blog-slider__button" href="2024/08/03/hexo-butterfly美化/">详情</a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="../../images/pasted-22.png" alt="../../images/pasted-22.png"/></div><div class="blog-slider__content"><span class="blog-slider__code">2024-08-02</span><a class="blog-slider__title" href="2024/08/02/github部署hexo/">github部署hexo</a><div class="blog-slider__text">github部署hexo</div><a class="blog-slider__button" href="2024/08/02/github部署hexo/">详情</a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="../../images/pasted-22.png" alt="../../images/pasted-22.png"/></div><div class="blog-slider__content"><span class="blog-slider__code">2024-07-31</span><a class="blog-slider__title" href="2024/07/31/hexo博客安装方法/">hexo博客安装方法</a><div class="blog-slider__text">hexo博客安装方法</div><a class="blog-slider__button" href="2024/07/31/hexo博客安装方法/">详情</a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载swiper')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.js"></script>
+<script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper@0.18/swiper/swiperindex.js"></script>
+<style></style>
+  <script data-pjax src="/js/hexo_githubcalendar.js"></script>
+  <script data-pjax>
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://github-api-bay-tau.vercel.app/api?user=w00123";
+            var git_color =['rgba(255, 255, 255, 0.3)', '#fdcdec', '#fc9bd9', '#fa6ac5', '#f838b2', '#f5089f', '#c4067e', '#92055e', '#540336', '#48022f', '#30021f'];
+            var git_user ="user=w00123";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log('已挂载github calendar')
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        if(document.getElementById('recent-posts')){
+            GithubCalendarConfig()
+        }
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style></style><!-- hexo injector body_end end --></body></html>
