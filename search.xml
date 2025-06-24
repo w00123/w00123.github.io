@@ -169,49 +169,6 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>astrbot-ai接入微信和qq</title>
-    <url>/2025/03/20/astrbot-ai%E6%8E%A5%E5%85%A5%E5%BE%AE%E4%BF%A1%E5%92%8Cqq/</url>
-    <content><![CDATA[<h2 id="astrbot"><a href="#astrbot" class="headerlink" title="astrbot"></a>astrbot</h2><p>一个易于上手的多平台聊天机器人及开发框架，官方已经有详细的部署步骤，只写一下我规避遇到的问题的部署方法</p>
-<blockquote>
-<p>官网：<a href="https://astrbot.app/what-is-astrbot.html">https://astrbot.app/what-is-astrbot.html</a></p>
-</blockquote>
-<h2 id="ai接入微信"><a href="#ai接入微信" class="headerlink" title="ai接入微信"></a>ai接入微信</h2><p>docker部署</p>
-<h3 id="astrbot部署"><a href="#astrbot部署" class="headerlink" title="astrbot部署"></a>astrbot部署</h3><ol>
-<li>拉取项目<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/Soulter/AstrBot</span><br><span class="line"><span class="built_in">cd</span> AstrBot</span><br></pre></td></tr></table></figure></li>
-<li>运行compose<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker compose up -d</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>配置 Gewechat 适配器时跟着官方方法配置即可，host其实只要网络通即可，11451端口已经映射宿主机，所以直接写宿主机ip即可</p>
-</blockquote>
-</li>
-</ol>
-<h3 id="部署-Gewechat"><a href="#部署-Gewechat" class="headerlink" title="部署 Gewechat"></a>部署 Gewechat</h3><ol>
-<li>拉取镜像<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/gewe/gewe:latest</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/gewe/gewe gewe</span><br></pre></td></tr></table></figure></li>
-<li>启动<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> gewechat</span><br><span class="line">docker run -itd -v ./gewechat:/root/temp -p 2531:2531 -p 2532:2532 --privileged=<span class="literal">true</span> --name=gewe gewe /usr/sbin/initse</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这个时候跟着官方走看不到容器日志，但是可以看astrbot上面的日志登陆微信</p>
-</blockquote>
-</li>
-</ol>
-<h2 id="接入qq"><a href="#接入qq" class="headerlink" title="接入qq"></a>接入qq</h2><ol>
-<li>docker拉取镜像<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull mlikiowa/napcat-docker:latest</span><br></pre></td></tr></table></figure></li>
-<li>启动<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">-e NAPCAT_GID=$(<span class="built_in">id</span> -g) \</span><br><span class="line">-e NAPCAT_UID=$(<span class="built_in">id</span> -u) \</span><br><span class="line">-p 3000:3000 \</span><br><span class="line">-p 3001:3001 \</span><br><span class="line">-p 6099:6099 \</span><br><span class="line">--name napcat \</span><br><span class="line">--restart=always \</span><br><span class="line">mlikiowa/napcat-docker:latest \</span><br><span class="line">--network default-astrbot</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>network写上面astrbot使用的网络</p>
-</blockquote>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>娱乐</category>
-      </categories>
-      <tags>
-        <tag>astrbot</tag>
-        <tag>napcat</tag>
-        <tag>Gewechat</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>bash脚本的基础</title>
     <url>/2025/06/22/bash%E8%84%9A%E6%9C%AC%E7%9A%84%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h2 id="参数和变量"><a href="#参数和变量" class="headerlink" title="参数和变量"></a>参数和变量</h2><table>
@@ -508,6 +465,71 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
+    <title>astrbot-ai接入微信和qq</title>
+    <url>/2025/03/20/astrbot-ai%E6%8E%A5%E5%85%A5%E5%BE%AE%E4%BF%A1%E5%92%8Cqq/</url>
+    <content><![CDATA[<h2 id="astrbot"><a href="#astrbot" class="headerlink" title="astrbot"></a>astrbot</h2><p>一个易于上手的多平台聊天机器人及开发框架，官方已经有详细的部署步骤，只写一下我规避遇到的问题的部署方法</p>
+<blockquote>
+<p>官网：<a href="https://astrbot.app/what-is-astrbot.html">https://astrbot.app/what-is-astrbot.html</a></p>
+</blockquote>
+<h2 id="ai接入微信"><a href="#ai接入微信" class="headerlink" title="ai接入微信"></a>ai接入微信</h2><p>docker部署</p>
+<h3 id="astrbot部署"><a href="#astrbot部署" class="headerlink" title="astrbot部署"></a>astrbot部署</h3><ol>
+<li>拉取项目<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/Soulter/AstrBot</span><br><span class="line"><span class="built_in">cd</span> AstrBot</span><br></pre></td></tr></table></figure></li>
+<li>运行compose<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker compose up -d</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>配置 Gewechat 适配器时跟着官方方法配置即可，host其实只要网络通即可，11451端口已经映射宿主机，所以直接写宿主机ip即可</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="部署-Gewechat"><a href="#部署-Gewechat" class="headerlink" title="部署 Gewechat"></a>部署 Gewechat</h3><ol>
+<li>拉取镜像<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/gewe/gewe:latest</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/gewe/gewe gewe</span><br></pre></td></tr></table></figure></li>
+<li>启动<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> gewechat</span><br><span class="line">docker run -itd -v ./gewechat:/root/temp -p 2531:2531 -p 2532:2532 --privileged=<span class="literal">true</span> --name=gewe gewe /usr/sbin/initse</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个时候跟着官方走看不到容器日志，但是可以看astrbot上面的日志登陆微信</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="接入qq"><a href="#接入qq" class="headerlink" title="接入qq"></a>接入qq</h2><ol>
+<li>docker拉取镜像<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull mlikiowa/napcat-docker:latest</span><br></pre></td></tr></table></figure></li>
+<li>启动<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">-e NAPCAT_GID=$(<span class="built_in">id</span> -g) \</span><br><span class="line">-e NAPCAT_UID=$(<span class="built_in">id</span> -u) \</span><br><span class="line">-p 3000:3000 \</span><br><span class="line">-p 3001:3001 \</span><br><span class="line">-p 6099:6099 \</span><br><span class="line">--name napcat \</span><br><span class="line">--restart=always \</span><br><span class="line">mlikiowa/napcat-docker:latest \</span><br><span class="line">--network default-astrbot</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>network写上面astrbot使用的网络</p>
+</blockquote>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>astrbot</tag>
+        <tag>napcat</tag>
+        <tag>Gewechat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>deepseek-r1本地部署方法</title>
+    <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="安装ollama"><a href="#安装ollama" class="headerlink" title="安装ollama"></a>安装ollama</h2><p>打开ollama官网，根据系统下载ollama软件：<br><a href="https://ollama.com/">https://ollama.com/</a><br><img src="/images/pasted-76.png" alt="upload successful"></p>
+<h2 id="下载模型"><a href="#下载模型" class="headerlink" title="下载模型"></a>下载模型</h2><p>安装完成ollama后，通过cmd命令行输入运行相关模型的命令，获取地址是官网的Models页面：<br><img src="/images/pasted-77.png" alt="upload successful"></p>
+<p>第一个就是需要下载的模型deepseek-r1，点击名称选择需要的版本，即使不符合也能运行，会很卡：<br><a href="https://ollama.com/library/deepseek-r1:8b">https://ollama.com/library/deepseek-r1:8b</a><br><img src="/images/pasted-78.png" alt="upload successful"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>运行完成后就能正常使用了，这样只能命令行使用；可以通过浏览器插件图形化页面使用本地运行的模型，插件名称是：Page Assist - A Web UI for Local AI Models<br><img src="/images/pasted-79.png" alt="upload successful"></p>
+<p>说是能联网，但是我的不行</p>
+<p>可以用以下话语添加在问题末尾通过其他联网的ai获取信息后给deepseek整理回答，来间接上网：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请先告诉我你要回答这个问题需要检索哪些关键词或者最新消息？我会尝试提供相关数据。</span><br></pre></td></tr></table></figure>
+
+<h2 id="api参数"><a href="#api参数" class="headerlink" title="api参数"></a>api参数</h2><p>python使用参数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;http://localhost:11434/api/generate&quot;</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;model&quot;</span>: <span class="string">&quot;deepseek-r1:1.5b&quot;</span>,  <span class="comment"># 替换为你的模型名称</span></span><br><span class="line">    <span class="string">&quot;prompt&quot;</span>: <span class="string">&quot;你好&quot;</span>,</span><br><span class="line">    <span class="string">&quot;stream&quot;</span>: <span class="literal">False</span>  <span class="comment"># 是否启用流式响应</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>ai</tag>
+        <tag>deepseek</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>centos-release-scl安装换源</title>
     <url>/2025/03/23/centos-release-scl%E6%8A%A5%E9%94%99/</url>
     <content><![CDATA[<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum -y install centos-release-scl</span><br></pre></td></tr></table></figure>
@@ -531,25 +553,24 @@ ansible_ssh_pass=123456 ##密码
       </tags>
   </entry>
   <entry>
-    <title>deepseek-r1本地部署方法</title>
-    <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="安装ollama"><a href="#安装ollama" class="headerlink" title="安装ollama"></a>安装ollama</h2><p>打开ollama官网，根据系统下载ollama软件：<br><a href="https://ollama.com/">https://ollama.com/</a><br><img src="/images/pasted-76.png" alt="upload successful"></p>
-<h2 id="下载模型"><a href="#下载模型" class="headerlink" title="下载模型"></a>下载模型</h2><p>安装完成ollama后，通过cmd命令行输入运行相关模型的命令，获取地址是官网的Models页面：<br><img src="/images/pasted-77.png" alt="upload successful"></p>
-<p>第一个就是需要下载的模型deepseek-r1，点击名称选择需要的版本，即使不符合也能运行，会很卡：<br><a href="https://ollama.com/library/deepseek-r1:8b">https://ollama.com/library/deepseek-r1:8b</a><br><img src="/images/pasted-78.png" alt="upload successful"></p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>运行完成后就能正常使用了，这样只能命令行使用；可以通过浏览器插件图形化页面使用本地运行的模型，插件名称是：Page Assist - A Web UI for Local AI Models<br><img src="/images/pasted-79.png" alt="upload successful"></p>
-<p>说是能联网，但是我的不行</p>
-<p>可以用以下话语添加在问题末尾通过其他联网的ai获取信息后给deepseek整理回答，来间接上网：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请先告诉我你要回答这个问题需要检索哪些关键词或者最新消息？我会尝试提供相关数据。</span><br></pre></td></tr></table></figure>
+    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
+    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
+<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
+<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
 
-<h2 id="api参数"><a href="#api参数" class="headerlink" title="api参数"></a>api参数</h2><p>python使用参数</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;http://localhost:11434/api/generate&quot;</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;model&quot;</span>: <span class="string">&quot;deepseek-r1:1.5b&quot;</span>,  <span class="comment"># 替换为你的模型名称</span></span><br><span class="line">    <span class="string">&quot;prompt&quot;</span>: <span class="string">&quot;你好&quot;</span>,</span><br><span class="line">    <span class="string">&quot;stream&quot;</span>: <span class="literal">False</span>  <span class="comment"># 是否启用流式响应</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
+]]></content>
       <categories>
         <category>系统运维</category>
-        <category>娱乐</category>
+        <category>docker</category>
       </categories>
       <tags>
-        <tag>ai</tag>
-        <tag>deepseek</tag>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -604,27 +625,6 @@ ansible_ssh_pass=123456 ##密码
 ]]></content>
   </entry>
   <entry>
-    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
-    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
-<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
-<h3 id="停止docker服务"><a href="#停止docker服务" class="headerlink" title="停止docker服务"></a>停止docker服务</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="参数修改下载数"><a href="#参数修改下载数" class="headerlink" title="参数修改下载数"></a>参数修改下载数</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
-
-<h3 id="开始下载"><a href="#开始下载" class="headerlink" title="开始下载"></a>开始下载</h3><p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker 可用镜像源加速镜像025.2.27</title>
     <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
     <content><![CDATA[<h2 id="2025-2-27测试可用"><a href="#2025-2-27测试可用" class="headerlink" title="2025.2.27测试可用"></a>2025.2.27测试可用</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://docker.1ms.run&quot;,</span><br><span class="line">    &quot;https://docker.xuanyuan.me&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -655,6 +655,65 @@ ansible_ssh_pass=123456 ##密码
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CentOS Docker 安装</title>
+    <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h2 id="自动安装docker"><a href="#自动安装docker" class="headerlink" title="自动安装docker"></a>自动安装docker</h2><p>使用官方安装脚本自动安装：</p>
+<pre><code>curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+</code></pre>
+<p>国内安装命令：</p>
+<pre><code>curl -sSL https://get.daocloud.io/docker | sh
+</code></pre>
+<h2 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h2><h4 id="卸载旧版本"><a href="#卸载旧版本" class="headerlink" title="卸载旧版本"></a>卸载旧版本</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine 。如果已安装这些程序，请卸载它们以及相关的依赖项。</p>
+<pre><code>yum remove docker \
+      docker-client \
+      docker-client-latest \
+      docker-common \
+      docker-latest \
+      docker-latest-logrotate \
+      docker-logrotate \
+      docker-engine
+      
+</code></pre>
+<h2 id="安装-Docker-Engine-Community"><a href="#安装-Docker-Engine-Community" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h2><p>Docker Engine-Community：这是 Docker Engine 的开源社区版本，也是最常用的版本。Docker Engine 是 Docker 的核心组件，负责运行容器。Docker Engine-Community 是由 Docker, Inc. 提供的免费版本，适合个人开发者和小团队使用。</p>
+<h4 id="设置仓库"><a href="#设置仓库" class="headerlink" title="设置仓库"></a>设置仓库</h4><p>yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。</p>
+<pre><code>yum install -y yum-utils
+</code></pre>
+<p>设置仓库</p>
+<pre><code>官方源地址（比较慢）
+sudo yum-config-manager \
+--add-repo \
+https://download.docker.com/linux/centos/docker-ce.repo
+
+阿里云
+sudo yum-config-manager \
+--add-repo \
+https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+</code></pre>
+<h4 id="安装-Docker-Engine-Community-1"><a href="#安装-Docker-Engine-Community-1" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h4><p>最新版本安装</p>
+<pre><code>yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+</code></pre>
+<p>查看版本</p>
+<pre><code>yum list docker-ce --showduplicates | sort -r
+</code></pre>
+<p>指定版本安装（仅需修改26.1.1）</p>
+<pre><code>yum install docker-ce-26.1.1 docker-ce-cli-26.1.1.1 containerd.io
+</code></pre>
+<h2 id="卸载-docker"><a href="#卸载-docker" class="headerlink" title="卸载 docker"></a>卸载 docker</h2><p>删除安装包：</p>
+<pre><code>yum remove docker-ce
+</code></pre>
+<p>删除镜像、容器、配置文件等内容：</p>
+<pre><code>rm -rf /var/lib/docker
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -723,65 +782,6 @@ mysql:5.7
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CentOS Docker 安装</title>
-    <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
-    <content><![CDATA[<h2 id="自动安装docker"><a href="#自动安装docker" class="headerlink" title="自动安装docker"></a>自动安装docker</h2><p>使用官方安装脚本自动安装：</p>
-<pre><code>curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-</code></pre>
-<p>国内安装命令：</p>
-<pre><code>curl -sSL https://get.daocloud.io/docker | sh
-</code></pre>
-<h2 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h2><h4 id="卸载旧版本"><a href="#卸载旧版本" class="headerlink" title="卸载旧版本"></a>卸载旧版本</h4><p>较旧的 Docker 版本称为 docker 或 docker-engine 。如果已安装这些程序，请卸载它们以及相关的依赖项。</p>
-<pre><code>yum remove docker \
-      docker-client \
-      docker-client-latest \
-      docker-common \
-      docker-latest \
-      docker-latest-logrotate \
-      docker-logrotate \
-      docker-engine
-      
-</code></pre>
-<h2 id="安装-Docker-Engine-Community"><a href="#安装-Docker-Engine-Community" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h2><p>Docker Engine-Community：这是 Docker Engine 的开源社区版本，也是最常用的版本。Docker Engine 是 Docker 的核心组件，负责运行容器。Docker Engine-Community 是由 Docker, Inc. 提供的免费版本，适合个人开发者和小团队使用。</p>
-<h4 id="设置仓库"><a href="#设置仓库" class="headerlink" title="设置仓库"></a>设置仓库</h4><p>yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。</p>
-<pre><code>yum install -y yum-utils
-</code></pre>
-<p>设置仓库</p>
-<pre><code>官方源地址（比较慢）
-sudo yum-config-manager \
---add-repo \
-https://download.docker.com/linux/centos/docker-ce.repo
-
-阿里云
-sudo yum-config-manager \
---add-repo \
-https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-</code></pre>
-<h4 id="安装-Docker-Engine-Community-1"><a href="#安装-Docker-Engine-Community-1" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h4><p>最新版本安装</p>
-<pre><code>yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-</code></pre>
-<p>查看版本</p>
-<pre><code>yum list docker-ce --showduplicates | sort -r
-</code></pre>
-<p>指定版本安装（仅需修改26.1.1）</p>
-<pre><code>yum install docker-ce-26.1.1 docker-ce-cli-26.1.1.1 containerd.io
-</code></pre>
-<h2 id="卸载-docker"><a href="#卸载-docker" class="headerlink" title="卸载 docker"></a>卸载 docker</h2><p>删除安装包：</p>
-<pre><code>yum remove docker-ce
-</code></pre>
-<p>删除镜像、容器、配置文件等内容：</p>
-<pre><code>rm -rf /var/lib/docker
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -995,6 +995,50 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       </tags>
   </entry>
   <entry>
+    <title>github部署hexo</title>
+    <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
+    <content><![CDATA[<h2 id="本地ssh连接-GitHub"><a href="#本地ssh连接-GitHub" class="headerlink" title="本地ssh连接 GitHub"></a>本地ssh连接 GitHub</h2><h3 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h3><p>确保下载了git后输入命令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 GitHub 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
+<p>这一步windows需要设置ssh用户名和，不确定要不要指定密钥文件：</p>
+<ol>
+<li>用户名执行命令：<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">git config --global --add safe.directory D:/hexo/.deploy_git</span><br></pre></td></tr></table></figure></li>
+<li>指定密钥文件，在保存密钥文件的目录中创建文件：config<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  User git</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa</span><br><span class="line">  IdentitiesOnly yes</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>创建 SSH 密匙（可以-f指定输出目录）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
+<p>什么都不用管，一路回车就行，创建好之后可以在.ssh看到有id_rsa.pub(.pub是公钥，id_rsa是私钥)。<br>打开 id_rsa.pub 并复制里面的内容。</p>
+<h3 id="在-GitHub-中添加-SSH-密钥"><a href="#在-GitHub-中添加-SSH-密钥" class="headerlink" title="在 GitHub 中添加 SSH 密钥"></a>在 GitHub 中添加 SSH 密钥</h3><p>回到 GitHub，进入 Settings：<br><img src="/images/pasted-11.png" alt="upload successful"></p>
+<p>选择左边栏的 SSH and GPG keys，点击 New SSH key：<br><img src="/images/pasted-12.png" alt="upload successful"></p>
+<p>Title 随便取，然后把 id_rsa.pub 里面的内容到复制到 Key 中，点击 Add SSH key：<br><img src="/images/pasted-13.png" alt="upload successful"></p>
+<p>保存完毕本地验证一下连接</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>出现 “Are you sure……”，输入 yes 回车确认，若出现下图的提示即连接成功：<br><img src="/images/pasted-14.png" alt="upload successful"></p>
+<h2 id="创建-GitHub-仓库"><a href="#创建-GitHub-仓库" class="headerlink" title="创建 GitHub 仓库"></a>创建 GitHub 仓库</h2><p>GitHub 的主页 repository 中点击右上角的 New：<br><img src="/images/pasted-15.png" alt="upload successful"></p>
+<p>填写基本信息:<br>Repository name 中输入用户名.github.io，一定要是这个名字！<br>勾选 Add a README file<br><img src="/images/pasted-16.png" alt="upload successful"></p>
+<p>填好后点击 Create repository 创建仓库</p>
+<h2 id="上传-hexo-程序到-GitHub"><a href="#上传-hexo-程序到-GitHub" class="headerlink" title="上传 hexo 程序到 GitHub"></a>上传 hexo 程序到 GitHub</h2><p>需要先安装 hexo-deployer-git：</p>
+<pre><code>npm install hexo-deployer-git --save
+</code></pre>
+<p>修改_config.yml 文件末尾的 Deployment 部分：<br><img src="/images/pasted-17.png" alt="upload successful"></p>
+<p>修改成如下（修改为你的用户名与仓库名）<br><img src="/images/pasted-18.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">   type: git</span><br><span class="line">   repo: git@github.com:w00123/w00123.github.io.git</span><br><span class="line">   branch: gh-pages</span><br></pre></td></tr></table></figure>
+<p>修改完成保存后运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo c</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>出现下面的提示说明已经把网站上传到 GitHub 了：<br><img src="/images/pasted-19.png" alt="upload successful"></p>
+<p>然后我们需要在库设置（Repository Settings）中将默认分支设置为_config.yml 配置中的分支名称。<br><img src="/images/pasted-20.png" alt="upload successful"></p>
+<p>然后在 pages 页面调整源分支：<br><img src="/images/pasted-21.png" alt="upload successful"></p>
+<p>访问用户名.github.io就可以看到默认 hexo 了。</p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>github</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hashcat爆破压缩包</title>
     <url>/2025/02/26/hashcat%E7%88%86%E7%A0%B4%E5%8E%8B%E7%BC%A9%E5%8C%85/</url>
     <content><![CDATA[<h2 id="hashcat下载"><a href="#hashcat下载" class="headerlink" title="hashcat下载"></a>hashcat下载</h2><p>windows需要下载两个工具，一个<code>hashcat</code>，一个<code>John the Ripper</code>，下面是下载地址：</p>
@@ -1061,47 +1105,41 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       </tags>
   </entry>
   <entry>
-    <title>github部署hexo</title>
-    <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
-    <content><![CDATA[<h2 id="本地ssh连接-GitHub"><a href="#本地ssh连接-GitHub" class="headerlink" title="本地ssh连接 GitHub"></a>本地ssh连接 GitHub</h2><h3 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h3><p>确保下载了git后输入命令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 GitHub 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
-<p>这一步windows需要设置ssh用户名和，不确定要不要指定密钥文件：</p>
-<ol>
-<li>用户名执行命令：<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">git config --global --add safe.directory D:/hexo/.deploy_git</span><br></pre></td></tr></table></figure></li>
-<li>指定密钥文件，在保存密钥文件的目录中创建文件：config<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  User git</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa</span><br><span class="line">  IdentitiesOnly yes</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>创建 SSH 密匙（可以-f指定输出目录）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
-<p>什么都不用管，一路回车就行，创建好之后可以在.ssh看到有id_rsa.pub(.pub是公钥，id_rsa是私钥)。<br>打开 id_rsa.pub 并复制里面的内容。</p>
-<h3 id="在-GitHub-中添加-SSH-密钥"><a href="#在-GitHub-中添加-SSH-密钥" class="headerlink" title="在 GitHub 中添加 SSH 密钥"></a>在 GitHub 中添加 SSH 密钥</h3><p>回到 GitHub，进入 Settings：<br><img src="/images/pasted-11.png" alt="upload successful"></p>
-<p>选择左边栏的 SSH and GPG keys，点击 New SSH key：<br><img src="/images/pasted-12.png" alt="upload successful"></p>
-<p>Title 随便取，然后把 id_rsa.pub 里面的内容到复制到 Key 中，点击 Add SSH key：<br><img src="/images/pasted-13.png" alt="upload successful"></p>
-<p>保存完毕本地验证一下连接</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-<p>出现 “Are you sure……”，输入 yes 回车确认，若出现下图的提示即连接成功：<br><img src="/images/pasted-14.png" alt="upload successful"></p>
-<h2 id="创建-GitHub-仓库"><a href="#创建-GitHub-仓库" class="headerlink" title="创建 GitHub 仓库"></a>创建 GitHub 仓库</h2><p>GitHub 的主页 repository 中点击右上角的 New：<br><img src="/images/pasted-15.png" alt="upload successful"></p>
-<p>填写基本信息:<br>Repository name 中输入用户名.github.io，一定要是这个名字！<br>勾选 Add a README file<br><img src="/images/pasted-16.png" alt="upload successful"></p>
-<p>填好后点击 Create repository 创建仓库</p>
-<h2 id="上传-hexo-程序到-GitHub"><a href="#上传-hexo-程序到-GitHub" class="headerlink" title="上传 hexo 程序到 GitHub"></a>上传 hexo 程序到 GitHub</h2><p>需要先安装 hexo-deployer-git：</p>
-<pre><code>npm install hexo-deployer-git --save
-</code></pre>
-<p>修改_config.yml 文件末尾的 Deployment 部分：<br><img src="/images/pasted-17.png" alt="upload successful"></p>
-<p>修改成如下（修改为你的用户名与仓库名）<br><img src="/images/pasted-18.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">   type: git</span><br><span class="line">   repo: git@github.com:w00123/w00123.github.io.git</span><br><span class="line">   branch: gh-pages</span><br></pre></td></tr></table></figure>
-<p>修改完成保存后运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo c</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-<p>出现下面的提示说明已经把网站上传到 GitHub 了：<br><img src="/images/pasted-19.png" alt="upload successful"></p>
-<p>然后我们需要在库设置（Repository Settings）中将默认分支设置为_config.yml 配置中的分支名称。<br><img src="/images/pasted-20.png" alt="upload successful"></p>
-<p>然后在 pages 页面调整源分支：<br><img src="/images/pasted-21.png" alt="upload successful"></p>
-<p>访问用户名.github.io就可以看到默认 hexo 了。</p>
-]]></content>
+    <title>hexo-gitee部署</title>
+    <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h2 id="导语"><a href="#导语" class="headerlink" title="导语"></a>导语</h2><p>与github的部署方式一样，仅是代码仓库的设置有些许不同，并且gitee上需要单独开启gitee pages，并且要实名认证，目前<code>pages服务暂停了</code>。</p>
+<blockquote>
+<p>gitee pages已暂停服务，无法通过其访问</p>
+<blockquote>
+<p>参考文章：<a href="https://cloud.tencent.com/developer/article/2495238">https://cloud.tencent.com/developer/article/2495238</a></p>
+</blockquote>
+</blockquote>
+<hr>
+<h2 id="配置方法"><a href="#配置方法" class="headerlink" title="配置方法"></a>配置方法</h2><p>hexo的创建和deploy的配置和github一样，可以参考<a href="/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/">github部署hexo</a></p>
+<ul>
+<li>注意git name和email<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 gitee 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 gitee 邮箱&quot;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="创建仓库"><a href="#创建仓库" class="headerlink" title="创建仓库"></a>创建仓库</h3><p>创建gitee仓库，需要注意一点不一样的是，仓库名称不需要和github一样格式<br>我起的名称是haha_w</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Github:	&#123;username&#125;.github.io</span><br><span class="line">gitee:	&#123;username&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改yml"><a href="#修改yml" class="headerlink" title="修改yml"></a>修改yml</h3><p>根目录中<code>_config.yml</code>的deploy的配置需要修改一下，这样可以同时更新两个仓库</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span></span><br><span class="line">    <span class="attr">gitee:</span> <span class="string">https://gitee.com/haha_w/haha_w.git,master</span></span><br><span class="line">    <span class="attr">github:</span> <span class="string">git@github.com:w00123/w00123.github.io.git,master</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建SSH-key"><a href="#创建SSH-key" class="headerlink" title="创建SSH key"></a>创建SSH key</h3><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;<span class="number">15967126</span>+haha_w@user.noreply.gitee.com&quot;</span><br></pre></td></tr></table></figure>
+<p>上传公钥到gitee，测试可以用以下命令测试：</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
+
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>完成配置</p>
+</div>
+
+<hr>
+<h2 id="上传代码仓库"><a href="#上传代码仓库" class="headerlink" title="上传代码仓库"></a>上传代码仓库</h2><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo cl</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>hexo博客</category>
       </categories>
       <tags>
-        <tag>博客</tag>
-        <tag>github</tag>
         <tag>hexo</tag>
+        <tag>gitee</tag>
       </tags>
   </entry>
   <entry>
@@ -1144,44 +1182,6 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       </tags>
   </entry>
   <entry>
-    <title>hexo-gitee部署</title>
-    <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<h2 id="导语"><a href="#导语" class="headerlink" title="导语"></a>导语</h2><p>与github的部署方式一样，仅是代码仓库的设置有些许不同，并且gitee上需要单独开启gitee pages，并且要实名认证，目前<code>pages服务暂停了</code>。</p>
-<blockquote>
-<p>gitee pages已暂停服务，无法通过其访问</p>
-<blockquote>
-<p>参考文章：<a href="https://cloud.tencent.com/developer/article/2495238">https://cloud.tencent.com/developer/article/2495238</a></p>
-</blockquote>
-</blockquote>
-<hr>
-<h2 id="配置方法"><a href="#配置方法" class="headerlink" title="配置方法"></a>配置方法</h2><p>hexo的创建和deploy的配置和github一样，可以参考<a href="/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/">github部署hexo</a></p>
-<ul>
-<li>注意git name和email<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 gitee 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 gitee 邮箱&quot;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="创建仓库"><a href="#创建仓库" class="headerlink" title="创建仓库"></a>创建仓库</h3><p>创建gitee仓库，需要注意一点不一样的是，仓库名称不需要和github一样格式<br>我起的名称是haha_w</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Github:	&#123;username&#125;.github.io</span><br><span class="line">gitee:	&#123;username&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改yml"><a href="#修改yml" class="headerlink" title="修改yml"></a>修改yml</h3><p>根目录中<code>_config.yml</code>的deploy的配置需要修改一下，这样可以同时更新两个仓库</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span></span><br><span class="line">    <span class="attr">gitee:</span> <span class="string">https://gitee.com/haha_w/haha_w.git,master</span></span><br><span class="line">    <span class="attr">github:</span> <span class="string">git@github.com:w00123/w00123.github.io.git,master</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="创建SSH-key"><a href="#创建SSH-key" class="headerlink" title="创建SSH key"></a>创建SSH key</h3><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;<span class="number">15967126</span>+haha_w@user.noreply.gitee.com&quot;</span><br></pre></td></tr></table></figure>
-<p>上传公钥到gitee，测试可以用以下命令测试：</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
-
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>完成配置</p>
-</div>
-
-<hr>
-<h2 id="上传代码仓库"><a href="#上传代码仓库" class="headerlink" title="上传代码仓库"></a>上传代码仓库</h2><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo cl</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>gitee</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo-github贡献日历</title>
     <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
     <content><![CDATA[<h2 id="预览"><a href="#预览" class="headerlink" title="预览"></a>预览</h2><p><img src="/images/pasted-84.png" alt="upload successful"></p>
@@ -1198,6 +1198,41 @@ the next reboot or after you run partprobe(8) or kpartx(8)
 
 <h2 id="记录500错误处理方法"><a href="#记录500错误处理方法" class="headerlink" title="记录500错误处理方法"></a>记录500错误处理方法</h2><h4 id="进入项目选择setting"><a href="#进入项目选择setting" class="headerlink" title="进入项目选择setting"></a>进入项目选择setting</h4><p>下拉找到<code>Node.js Version</code>修改版本为18.0<br><img src="/images/pasted-82.png" alt="upload successful"></p>
 <h4 id="重新部署"><a href="#重新部署" class="headerlink" title="重新部署"></a>重新部署</h4><p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br><img src="/images/pasted-83.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客安装方法</title>
+    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="termux"><a href="#termux" class="headerlink" title="termux"></a>termux</h2><h3 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h3><p>pkg换源</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@&#x27; $PREFIX/etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">pkg update</span><br><span class="line"></span><br><span class="line">pkg install nodejs-lts</span><br><span class="line">pkg install git</span><br><span class="line">pkg install vim</span><br></pre></td></tr></table></figure>
+
+<p>需要在目录下运行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir hexo</span><br><span class="line">chmod 777 hexo</span><br><span class="line">cd hexo</span><br></pre></td></tr></table></figure>
+
+<h3 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h3><p>npm换源（淘宝）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm config set registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
+
+<p>安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+
+<p>启动命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>下载主题</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
+
+<p>vim编辑根目录下_config.yml中的theme：butterfly<br>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
+<p>安装插件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h3><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
 ]]></content>
       <categories>
         <category>hexo博客</category>
@@ -1324,41 +1359,6 @@ the next reboot or after you run partprobe(8) or kpartx(8)
         <tag>网络安全</tag>
         <tag>工具</tag>
         <tag>hoic</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo博客安装方法</title>
-    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="termux"><a href="#termux" class="headerlink" title="termux"></a>termux</h2><h3 id="termux安装准备"><a href="#termux安装准备" class="headerlink" title="termux安装准备"></a>termux安装准备</h3><p>pkg换源</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@&#x27; $PREFIX/etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">pkg update</span><br><span class="line"></span><br><span class="line">pkg install nodejs-lts</span><br><span class="line">pkg install git</span><br><span class="line">pkg install vim</span><br></pre></td></tr></table></figure>
-
-<p>需要在目录下运行安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir hexo</span><br><span class="line">chmod 777 hexo</span><br><span class="line">cd hexo</span><br></pre></td></tr></table></figure>
-
-<h3 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h3><p>npm换源（淘宝）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm config set registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
-
-<p>安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-
-<p>启动命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-
-<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>下载主题</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
-
-<p>vim编辑根目录下_config.yml中的theme：butterfly<br>vim themes&#x2F;butterfly&#x2F;_config.yml</p>
-<p>安装插件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
-
-<h3 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h3><p>都通过修改文件themes&#x2F;butterfly&#x2F;_config.yml中的模块，根据相关备注修改模块。</p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1505,26 +1505,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>linux下载离线安装包</title>
-    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
-    <content><![CDATA[<h2 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h2><p>以wget为例，需要先下载yum-utils，再下载安装包</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
-
-<p>选择保存位置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
-
-<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>yum install –downloadonly –downloaddir&#x3D;&#x2F;root wget</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>kali移动端（root安装，不改内核）</title>
     <url>/2024/10/15/kali/</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>把kali安在移动端，不论部署了什么工具和环境，可以随处携带，操作不方便可以局域网电脑远程使用、vnc等等。以上是我的使用场景也是折腾的原因。</p>
@@ -1578,6 +1558,26 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       <tags>
         <tag>kali</tag>
         <tag>网络代理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux下载离线安装包</title>
+    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
+    <content><![CDATA[<h2 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h2><p>以wget为例，需要先下载yum-utils，再下载安装包</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
+
+<p>选择保存位置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
+
+<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>yum install –downloadonly –downloaddir&#x3D;&#x2F;root wget</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
@@ -2043,6 +2043,40 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
+    <title>linux服务管理入门</title>
+    <url>/2025/06/24/linux%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><h3 id="查看服务"><a href="#查看服务" class="headerlink" title="查看服务"></a>查看服务</h3><ul>
+<li>列出所有服务<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-units --type=service</span><br></pre></td></tr></table></figure></li>
+<li>列出所有已启用的服务<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-unit-files --state=enabled</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h3><ol>
+<li>journalctl -u <service> — 查看指定服务日志</li>
+<li>journalctl -xe — 检查最新日志，排查错误</li>
+</ol>
+<hr>
+<h2 id="额外技能"><a href="#额外技能" class="headerlink" title="额外技能"></a>额外技能</h2><h3 id="检查依赖"><a href="#检查依赖" class="headerlink" title="检查依赖"></a>检查依赖</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl list-dependencies &lt;service&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h3><ol>
+<li>配置文件位置通常是：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/etc/systemd/system/</span><br><span class="line">/lib/systemd/system/</span><br></pre></td></tr></table></figure></li>
+<li>修改后：<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br></pre></td></tr></table></figure></li>
+<li>重启服务使修改生效</li>
+</ol>
+<hr>
+<h2 id="其他管理器概览"><a href="#其他管理器概览" class="headerlink" title="其他管理器概览"></a>其他管理器概览</h2><p>虽说 systemd 完全是主流，但是还有其他管理器的使用：</p>
+<h3 id="SysV-管理器："><a href="#SysV-管理器：" class="headerlink" title="SysV 管理器："></a>SysV 管理器：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service &lt;service&gt; start|stop|restart|status</span><br><span class="line">chkconfig &lt;service&gt; on|off</span><br></pre></td></tr></table></figure>
+
+<h3 id="Upstart-管理器："><a href="#Upstart-管理器：" class="headerlink" title="Upstart 管理器："></a>Upstart 管理器：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">initctl list</span><br><span class="line">initctl start|stop|restart &lt;service&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>基础学习篇</category>
+      </categories>
+      <tags>
+        <tag>系统运维</tag>
+        <tag>linux</tag>
+        <tag>linux服务</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>msfconsole命令</title>
     <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="攻击模块"><a href="#攻击模块" class="headerlink" title="攻击模块"></a>攻击模块</h2><p>软件更新</p>
@@ -2247,6 +2281,104 @@ run
       <tags>
         <tag>系统运维</tag>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx和apache-简单配置</title>
+    <url>/2025/06/23/nginx%E5%92%8Capache/</url>
+    <content><![CDATA[<h2 id="Apache-配置"><a href="#Apache-配置" class="headerlink" title="Apache 配置"></a>Apache 配置</h2><blockquote>
+<p>一般配置文件位置：</p>
+<ul>
+<li>Debian&#x2F;Ubuntu: <code>/etc/apache2/sites-available/000-default.conf</code></li>
+<li>CentOS&#x2F;RHEL: <code>/etc/httpd/conf.d/</code></li>
+</ul>
+<p>启动&#x2F;重启命令：</p>
+<ul>
+<li>Debian&#x2F;Ubuntu: <code>sudo systemctl restart apache2</code></li>
+<li>CentOS&#x2F;RHEL: <code>sudo systemctl restart httpd</code></li>
+</ul>
+</blockquote>
+<h3 id="示例配置"><a href="#示例配置" class="headerlink" title="示例配置"></a>示例配置</h3><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"></span><br><span class="line">    <span class="section">&lt;Directory /var/www/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> Indexes FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> None</span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> /var/log/httpd/html_error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> /var/log/httpd/html_access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li><code>ServerName</code>：指定主机名。</li>
+<li><code>DocumentRoot</code>：指定网站根目录。</li>
+<li><code>&lt;Directory&gt;</code>：设置对该目录的访问规则。</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="禁用默认欢迎页面"><a href="#禁用默认欢迎页面" class="headerlink" title="禁用默认欢迎页面"></a>禁用默认欢迎页面</h4><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment"># CentOS手动禁用默认配置文件或者删除欢迎页面配置</span></span><br><span class="line"><span class="attribute">sudo</span> mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.conf.disabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ubuntu禁用默认站点</span></span><br><span class="line"><span class="attribute">sudo</span> a2dissite <span class="number">000</span>-default.conf</span><br></pre></td></tr></table></figure>
+<h4 id="防止泄漏Apache版本信息"><a href="#防止泄漏Apache版本信息" class="headerlink" title="防止泄漏Apache版本信息"></a>防止泄漏Apache版本信息</h4><p>新增一个安全配置文件security.conf</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">ServerTokens</span> Prod</span><br><span class="line"><span class="attribute">ServerSignature</span> <span class="literal">Off</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="检查配置情况"><a href="#检查配置情况" class="headerlink" title="检查配置情况"></a>检查配置情况</h3><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">apachectl</span> configtest</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h2><blockquote>
+<p>配置文件位置：</p>
+<ul>
+<li>Debian&#x2F;Ubuntu: <code>/etc/nginx/sites-available/default</code></li>
+<li>CentOS&#x2F;RHEL: <code>/etc/nginx/nginx.conf</code></li>
+</ul>
+<p>启动&#x2F;重启命令：</p>
+<ul>
+<li>Debian&#x2F;Ubuntu&#x2F;CentOS&#x2F;RHEL 通用：<code>sudo systemctl restart nginx</code></li>
+</ul>
+</blockquote>
+<h3 id="示例配置-1"><a href="#示例配置-1" class="headerlink" title="示例配置"></a>示例配置</h3><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html index.php;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_log</span> /var/log/nginx/<span class="literal">error</span>.log;</span><br><span class="line">    <span class="attribute">access_log</span> /var/log/nginx/access.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li><code>listen 80</code>：监听80端口。</li>
+<li><code>server_name</code>：指定主机名。</li>
+<li><code>root</code>：指定网站根目录。</li>
+<li><code>try_files</code>：检查请求是否为实际存在的文件，否则显示404。</li>
+</ul>
+<h3 id="仅允许域名访问"><a href="#仅允许域名访问" class="headerlink" title="仅允许域名访问"></a>仅允许域名访问</h3><h4 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h4><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先处理非法 Host</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只允许指定的域名</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ol>
+<li>第一个 server_name _ 区块匹配所有没有匹配到指定 server_name 的请求，直接 404</li>
+<li>第二个只允许 <a href="http://www.example.com/">www.example.com</a></li>
+</ol>
+<h4 id="apache"><a href="#apache" class="headerlink" title="apache"></a>apache</h4><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 拒绝其他请求</span></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> _</span><br><span class="line">    <span class="section">&lt;Location /&gt;</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> denied</span><br><span class="line">    <span class="section">&lt;/Location&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ol>
+<li>第一个配置只允许指定的 <a href="http://www.example.com/">www.example.com</a></li>
+<li>第二个默认匹配其他 Host 请求，并 Require all denied</li>
+</ol>
+<h2 id="仅允许域名访问-1"><a href="#仅允许域名访问-1" class="headerlink" title="仅允许域名访问"></a>仅允许域名访问</h2><h3 id="nginx-1"><a href="#nginx-1" class="headerlink" title="nginx"></a>nginx</h3><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认 Server：处理非法请求</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对没有匹配到的 Host 返回 404</span></span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正确的域名配置</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ol>
+<li>非法处理请求<ul>
+<li>不通过域名访问的处置方式</li>
+</ul>
+</li>
+<li>正确的域名配置<ul>
+<li>设置可访问的域名</li>
+</ul>
+</li>
+</ol>
+<h3 id="apache-1"><a href="#apache-1" class="headerlink" title="apache"></a>apache</h3><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认虚拟主机配置</span></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> _default_</span><br><span class="line">    </span><br><span class="line">	  <span class="comment"># 返回403禁止访问</span></span><br><span class="line">    <span class="section">&lt;Location /&gt;</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> denied</span><br><span class="line">    <span class="section">&lt;/Location&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.local.com</span><br><span class="line">    <span class="attribute">ServerAlias</span> www.local.com</span><br><span class="line"></span><br><span class="line">    <span class="attribute">DocumentRoot</span> /usr/share/nginx/html</span><br><span class="line">    <span class="section">&lt;Directory /usr/share/nginx/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> -Indexes +FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> <span class="literal">All</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> /var/log/httpd/html_error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> /var/log/httpd/html_access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>除了拒绝访问，还可以重定向到你的网页</p>
+</blockquote>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;Location /&gt;</span></span><br><span class="line">    <span class="attribute">Redirect</span> permanent / http://www.example.com/</span><br><span class="line"><span class="section">&lt;/Location&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>说明：（和nginx相似）</p>
+<ol>
+<li>默认虚拟主机放在第一个加载的配置文件中，匹配未指定域名的请求，比如直接访问IP</li>
+<li>正确的域名配置</li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>基础学习篇</category>
+      </categories>
+      <tags>
+        <tag>apache</tag>
+        <tag>nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -2578,6 +2710,32 @@ run
       </tags>
   </entry>
   <entry>
+    <title>portainer docker的web管理页面</title>
+    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="portainer"><a href="#portainer" class="headerlink" title="portainer"></a>portainer</h2><p>一个web可视化的docker管理页面</p>
+<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>先搜索镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
+<p>一般我下载最多下载的那几个</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
+<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
+<p>接下来就可以登录管理了</p>
+<h2 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h2><p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
+<p>也可通过上传配置文件创建</p>
+<p>选其中一个即可</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pycharm激活</title>
     <url>/2024/08/10/pycharm%E6%BF%80%E6%B4%BB/</url>
     <content><![CDATA[<h2 id="检查链接"><a href="#检查链接" class="headerlink" title="检查链接"></a>检查链接</h2><p>网址：<a href="https://3.jetbra.in/">https://3.jetbra.in/</a></p>
@@ -2750,32 +2908,6 @@ run
 ]]></content>
   </entry>
   <entry>
-    <title>portainer docker的web管理页面</title>
-    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="portainer"><a href="#portainer" class="headerlink" title="portainer"></a>portainer</h2><p>一个web可视化的docker管理页面</p>
-<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>先搜索镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
-<p>一般我下载最多下载的那几个</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
-<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
-<p>接下来就可以登录管理了</p>
-<h2 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h2><p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
-<p>也可通过上传配置文件创建</p>
-<p>选其中一个即可</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sql注入-pikachu</title>
     <url>/2025/02/27/sql%E6%B3%A8%E5%85%A5/</url>
     <content><![CDATA[<h2 id="数字型注入"><a href="#数字型注入" class="headerlink" title="数字型注入"></a>数字型注入</h2><p>使用burp suite工具攻击<br>如果想要去除干扰信息，后面的id&#x3D;1可以改成非法id&#x3D;-2</p>
@@ -2844,101 +2976,20 @@ run
       </tags>
   </entry>
   <entry>
-    <title>nginx和apache-简单配置</title>
-    <url>/2025/06/23/nginx%E5%92%8Capache/</url>
-    <content><![CDATA[<h2 id="Apache-配置"><a href="#Apache-配置" class="headerlink" title="Apache 配置"></a>Apache 配置</h2><blockquote>
-<p>一般配置文件位置：</p>
-<ul>
-<li>Debian&#x2F;Ubuntu: <code>/etc/apache2/sites-available/000-default.conf</code></li>
-<li>CentOS&#x2F;RHEL: <code>/etc/httpd/conf.d/</code></li>
-</ul>
-<p>启动&#x2F;重启命令：</p>
-<ul>
-<li>Debian&#x2F;Ubuntu: <code>sudo systemctl restart apache2</code></li>
-<li>CentOS&#x2F;RHEL: <code>sudo systemctl restart httpd</code></li>
-</ul>
-</blockquote>
-<h3 id="示例配置"><a href="#示例配置" class="headerlink" title="示例配置"></a>示例配置</h3><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"></span><br><span class="line">    <span class="section">&lt;Directory /var/www/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> Indexes FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> None</span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> /var/log/httpd/html_error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> /var/log/httpd/html_access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
+    <title>switch大气层升级18.1.0</title>
+    <url>/2024/08/22/switch%E5%A4%A7%E6%B0%94%E5%B1%82%E5%8D%87%E7%BA%A7/</url>
+    <content><![CDATA[<h2 id="下载离线固件和大气层最新包"><a href="#下载离线固件和大气层最新包" class="headerlink" title="下载离线固件和大气层最新包"></a>下载离线固件和大气层最新包</h2><p>下载地址:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://github.com/rumla34/Atmosphere-stable/releases/tag/1.7.1</span><br></pre></td></tr></table></figure>
 
-<p>说明：</p>
-<ul>
-<li><code>ServerName</code>：指定主机名。</li>
-<li><code>DocumentRoot</code>：指定网站根目录。</li>
-<li><code>&lt;Directory&gt;</code>：设置对该目录的访问规则。</li>
-</ul>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="禁用默认欢迎页面"><a href="#禁用默认欢迎页面" class="headerlink" title="禁用默认欢迎页面"></a>禁用默认欢迎页面</h4><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment"># CentOS手动禁用默认配置文件或者删除欢迎页面配置</span></span><br><span class="line"><span class="attribute">sudo</span> mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.conf.disabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ubuntu禁用默认站点</span></span><br><span class="line"><span class="attribute">sudo</span> a2dissite <span class="number">000</span>-default.conf</span><br></pre></td></tr></table></figure>
-<h4 id="防止泄漏Apache版本信息"><a href="#防止泄漏Apache版本信息" class="headerlink" title="防止泄漏Apache版本信息"></a>防止泄漏Apache版本信息</h4><p>新增一个安全配置文件security.conf</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">ServerTokens</span> Prod</span><br><span class="line"><span class="attribute">ServerSignature</span> <span class="literal">Off</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="检查配置情况"><a href="#检查配置情况" class="headerlink" title="检查配置情况"></a>检查配置情况</h3><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">apachectl</span> configtest</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h2><blockquote>
-<p>配置文件位置：</p>
-<ul>
-<li>Debian&#x2F;Ubuntu: <code>/etc/nginx/sites-available/default</code></li>
-<li>CentOS&#x2F;RHEL: <code>/etc/nginx/nginx.conf</code></li>
-</ul>
-<p>启动&#x2F;重启命令：</p>
-<ul>
-<li>Debian&#x2F;Ubuntu&#x2F;CentOS&#x2F;RHEL 通用：<code>sudo systemctl restart nginx</code></li>
-</ul>
-</blockquote>
-<h3 id="示例配置-1"><a href="#示例配置-1" class="headerlink" title="示例配置"></a>示例配置</h3><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html index.php;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_log</span> /var/log/nginx/<span class="literal">error</span>.log;</span><br><span class="line">    <span class="attribute">access_log</span> /var/log/nginx/access.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>说明：</p>
-<ul>
-<li><code>listen 80</code>：监听80端口。</li>
-<li><code>server_name</code>：指定主机名。</li>
-<li><code>root</code>：指定网站根目录。</li>
-<li><code>try_files</code>：检查请求是否为实际存在的文件，否则显示404。</li>
-</ul>
-<h3 id="仅允许域名访问"><a href="#仅允许域名访问" class="headerlink" title="仅允许域名访问"></a>仅允许域名访问</h3><h4 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h4><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先处理非法 Host</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只允许指定的域名</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>说明：</p>
-<ol>
-<li>第一个 server_name _ 区块匹配所有没有匹配到指定 server_name 的请求，直接 404</li>
-<li>第二个只允许 <a href="http://www.example.com/">www.example.com</a></li>
-</ol>
-<h4 id="apache"><a href="#apache" class="headerlink" title="apache"></a>apache</h4><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 拒绝其他请求</span></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> _</span><br><span class="line">    <span class="section">&lt;Location /&gt;</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> denied</span><br><span class="line">    <span class="section">&lt;/Location&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>说明：</p>
-<ol>
-<li>第一个配置只允许指定的 <a href="http://www.example.com/">www.example.com</a></li>
-<li>第二个默认匹配其他 Host 请求，并 Require all denied</li>
-</ol>
-<h2 id="仅允许域名访问-1"><a href="#仅允许域名访问-1" class="headerlink" title="仅允许域名访问"></a>仅允许域名访问</h2><h3 id="nginx-1"><a href="#nginx-1" class="headerlink" title="nginx"></a>nginx</h3><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认 Server：处理非法请求</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对没有匹配到的 Host 返回 404</span></span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正确的域名配置</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ol>
-<li>非法处理请求<ul>
-<li>不通过域名访问的处置方式</li>
-</ul>
-</li>
-<li>正确的域名配置<ul>
-<li>设置可访问的域名</li>
-</ul>
-</li>
-</ol>
-<h3 id="apache-1"><a href="#apache-1" class="headerlink" title="apache"></a>apache</h3><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认虚拟主机配置</span></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> _default_</span><br><span class="line">    </span><br><span class="line">	  <span class="comment"># 返回403禁止访问</span></span><br><span class="line">    <span class="section">&lt;Location /&gt;</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> denied</span><br><span class="line">    <span class="section">&lt;/Location&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.local.com</span><br><span class="line">    <span class="attribute">ServerAlias</span> www.local.com</span><br><span class="line"></span><br><span class="line">    <span class="attribute">DocumentRoot</span> /usr/share/nginx/html</span><br><span class="line">    <span class="section">&lt;Directory /usr/share/nginx/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> -Indexes +FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> <span class="literal">All</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> /var/log/httpd/html_error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> /var/log/httpd/html_access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>除了拒绝访问，还可以重定向到你的网页</p>
-</blockquote>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;Location /&gt;</span></span><br><span class="line">    <span class="attribute">Redirect</span> permanent / http://www.example.com/</span><br><span class="line"><span class="section">&lt;/Location&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>说明：（和nginx相似）</p>
-<ol>
-<li>默认虚拟主机放在第一个加载的配置文件中，匹配未指定域名的请求，比如直接访问IP</li>
-<li>正确的域名配置</li>
-</ol>
+<p>下载大气层和固件之后，通过switch选择系统页面的usb工具替换这两个文件</p>
+<h2 id="升级步骤"><a href="#升级步骤" class="headerlink" title="升级步骤"></a>升级步骤</h2><p>仅保留emuMMC和Nintendo两个文件，其余文件删除，然后将下载的文件都解压放到sd卡根目录</p>
+<p>然后选择虚拟系统启动，打开大气层软件，一个白色太阳的图标，然后选择我们保存的大气层固件文件夹，更新即可</p>
 ]]></content>
       <categories>
-        <category>系统运维</category>
-        <category>基础学习篇</category>
+        <category>switch</category>
       </categories>
       <tags>
-        <tag>apache</tag>
-        <tag>nginx</tag>
+        <tag>switch大气层</tag>
       </tags>
   </entry>
   <entry>
@@ -3284,23 +3335,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>switch大气层升级18.1.0</title>
-    <url>/2024/08/22/switch%E5%A4%A7%E6%B0%94%E5%B1%82%E5%8D%87%E7%BA%A7/</url>
-    <content><![CDATA[<h2 id="下载离线固件和大气层最新包"><a href="#下载离线固件和大气层最新包" class="headerlink" title="下载离线固件和大气层最新包"></a>下载离线固件和大气层最新包</h2><p>下载地址:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://github.com/rumla34/Atmosphere-stable/releases/tag/1.7.1</span><br></pre></td></tr></table></figure>
-
-<p>下载大气层和固件之后，通过switch选择系统页面的usb工具替换这两个文件</p>
-<h2 id="升级步骤"><a href="#升级步骤" class="headerlink" title="升级步骤"></a>升级步骤</h2><p>仅保留emuMMC和Nintendo两个文件，其余文件删除，然后将下载的文件都解压放到sd卡根目录</p>
-<p>然后选择虚拟系统启动，打开大气层软件，一个白色太阳的图标，然后选择我们保存的大气层固件文件夹，更新即可</p>
-]]></content>
-      <categories>
-        <category>switch</category>
-      </categories>
-      <tags>
-        <tag>switch大气层</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>windows-好用软件</title>
     <url>/2025/02/24/windows-%E5%A5%BD%E7%94%A8%E8%BD%AF%E4%BB%B6/</url>
     <content><![CDATA[<h2 id="U盘工具"><a href="#U盘工具" class="headerlink" title="U盘工具"></a>U盘工具</h2><h3 id="rufus"><a href="#rufus" class="headerlink" title="rufus"></a>rufus</h3><blockquote>
@@ -3441,6 +3475,35 @@ run
       </tags>
   </entry>
   <entry>
+    <title>图转线条画</title>
+    <url>/2025/05/28/%E5%9B%BE%E8%BD%AC%E7%BA%BF%E6%9D%A1%E7%94%BB/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>该方法均通过互联网上网页工具实现。</p>
+<h2 id="图转SVG"><a href="#图转SVG" class="headerlink" title="图转SVG"></a>图转SVG</h2><p>先将图片转成svg矢量图，上传图片转换即可<br><img src="/images/pasted-94.png" alt="upload successful"></p>
+<blockquote>
+<p>工具链接：<br><a href="https://picsvg.com/">https://picsvg.com/</a></p>
+</blockquote>
+<h2 id="SVG转html"><a href="#SVG转html" class="headerlink" title="SVG转html"></a>SVG转html</h2><p>让svg动起来，上传svg图片即可复制代码<br><img src="/images/pasted-95.png" alt="upload successful"></p>
+<blockquote>
+<p>工具链接：<br><a href="https://svgartista.netlify.app/">https://svgartista.netlify.app/</a></p>
+</blockquote>
+<h2 id="html转pug"><a href="#html转pug" class="headerlink" title="html转pug"></a>html转pug</h2><p>代码格式转换</p>
+<blockquote>
+<p>工具链接：<br><a href="https://html-to-pug.com/">https://html-to-pug.com/</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>代码</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>工具</tag>
+        <tag>html</tag>
+        <tag>图片</tag>
+        <tag>svg</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>化妆笔记</title>
     <url>/2025/06/18/%E5%8C%96%E5%A6%86%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h2 id="🧴-妆前打底"><a href="#🧴-妆前打底" class="headerlink" title="🧴 妆前打底"></a>🧴 妆前打底</h2><ul>
@@ -3561,35 +3624,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>图转线条画</title>
-    <url>/2025/05/28/%E5%9B%BE%E8%BD%AC%E7%BA%BF%E6%9D%A1%E7%94%BB/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>该方法均通过互联网上网页工具实现。</p>
-<h2 id="图转SVG"><a href="#图转SVG" class="headerlink" title="图转SVG"></a>图转SVG</h2><p>先将图片转成svg矢量图，上传图片转换即可<br><img src="/images/pasted-94.png" alt="upload successful"></p>
-<blockquote>
-<p>工具链接：<br><a href="https://picsvg.com/">https://picsvg.com/</a></p>
-</blockquote>
-<h2 id="SVG转html"><a href="#SVG转html" class="headerlink" title="SVG转html"></a>SVG转html</h2><p>让svg动起来，上传svg图片即可复制代码<br><img src="/images/pasted-95.png" alt="upload successful"></p>
-<blockquote>
-<p>工具链接：<br><a href="https://svgartista.netlify.app/">https://svgartista.netlify.app/</a></p>
-</blockquote>
-<h2 id="html转pug"><a href="#html转pug" class="headerlink" title="html转pug"></a>html转pug</h2><p>代码格式转换</p>
-<blockquote>
-<p>工具链接：<br><a href="https://html-to-pug.com/">https://html-to-pug.com/</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>代码</category>
-        <category>娱乐</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>工具</tag>
-        <tag>html</tag>
-        <tag>图片</tag>
-        <tag>svg</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>奇异人生-【汉化包】</title>
     <url>/2025/06/22/%E5%A5%87%E5%BC%82%E4%BA%BA%E7%94%9F-%E3%80%90%E6%B1%89%E5%8C%96%E5%8C%85%E3%80%91/</url>
     <content><![CDATA[<h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><p>汉化组：</p>
@@ -3609,6 +3643,60 @@ run
       <tags>
         <tag>奇异人生</tag>
         <tag>游戏汉化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>滑蛋饭</title>
+    <url>/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/</url>
+    <content><![CDATA[<h2 id="调料"><a href="#调料" class="headerlink" title="调料"></a>调料</h2><table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="left">量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">蚝油</td>
+<td align="left">适量</td>
+</tr>
+<tr>
+<td align="center">糖</td>
+<td align="left">适量</td>
+</tr>
+<tr>
+<td align="center">胡椒粉</td>
+<td align="left">适量</td>
+</tr>
+<tr>
+<td align="center">香油</td>
+<td align="left">极少量</td>
+</tr>
+<tr>
+<td align="center">酱油</td>
+<td align="left">少量</td>
+</tr>
+<tr>
+<td align="center">鸡精</td>
+<td align="left">少量</td>
+</tr>
+<tr>
+<td align="center">生粉</td>
+<td align="left">适量</td>
+</tr>
+</tbody></table>
+<h2 id="酱汁"><a href="#酱汁" class="headerlink" title="酱汁"></a>酱汁</h2><ol>
+<li>半碗水，加入耗油，糖，喜欢甜可以多一点糖，白胡椒，搅在一起</li>
+<li>差不多出锅的时候放一点酱油，香油</li>
+<li>最后用生粉调一个芡，冒泡即可</li>
+</ol>
+<h2 id="滑蛋"><a href="#滑蛋" class="headerlink" title="滑蛋"></a>滑蛋</h2><p>小火煎蛋即可，腊肠韭黄，都可以，按喜欢的放。</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>菜谱</category>
+      </categories>
+      <tags>
+        <tag>菜谱</tag>
       </tags>
   </entry>
   <entry>
@@ -3694,60 +3782,6 @@ run
       </categories>
       <tags>
         <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>滑蛋饭</title>
-    <url>/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/</url>
-    <content><![CDATA[<h2 id="调料"><a href="#调料" class="headerlink" title="调料"></a>调料</h2><table>
-<thead>
-<tr>
-<th align="center">名称</th>
-<th align="left">量</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">蚝油</td>
-<td align="left">适量</td>
-</tr>
-<tr>
-<td align="center">糖</td>
-<td align="left">适量</td>
-</tr>
-<tr>
-<td align="center">胡椒粉</td>
-<td align="left">适量</td>
-</tr>
-<tr>
-<td align="center">香油</td>
-<td align="left">极少量</td>
-</tr>
-<tr>
-<td align="center">酱油</td>
-<td align="left">少量</td>
-</tr>
-<tr>
-<td align="center">鸡精</td>
-<td align="left">少量</td>
-</tr>
-<tr>
-<td align="center">生粉</td>
-<td align="left">适量</td>
-</tr>
-</tbody></table>
-<h2 id="酱汁"><a href="#酱汁" class="headerlink" title="酱汁"></a>酱汁</h2><ol>
-<li>半碗水，加入耗油，糖，喜欢甜可以多一点糖，白胡椒，搅在一起</li>
-<li>差不多出锅的时候放一点酱油，香油</li>
-<li>最后用生粉调一个芡，冒泡即可</li>
-</ol>
-<h2 id="滑蛋"><a href="#滑蛋" class="headerlink" title="滑蛋"></a>滑蛋</h2><p>小火煎蛋即可，腊肠韭黄，都可以，按喜欢的放。</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>菜谱</category>
-      </categories>
-      <tags>
-        <tag>菜谱</tag>
       </tags>
   </entry>
   <entry>
@@ -3874,46 +3908,77 @@ run
       </tags>
   </entry>
   <entry>
-    <title>算命</title>
-    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
-    <content><![CDATA[<h2 id="六神"><a href="#六神" class="headerlink" title="六神"></a>六神</h2><h3 id="手势位置"><a href="#手势位置" class="headerlink" title="手势位置"></a>手势位置</h3><p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br><img src="/images/pasted-71.png" alt="upload successful"></p>
-<p>速记：大、流、速、赤、小、空。</p>
-<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><h4 id="大安"><a href="#大安" class="headerlink" title="大安"></a>大安</h4><p>1、身不动时（如果算一个人在干什么）<br>2、五行：属木<br>3、方位：东<br>4、神煞：青龙<br>5、数字：1、5、7<br>6、安心吉祥的意思</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
-
-<h4 id="留连"><a href="#留连" class="headerlink" title="留连"></a>留连</h4><p>1、人未归时<br>2、五行属水<br>3、黑色<br>4、方位北<br>5、玄武<br>6、数字：2、8、10<br>7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
-
-<h4 id="速喜"><a href="#速喜" class="headerlink" title="速喜"></a>速喜</h4><p>1、人即至时<br>2、五行属火<br>3、红色<br>4、方位为南方<br>5、数字：3,6,9<br>6、有快速、吉利、时机已到之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
-
-<h4 id="赤口"><a href="#赤口" class="headerlink" title="赤口"></a>赤口</h4><p>1、官事凶时<br>2、五行属金<br>3、白色<br>4、西方<br>5、白虎<br>6、数字：4，7，10<br>7、有不吉、惊恐、凶险、口舌是非之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
-
-<h4 id="小吉"><a href="#小吉" class="headerlink" title="小吉"></a>小吉</h4><p>1、人来喜时<br>2、五行属木<br>3、六合<br>4、数字：1,5,7<br>5、有和合、吉利之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
-
-<h4 id="空亡"><a href="#空亡" class="headerlink" title="空亡"></a>空亡</h4><p>1、音信稀时<br>2、五行属土<br>3、黄色<br>4、中央<br>5、勾陈<br>6、数字：3,6,9<br>7、有不吉、无果之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
-
-<h2 id="奇门"><a href="#奇门" class="headerlink" title="奇门"></a>奇门</h2><h3 id="九宫五行"><a href="#九宫五行" class="headerlink" title="九宫五行"></a>九宫五行</h3><p>五行生克关系<br><img src="/images/pasted-74.png" alt="upload successful"><br>九宫位置<br><img src="/images/pasted-73.png" alt="upload successful"><br>东南西北位置<br><img src="/images/pasted-75.png" alt="upload successful"></p>
-<h2 id="干支"><a href="#干支" class="headerlink" title="干支"></a>干支</h2><p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
-<p>寅卯为木居东方，巳午为火居正南，<br>申酉属金位在西，子亥属水在北边，<br>辰戌丑未皆属土，分别居于四维偏，<br>辰在东南戌西北，丑在东北未西南。</p>
-<h2 id="时辰"><a href="#时辰" class="headerlink" title="时辰"></a>时辰</h2><p>子丑寅卯辰巳午未申酉戌亥</p>
+    <title>羊肉火锅-牛油辣味</title>
+    <url>/2025/02/04/%E7%BE%8A%E8%82%89%E7%81%AB%E9%94%85-%E7%89%9B%E6%B2%B9%E8%BE%A3%E5%91%B3/</url>
+    <content><![CDATA[<h2 id="配料"><a href="#配料" class="headerlink" title="配料"></a>配料</h2><p>配料表中的量不包括焯水等步骤的损耗</p>
+<style>
+table th:nth-of-type(1) {
+width: 20%;
+}
+</style>
+<table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="left">量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">羊肉</td>
+<td align="left">一到两斤左右</td>
+</tr>
+<tr>
+<td align="center">花椒</td>
+<td align="left">可放可不放</td>
+</tr>
+<tr>
+<td align="center">香叶</td>
+<td align="left">3片左右</td>
+</tr>
+<tr>
+<td align="center">桂皮</td>
+<td align="left">一小块</td>
+</tr>
+<tr>
+<td align="center">八角</td>
+<td align="left">一个</td>
+</tr>
+<tr>
+<td align="center">干辣椒</td>
+<td align="left">若干</td>
+</tr>
+<tr>
+<td align="center">大葱</td>
+<td align="left">三段</td>
+</tr>
+<tr>
+<td align="center">姜</td>
+<td align="left">适量</td>
+</tr>
+<tr>
+<td align="center">大蒜</td>
+<td align="left">适量（半颗左右）</td>
+</tr>
+<tr>
+<td align="center">白萝卜</td>
+<td align="left">随意</td>
+</tr>
+<tr>
+<td align="center">海底捞牛油火锅底料</td>
+<td align="left">小包的半包</td>
+</tr>
+</tbody></table>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>1、一点姜、葱、料酒给羊肉焯水，撇去浮沫后捞出备用</p>
+<p>2、热油炒香姜、大葱、大蒜、和香料，然后倒入火锅底料翻炒均匀，可加入白胡椒，但是感觉没啥区别</p>
+<p>3、加入羊肉翻炒均匀后加水煮90分钟，中途加入萝卜（可高压锅煮45分钟）</p>
 ]]></content>
       <categories>
         <category>生活</category>
-        <category>玄学</category>
+        <category>菜谱</category>
       </categories>
       <tags>
-        <tag>算命知识</tag>
-        <tag>小六壬</tag>
+        <tag>菜谱</tag>
+        <tag>羊肉火锅</tag>
       </tags>
   </entry>
   <entry>
@@ -3992,77 +4057,46 @@ width: 20%;
       </tags>
   </entry>
   <entry>
-    <title>羊肉火锅-牛油辣味</title>
-    <url>/2025/02/04/%E7%BE%8A%E8%82%89%E7%81%AB%E9%94%85-%E7%89%9B%E6%B2%B9%E8%BE%A3%E5%91%B3/</url>
-    <content><![CDATA[<h2 id="配料"><a href="#配料" class="headerlink" title="配料"></a>配料</h2><p>配料表中的量不包括焯水等步骤的损耗</p>
-<style>
-table th:nth-of-type(1) {
-width: 20%;
-}
-</style>
-<table>
-<thead>
-<tr>
-<th align="center">名称</th>
-<th align="left">量</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">羊肉</td>
-<td align="left">一到两斤左右</td>
-</tr>
-<tr>
-<td align="center">花椒</td>
-<td align="left">可放可不放</td>
-</tr>
-<tr>
-<td align="center">香叶</td>
-<td align="left">3片左右</td>
-</tr>
-<tr>
-<td align="center">桂皮</td>
-<td align="left">一小块</td>
-</tr>
-<tr>
-<td align="center">八角</td>
-<td align="left">一个</td>
-</tr>
-<tr>
-<td align="center">干辣椒</td>
-<td align="left">若干</td>
-</tr>
-<tr>
-<td align="center">大葱</td>
-<td align="left">三段</td>
-</tr>
-<tr>
-<td align="center">姜</td>
-<td align="left">适量</td>
-</tr>
-<tr>
-<td align="center">大蒜</td>
-<td align="left">适量（半颗左右）</td>
-</tr>
-<tr>
-<td align="center">白萝卜</td>
-<td align="left">随意</td>
-</tr>
-<tr>
-<td align="center">海底捞牛油火锅底料</td>
-<td align="left">小包的半包</td>
-</tr>
-</tbody></table>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>1、一点姜、葱、料酒给羊肉焯水，撇去浮沫后捞出备用</p>
-<p>2、热油炒香姜、大葱、大蒜、和香料，然后倒入火锅底料翻炒均匀，可加入白胡椒，但是感觉没啥区别</p>
-<p>3、加入羊肉翻炒均匀后加水煮90分钟，中途加入萝卜（可高压锅煮45分钟）</p>
+    <title>算命</title>
+    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
+    <content><![CDATA[<h2 id="六神"><a href="#六神" class="headerlink" title="六神"></a>六神</h2><h3 id="手势位置"><a href="#手势位置" class="headerlink" title="手势位置"></a>手势位置</h3><p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br><img src="/images/pasted-71.png" alt="upload successful"></p>
+<p>速记：大、流、速、赤、小、空。</p>
+<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><h4 id="大安"><a href="#大安" class="headerlink" title="大安"></a>大安</h4><p>1、身不动时（如果算一个人在干什么）<br>2、五行：属木<br>3、方位：东<br>4、神煞：青龙<br>5、数字：1、5、7<br>6、安心吉祥的意思</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
+
+<h4 id="留连"><a href="#留连" class="headerlink" title="留连"></a>留连</h4><p>1、人未归时<br>2、五行属水<br>3、黑色<br>4、方位北<br>5、玄武<br>6、数字：2、8、10<br>7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
+
+<h4 id="速喜"><a href="#速喜" class="headerlink" title="速喜"></a>速喜</h4><p>1、人即至时<br>2、五行属火<br>3、红色<br>4、方位为南方<br>5、数字：3,6,9<br>6、有快速、吉利、时机已到之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
+
+<h4 id="赤口"><a href="#赤口" class="headerlink" title="赤口"></a>赤口</h4><p>1、官事凶时<br>2、五行属金<br>3、白色<br>4、西方<br>5、白虎<br>6、数字：4，7，10<br>7、有不吉、惊恐、凶险、口舌是非之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
+
+<h4 id="小吉"><a href="#小吉" class="headerlink" title="小吉"></a>小吉</h4><p>1、人来喜时<br>2、五行属木<br>3、六合<br>4、数字：1,5,7<br>5、有和合、吉利之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
+
+<h4 id="空亡"><a href="#空亡" class="headerlink" title="空亡"></a>空亡</h4><p>1、音信稀时<br>2、五行属土<br>3、黄色<br>4、中央<br>5、勾陈<br>6、数字：3,6,9<br>7、有不吉、无果之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
+
+<h2 id="奇门"><a href="#奇门" class="headerlink" title="奇门"></a>奇门</h2><h3 id="九宫五行"><a href="#九宫五行" class="headerlink" title="九宫五行"></a>九宫五行</h3><p>五行生克关系<br><img src="/images/pasted-74.png" alt="upload successful"><br>九宫位置<br><img src="/images/pasted-73.png" alt="upload successful"><br>东南西北位置<br><img src="/images/pasted-75.png" alt="upload successful"></p>
+<h2 id="干支"><a href="#干支" class="headerlink" title="干支"></a>干支</h2><p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
+<p>寅卯为木居东方，巳午为火居正南，<br>申酉属金位在西，子亥属水在北边，<br>辰戌丑未皆属土，分别居于四维偏，<br>辰在东南戌西北，丑在东北未西南。</p>
+<h2 id="时辰"><a href="#时辰" class="headerlink" title="时辰"></a>时辰</h2><p>子丑寅卯辰巳午未申酉戌亥</p>
 ]]></content>
       <categories>
         <category>生活</category>
-        <category>菜谱</category>
+        <category>玄学</category>
       </categories>
       <tags>
-        <tag>菜谱</tag>
-        <tag>羊肉火锅</tag>
+        <tag>算命知识</tag>
+        <tag>小六壬</tag>
       </tags>
   </entry>
   <entry>
