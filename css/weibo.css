@@ -1,6 +1,6 @@
 /* 这是我的卡片css样式，你们可以参考下 */
 #weibo.card-widget{
-  background: linear-gradient(to right, #4B0082, #000000) !important;
+  background: linear-gradient(to bottom, #4B0082, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)) !important;
     border-radius: 10px;
     color: white;
     border-width: 10px;
@@ -48,6 +48,7 @@
 
 #weibo .item-content {
     text-align: center;
+    margin-bottom: 40px;
 }
 
 #weibo-container {
