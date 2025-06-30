@@ -60,7 +60,7 @@ html[data-theme="dark"] #page-header.nav-visible #nav,
 html[data-theme="dark"] .search-dialog,
 /* 移动端 */
 html[data-theme="dark"] #sidebar #sidebar-menus.open {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(20px);
 }
 
