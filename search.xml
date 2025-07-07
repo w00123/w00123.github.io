@@ -1,6 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Browser-use 安装</title>
+    <url>/2025/07/07/Browser-use-%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h2 id="简介">简介</h2>
+<p>这次安装是通过windows安装</p>
+<blockquote>
+<p>官网</p>
+<blockquote>
+<p><a href="https://browser-use.com/">https://browser-use.com/</a></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>github</p>
+<blockquote>
+<p><a href="https://github.com/browser-use/browser-use">https://github.com/browser-use/browser-use</a></p>
+</blockquote>
+</blockquote>
+<hr>
+<h2 id="安装步骤">安装步骤</h2>
+<blockquote>
+<p>官方安装方法：</p>
+<blockquote>
+<p><a href="https://github.com/browser-use/web-ui">https://github.com/browser-use/web-ui</a></p>
+</blockquote>
+</blockquote>
+<p><code>可以先安装uv，uv比较好用：</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install uv</span><br></pre></td></tr></table></figure>
+<ol>
+<li>创建python虚拟环境</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python -m venv venv</span><br><span class="line">venv\Scripts\activate</span><br></pre></td></tr></table></figure>
+<ul>
+<li>退出虚拟环境</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>git Browser-use的web ui项目</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/browser-use/web-ui.git</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>安装依赖项</li>
+</ol>
+<ul>
+<li>安装 Python 包：</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">uv pip install -r requirements.txt</span><br><span class="line"># 新版本要安装setuptools</span><br><span class="line">uv pip install setuptools</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 playwright 中安装浏览器</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">playwright install --with-deps</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>配置环境<br>
+api配置文件</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">copy .env.example .env</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>运行webUI</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python webui.py --ip 127.0.0.1 --port 7788</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>代码</category>
+        <category>工具安装</category>
+      </categories>
+      <tags>
+        <tag>browser-use</tag>
+        <tag>浏览器ai代理</tag>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Dockerfile命令</title>
     <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<table>
@@ -98,7 +167,7 @@
   <entry>
     <title>Magentic-UI 安装</title>
     <url>/2025/07/06/Magentic-UI-%E5%AE%89%E8%A3%85/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
+    <content><![CDATA[<h2 id="简介">简介</h2>
 <blockquote>
 <p>Magentic-UI：<br>
 <a href="https://github.com/microsoft/Magentic-UI?tab=readme-ov-file#%EF%B8%8F-installation">https://github.com/microsoft/Magentic-UI?tab=readme-ov-file#️-installation</a></p>
@@ -132,7 +201,14 @@ deadsnakes PPA 是由 Python 社区维护的一个软件源，专门用于提供
 <ol>
 <li>使用虚拟环境以避免与其他软件包冲突</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python3 -m venv .venv</span><br><span class="line">source .venv/bin/activate</span><br><span class="line">pip install magentic-ui</span><br></pre></td></tr></table></figure>
+<ul>
+<li>linux</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python3 -m venv .venv</span><br><span class="line">source .venv/bin/activate</span><br><span class="line">pip install magentic-ui</span><br></pre></td></tr></table></figure>
+<ul>
+<li>windows</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python -m venv venv</span><br><span class="line">venv\Scripts\activate</span><br><span class="line">pip install magentic-ui</span><br></pre></td></tr></table></figure>
 <ol start="2">
 <li>如果使用 uv 进行依赖项管理(较快)，则可以使用以下命令安装 Magentic-UI：</li>
 </ol>
@@ -144,14 +220,24 @@ deadsnakes PPA 是由 Python 社区维护的一个软件源，专门用于提供
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">magentic-ui --port 8081 --host 0.0.0.0</span><br></pre></td></tr></table></figure>
 <h3 id="venv虚拟环境进入退出">venv虚拟环境进入退出</h3>
+<ol>
+<li>linux</li>
+</ol>
 <ul>
 <li>要退出虚拟环境，只需运行以下命令：</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
 <ul>
 <li>想再次进入虚拟环境，只需重新激活它。到达<code>.venv的根目录</code>后，进入虚拟环境的命令如下：</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source .venv/bin/activate</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source .venv/bin/activate</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>windows</li>
+</ol>
+<ul>
+<li>退出相同，进入为</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">venv\Scripts\activate</span><br></pre></td></tr></table></figure>
 <hr>
 <h2 id="配置">配置</h2>
 <h3 id="模型客户端配置">模型客户端配置</h3>
@@ -171,9 +257,9 @@ deadsnakes PPA 是由 Python 社区维护的一个软件源，专门用于提供
         <category>工具安装</category>
       </categories>
       <tags>
-        <tag>Magentic-UI</tag>
-        <tag>浏览器代理工具</tag>
+        <tag>浏览器ai代理</tag>
         <tag>工具</tag>
+        <tag>Magentic-UI</tag>
       </tags>
   </entry>
   <entry>
@@ -226,45 +312,6 @@ ansible_ssh_pass=123456 ##密码
       </categories>
       <tags>
         <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>arp欺骗</title>
-    <url>/2024/08/01/arpspoof/</url>
-    <content><![CDATA[<h2 id="使用arpspoof命令：">使用arpspoof命令：</h2>
-<pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
-</code></pre>
-<p>-i interface          指定要使用的接口。<br>
--c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>
--t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>
--r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>
-host               指定您希望抓取数据包的host（通常是本地网关）</p>
-<h2 id="使用ettercap-G-蜘蛛工具">使用ettercap -G 蜘蛛工具</h2>
-<p>实例演示-arp欺骗</p>
-<p>1.打开ettercap，选择你要使用的网卡，点击&quot;对号&quot;。<br>
-<img src="/images/pasted-4.png" alt="upload successful"></p>
-<p>2.点击&quot;搜索&quot;按钮，进行主机发现。<br>
-<img src="/images/pasted-5.png" alt="upload successful"></p>
-<p>3.点击&quot;红色方框里面的按钮&quot;，我们可以查看&quot;host list&quot;.<br>
-<img src="/images/pasted-6.png" alt="upload successful"></p>
-<p>4.将想要欺骗的网关和受害者分别添加到&quot;add to target 1&quot;和&quot;add to target 2&quot;。<br>
-<img src="/images/pasted-7.png" alt="upload successful"></p>
-<p>5.点击&quot;圆圈&quot;，选择&quot;arp poisoning spoofing&quot;。<br>
-<img src="/images/pasted-8.png" alt="upload successful"></p>
-<p>6.选择&quot;sniff remote connections&quot;，然后点击&quot;OK&quot;。这样就配置完成，ettercap会自动开始arp欺骗。<br>
-<img src="/images/pasted-9.png" alt="upload successful"></p>
-<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br>
-<img src="/images/pasted-10.png" alt="upload successful"></p>
-<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>实战演示</tag>
       </tags>
   </entry>
   <entry>
@@ -325,34 +372,42 @@ host               指定您希望抓取数据包的host（通常是本地网关
       </tags>
   </entry>
   <entry>
-    <title>deepseek-r1本地部署方法</title>
-    <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="安装ollama">安装ollama</h2>
-<p>打开ollama官网，根据系统下载ollama软件：<br>
-<a href="https://ollama.com/">https://ollama.com/</a><br>
-<img src="/images/pasted-76.png" alt="upload successful"></p>
-<h2 id="下载模型">下载模型</h2>
-<p>安装完成ollama后，通过cmd命令行输入运行相关模型的命令，获取地址是官网的Models页面：<br>
-<img src="/images/pasted-77.png" alt="upload successful"></p>
-<p>第一个就是需要下载的模型deepseek-r1，点击名称选择需要的版本，即使不符合也能运行，会很卡：<br>
-<a href="https://ollama.com/library/deepseek-r1:8b">https://ollama.com/library/deepseek-r1:8b</a><br>
-<img src="/images/pasted-78.png" alt="upload successful"></p>
-<h2 id="使用">使用</h2>
-<p>运行完成后就能正常使用了，这样只能命令行使用；可以通过浏览器插件图形化页面使用本地运行的模型，插件名称是：Page Assist - A Web UI for Local AI Models<br>
-<img src="/images/pasted-79.png" alt="upload successful"></p>
-<p>说是能联网，但是我的不行</p>
-<p>可以用以下话语添加在问题末尾通过其他联网的ai获取信息后给deepseek整理回答，来间接上网：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请先告诉我你要回答这个问题需要检索哪些关键词或者最新消息？我会尝试提供相关数据。</span><br></pre></td></tr></table></figure>
-<h2 id="api参数">api参数</h2>
-<p>python使用参数</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;http://localhost:11434/api/generate&quot;</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;model&quot;</span>: <span class="string">&quot;deepseek-r1:1.5b&quot;</span>,  <span class="comment"># 替换为你的模型名称</span></span><br><span class="line">    <span class="string">&quot;prompt&quot;</span>: <span class="string">&quot;你好&quot;</span>,</span><br><span class="line">    <span class="string">&quot;stream&quot;</span>: <span class="literal">False</span>  <span class="comment"># 是否启用流式响应</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    <title>arp欺骗</title>
+    <url>/2024/08/01/arpspoof/</url>
+    <content><![CDATA[<h2 id="使用arpspoof命令：">使用arpspoof命令：</h2>
+<pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
+</code></pre>
+<p>-i interface          指定要使用的接口。<br>
+-c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>
+-t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>
+-r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>
+host               指定您希望抓取数据包的host（通常是本地网关）</p>
+<h2 id="使用ettercap-G-蜘蛛工具">使用ettercap -G 蜘蛛工具</h2>
+<p>实例演示-arp欺骗</p>
+<p>1.打开ettercap，选择你要使用的网卡，点击&quot;对号&quot;。<br>
+<img src="/images/pasted-4.png" alt="upload successful"></p>
+<p>2.点击&quot;搜索&quot;按钮，进行主机发现。<br>
+<img src="/images/pasted-5.png" alt="upload successful"></p>
+<p>3.点击&quot;红色方框里面的按钮&quot;，我们可以查看&quot;host list&quot;.<br>
+<img src="/images/pasted-6.png" alt="upload successful"></p>
+<p>4.将想要欺骗的网关和受害者分别添加到&quot;add to target 1&quot;和&quot;add to target 2&quot;。<br>
+<img src="/images/pasted-7.png" alt="upload successful"></p>
+<p>5.点击&quot;圆圈&quot;，选择&quot;arp poisoning spoofing&quot;。<br>
+<img src="/images/pasted-8.png" alt="upload successful"></p>
+<p>6.选择&quot;sniff remote connections&quot;，然后点击&quot;OK&quot;。这样就配置完成，ettercap会自动开始arp欺骗。<br>
+<img src="/images/pasted-9.png" alt="upload successful"></p>
+<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br>
+<img src="/images/pasted-10.png" alt="upload successful"></p>
+<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
+]]></content>
       <categories>
-        <category>系统运维</category>
-        <category>娱乐</category>
+        <category>网络安全</category>
+        <category>kali</category>
       </categories>
       <tags>
-        <tag>ai</tag>
-        <tag>deepseek</tag>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>实战演示</tag>
       </tags>
   </entry>
   <entry>
@@ -623,88 +678,6 @@ host               指定您希望抓取数据包的host（通常是本地网关
       </tags>
   </entry>
   <entry>
-    <title>docker pull 镜像ai的理解</title>
-    <url>/2025/05/27/docker-pull-%E9%95%9C%E5%83%8Fai%E7%9A%84%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="🧪-场景">🧪 场景</h2>
-<p>你执行 docker pull nginx:latest 时，Docker 是怎么一步步“下载镜像”的？<br>
-我们来把这个过程分解为实际步骤，同时继续用“汉堡 🍔”比喻帮助理解每一层。</p>
-<h3 id="✅-第-1-步：解析镜像名">✅ 第 1 步：解析镜像名</h3>
-<p>你输入的命令：<br>
-docker pull nginx:latest</p>
-<p>Docker 其实会自动转换为：<br>
-<a href="http://registry-1.docker.io/library/nginx:latest">registry-1.docker.io/library/nginx:latest</a></p>
-<p>这个地址指的是：</p>
-<ol>
-<li>官方 Docker Hub（<a href="http://registry-1.docker.io">registry-1.docker.io</a>）</li>
-<li>官方镜像库（library）</li>
-<li>镜像名：nginx</li>
-<li>标签：latest</li>
-</ol>
-<h3 id="✅-第-2-步：联系-Docker-Hub">✅ 第 2 步：联系 Docker Hub</h3>
-<p>Docker 客户端向 Docker Hub 发出请求：<br>
-GET /v2/library/nginx/manifests/latest</p>
-<p>这一步是拿到清单（manifest），这个清单里记录了：</p>
-<ol>
-<li>这个镜像由哪些层组成</li>
-<li>每一层的校验和（sha256）</li>
-<li>每层的大小</li>
-<li>支持的平台（比如 amd64、arm64）</li>
-</ol>
-<blockquote>
-<p>📦 比喻：这就像餐厅菜单告诉你：这个汉堡由 5 层组成，分别是面包、生菜、牛肉、奶酪、酱料。</p>
-</blockquote>
-<h3 id="✅-第-3-步：依次下载每一层（layer）">✅ 第 3 步：依次下载每一层（layer）</h3>
-<p>Docker 开始一个个去下载镜像层（也叫“blob”），请求长这样：<br>
-GET /v2/library/nginx/blobs/sha256:xxxxxxxxx</p>
-<ul>
-<li>每一层都是一个压缩包（通常是 tar.gz 文件），里面包含一部分文件系统的变更（新增/修改/删除文件）。</li>
-</ul>
-<blockquote>
-<p>💡 这些“层”可以是：<br>
-层编号内容类比<br>
-Layer 1 Ubuntu OS 的基础文件系统 汉堡面包底<br>
-Layer 2 安装了一些库 加了生菜<br>
-Layer 3 加入了 Nginx 服务器 加了牛肉<br>
-Layer 4 默认配置文件等 加了酱<br>
-Layer 5 启动命令 插了一根旗子（告诉吃法）</p>
-</blockquote>
-<h3 id="✅-第-4-步：校验层的完整性">✅ 第 4 步：校验层的完整性</h3>
-<ul>
-<li>每层下载后，Docker 会对文件做 SHA256 校验，确保没有被篡改、损坏。</li>
-</ul>
-<h3 id="✅-第-5-步：将层缓存到本地">✅ 第 5 步：将层缓存到本地</h3>
-<p>层保存到你的本地磁盘：<br>
-Linux 路径通常是 /var/lib/docker/overlay2/（默认）</p>
-<ul>
-<li>每一层是增量的，可复用（比如多个镜像用的是同一个 ubuntu 基础层）</li>
-</ul>
-<blockquote>
-<p>🧠 你下过 nginx 后再下 redis，可能会发现部分层都已经存在，不需要重新下载。</p>
-</blockquote>
-<h3 id="✅-第-6-步：镜像构建完成，可以运行了">✅ 第 6 步：镜像构建完成，可以运行了</h3>
-<p>所有层都下载完之后，Docker 会将它们组合起来，做出一个“可以运行的汉堡”。<br>
-你可以用这个命令运行容器：<br>
-docker run -d nginx</p>
-<ul>
-<li>此时容器运行的文件系统，其实是多个只读层 + 一个可写层叠加起来的视图。</li>
-</ul>
-<blockquote>
-<p>🧭 下载时你看到的输出，其实就是每一层：<br>
-比如执行时会看到这样的输出：<br>
-docker pull nginx:latest<br>
-latest: Pulling from library/nginx<br>
-ab5ef0e58194: Pull complete     ← 第1层<br>
-9d6b7f3f1b66: Pull complete     ← 第2层<br>
-e379e8d9f7cd: Pull complete     ← 第3层<br>
-…<br>
-Digest: sha256:xxx…<br>
-每一条 Pull complete 就是一层成功下载并校验完成了。</p>
-</blockquote>
-<h2 id="✅-小结一句话：">✅ 小结一句话：</h2>
-<p>Docker 下载镜像时，不是一次性拿一个“压缩包”，而是像“叠汉堡”一样，一个个去下载构成镜像的文件系统层（layers），最后组合成可运行的镜像。</p>
-]]></content>
-  </entry>
-  <entry>
     <title>burpsuite工具学习版方法</title>
     <url>/2025/02/21/burpsuite%E5%B7%A5%E5%85%B7%E5%AD%A6%E4%B9%A0%E7%89%88%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -799,6 +772,37 @@ Digest: sha256:xxx…<br>
       </tags>
   </entry>
   <entry>
+    <title>deepseek-r1本地部署方法</title>
+    <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="安装ollama">安装ollama</h2>
+<p>打开ollama官网，根据系统下载ollama软件：<br>
+<a href="https://ollama.com/">https://ollama.com/</a><br>
+<img src="/images/pasted-76.png" alt="upload successful"></p>
+<h2 id="下载模型">下载模型</h2>
+<p>安装完成ollama后，通过cmd命令行输入运行相关模型的命令，获取地址是官网的Models页面：<br>
+<img src="/images/pasted-77.png" alt="upload successful"></p>
+<p>第一个就是需要下载的模型deepseek-r1，点击名称选择需要的版本，即使不符合也能运行，会很卡：<br>
+<a href="https://ollama.com/library/deepseek-r1:8b">https://ollama.com/library/deepseek-r1:8b</a><br>
+<img src="/images/pasted-78.png" alt="upload successful"></p>
+<h2 id="使用">使用</h2>
+<p>运行完成后就能正常使用了，这样只能命令行使用；可以通过浏览器插件图形化页面使用本地运行的模型，插件名称是：Page Assist - A Web UI for Local AI Models<br>
+<img src="/images/pasted-79.png" alt="upload successful"></p>
+<p>说是能联网，但是我的不行</p>
+<p>可以用以下话语添加在问题末尾通过其他联网的ai获取信息后给deepseek整理回答，来间接上网：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请先告诉我你要回答这个问题需要检索哪些关键词或者最新消息？我会尝试提供相关数据。</span><br></pre></td></tr></table></figure>
+<h2 id="api参数">api参数</h2>
+<p>python使用参数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;http://localhost:11434/api/generate&quot;</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;model&quot;</span>: <span class="string">&quot;deepseek-r1:1.5b&quot;</span>,  <span class="comment"># 替换为你的模型名称</span></span><br><span class="line">    <span class="string">&quot;prompt&quot;</span>: <span class="string">&quot;你好&quot;</span>,</span><br><span class="line">    <span class="string">&quot;stream&quot;</span>: <span class="literal">False</span>  <span class="comment"># 是否启用流式响应</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>ai</tag>
+        <tag>deepseek</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker pull 镜像失败问题解决方法（镜像多）</title>
     <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
     <content><![CDATA[<h2 id="问题现象">问题现象</h2>
@@ -813,6 +817,107 @@ Digest: sha256:xxx…<br>
 <h3 id="开始下载">开始下载</h3>
 <p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
 ]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker pull 镜像ai的理解</title>
+    <url>/2025/05/27/docker-pull-%E9%95%9C%E5%83%8Fai%E7%9A%84%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="🧪-场景">🧪 场景</h2>
+<p>你执行 docker pull nginx:latest 时，Docker 是怎么一步步“下载镜像”的？<br>
+我们来把这个过程分解为实际步骤，同时继续用“汉堡 🍔”比喻帮助理解每一层。</p>
+<h3 id="✅-第-1-步：解析镜像名">✅ 第 1 步：解析镜像名</h3>
+<p>你输入的命令：<br>
+docker pull nginx:latest</p>
+<p>Docker 其实会自动转换为：<br>
+<a href="http://registry-1.docker.io/library/nginx:latest">registry-1.docker.io/library/nginx:latest</a></p>
+<p>这个地址指的是：</p>
+<ol>
+<li>官方 Docker Hub（<a href="http://registry-1.docker.io">registry-1.docker.io</a>）</li>
+<li>官方镜像库（library）</li>
+<li>镜像名：nginx</li>
+<li>标签：latest</li>
+</ol>
+<h3 id="✅-第-2-步：联系-Docker-Hub">✅ 第 2 步：联系 Docker Hub</h3>
+<p>Docker 客户端向 Docker Hub 发出请求：<br>
+GET /v2/library/nginx/manifests/latest</p>
+<p>这一步是拿到清单（manifest），这个清单里记录了：</p>
+<ol>
+<li>这个镜像由哪些层组成</li>
+<li>每一层的校验和（sha256）</li>
+<li>每层的大小</li>
+<li>支持的平台（比如 amd64、arm64）</li>
+</ol>
+<blockquote>
+<p>📦 比喻：这就像餐厅菜单告诉你：这个汉堡由 5 层组成，分别是面包、生菜、牛肉、奶酪、酱料。</p>
+</blockquote>
+<h3 id="✅-第-3-步：依次下载每一层（layer）">✅ 第 3 步：依次下载每一层（layer）</h3>
+<p>Docker 开始一个个去下载镜像层（也叫“blob”），请求长这样：<br>
+GET /v2/library/nginx/blobs/sha256:xxxxxxxxx</p>
+<ul>
+<li>每一层都是一个压缩包（通常是 tar.gz 文件），里面包含一部分文件系统的变更（新增/修改/删除文件）。</li>
+</ul>
+<blockquote>
+<p>💡 这些“层”可以是：<br>
+层编号内容类比<br>
+Layer 1 Ubuntu OS 的基础文件系统 汉堡面包底<br>
+Layer 2 安装了一些库 加了生菜<br>
+Layer 3 加入了 Nginx 服务器 加了牛肉<br>
+Layer 4 默认配置文件等 加了酱<br>
+Layer 5 启动命令 插了一根旗子（告诉吃法）</p>
+</blockquote>
+<h3 id="✅-第-4-步：校验层的完整性">✅ 第 4 步：校验层的完整性</h3>
+<ul>
+<li>每层下载后，Docker 会对文件做 SHA256 校验，确保没有被篡改、损坏。</li>
+</ul>
+<h3 id="✅-第-5-步：将层缓存到本地">✅ 第 5 步：将层缓存到本地</h3>
+<p>层保存到你的本地磁盘：<br>
+Linux 路径通常是 /var/lib/docker/overlay2/（默认）</p>
+<ul>
+<li>每一层是增量的，可复用（比如多个镜像用的是同一个 ubuntu 基础层）</li>
+</ul>
+<blockquote>
+<p>🧠 你下过 nginx 后再下 redis，可能会发现部分层都已经存在，不需要重新下载。</p>
+</blockquote>
+<h3 id="✅-第-6-步：镜像构建完成，可以运行了">✅ 第 6 步：镜像构建完成，可以运行了</h3>
+<p>所有层都下载完之后，Docker 会将它们组合起来，做出一个“可以运行的汉堡”。<br>
+你可以用这个命令运行容器：<br>
+docker run -d nginx</p>
+<ul>
+<li>此时容器运行的文件系统，其实是多个只读层 + 一个可写层叠加起来的视图。</li>
+</ul>
+<blockquote>
+<p>🧭 下载时你看到的输出，其实就是每一层：<br>
+比如执行时会看到这样的输出：<br>
+docker pull nginx:latest<br>
+latest: Pulling from library/nginx<br>
+ab5ef0e58194: Pull complete     ← 第1层<br>
+9d6b7f3f1b66: Pull complete     ← 第2层<br>
+e379e8d9f7cd: Pull complete     ← 第3层<br>
+…<br>
+Digest: sha256:xxx…<br>
+每一条 Pull complete 就是一层成功下载并校验完成了。</p>
+</blockquote>
+<h2 id="✅-小结一句话：">✅ 小结一句话：</h2>
+<p>Docker 下载镜像时，不是一次性拿一个“压缩包”，而是像“叠汉堡”一样，一个个去下载构成镜像的文件系统层（layers），最后组合成可运行的镜像。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>docker 卸载</title>
+    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
+    <content><![CDATA[<h4 id="卸载命令">卸载命令</h4>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
@@ -913,22 +1018,57 @@ mysql:5.7
       </tags>
   </entry>
   <entry>
-    <title>docker 卸载</title>
-    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
-    <content><![CDATA[<h4 id="卸载命令">卸载命令</h4>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
+    <title>docker安装awvs并激活</title>
+    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h2 id="安装awvs">安装awvs</h2>
+<h4 id="拉取镜像">拉取镜像</h4>
+<p>搜索</p>
+<pre><code>docker search awvs
+</code></pre>
+<p>选择一个awvs镜像下载<br>
+<img src="/images/pasted-35.png" alt="upload successful"></p>
+<p>选择secfa/awvs的镜像</p>
+<pre><code>docker pull secfa/awvs
+docker images -a
+</code></pre>
+<h4 id="创建并启动容器">创建并启动容器</h4>
+<p>运行命令</p>
+<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
+</code></pre>
+<p>如果报错！（提示crack失败）<br>
+添加参数–cap-add LINUX_IMMUTABLE</p>
+<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
+</code></pre>
+<h2 id="访问">访问</h2>
+<p>账号密码：</p>
+<pre><code>awvs username: admin@admin.com
+awvs password: Admin123
+</code></pre>
+<h2 id="激活">激活</h2>
+<p>需要下载破解版的两个文件替换，分别是：</p>
+<pre><code>license_info.json
+wa_data.dat
+</code></pre>
+<p>windows和linux文件通用<br>
+替换目录为容器内目录：</p>
+<pre><code>/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>文件传输进入容器命令为：</p>
+<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
+docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>重启容器</p>
+<pre><code>docker restart 容器id
+</code></pre>
+]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
       </categories>
       <tags>
         <tag>docker</tag>
-        <tag>docker命令</tag>
+        <tag>awvs安装</tag>
+        <tag>awvs</tag>
       </tags>
   </entry>
   <entry>
@@ -995,60 +1135,6 @@ mysql:5.7
       </categories>
       <tags>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker安装awvs并激活</title>
-    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h2 id="安装awvs">安装awvs</h2>
-<h4 id="拉取镜像">拉取镜像</h4>
-<p>搜索</p>
-<pre><code>docker search awvs
-</code></pre>
-<p>选择一个awvs镜像下载<br>
-<img src="/images/pasted-35.png" alt="upload successful"></p>
-<p>选择secfa/awvs的镜像</p>
-<pre><code>docker pull secfa/awvs
-docker images -a
-</code></pre>
-<h4 id="创建并启动容器">创建并启动容器</h4>
-<p>运行命令</p>
-<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
-</code></pre>
-<p>如果报错！（提示crack失败）<br>
-添加参数–cap-add LINUX_IMMUTABLE</p>
-<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
-</code></pre>
-<h2 id="访问">访问</h2>
-<p>账号密码：</p>
-<pre><code>awvs username: admin@admin.com
-awvs password: Admin123
-</code></pre>
-<h2 id="激活">激活</h2>
-<p>需要下载破解版的两个文件替换，分别是：</p>
-<pre><code>license_info.json
-wa_data.dat
-</code></pre>
-<p>windows和linux文件通用<br>
-替换目录为容器内目录：</p>
-<pre><code>/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>文件传输进入容器命令为：</p>
-<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
-docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>重启容器</p>
-<pre><code>docker restart 容器id
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>awvs安装</tag>
-        <tag>awvs</tag>
       </tags>
   </entry>
   <entry>
@@ -1151,73 +1237,6 @@ admin/password
       <tags>
         <tag>docker</tag>
         <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>github部署hexo</title>
-    <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
-    <content><![CDATA[<h2 id="本地ssh连接-GitHub">本地ssh连接 GitHub</h2>
-<h3 id="创建密钥">创建密钥</h3>
-<p>确保下载了git后输入命令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 GitHub 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
-<p>这一步windows需要设置ssh用户名和，不确定要不要指定密钥文件：</p>
-<ol>
-<li>用户名执行命令：</li>
-</ol>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">git config --global --add safe.directory D:/hexo/.deploy_git</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>指定密钥文件，在保存密钥文件的目录中创建文件：config</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  User git</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa</span><br><span class="line">  IdentitiesOnly yes</span><br></pre></td></tr></table></figure>
-<p>创建 SSH 密匙（可以-f指定输出目录）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
-<p>什么都不用管，一路回车就行，创建好之后可以在.ssh看到有id_rsa.pub(.pub是公钥，id_rsa是私钥)。<br>
-打开 id_rsa.pub 并复制里面的内容。</p>
-<h3 id="在-GitHub-中添加-SSH-密钥">在 GitHub 中添加 SSH 密钥</h3>
-<p>回到 GitHub，进入 Settings：<br>
-<img src="/images/pasted-11.png" alt="upload successful"></p>
-<p>选择左边栏的 SSH and GPG keys，点击 New SSH key：<br>
-<img src="/images/pasted-12.png" alt="upload successful"></p>
-<p>Title 随便取，然后把 id_rsa.pub 里面的内容到复制到 Key 中，点击 Add SSH key：<br>
-<img src="/images/pasted-13.png" alt="upload successful"></p>
-<p>保存完毕本地验证一下连接</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-<p>出现 “Are you sure……”，输入 yes 回车确认，若出现下图的提示即连接成功：<br>
-<img src="/images/pasted-14.png" alt="upload successful"></p>
-<h2 id="创建-GitHub-仓库">创建 GitHub 仓库</h2>
-<p>GitHub 的主页 repository 中点击右上角的 New：<br>
-<img src="/images/pasted-15.png" alt="upload successful"></p>
-<p>填写基本信息:<br>
-Repository name <a href="http://xn--fiq51fkycnswykwlh0b.github.io">中输入用户名.github.io</a>，一定要是这个名字！<br>
-勾选 Add a README file<br>
-<img src="/images/pasted-16.png" alt="upload successful"></p>
-<p>填好后点击 Create repository 创建仓库</p>
-<h2 id="上传-hexo-程序到-GitHub">上传 hexo 程序到 GitHub</h2>
-<p>需要先安装 hexo-deployer-git：</p>
-<pre><code>npm install hexo-deployer-git --save
-</code></pre>
-<p>修改_config.yml 文件末尾的 Deployment 部分：<br>
-<img src="/images/pasted-17.png" alt="upload successful"></p>
-<p>修改成如下（修改为你的用户名与仓库名）<br>
-<img src="/images/pasted-18.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">   type: git</span><br><span class="line">   repo: git@github.com:w00123/w00123.github.io.git</span><br><span class="line">   branch: gh-pages</span><br></pre></td></tr></table></figure>
-<p>修改完成保存后运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo c</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-<p>出现下面的提示说明已经把网站上传到 GitHub 了：<br>
-<img src="/images/pasted-19.png" alt="upload successful"></p>
-<p>然后我们需要在库设置（Repository Settings）中将默认分支设置为_config.yml 配置中的分支名称。<br>
-<img src="/images/pasted-20.png" alt="upload successful"></p>
-<p>然后在 pages 页面调整源分支：<br>
-<img src="/images/pasted-21.png" alt="upload successful"></p>
-<p>访问用户名.github.io就可以看到默认 hexo 了。</p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>github</tag>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1389,6 +1408,73 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       </tags>
   </entry>
   <entry>
+    <title>github部署hexo</title>
+    <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
+    <content><![CDATA[<h2 id="本地ssh连接-GitHub">本地ssh连接 GitHub</h2>
+<h3 id="创建密钥">创建密钥</h3>
+<p>确保下载了git后输入命令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 GitHub 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
+<p>这一步windows需要设置ssh用户名和，不确定要不要指定密钥文件：</p>
+<ol>
+<li>用户名执行命令：</li>
+</ol>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">git config --global --add safe.directory D:/hexo/.deploy_git</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>指定密钥文件，在保存密钥文件的目录中创建文件：config</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  User git</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa</span><br><span class="line">  IdentitiesOnly yes</span><br></pre></td></tr></table></figure>
+<p>创建 SSH 密匙（可以-f指定输出目录）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
+<p>什么都不用管，一路回车就行，创建好之后可以在.ssh看到有id_rsa.pub(.pub是公钥，id_rsa是私钥)。<br>
+打开 id_rsa.pub 并复制里面的内容。</p>
+<h3 id="在-GitHub-中添加-SSH-密钥">在 GitHub 中添加 SSH 密钥</h3>
+<p>回到 GitHub，进入 Settings：<br>
+<img src="/images/pasted-11.png" alt="upload successful"></p>
+<p>选择左边栏的 SSH and GPG keys，点击 New SSH key：<br>
+<img src="/images/pasted-12.png" alt="upload successful"></p>
+<p>Title 随便取，然后把 id_rsa.pub 里面的内容到复制到 Key 中，点击 Add SSH key：<br>
+<img src="/images/pasted-13.png" alt="upload successful"></p>
+<p>保存完毕本地验证一下连接</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>出现 “Are you sure……”，输入 yes 回车确认，若出现下图的提示即连接成功：<br>
+<img src="/images/pasted-14.png" alt="upload successful"></p>
+<h2 id="创建-GitHub-仓库">创建 GitHub 仓库</h2>
+<p>GitHub 的主页 repository 中点击右上角的 New：<br>
+<img src="/images/pasted-15.png" alt="upload successful"></p>
+<p>填写基本信息:<br>
+Repository name <a href="http://xn--fiq51fkycnswykwlh0b.github.io">中输入用户名.github.io</a>，一定要是这个名字！<br>
+勾选 Add a README file<br>
+<img src="/images/pasted-16.png" alt="upload successful"></p>
+<p>填好后点击 Create repository 创建仓库</p>
+<h2 id="上传-hexo-程序到-GitHub">上传 hexo 程序到 GitHub</h2>
+<p>需要先安装 hexo-deployer-git：</p>
+<pre><code>npm install hexo-deployer-git --save
+</code></pre>
+<p>修改_config.yml 文件末尾的 Deployment 部分：<br>
+<img src="/images/pasted-17.png" alt="upload successful"></p>
+<p>修改成如下（修改为你的用户名与仓库名）<br>
+<img src="/images/pasted-18.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">   type: git</span><br><span class="line">   repo: git@github.com:w00123/w00123.github.io.git</span><br><span class="line">   branch: gh-pages</span><br></pre></td></tr></table></figure>
+<p>修改完成保存后运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo c</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>出现下面的提示说明已经把网站上传到 GitHub 了：<br>
+<img src="/images/pasted-19.png" alt="upload successful"></p>
+<p>然后我们需要在库设置（Repository Settings）中将默认分支设置为_config.yml 配置中的分支名称。<br>
+<img src="/images/pasted-20.png" alt="upload successful"></p>
+<p>然后在 pages 页面调整源分支：<br>
+<img src="/images/pasted-21.png" alt="upload successful"></p>
+<p>访问用户名.github.io就可以看到默认 hexo 了。</p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>github</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo-butterfly美化</title>
     <url>/2024/08/03/hexo-butterfly%E7%BE%8E%E5%8C%96/</url>
     <content><![CDATA[<h2 id="hexo博客一图流">hexo博客一图流</h2>
@@ -1447,6 +1533,40 @@ vim custom.css</p>
       </tags>
   </entry>
   <entry>
+    <title>hexo-github贡献日历</title>
+    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
+    <content><![CDATA[<h2 id="预览">预览</h2>
+<p><img src="/images/pasted-84.png" alt="upload successful"></p>
+<h2 id="安装依赖">安装依赖</h2>
+<p>执行命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
+<h2 id="添加配置">添加配置</h2>
+<p>要放到hexo根目录下_config.yml文件，非主题:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="自建api">自建api</h2>
+<blockquote>
+<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>
+测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
+</blockquote>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
+</div>
+<h2 id="记录500错误处理方法">记录500错误处理方法</h2>
+<h4 id="进入项目选择setting">进入项目选择setting</h4>
+<p>下拉找到<code>Node.js Version</code>修改版本为18.0<br>
+<img src="/images/pasted-82.png" alt="upload successful"></p>
+<h4 id="重新部署">重新部署</h4>
+<p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br>
+<img src="/images/pasted-83.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo-gitee部署</title>
     <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
     <content><![CDATA[<h2 id="导语">导语</h2>
@@ -1489,30 +1609,33 @@ vim custom.css</p>
       </tags>
   </entry>
   <entry>
-    <title>hexo-github贡献日历</title>
-    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
-    <content><![CDATA[<h2 id="预览">预览</h2>
-<p><img src="/images/pasted-84.png" alt="upload successful"></p>
-<h2 id="安装依赖">安装依赖</h2>
-<p>执行命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
-<h2 id="添加配置">添加配置</h2>
-<p>要放到hexo根目录下_config.yml文件，非主题:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="自建api">自建api</h2>
+    <title>hexo-微博热搜侧边栏</title>
+    <url>/2025/02/20/hexo-%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E4%BE%A7%E8%BE%B9%E6%A0%8F/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>学习来自<code>Ldyer</code>，原文链接：</p>
 <blockquote>
-<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>
-测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
+<p><a href="https://blog.ldyer.top/2024/04/24/%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E6%9D%BF%E5%9D%97/index.html">https://blog.ldyer.top/2024/04/24/微博热搜板块/index.html</a></p>
 </blockquote>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
-</div>
-<h2 id="记录500错误处理方法">记录500错误处理方法</h2>
-<h4 id="进入项目选择setting">进入项目选择setting</h4>
-<p>下拉找到<code>Node.js Version</code>修改版本为18.0<br>
-<img src="/images/pasted-82.png" alt="upload successful"></p>
-<h4 id="重新部署">重新部署</h4>
-<p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br>
-<img src="/images/pasted-83.png" alt="upload successful"></p>
+<p>有部分有问题的做了修改，也有部分不太符合主题的做了颜色修改。</p>
+<h2 id="效果图">效果图</h2>
+<p><img src="/images/pasted-85.png" alt="效果"></p>
+<h2 id="配置方法">配置方法</h2>
+<h3 id="创建widget-yml文件">创建widget.yml文件</h3>
+<p>如果没有这个目录需要创建，<code>source/_data/widget.yml</code></p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这里填top表示所有地方都显示，bottom表示只在非文章页面显示，如主页等等</span></span><br><span class="line"><span class="attr">bottom:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">class_name:</span></span><br><span class="line">    <span class="attr">id_name:</span> <span class="string">weibo</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">微博热搜</span></span><br><span class="line">    <span class="attr">icon:</span> <span class="string">fa-brands</span> <span class="string">fa-weibo</span></span><br><span class="line">    <span class="attr">html:</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/weibo.css&quot;&gt;&lt;div</span> <span class="string">id=&quot;weiboContent&quot;&gt;&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建weibo-css">创建weibo.css</h3>
+<p>创建<code>themes/butterfly/source/css/weibo.css</code></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 设置从左到右的渐变背景色 */</span></span><br><span class="line"><span class="selector-id">#weibo</span><span class="selector-class">.card-widget</span>&#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(to right, <span class="number">#4B0082</span>, <span class="number">#000000</span>) <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">color</span>: white;</span><br><span class="line">    <span class="attribute">border-width</span>: <span class="number">10px</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*热度标签背景颜色*/</span></span><br><span class="line"><span class="selector-class">.weibo-new</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff3852</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-hot</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff9406</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-jyzy</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ffc000</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-recommend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#00b7ee</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-adrecommend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#febd22</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-friend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#8fc21e</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-boom</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#bd0000</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-topic</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff6f49</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-topic-ad</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#4dadff</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-boil</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#f86400</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo</span> <span class="selector-class">.item-content</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo-container</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">250px</span>; <span class="comment">/* 容器高度固定为250px */</span></span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">95%</span>;</span><br><span class="line">    <span class="attribute">overflow-y</span>: auto;</span><br><span class="line">    -ms-<span class="attribute">overflow</span>-style: none;</span><br><span class="line">    <span class="attribute">scrollbar-width</span>: none</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-list-item</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">flex-direction</span>: row;</span><br><span class="line">    <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: nowrap</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-title</span> &#123;</span><br><span class="line">    <span class="attribute">max-width</span>: auto; <span class="comment">/* 最大宽度 */</span></span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">    <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">    <span class="attribute">margin-right</span>: auto</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-num</span> &#123;</span><br><span class="line">    <span class="attribute">float</span>: right;</span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-hotness</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">6px</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">scale</span>(.<span class="number">8</span>) <span class="built_in">translateX</span>(-<span class="number">3px</span>);</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">8px</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo-container</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>; <span class="comment">/* 链接文字颜色 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-attr">[data-theme=<span class="string">&#x27;dark&#x27;</span>]</span> <span class="selector-id">#weibo-container</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 隐藏滚动条 */</span></span><br><span class="line"><span class="selector-id">#weibo-container</span>::-webkit-scrollbar&#123;</span><br><span class="line">    <span class="attribute">display</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建weibo-js文件">创建weibo.js文件</h3>
+<p>创建<code>themes/butterfly/source/js/weibo.js</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 如果你开启了在手机端显示侧边栏，可以将下面这行代码注释，开启下面的weibo();</span></span><br><span class="line"><span class="keyword">try</span> &#123; <span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;weibo&#x27;</span>).<span class="property">clientWidth</span>) <span class="title function_">weibo</span>(); &#125; <span class="keyword">catch</span> (error) &#123;&#125;</span><br><span class="line"><span class="comment">// weibo();</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">weibo</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> hotness = &#123;</span><br><span class="line">        <span class="string">&#x27;1&#x27;</span>: <span class="string">&#x27;weibo-boom&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;2&#x27;</span>: <span class="string">&#x27;weibo-hot&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;3&#x27;</span>: <span class="string">&#x27;weibo-boil&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;4&#x27;</span>: <span class="string">&#x27;weibo-new&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;5&#x27;</span>: <span class="string">&#x27;weibo-recommend&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;6&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;7&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;8&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> html = <span class="string">&#x27;&lt;div id=&quot;weibo-container&quot;&gt;&#x27;</span></span><br><span class="line">    <span class="keyword">let</span> data = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&#x27;weibo&#x27;</span>));</span><br><span class="line">    <span class="keyword">let</span> nowTime = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">    <span class="keyword">let</span> ls;</span><br><span class="line">    <span class="keyword">if</span> (data == <span class="literal">null</span> || nowTime - data.<span class="property">time</span> &gt; <span class="number">600000</span>) &#123; <span class="comment">// 600000为缓存时间，即10分钟，避免频繁请求，加快本地访问速度。</span></span><br><span class="line">        <span class="title function_">getData</span>();</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        ls = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(data.<span class="property">ls</span>)</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> ls) &#123;</span><br><span class="line">        html += <span class="string">&#x27;&lt;div class=&quot;weibo-list-item&quot;&gt;&lt;div class=&quot;weibo-hotness &#x27;</span> + hotness[item.<span class="property">index</span>] + <span class="string">&#x27;&quot;&gt;&#x27;</span> + item.<span class="property">index</span> + <span class="string">&#x27;&lt;/div&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;span class=&quot;weibo-title&quot;&gt;&lt;a title=&quot;&#x27;</span> + item.<span class="property">title</span> + <span class="string">&#x27;&quot; href=&quot;&#x27;</span> + item.<span class="property">url</span> + <span class="string">&#x27;&quot; target=&quot;_blank&quot; rel=&quot;external nofollow noreferrer&quot;&gt;&#x27;</span> + item.<span class="property">title</span> + <span class="string">&#x27;&lt;/a&gt;&lt;/span&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;div class=&quot;weibo-num&quot;&gt;&lt;span&gt;&#x27;</span> + item.<span class="property">hot</span> + <span class="string">&#x27;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    html += <span class="string">&#x27;&lt;/div&gt;&#x27;</span>;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;weiboContent&#x27;</span>).<span class="property">innerHTML</span> = html;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getData</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 这里采用新的api，如果炸了，可以换其他的，但注意api接收的json样式</span></span><br><span class="line">    <span class="title function_">fetch</span>(<span class="string">&#x27;https://v2.api-m.com/api/weibohot&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> data.<span class="title function_">json</span>()).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (data.<span class="property">code</span> === <span class="number">200</span>) &#123;</span><br><span class="line">            data = &#123; <span class="attr">time</span>: <span class="title class_">Date</span>.<span class="title function_">now</span>(), <span class="attr">ls</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data.<span class="property">data</span>) &#125;</span><br><span class="line">            <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&#x27;weibo&#x27;</span>, <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data))</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;获取数据失败&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).<span class="title function_">then</span>(weibo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#bber-talk&#x27;</span>)) &#123;</span><br><span class="line">    <span class="keyword">var</span> swiper = <span class="keyword">new</span> <span class="title function_">swiper</span>(<span class="string">&#x27;.swiper-container&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">direction</span>: <span class="string">&#x27;vertical&#x27;</span>, </span><br><span class="line">      <span class="attr">loop</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">autoplay</span>: &#123;</span><br><span class="line">      <span class="attr">delay</span>: <span class="number">3000</span>,</span><br><span class="line">      <span class="attr">pauseOnMouseEnter</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="引入weibo-css与weibo-js">引入weibo.css与weibo.js</h3>
+<p>和前面一图流方式一样，在<code>themes/butterfly/_config.yml</code>中添加</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">inject:</span></span><br><span class="line">  <span class="attr">head:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/custom.css&quot;&gt;</span></span><br><span class="line">    <span class="comment"># weibo</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/weibo.css&quot;&gt;</span></span><br><span class="line">  <span class="attr">bottom:</span></span><br><span class="line">    <span class="comment"># weibo</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&lt;script</span> <span class="string">src=&quot;/js/weibo.js&quot;&gt;&lt;/script&gt;</span></span><br><span class="line">    <span class="comment"># - &lt;script src=&quot;xxxx&quot;&gt;&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="加入卡片">加入卡片</h3>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">aside:</span></span><br><span class="line"><span class="string">..........</span></span><br><span class="line">    <span class="attr">card_webinfo:</span></span><br><span class="line">        <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">post_count:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="调整侧边栏顺序">调整侧边栏顺序</h2>
+<p>调整<code>sort_order</code>大小即可，数字越大越前，要把公告后的卡片都加上数字（有的资料说是越小越前，但是我测试不是，反正能用就行）</p>
 ]]></content>
       <categories>
         <category>hexo博客</category>
@@ -1598,31 +1721,6 @@ vim custom.css</p>
       </tags>
   </entry>
   <entry>
-    <title>hoic高射炮工具</title>
-    <url>/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<h2 id="安装">安装</h2>
-<p>下载地址：</p>
-<blockquote>
-<p><a href="https://sourceforge.net/projects/high-orbit-ion-cannon/">https://sourceforge.net/projects/high-orbit-ion-cannon/</a><br>
-官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载</p>
-</blockquote>
-<h2 id="使用">使用</h2>
-<ol>
-<li>解压后运行exe</li>
-<li>选择<code>+号</code>添加url</li>
-<li>可选择脚本第一个为伪造来源，后面的可以试试</li>
-</ol>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-        <tag>网络安全</tag>
-        <tag>hoic</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo博客安装方法</title>
     <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h2 id="termux">termux</h2>
@@ -1657,40 +1755,28 @@ vim themes/butterfly/_config.yml</p>
       </tags>
   </entry>
   <entry>
-    <title>hexo-微博热搜侧边栏</title>
-    <url>/2025/02/20/hexo-%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E4%BE%A7%E8%BE%B9%E6%A0%8F/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
-<p>学习来自<code>Ldyer</code>，原文链接：</p>
+    <title>hoic高射炮工具</title>
+    <url>/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="安装">安装</h2>
+<p>下载地址：</p>
 <blockquote>
-<p><a href="https://blog.ldyer.top/2024/04/24/%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E6%9D%BF%E5%9D%97/index.html">https://blog.ldyer.top/2024/04/24/微博热搜板块/index.html</a></p>
+<p><a href="https://sourceforge.net/projects/high-orbit-ion-cannon/">https://sourceforge.net/projects/high-orbit-ion-cannon/</a><br>
+官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载</p>
 </blockquote>
-<p>有部分有问题的做了修改，也有部分不太符合主题的做了颜色修改。</p>
-<h2 id="效果图">效果图</h2>
-<p><img src="/images/pasted-85.png" alt="效果"></p>
-<h2 id="配置方法">配置方法</h2>
-<h3 id="创建widget-yml文件">创建widget.yml文件</h3>
-<p>如果没有这个目录需要创建，<code>source/_data/widget.yml</code></p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这里填top表示所有地方都显示，bottom表示只在非文章页面显示，如主页等等</span></span><br><span class="line"><span class="attr">bottom:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">class_name:</span></span><br><span class="line">    <span class="attr">id_name:</span> <span class="string">weibo</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">微博热搜</span></span><br><span class="line">    <span class="attr">icon:</span> <span class="string">fa-brands</span> <span class="string">fa-weibo</span></span><br><span class="line">    <span class="attr">html:</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/weibo.css&quot;&gt;&lt;div</span> <span class="string">id=&quot;weiboContent&quot;&gt;&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建weibo-css">创建weibo.css</h3>
-<p>创建<code>themes/butterfly/source/css/weibo.css</code></p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 设置从左到右的渐变背景色 */</span></span><br><span class="line"><span class="selector-id">#weibo</span><span class="selector-class">.card-widget</span>&#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(to right, <span class="number">#4B0082</span>, <span class="number">#000000</span>) <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">color</span>: white;</span><br><span class="line">    <span class="attribute">border-width</span>: <span class="number">10px</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*热度标签背景颜色*/</span></span><br><span class="line"><span class="selector-class">.weibo-new</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff3852</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-hot</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff9406</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-jyzy</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ffc000</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-recommend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#00b7ee</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-adrecommend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#febd22</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-friend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#8fc21e</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-boom</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#bd0000</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-topic</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff6f49</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-topic-ad</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#4dadff</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-boil</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#f86400</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo</span> <span class="selector-class">.item-content</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo-container</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">250px</span>; <span class="comment">/* 容器高度固定为250px */</span></span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">95%</span>;</span><br><span class="line">    <span class="attribute">overflow-y</span>: auto;</span><br><span class="line">    -ms-<span class="attribute">overflow</span>-style: none;</span><br><span class="line">    <span class="attribute">scrollbar-width</span>: none</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-list-item</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">flex-direction</span>: row;</span><br><span class="line">    <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: nowrap</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-title</span> &#123;</span><br><span class="line">    <span class="attribute">max-width</span>: auto; <span class="comment">/* 最大宽度 */</span></span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">    <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">    <span class="attribute">margin-right</span>: auto</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-num</span> &#123;</span><br><span class="line">    <span class="attribute">float</span>: right;</span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-hotness</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">6px</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">scale</span>(.<span class="number">8</span>) <span class="built_in">translateX</span>(-<span class="number">3px</span>);</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">8px</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo-container</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>; <span class="comment">/* 链接文字颜色 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-attr">[data-theme=<span class="string">&#x27;dark&#x27;</span>]</span> <span class="selector-id">#weibo-container</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 隐藏滚动条 */</span></span><br><span class="line"><span class="selector-id">#weibo-container</span>::-webkit-scrollbar&#123;</span><br><span class="line">    <span class="attribute">display</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="创建weibo-js文件">创建weibo.js文件</h3>
-<p>创建<code>themes/butterfly/source/js/weibo.js</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 如果你开启了在手机端显示侧边栏，可以将下面这行代码注释，开启下面的weibo();</span></span><br><span class="line"><span class="keyword">try</span> &#123; <span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;weibo&#x27;</span>).<span class="property">clientWidth</span>) <span class="title function_">weibo</span>(); &#125; <span class="keyword">catch</span> (error) &#123;&#125;</span><br><span class="line"><span class="comment">// weibo();</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">weibo</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> hotness = &#123;</span><br><span class="line">        <span class="string">&#x27;1&#x27;</span>: <span class="string">&#x27;weibo-boom&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;2&#x27;</span>: <span class="string">&#x27;weibo-hot&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;3&#x27;</span>: <span class="string">&#x27;weibo-boil&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;4&#x27;</span>: <span class="string">&#x27;weibo-new&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;5&#x27;</span>: <span class="string">&#x27;weibo-recommend&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;6&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;7&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;8&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> html = <span class="string">&#x27;&lt;div id=&quot;weibo-container&quot;&gt;&#x27;</span></span><br><span class="line">    <span class="keyword">let</span> data = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&#x27;weibo&#x27;</span>));</span><br><span class="line">    <span class="keyword">let</span> nowTime = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">    <span class="keyword">let</span> ls;</span><br><span class="line">    <span class="keyword">if</span> (data == <span class="literal">null</span> || nowTime - data.<span class="property">time</span> &gt; <span class="number">600000</span>) &#123; <span class="comment">// 600000为缓存时间，即10分钟，避免频繁请求，加快本地访问速度。</span></span><br><span class="line">        <span class="title function_">getData</span>();</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        ls = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(data.<span class="property">ls</span>)</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> ls) &#123;</span><br><span class="line">        html += <span class="string">&#x27;&lt;div class=&quot;weibo-list-item&quot;&gt;&lt;div class=&quot;weibo-hotness &#x27;</span> + hotness[item.<span class="property">index</span>] + <span class="string">&#x27;&quot;&gt;&#x27;</span> + item.<span class="property">index</span> + <span class="string">&#x27;&lt;/div&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;span class=&quot;weibo-title&quot;&gt;&lt;a title=&quot;&#x27;</span> + item.<span class="property">title</span> + <span class="string">&#x27;&quot; href=&quot;&#x27;</span> + item.<span class="property">url</span> + <span class="string">&#x27;&quot; target=&quot;_blank&quot; rel=&quot;external nofollow noreferrer&quot;&gt;&#x27;</span> + item.<span class="property">title</span> + <span class="string">&#x27;&lt;/a&gt;&lt;/span&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;div class=&quot;weibo-num&quot;&gt;&lt;span&gt;&#x27;</span> + item.<span class="property">hot</span> + <span class="string">&#x27;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    html += <span class="string">&#x27;&lt;/div&gt;&#x27;</span>;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;weiboContent&#x27;</span>).<span class="property">innerHTML</span> = html;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getData</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 这里采用新的api，如果炸了，可以换其他的，但注意api接收的json样式</span></span><br><span class="line">    <span class="title function_">fetch</span>(<span class="string">&#x27;https://v2.api-m.com/api/weibohot&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> data.<span class="title function_">json</span>()).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (data.<span class="property">code</span> === <span class="number">200</span>) &#123;</span><br><span class="line">            data = &#123; <span class="attr">time</span>: <span class="title class_">Date</span>.<span class="title function_">now</span>(), <span class="attr">ls</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data.<span class="property">data</span>) &#125;</span><br><span class="line">            <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&#x27;weibo&#x27;</span>, <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data))</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;获取数据失败&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).<span class="title function_">then</span>(weibo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#bber-talk&#x27;</span>)) &#123;</span><br><span class="line">    <span class="keyword">var</span> swiper = <span class="keyword">new</span> <span class="title function_">swiper</span>(<span class="string">&#x27;.swiper-container&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">direction</span>: <span class="string">&#x27;vertical&#x27;</span>, </span><br><span class="line">      <span class="attr">loop</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">autoplay</span>: &#123;</span><br><span class="line">      <span class="attr">delay</span>: <span class="number">3000</span>,</span><br><span class="line">      <span class="attr">pauseOnMouseEnter</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="引入weibo-css与weibo-js">引入weibo.css与weibo.js</h3>
-<p>和前面一图流方式一样，在<code>themes/butterfly/_config.yml</code>中添加</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">inject:</span></span><br><span class="line">  <span class="attr">head:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/custom.css&quot;&gt;</span></span><br><span class="line">    <span class="comment"># weibo</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/weibo.css&quot;&gt;</span></span><br><span class="line">  <span class="attr">bottom:</span></span><br><span class="line">    <span class="comment"># weibo</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&lt;script</span> <span class="string">src=&quot;/js/weibo.js&quot;&gt;&lt;/script&gt;</span></span><br><span class="line">    <span class="comment"># - &lt;script src=&quot;xxxx&quot;&gt;&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="加入卡片">加入卡片</h3>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">aside:</span></span><br><span class="line"><span class="string">..........</span></span><br><span class="line">    <span class="attr">card_webinfo:</span></span><br><span class="line">        <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">post_count:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h2 id="调整侧边栏顺序">调整侧边栏顺序</h2>
-<p>调整<code>sort_order</code>大小即可，数字越大越前，要把公告后的卡片都加上数字（有的资料说是越小越前，但是我测试不是，反正能用就行）</p>
+<h2 id="使用">使用</h2>
+<ol>
+<li>解压后运行exe</li>
+<li>选择<code>+号</code>添加url</li>
+<li>可选择脚本第一个为伪造来源，后面的可以试试</li>
+</ol>
 ]]></content>
       <categories>
-        <category>hexo博客</category>
+        <category>网络安全</category>
       </categories>
       <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
+        <tag>工具</tag>
+        <tag>网络安全</tag>
+        <tag>hoic</tag>
       </tags>
   </entry>
   <entry>
@@ -1768,6 +1854,53 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
+    <title>字典生成工具</title>
+    <url>/2025/02/21/kali-cupp%E5%AD%97%E5%85%B8%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>kali有很多字典生成工具，这里主要说cupp这个工具，他是一款社交工程学字典生成工具，可以根据目标用户的个人信息生成定制的密码字典，</p>
+<h2 id="cupp">cupp</h2>
+<h3 id="使用方法">使用方法</h3>
+<p>输入命令根据提示输入提示词即可</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cupp -i</span><br></pre></td></tr></table></figure>
+<h3 id="翻译">翻译</h3>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&gt; First Name: </span><br><span class="line">名字：目标的名字</span><br><span class="line">&gt; Surname: </span><br><span class="line">姓：目标的姓氏</span><br><span class="line">&gt; Nickname: </span><br><span class="line">昵称：目标的常用昵称或别名</span><br><span class="line">&gt; Birthdate (DDMMYYYY): </span><br><span class="line">出生日期：目标的出生日期，格式为日月年（DDMMYYYY）</span><br><span class="line">&gt; Partners) name:</span><br><span class="line">伴侣的名字</span><br><span class="line">&gt; Partners) nickname:</span><br><span class="line">伴侣的昵称：</span><br><span class="line">&gt; Partners) birthdate (DDMMYYYY):</span><br><span class="line">伴侣的出生日期（DDMMYYYY）</span><br><span class="line">&gt; Child&#x27;s name:</span><br><span class="line">孩子的名字：</span><br><span class="line">&gt; Child&#x27;s nickname:</span><br><span class="line">孩子的昵称：</span><br><span class="line">&gt; Child&#x27;s birthdate (DDMMYYYY):</span><br><span class="line">孩子的出生日期（DDMMYYYY）：</span><br><span class="line">&gt; Pet&#x27;s name:</span><br><span class="line">宠物的名字：</span><br><span class="line">&gt; Company name:</span><br><span class="line">公司名字：</span><br><span class="line">&gt; Do you want to add some key words about the victim? Y/[N]: y</span><br><span class="line">是否要添加一些关于目标的关键词？Y/[N]：y</span><br><span class="line">&gt; Please enter the words, separated by comma. [i.e. hacker,juice,black], spaces will be removed:</span><br><span class="line">请输入单词，用逗号分隔。[例如：hacker,juice,black]，空格将被移除：</span><br><span class="line">&gt; Do you want to add special chars at the end of words? Y/[N]: y</span><br><span class="line">是否要在单词末尾添加特殊字符？Y/[N]：y</span><br><span class="line">&gt; Do you want to add some random numbers at the end of words? Y/[N]:y</span><br><span class="line">是否要在单词末尾添加一些随机数字？Y/[N]：y</span><br><span class="line">&gt; Leet mode? (i.e. leet = 1337) Y/[N]:</span><br><span class="line">是否启用“Leet 模式”？（例如：leet = 1337）Y/[N]：</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>是否启用“Leet 模式”？（例如：leet = 1337）<br>
+如果选择 Y，CUPP 会将单词中的某些字母替换为数字或特殊字符，以生成“Leet Speak”（1337 语言）。<br>
+例如：<br>
+a 替换为 4<br>
+e 替换为 3<br>
+i 替换为 1<br>
+o 替换为 0<br>
+s 替换为 5<br>
+t 替换为 7<br>
+例如，单词 password 会被替换为 p@ssw0rd 或 p@ssw0rd7 等。</p>
+</blockquote>
+<h2 id="其他">其他</h2>
+<h3 id="SocialEngineeringDictionaryGenerator">SocialEngineeringDictionaryGenerator</h3>
+<p>下载<code>index.html</code>打开即可使用；</p>
+<blockquote>
+<p>来自CN-SEC中文网:<br>
+<a href="https://cn-sec.com/archives/2202717.html">https://cn-sec.com/archives/2202717.html</a></p>
+</blockquote>
+<blockquote>
+<p>项目地址：<br>
+<a href="https://github.com/zgjx6/SocialEngineeringDictionaryGenerator">https://github.com/zgjx6/SocialEngineeringDictionaryGenerator</a></p>
+</blockquote>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>注：工具仅供安全研究与学习之用，若将工具做其他用途，由使用者承担全部法律及连带责任，作者及发布者不承担任何法律及连带责任。</p>
+</div>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+        <tag>cupp</tag>
+        <tag>字典</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>java-linux安装卸载</title>
     <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
     <content><![CDATA[<h2 id="下载jdk">下载jdk</h2>
@@ -1817,53 +1950,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>字典生成工具</title>
-    <url>/2025/02/21/kali-cupp%E5%AD%97%E5%85%B8%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
-<p>kali有很多字典生成工具，这里主要说cupp这个工具，他是一款社交工程学字典生成工具，可以根据目标用户的个人信息生成定制的密码字典，</p>
-<h2 id="cupp">cupp</h2>
-<h3 id="使用方法">使用方法</h3>
-<p>输入命令根据提示输入提示词即可</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cupp -i</span><br></pre></td></tr></table></figure>
-<h3 id="翻译">翻译</h3>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&gt; First Name: </span><br><span class="line">名字：目标的名字</span><br><span class="line">&gt; Surname: </span><br><span class="line">姓：目标的姓氏</span><br><span class="line">&gt; Nickname: </span><br><span class="line">昵称：目标的常用昵称或别名</span><br><span class="line">&gt; Birthdate (DDMMYYYY): </span><br><span class="line">出生日期：目标的出生日期，格式为日月年（DDMMYYYY）</span><br><span class="line">&gt; Partners) name:</span><br><span class="line">伴侣的名字</span><br><span class="line">&gt; Partners) nickname:</span><br><span class="line">伴侣的昵称：</span><br><span class="line">&gt; Partners) birthdate (DDMMYYYY):</span><br><span class="line">伴侣的出生日期（DDMMYYYY）</span><br><span class="line">&gt; Child&#x27;s name:</span><br><span class="line">孩子的名字：</span><br><span class="line">&gt; Child&#x27;s nickname:</span><br><span class="line">孩子的昵称：</span><br><span class="line">&gt; Child&#x27;s birthdate (DDMMYYYY):</span><br><span class="line">孩子的出生日期（DDMMYYYY）：</span><br><span class="line">&gt; Pet&#x27;s name:</span><br><span class="line">宠物的名字：</span><br><span class="line">&gt; Company name:</span><br><span class="line">公司名字：</span><br><span class="line">&gt; Do you want to add some key words about the victim? Y/[N]: y</span><br><span class="line">是否要添加一些关于目标的关键词？Y/[N]：y</span><br><span class="line">&gt; Please enter the words, separated by comma. [i.e. hacker,juice,black], spaces will be removed:</span><br><span class="line">请输入单词，用逗号分隔。[例如：hacker,juice,black]，空格将被移除：</span><br><span class="line">&gt; Do you want to add special chars at the end of words? Y/[N]: y</span><br><span class="line">是否要在单词末尾添加特殊字符？Y/[N]：y</span><br><span class="line">&gt; Do you want to add some random numbers at the end of words? Y/[N]:y</span><br><span class="line">是否要在单词末尾添加一些随机数字？Y/[N]：y</span><br><span class="line">&gt; Leet mode? (i.e. leet = 1337) Y/[N]:</span><br><span class="line">是否启用“Leet 模式”？（例如：leet = 1337）Y/[N]：</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>是否启用“Leet 模式”？（例如：leet = 1337）<br>
-如果选择 Y，CUPP 会将单词中的某些字母替换为数字或特殊字符，以生成“Leet Speak”（1337 语言）。<br>
-例如：<br>
-a 替换为 4<br>
-e 替换为 3<br>
-i 替换为 1<br>
-o 替换为 0<br>
-s 替换为 5<br>
-t 替换为 7<br>
-例如，单词 password 会被替换为 p@ssw0rd 或 p@ssw0rd7 等。</p>
-</blockquote>
-<h2 id="其他">其他</h2>
-<h3 id="SocialEngineeringDictionaryGenerator">SocialEngineeringDictionaryGenerator</h3>
-<p>下载<code>index.html</code>打开即可使用；</p>
-<blockquote>
-<p>来自CN-SEC中文网:<br>
-<a href="https://cn-sec.com/archives/2202717.html">https://cn-sec.com/archives/2202717.html</a></p>
-</blockquote>
-<blockquote>
-<p>项目地址：<br>
-<a href="https://github.com/zgjx6/SocialEngineeringDictionaryGenerator">https://github.com/zgjx6/SocialEngineeringDictionaryGenerator</a></p>
-</blockquote>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>注：工具仅供安全研究与学习之用，若将工具做其他用途，由使用者承担全部法律及连带责任，作者及发布者不承担任何法律及连带责任。</p>
-</div>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>kali</tag>
-        <tag>cupp</tag>
-        <tag>字典</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>kali移动端（root安装，不改内核）</title>
     <url>/2024/10/15/kali/</url>
     <content><![CDATA[<h2 id="简介">简介</h2>
@@ -1897,6 +1983,26 @@ t 替换为 7<br>
       </tags>
   </entry>
   <entry>
+    <title>linux下载离线安装包</title>
+    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
+    <content><![CDATA[<h2 id="centos">centos</h2>
+<p>以wget为例，需要先下载yum-utils，再下载安装包</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
+<p>选择保存位置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
+<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>
+yum install --downloadonly --downloaddir=/root wget</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux-代理设置方法</title>
     <url>/2025/02/08/linux-%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h2 id="centos">centos</h2>
@@ -1924,26 +2030,6 @@ t 替换为 7<br>
       <tags>
         <tag>kali</tag>
         <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux下载离线安装包</title>
-    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
-    <content><![CDATA[<h2 id="centos">centos</h2>
-<p>以wget为例，需要先下载yum-utils，再下载安装包</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
-<p>选择保存位置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
-<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>
-yum install --downloadonly --downloaddir=/root wget</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
@@ -2747,28 +2833,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>oppoA9 mtk手机root</title>
-    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
-    <content><![CDATA[<h2 id="mtk手机root">mtk手机root</h2>
-<p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
-<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
-<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
-</code></pre>
-<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量±键，插入数据线，等待软件连接<br>
-2、连接后通过读分区导出boot文件，不带后缀<br>
-3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
-<p><img src="/images/pasted-2.png" alt="upload successful"></p>
-<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
-<p><img src="/images/pasted-3.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>手机搞机</category>
-      </categories>
-      <tags>
-        <tag>手机root</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>nginx和apache-简单配置</title>
     <url>/2025/06/23/nginx%E5%92%8Capache/</url>
     <content><![CDATA[<h2 id="Apache-配置">Apache 配置</h2>
@@ -2872,6 +2936,28 @@ run
       <tags>
         <tag>apache</tag>
         <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>oppoA9 mtk手机root</title>
+    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
+    <content><![CDATA[<h2 id="mtk手机root">mtk手机root</h2>
+<p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
+<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
+<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
+</code></pre>
+<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量±键，插入数据线，等待软件连接<br>
+2、连接后通过读分区导出boot文件，不带后缀<br>
+3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"></p>
+<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
+<p><img src="/images/pasted-3.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>手机搞机</category>
+      </categories>
+      <tags>
+        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -3240,6 +3326,35 @@ run
       </tags>
   </entry>
   <entry>
+    <title>portainer docker的web管理页面</title>
+    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="portainer">portainer</h2>
+<p>一个web可视化的docker管理页面</p>
+<h2 id="拉取镜像">拉取镜像</h2>
+<p>先搜索镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
+<p>一般我下载最多下载的那几个</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
+<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
+<p>接下来就可以登录管理了</p>
+<h2 id="初始化配置">初始化配置</h2>
+<p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
+<p>也可通过上传配置文件创建</p>
+<p>选其中一个即可</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sqlmap</title>
     <url>/2025/03/05/sqlmap/</url>
     <content><![CDATA[<h2 id="应用场景">应用场景</h2>
@@ -3486,35 +3601,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>portainer docker的web管理页面</title>
-    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="portainer">portainer</h2>
-<p>一个web可视化的docker管理页面</p>
-<h2 id="拉取镜像">拉取镜像</h2>
-<p>先搜索镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
-<p>一般我下载最多下载的那几个</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
-<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
-<p>接下来就可以登录管理了</p>
-<h2 id="初始化配置">初始化配置</h2>
-<p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
-<p>也可通过上传配置文件创建</p>
-<p>选其中一个即可</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>switch-大气层与模拟器局域网联机</title>
     <url>/2025/05/01/switch-%E5%A4%A7%E6%B0%94%E5%B1%82%E4%B8%8E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%B1%80%E5%9F%9F%E7%BD%91%E8%81%94%E6%9C%BA/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -3535,24 +3621,6 @@ run
       <tags>
         <tag>switch</tag>
         <tag>大气层</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>switch大气层升级18.1.0</title>
-    <url>/2024/08/22/switch%E5%A4%A7%E6%B0%94%E5%B1%82%E5%8D%87%E7%BA%A7/</url>
-    <content><![CDATA[<h2 id="下载离线固件和大气层最新包">下载离线固件和大气层最新包</h2>
-<p>下载地址:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://github.com/rumla34/Atmosphere-stable/releases/tag/1.7.1</span><br></pre></td></tr></table></figure>
-<p>下载大气层和固件之后，通过switch选择系统页面的usb工具替换这两个文件</p>
-<h2 id="升级步骤">升级步骤</h2>
-<p>仅保留emuMMC和Nintendo两个文件，其余文件删除，然后将下载的文件都解压放到sd卡根目录</p>
-<p>然后选择虚拟系统启动，打开大气层软件，一个白色太阳的图标，然后选择我们保存的大气层固件文件夹，更新即可</p>
-]]></content>
-      <categories>
-        <category>switch</category>
-      </categories>
-      <tags>
-        <tag>switch大气层</tag>
       </tags>
   </entry>
   <entry>
@@ -3932,6 +4000,77 @@ WhatWeb：<a href="https://whatweb.net/">https://whatweb.net/</a></p>
       </tags>
   </entry>
   <entry>
+    <title>switch大气层升级18.1.0</title>
+    <url>/2024/08/22/switch%E5%A4%A7%E6%B0%94%E5%B1%82%E5%8D%87%E7%BA%A7/</url>
+    <content><![CDATA[<h2 id="下载离线固件和大气层最新包">下载离线固件和大气层最新包</h2>
+<p>下载地址:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://github.com/rumla34/Atmosphere-stable/releases/tag/1.7.1</span><br></pre></td></tr></table></figure>
+<p>下载大气层和固件之后，通过switch选择系统页面的usb工具替换这两个文件</p>
+<h2 id="升级步骤">升级步骤</h2>
+<p>仅保留emuMMC和Nintendo两个文件，其余文件删除，然后将下载的文件都解压放到sd卡根目录</p>
+<p>然后选择虚拟系统启动，打开大气层软件，一个白色太阳的图标，然后选择我们保存的大气层固件文件夹，更新即可</p>
+]]></content>
+      <categories>
+        <category>switch</category>
+      </categories>
+      <tags>
+        <tag>switch大气层</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows域部署及管理</title>
+    <url>/2025/04/26/windows%E5%9F%9F%E9%83%A8%E7%BD%B2%E5%8F%8A%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h2 id="windows域">windows域</h2>
+<ul>
+<li>单域：在网络中只建立了一个域</li>
+<li>域树：具有连续域名空间的多个域</li>
+<li>域林：由一个或者多个没有形成连续域名空的域树组成</li>
+</ul>
+<h2 id="创建域">创建域</h2>
+<h3 id="ip和dns设置">ip和dns设置</h3>
+<p>作为域控制器，也作为dns服务器，ip最好是固定不变的，可以设置静态，或者dhcp设置mac保留</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ip：192.168.11.200</span><br><span class="line">dns：127.0.0.1</span><br></pre></td></tr></table></figure>
+<h3 id="添加角色功能">添加角色功能</h3>
+<ol>
+<li>开始</li>
+<li>基于角色或基于功能的安装</li>
+<li>从服务器池中选择服务器<br>
+服务器选择自己</li>
+<li>服务器角色<br>
+选中Active Directory 域服务<br>
+点击添加功能</li>
+<li>下一步直到安装完成</li>
+<li>右上角黄色感叹号提示<br>
+点击“将此服务器提升为域控制器”<br>
+添加新林，设置根域名为“<a href="http://haha.com">haha.com</a>”<br>
+dns和全局编录GC勾选，设置密码<br>
+确认域名“HAHA”</li>
+<li>下一步直到安装重启</li>
+<li>安装成功，在服务器管理器中查看AD DS</li>
+</ol>
+<h3 id="域账号登录服务器">域账号登录服务器</h3>
+<p>账号开始使用原来的账号加上@haha.com，或者是HAHA/账号登录</p>
+<h2 id="加入域">加入域</h2>
+<h3 id="dns设置">dns设置</h3>
+<p>设置dns为DC域控制器的ip</p>
+<h3 id="设置域">设置域</h3>
+<ol>
+<li>点开此电脑的属性</li>
+<li>选择隶属于域：HAHA</li>
+<li>登录管理员账号</li>
+<li>重启后使用域账号登录</li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>windows域</category>
+      </categories>
+      <tags>
+        <tag>windows域</tag>
+        <tag>AD DC</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>windows-好用软件</title>
     <url>/2025/02/24/windows-%E5%A5%BD%E7%94%A8%E8%BD%AF%E4%BB%B6/</url>
     <content><![CDATA[<h2 id="U盘工具">U盘工具</h2>
@@ -4069,59 +4208,6 @@ steam搜索 <strong>Wallpaper Engine</strong></p>
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>hashcat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>windows域部署及管理</title>
-    <url>/2025/04/26/windows%E5%9F%9F%E9%83%A8%E7%BD%B2%E5%8F%8A%E7%AE%A1%E7%90%86/</url>
-    <content><![CDATA[<h2 id="windows域">windows域</h2>
-<ul>
-<li>单域：在网络中只建立了一个域</li>
-<li>域树：具有连续域名空间的多个域</li>
-<li>域林：由一个或者多个没有形成连续域名空的域树组成</li>
-</ul>
-<h2 id="创建域">创建域</h2>
-<h3 id="ip和dns设置">ip和dns设置</h3>
-<p>作为域控制器，也作为dns服务器，ip最好是固定不变的，可以设置静态，或者dhcp设置mac保留</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ip：192.168.11.200</span><br><span class="line">dns：127.0.0.1</span><br></pre></td></tr></table></figure>
-<h3 id="添加角色功能">添加角色功能</h3>
-<ol>
-<li>开始</li>
-<li>基于角色或基于功能的安装</li>
-<li>从服务器池中选择服务器<br>
-服务器选择自己</li>
-<li>服务器角色<br>
-选中Active Directory 域服务<br>
-点击添加功能</li>
-<li>下一步直到安装完成</li>
-<li>右上角黄色感叹号提示<br>
-点击“将此服务器提升为域控制器”<br>
-添加新林，设置根域名为“<a href="http://haha.com">haha.com</a>”<br>
-dns和全局编录GC勾选，设置密码<br>
-确认域名“HAHA”</li>
-<li>下一步直到安装重启</li>
-<li>安装成功，在服务器管理器中查看AD DS</li>
-</ol>
-<h3 id="域账号登录服务器">域账号登录服务器</h3>
-<p>账号开始使用原来的账号加上@haha.com，或者是HAHA/账号登录</p>
-<h2 id="加入域">加入域</h2>
-<h3 id="dns设置">dns设置</h3>
-<p>设置dns为DC域控制器的ip</p>
-<h3 id="设置域">设置域</h3>
-<ol>
-<li>点开此电脑的属性</li>
-<li>选择隶属于域：HAHA</li>
-<li>登录管理员账号</li>
-<li>重启后使用域账号登录</li>
-</ol>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>windows域</category>
-      </categories>
-      <tags>
-        <tag>windows域</tag>
-        <tag>AD DC</tag>
       </tags>
   </entry>
   <entry>
@@ -4337,52 +4423,6 @@ dns和全局编录GC勾选，设置密码<br>
       </tags>
   </entry>
   <entry>
-    <title>安全-内网渗透</title>
-    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
-    <content><![CDATA[<h2 id="信息收集">信息收集</h2>
-<p>主机存活<br>
-ettercap -G 蜘蛛<br>
-nmap<br>
-nmap -sS 网段</p>
-<p>漏洞搜集<br>
-awvs			网站扫描<br>
-gvm(openvas)	系统扫描<br>
-nmap<br>
-nmap --script=vuln //常见漏洞<br>
-nmap --script-default //默认收集信息脚本</p>
-<h2 id="进入目标后">进入目标后</h2>
-<p>提权<br>
-创建高权限用户<br>
-windows<br>
-net use<br>
-linux<br>
-user add</p>
-<p>留后门<br>
-创建木马<br>
-木马(msfconsole)<br>
-上传木马<br>
-meterpreter<br>
-upload</p>
-<h2 id="攻击方式">攻击方式</h2>
-<p>改变流量走向<br>
-ettercap(arp欺骗、dns劫持等)<br>
-arpspoof<br>
-arpspoof -i 网卡名称 -t 目标IP 网关</p>
-<p>爆破密码<br>
-hydra（九头蛇）<br>
-msfconsole（爆破密码模块）</p>
-<p>漏洞攻击<br>
-msfconsole（漏洞攻击目录）</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>数据通信基础-公式</title>
     <url>/2025/06/25/%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80-%E5%85%AC%E5%BC%8F/</url>
     <content><![CDATA[<h2 id="信道带宽（W）">信道带宽（W）</h2>
@@ -4446,6 +4486,52 @@ S/N=10时，信噪比为10dB</li>
       <tags>
         <tag>网络工程师</tag>
         <tag>软考</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安全-内网渗透</title>
+    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
+    <content><![CDATA[<h2 id="信息收集">信息收集</h2>
+<p>主机存活<br>
+ettercap -G 蜘蛛<br>
+nmap<br>
+nmap -sS 网段</p>
+<p>漏洞搜集<br>
+awvs			网站扫描<br>
+gvm(openvas)	系统扫描<br>
+nmap<br>
+nmap --script=vuln //常见漏洞<br>
+nmap --script-default //默认收集信息脚本</p>
+<h2 id="进入目标后">进入目标后</h2>
+<p>提权<br>
+创建高权限用户<br>
+windows<br>
+net use<br>
+linux<br>
+user add</p>
+<p>留后门<br>
+创建木马<br>
+木马(msfconsole)<br>
+上传木马<br>
+meterpreter<br>
+upload</p>
+<h2 id="攻击方式">攻击方式</h2>
+<p>改变流量走向<br>
+ettercap(arp欺骗、dns劫持等)<br>
+arpspoof<br>
+arpspoof -i 网卡名称 -t 目标IP 网关</p>
+<p>爆破密码<br>
+hydra（九头蛇）<br>
+msfconsole（爆破密码模块）</p>
+<p>漏洞攻击<br>
+msfconsole（漏洞攻击目录）</p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
       </tags>
   </entry>
   <entry>
@@ -4618,6 +4704,175 @@ S/N=10时，信噪比为10dB</li>
       </tags>
   </entry>
   <entry>
+    <title>算命</title>
+    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
+    <content><![CDATA[<h2 id="六神">六神</h2>
+<h3 id="手势位置">手势位置</h3>
+<p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br>
+<img src="/images/pasted-71.png" alt="upload successful"></p>
+<p>速记：大、流、速、赤、小、空。</p>
+<h3 id="详解">详解</h3>
+<h4 id="大安">大安</h4>
+<p>1、身不动时（如果算一个人在干什么）<br>
+2、五行：属木<br>
+3、方位：东<br>
+4、神煞：青龙<br>
+5、数字：1、5、7<br>
+6、安心吉祥的意思</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
+<h4 id="留连">留连</h4>
+<p>1、人未归时<br>
+2、五行属水<br>
+3、黑色<br>
+4、方位北<br>
+5、玄武<br>
+6、数字：2、8、10<br>
+7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
+<h4 id="速喜">速喜</h4>
+<p>1、人即至时<br>
+2、五行属火<br>
+3、红色<br>
+4、方位为南方<br>
+5、数字：3,6,9<br>
+6、有快速、吉利、时机已到之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
+<h4 id="赤口">赤口</h4>
+<p>1、官事凶时<br>
+2、五行属金<br>
+3、白色<br>
+4、西方<br>
+5、白虎<br>
+6、数字：4，7，10<br>
+7、有不吉、惊恐、凶险、口舌是非之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
+<h4 id="小吉">小吉</h4>
+<p>1、人来喜时<br>
+2、五行属木<br>
+3、六合<br>
+4、数字：1,5,7<br>
+5、有和合、吉利之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
+<h4 id="空亡">空亡</h4>
+<p>1、音信稀时<br>
+2、五行属土<br>
+3、黄色<br>
+4、中央<br>
+5、勾陈<br>
+6、数字：3,6,9<br>
+7、有不吉、无果之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
+<h2 id="奇门">奇门</h2>
+<h3 id="九宫五行">九宫五行</h3>
+<p>五行生克关系<br>
+<img src="/images/pasted-74.png" alt="upload successful"><br>
+九宫位置<br>
+<img src="/images/pasted-73.png" alt="upload successful"><br>
+东南西北位置<br>
+<img src="/images/pasted-75.png" alt="upload successful"></p>
+<h2 id="干支">干支</h2>
+<p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
+<p>寅卯为木居东方，巳午为火居正南，<br>
+申酉属金位在西，子亥属水在北边，<br>
+辰戌丑未皆属土，分别居于四维偏，<br>
+辰在东南戌西北，丑在东北未西南。</p>
+<h2 id="时辰">时辰</h2>
+<p>子丑寅卯辰巳午未申酉戌亥</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>玄学</category>
+      </categories>
+      <tags>
+        <tag>算命知识</tag>
+        <tag>小六壬</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>羊肉火锅-牛油辣味</title>
+    <url>/2025/02/04/%E7%BE%8A%E8%82%89%E7%81%AB%E9%94%85-%E7%89%9B%E6%B2%B9%E8%BE%A3%E5%91%B3/</url>
+    <content><![CDATA[<h2 id="配料">配料</h2>
+<p>配料表中的量不包括焯水等步骤的损耗</p>
+<style>
+table th:nth-of-type(1) {
+width: 20%;
+}
+</style>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:left">量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">羊肉</td>
+<td style="text-align:left">一到两斤左右</td>
+</tr>
+<tr>
+<td style="text-align:center">花椒</td>
+<td style="text-align:left">可放可不放</td>
+</tr>
+<tr>
+<td style="text-align:center">香叶</td>
+<td style="text-align:left">3片左右</td>
+</tr>
+<tr>
+<td style="text-align:center">桂皮</td>
+<td style="text-align:left">一小块</td>
+</tr>
+<tr>
+<td style="text-align:center">八角</td>
+<td style="text-align:left">一个</td>
+</tr>
+<tr>
+<td style="text-align:center">干辣椒</td>
+<td style="text-align:left">若干</td>
+</tr>
+<tr>
+<td style="text-align:center">大葱</td>
+<td style="text-align:left">三段</td>
+</tr>
+<tr>
+<td style="text-align:center">姜</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">大蒜</td>
+<td style="text-align:left">适量（半颗左右）</td>
+</tr>
+<tr>
+<td style="text-align:center">白萝卜</td>
+<td style="text-align:left">随意</td>
+</tr>
+<tr>
+<td style="text-align:center">海底捞牛油火锅底料</td>
+<td style="text-align:left">小包的半包</td>
+</tr>
+</tbody>
+</table>
+<h2 id="步骤">步骤</h2>
+<p>1、一点姜、葱、料酒给羊肉焯水，撇去浮沫后捞出备用</p>
+<p>2、热油炒香姜、大葱、大蒜、和香料，然后倒入火锅底料翻炒均匀，可加入白胡椒，但是感觉没啥区别</p>
+<p>3、加入羊肉翻炒均匀后加水煮90分钟，中途加入萝卜（可高压锅煮45分钟）</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>菜谱</category>
+      </categories>
+      <tags>
+        <tag>菜谱</tag>
+        <tag>羊肉火锅</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>简单部署k8s</title>
     <url>/2024/08/15/%E7%AE%80%E5%8D%95%E9%83%A8%E7%BD%B2k8s/</url>
     <content><![CDATA[<h2 id="准备环境">准备环境</h2>
@@ -4740,97 +4995,6 @@ S/N=10时，信噪比为10dB</li>
       </tags>
   </entry>
   <entry>
-    <title>算命</title>
-    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
-    <content><![CDATA[<h2 id="六神">六神</h2>
-<h3 id="手势位置">手势位置</h3>
-<p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br>
-<img src="/images/pasted-71.png" alt="upload successful"></p>
-<p>速记：大、流、速、赤、小、空。</p>
-<h3 id="详解">详解</h3>
-<h4 id="大安">大安</h4>
-<p>1、身不动时（如果算一个人在干什么）<br>
-2、五行：属木<br>
-3、方位：东<br>
-4、神煞：青龙<br>
-5、数字：1、5、7<br>
-6、安心吉祥的意思</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
-<h4 id="留连">留连</h4>
-<p>1、人未归时<br>
-2、五行属水<br>
-3、黑色<br>
-4、方位北<br>
-5、玄武<br>
-6、数字：2、8、10<br>
-7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
-<h4 id="速喜">速喜</h4>
-<p>1、人即至时<br>
-2、五行属火<br>
-3、红色<br>
-4、方位为南方<br>
-5、数字：3,6,9<br>
-6、有快速、吉利、时机已到之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
-<h4 id="赤口">赤口</h4>
-<p>1、官事凶时<br>
-2、五行属金<br>
-3、白色<br>
-4、西方<br>
-5、白虎<br>
-6、数字：4，7，10<br>
-7、有不吉、惊恐、凶险、口舌是非之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
-<h4 id="小吉">小吉</h4>
-<p>1、人来喜时<br>
-2、五行属木<br>
-3、六合<br>
-4、数字：1,5,7<br>
-5、有和合、吉利之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
-<h4 id="空亡">空亡</h4>
-<p>1、音信稀时<br>
-2、五行属土<br>
-3、黄色<br>
-4、中央<br>
-5、勾陈<br>
-6、数字：3,6,9<br>
-7、有不吉、无果之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
-<h2 id="奇门">奇门</h2>
-<h3 id="九宫五行">九宫五行</h3>
-<p>五行生克关系<br>
-<img src="/images/pasted-74.png" alt="upload successful"><br>
-九宫位置<br>
-<img src="/images/pasted-73.png" alt="upload successful"><br>
-东南西北位置<br>
-<img src="/images/pasted-75.png" alt="upload successful"></p>
-<h2 id="干支">干支</h2>
-<p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
-<p>寅卯为木居东方，巳午为火居正南，<br>
-申酉属金位在西，子亥属水在北边，<br>
-辰戌丑未皆属土，分别居于四维偏，<br>
-辰在东南戌西北，丑在东北未西南。</p>
-<h2 id="时辰">时辰</h2>
-<p>子丑寅卯辰巳午未申酉戌亥</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>玄学</category>
-      </categories>
-      <tags>
-        <tag>算命知识</tag>
-        <tag>小六壬</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>莴笋炒腊肠</title>
     <url>/2025/02/10/%E8%8E%B4%E7%AC%8B%E7%82%92%E8%85%8A%E8%82%A0/</url>
     <content><![CDATA[<h2 id="配料">配料</h2>
@@ -4907,84 +5071,6 @@ width: 20%;
       </categories>
       <tags>
         <tag>菜谱</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>羊肉火锅-牛油辣味</title>
-    <url>/2025/02/04/%E7%BE%8A%E8%82%89%E7%81%AB%E9%94%85-%E7%89%9B%E6%B2%B9%E8%BE%A3%E5%91%B3/</url>
-    <content><![CDATA[<h2 id="配料">配料</h2>
-<p>配料表中的量不包括焯水等步骤的损耗</p>
-<style>
-table th:nth-of-type(1) {
-width: 20%;
-}
-</style>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:left">量</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">羊肉</td>
-<td style="text-align:left">一到两斤左右</td>
-</tr>
-<tr>
-<td style="text-align:center">花椒</td>
-<td style="text-align:left">可放可不放</td>
-</tr>
-<tr>
-<td style="text-align:center">香叶</td>
-<td style="text-align:left">3片左右</td>
-</tr>
-<tr>
-<td style="text-align:center">桂皮</td>
-<td style="text-align:left">一小块</td>
-</tr>
-<tr>
-<td style="text-align:center">八角</td>
-<td style="text-align:left">一个</td>
-</tr>
-<tr>
-<td style="text-align:center">干辣椒</td>
-<td style="text-align:left">若干</td>
-</tr>
-<tr>
-<td style="text-align:center">大葱</td>
-<td style="text-align:left">三段</td>
-</tr>
-<tr>
-<td style="text-align:center">姜</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">大蒜</td>
-<td style="text-align:left">适量（半颗左右）</td>
-</tr>
-<tr>
-<td style="text-align:center">白萝卜</td>
-<td style="text-align:left">随意</td>
-</tr>
-<tr>
-<td style="text-align:center">海底捞牛油火锅底料</td>
-<td style="text-align:left">小包的半包</td>
-</tr>
-</tbody>
-</table>
-<h2 id="步骤">步骤</h2>
-<p>1、一点姜、葱、料酒给羊肉焯水，撇去浮沫后捞出备用</p>
-<p>2、热油炒香姜、大葱、大蒜、和香料，然后倒入火锅底料翻炒均匀，可加入白胡椒，但是感觉没啥区别</p>
-<p>3、加入羊肉翻炒均匀后加水煮90分钟，中途加入萝卜（可高压锅煮45分钟）</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>菜谱</category>
-      </categories>
-      <tags>
-        <tag>菜谱</tag>
-        <tag>羊肉火锅</tag>
       </tags>
   </entry>
   <entry>
