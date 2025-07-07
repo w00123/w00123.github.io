@@ -70,98 +70,42 @@ api配置文件</li>
       </tags>
   </entry>
   <entry>
-    <title>Dockerfile命令</title>
-    <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<table>
-<thead>
-<tr>
-<th style="text-align:center">Dockerfile</th>
-<th style="text-align:left">指令	说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">FROM</td>
-<td style="text-align:left">指定基础镜像，用于后续的指令构建。</td>
-</tr>
-<tr>
-<td style="text-align:center">MAINTAINER</td>
-<td style="text-align:left">指定Dockerfile的作者/维护者。（已弃用，推荐使用LABEL指令）</td>
-</tr>
-<tr>
-<td style="text-align:center">LABEL</td>
-<td style="text-align:left">添加镜像的元数据，使用键值对的形式。</td>
-</tr>
-<tr>
-<td style="text-align:center">RUN</td>
-<td style="text-align:left">在构建过程中在镜像中执行命令。</td>
-</tr>
-<tr>
-<td style="text-align:center">CMD</td>
-<td style="text-align:left">指定容器创建时的默认命令。（可以被覆盖）</td>
-</tr>
-<tr>
-<td style="text-align:center">ENTRYPOINT</td>
-<td style="text-align:left">设置容器创建时的主要命令。（不可被覆盖）</td>
-</tr>
-<tr>
-<td style="text-align:center">EXPOSE</td>
-<td style="text-align:left">声明容器运行时监听的特定网络端口。</td>
-</tr>
-<tr>
-<td style="text-align:center">ENV</td>
-<td style="text-align:left">在容器内部设置环境变量。</td>
-</tr>
-<tr>
-<td style="text-align:center">ADD</td>
-<td style="text-align:left">将文件、目录或远程URL复制到镜像中。</td>
-</tr>
-<tr>
-<td style="text-align:center">COPY</td>
-<td style="text-align:left">将文件或目录复制到镜像中。</td>
-</tr>
-<tr>
-<td style="text-align:center">VOLUME</td>
-<td style="text-align:left">为容器创建挂载点或声明卷。</td>
-</tr>
-<tr>
-<td style="text-align:center">WORKDIR</td>
-<td style="text-align:left">设置后续指令的工作目录。</td>
-</tr>
-<tr>
-<td style="text-align:center">USER</td>
-<td style="text-align:left">指定后续指令的用户上下文。</td>
-</tr>
-<tr>
-<td style="text-align:center">ARG</td>
-<td style="text-align:left">定义在构建过程中传递给构建器的变量，可使用 “docker build” 命令设置。</td>
-</tr>
-<tr>
-<td style="text-align:center">ONBUILD</td>
-<td style="text-align:left">当该镜像被用作另一个构建过程的基础时，添加触发器。</td>
-</tr>
-<tr>
-<td style="text-align:center">STOPSIGNAL</td>
-<td style="text-align:left">设置发送给容器以退出的系统调用信号。</td>
-</tr>
-<tr>
-<td style="text-align:center">HEALTHCHECK</td>
-<td style="text-align:left">定义周期性检查容器健康状态的命令。</td>
-</tr>
-<tr>
-<td style="text-align:center">SHELL</td>
-<td style="text-align:left">覆盖Docker中默认的shell，用于RUN、CMD和ENTRYPOINT指令。</td>
-</tr>
-</tbody>
-</table>
+    <title>arp欺骗</title>
+    <url>/2024/08/01/arpspoof/</url>
+    <content><![CDATA[<h2 id="使用arpspoof命令：">使用arpspoof命令：</h2>
+<pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
+</code></pre>
+<p>-i interface          指定要使用的接口。<br>
+-c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>
+-t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>
+-r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>
+host               指定您希望抓取数据包的host（通常是本地网关）</p>
+<h2 id="使用ettercap-G-蜘蛛工具">使用ettercap -G 蜘蛛工具</h2>
+<p>实例演示-arp欺骗</p>
+<p>1.打开ettercap，选择你要使用的网卡，点击&quot;对号&quot;。<br>
+<img src="/images/pasted-4.png" alt="upload successful"></p>
+<p>2.点击&quot;搜索&quot;按钮，进行主机发现。<br>
+<img src="/images/pasted-5.png" alt="upload successful"></p>
+<p>3.点击&quot;红色方框里面的按钮&quot;，我们可以查看&quot;host list&quot;.<br>
+<img src="/images/pasted-6.png" alt="upload successful"></p>
+<p>4.将想要欺骗的网关和受害者分别添加到&quot;add to target 1&quot;和&quot;add to target 2&quot;。<br>
+<img src="/images/pasted-7.png" alt="upload successful"></p>
+<p>5.点击&quot;圆圈&quot;，选择&quot;arp poisoning spoofing&quot;。<br>
+<img src="/images/pasted-8.png" alt="upload successful"></p>
+<p>6.选择&quot;sniff remote connections&quot;，然后点击&quot;OK&quot;。这样就配置完成，ettercap会自动开始arp欺骗。<br>
+<img src="/images/pasted-9.png" alt="upload successful"></p>
+<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br>
+<img src="/images/pasted-10.png" alt="upload successful"></p>
+<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
 ]]></content>
       <categories>
-        <category>系统运维</category>
-        <category>docker</category>
+        <category>网络安全</category>
+        <category>kali</category>
       </categories>
       <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>实战演示</tag>
       </tags>
   </entry>
   <entry>
@@ -263,151 +207,144 @@ deadsnakes PPA 是由 Python 社区维护的一个软件源，专门用于提供
       </tags>
   </entry>
   <entry>
+    <title>Dockerfile命令</title>
+    <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<table>
+<thead>
+<tr>
+<th style="text-align:center">Dockerfile</th>
+<th style="text-align:left">指令	说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FROM</td>
+<td style="text-align:left">指定基础镜像，用于后续的指令构建。</td>
+</tr>
+<tr>
+<td style="text-align:center">MAINTAINER</td>
+<td style="text-align:left">指定Dockerfile的作者/维护者。（已弃用，推荐使用LABEL指令）</td>
+</tr>
+<tr>
+<td style="text-align:center">LABEL</td>
+<td style="text-align:left">添加镜像的元数据，使用键值对的形式。</td>
+</tr>
+<tr>
+<td style="text-align:center">RUN</td>
+<td style="text-align:left">在构建过程中在镜像中执行命令。</td>
+</tr>
+<tr>
+<td style="text-align:center">CMD</td>
+<td style="text-align:left">指定容器创建时的默认命令。（可以被覆盖）</td>
+</tr>
+<tr>
+<td style="text-align:center">ENTRYPOINT</td>
+<td style="text-align:left">设置容器创建时的主要命令。（不可被覆盖）</td>
+</tr>
+<tr>
+<td style="text-align:center">EXPOSE</td>
+<td style="text-align:left">声明容器运行时监听的特定网络端口。</td>
+</tr>
+<tr>
+<td style="text-align:center">ENV</td>
+<td style="text-align:left">在容器内部设置环境变量。</td>
+</tr>
+<tr>
+<td style="text-align:center">ADD</td>
+<td style="text-align:left">将文件、目录或远程URL复制到镜像中。</td>
+</tr>
+<tr>
+<td style="text-align:center">COPY</td>
+<td style="text-align:left">将文件或目录复制到镜像中。</td>
+</tr>
+<tr>
+<td style="text-align:center">VOLUME</td>
+<td style="text-align:left">为容器创建挂载点或声明卷。</td>
+</tr>
+<tr>
+<td style="text-align:center">WORKDIR</td>
+<td style="text-align:left">设置后续指令的工作目录。</td>
+</tr>
+<tr>
+<td style="text-align:center">USER</td>
+<td style="text-align:left">指定后续指令的用户上下文。</td>
+</tr>
+<tr>
+<td style="text-align:center">ARG</td>
+<td style="text-align:left">定义在构建过程中传递给构建器的变量，可使用 “docker build” 命令设置。</td>
+</tr>
+<tr>
+<td style="text-align:center">ONBUILD</td>
+<td style="text-align:left">当该镜像被用作另一个构建过程的基础时，添加触发器。</td>
+</tr>
+<tr>
+<td style="text-align:center">STOPSIGNAL</td>
+<td style="text-align:left">设置发送给容器以退出的系统调用信号。</td>
+</tr>
+<tr>
+<td style="text-align:center">HEALTHCHECK</td>
+<td style="text-align:left">定义周期性检查容器健康状态的命令。</td>
+</tr>
+<tr>
+<td style="text-align:center">SHELL</td>
+<td style="text-align:left">覆盖Docker中默认的shell，用于RUN、CMD和ENTRYPOINT指令。</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ansible命令</title>
     <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
 <h2 id="安装软件">安装软件</h2>
 <p>安装 EPEL 仓库</p>
-<pre><code>yum install epel-release -y
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install epel-release -y</span><br></pre></td></tr></table></figure>
 <p>安装 Ansible</p>
-<pre><code>yum install ansible -y
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install ansible -y</span><br></pre></td></tr></table></figure>
+<hr>
 <h2 id="使用">使用</h2>
-<p>使用前需要定义两个文件：<br>
-一个指定需要批量执行的主机hosts.ini，可以随意指定名称；一个指定需要运行的命令和动作command.yml，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</p>
-<p>hosts.ini：</p>
-<pre><code>[hostst_g]
-此处填写ip
-[hosts_g:vars]
-ansible_ssh_user=root ##账号
-ansible_ssh_pass=123456 ##密码
-</code></pre>
-<p>command.yml：</p>
-<pre><code>- name: 在远程主机上执行任意命令 
-	hosts: all
-	gather_facts: no
-	tasks:
-		- name: 执行一个特定命令
-			command: echo &quot;你好，世界！&quot;
-			# 使用 command 模块执行简单命令，不支持管道和重定向
-		- name: 列出目录中的文件
-			command: ls /path/to/directory
-			# 列出指定目录中的所有文件
-		- name: 使用 shell 运行包含管道的命令
-			shell: echo &quot;你好，世界！&quot; | grep 你好
-			# 使用 shell 模块支持管道、变量和重定向等 shell 特性
-		- name: 使用 shell 特性运行命令
-			shell: cat /etc/passwd | grep root
-			# 通过管道过滤包含 &quot;root&quot; 的行
-</code></pre>
+<ul>
+<li>使用前需要定义两个文件：<br>
+一个指定需要批量执行的主机<code>hosts.ini</code>，可以随意指定名称；一个指定需要运行的命令和动作<code>command.yml</code>，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</li>
+</ul>
+<ol>
+<li>hosts.ini：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[hostst_g]</span><br><span class="line">此处填写ip</span><br><span class="line">[hosts_g:vars]</span><br><span class="line">ansible_ssh_user=root ##账号</span><br><span class="line">ansible_ssh_pass=123456 ##密码</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>command.yml：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: 在远程主机上执行任意命令  </span><br><span class="line">  hosts: all</span><br><span class="line">  gather_facts: no</span><br><span class="line">  tasks:</span><br><span class="line">      - name: 执行一个特定命令</span><br><span class="line">        command: echo &quot;你好，世界！&quot;</span><br><span class="line">        # 使用  command  模块执行简单命令，不支持管道和重定向</span><br><span class="line">      - name:  列出目录中的文件</span><br><span class="line">        command: ls /path/to/directory</span><br><span class="line">        # 列出指定目录中的所有文件</span><br><span class="line">      - name:  使用 shell 运行包含管道的命令</span><br><span class="line">        shell: echo &quot;你好，世界！&quot; | grep 你好</span><br><span class="line">        # 使用 shell 模块支持管道、变量和重定向等 shell 特性</span><br><span class="line">      - name: 使用  hell  特性运行命令</span><br><span class="line">        shell: cat /etc/passwd | grep root</span><br><span class="line">        # 通过管道过滤包含 &quot;root&quot; 的行</span><br></pre></td></tr></table></figure>
 <p>可使用shell：模拟终端上所有执行的命令。</p>
-<p>使用命令</p>
-<pre><code>ansible-playbook -i hosts.ini command.yml
-</code></pre>
-]]></content>
+<ul>
+<li>使用命令</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ansible-playbook -i hosts.ini command.yml</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="安装ansible示例">安装ansible示例</h2>
+<h3 id="文件结构">文件结构</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">project_dir/</span><br><span class="line">├── install_tomcat.yml        # Ansible 剧本</span><br><span class="line">├── hosts.ini                 # 主机信息</span><br><span class="line">└── html/                     # 本地网页目录（你已经准备好了）</span><br><span class="line">    ├── index.html</span><br><span class="line">    └── images/</span><br><span class="line">        └── logo.png</span><br></pre></td></tr></table></figure>
+<h3 id="hosts-ini-文件内容：">hosts.ini 文件内容：</h3>
+<p>目标主机信息</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[test]</span><br><span class="line">192.168.1.101</span><br><span class="line">192.168.1.102</span><br><span class="line"></span><br><span class="line">[test:vars]</span><br><span class="line">ansible_user=root</span><br><span class="line">ansible_ssh_pass=你的密码</span><br><span class="line">ansible_python_interpreter=/usr/bin/python3</span><br></pre></td></tr></table></figure>
+<h3 id="install-tomcat-yml-内容">install_tomcat.yml 内容</h3>
+<p>执行的任务</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- name: 在所有 test 主机上安装并配置 Tomcat</span><br><span class="line">  hosts: test</span><br><span class="line">  become: yes</span><br><span class="line">  tasks:</span><br><span class="line"></span><br><span class="line">    - name: 安装 Java（Tomcat 依赖）</span><br><span class="line">      package:</span><br><span class="line">        name: java-1.8.0-openjdk</span><br><span class="line">        state: present</span><br><span class="line"></span><br><span class="line">    - name: 创建 tomcat 用户</span><br><span class="line">      user:</span><br><span class="line">        name: tomcat</span><br><span class="line">        shell: /bin/false</span><br><span class="line">        system: yes</span><br><span class="line">        create_home: no</span><br><span class="line"></span><br><span class="line">    - name: 下载 Tomcat 安装包</span><br><span class="line">      get_url:</span><br><span class="line">        url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.89/bin/apache-tomcat-9.0.89.tar.gz</span><br><span class="line">        dest: /tmp/tomcat.tar.gz</span><br><span class="line"></span><br><span class="line">    - name: 创建 Tomcat 安装目录</span><br><span class="line">      file:</span><br><span class="line">        path: /opt/tomcat</span><br><span class="line">        state: directory</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0755&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 解压 Tomcat 安装包</span><br><span class="line">      unarchive:</span><br><span class="line">        src: /tmp/tomcat.tar.gz</span><br><span class="line">        dest: /opt/tomcat</span><br><span class="line">        remote_src: yes</span><br><span class="line">        creates: /opt/tomcat/apache-tomcat-9.0.89</span><br><span class="line"></span><br><span class="line">    - name: 配置 Tomcat 环境变量（可选）</span><br><span class="line">      copy:</span><br><span class="line">        dest: /etc/profile.d/tomcat.sh</span><br><span class="line">        content: |</span><br><span class="line">          export CATALINA_HOME=/opt/tomcat/apache-tomcat-9.0.89</span><br><span class="line"></span><br><span class="line">    - name: 备份默认 webapps 目录</span><br><span class="line">      command: mv /opt/tomcat/apache-tomcat-9.0.89/webapps /opt/tomcat/apache-tomcat-9.0.89/webapps.bak</span><br><span class="line">      args:</span><br><span class="line">        creates: /opt/tomcat/apache-tomcat-9.0.89/webapps.bak</span><br><span class="line"></span><br><span class="line">    - name: 创建网页目录 /var/www/html</span><br><span class="line">      file:</span><br><span class="line">        path: /var/www/html</span><br><span class="line">        state: directory</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0755&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 上传本地 html 文件到远程 /var/www/html</span><br><span class="line">      copy:</span><br><span class="line">        src: html/</span><br><span class="line">        dest: /var/www/html/</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0644&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 创建 /var/www/html 到 Tomcat webapps 的符号链接</span><br><span class="line">      file:</span><br><span class="line">        src: /var/www/html</span><br><span class="line">        dest: /opt/tomcat/apache-tomcat-9.0.89/webapps</span><br><span class="line">        state: link</span><br><span class="line">        force: yes</span><br><span class="line"></span><br><span class="line">    - name: 启动 Tomcat 服务</span><br><span class="line">      shell: nohup /opt/tomcat/apache-tomcat-9.0.89/bin/startup.sh &amp;</span><br><span class="line">      args:</span><br><span class="line">        chdir: /opt/tomcat/apache-tomcat-9.0.89/bin</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
         <category>linux</category>
       </categories>
       <tags>
         <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>astrbot-ai接入微信和qq</title>
-    <url>/2025/03/20/astrbot-ai%E6%8E%A5%E5%85%A5%E5%BE%AE%E4%BF%A1%E5%92%8Cqq/</url>
-    <content><![CDATA[<h2 id="astrbot">astrbot</h2>
-<p>一个易于上手的多平台聊天机器人及开发框架，官方已经有详细的部署步骤，只写一下我规避遇到的问题的部署方法</p>
-<blockquote>
-<p>官网：<a href="https://astrbot.app/what-is-astrbot.html">https://astrbot.app/what-is-astrbot.html</a></p>
-</blockquote>
-<h2 id="ai接入微信">ai接入微信</h2>
-<p>docker部署</p>
-<h3 id="astrbot部署">astrbot部署</h3>
-<ol>
-<li>拉取项目</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/Soulter/AstrBot</span><br><span class="line"><span class="built_in">cd</span> AstrBot</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>运行compose</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker compose up -d</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>配置 Gewechat 适配器时跟着官方方法配置即可，host其实只要网络通即可，11451端口已经映射宿主机，所以直接写宿主机ip即可</p>
-</blockquote>
-<h3 id="部署-Gewechat">部署 Gewechat</h3>
-<ol>
-<li>拉取镜像</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/gewe/gewe:latest</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/gewe/gewe gewe</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>启动</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> gewechat</span><br><span class="line">docker run -itd -v ./gewechat:/root/temp -p 2531:2531 -p 2532:2532 --privileged=<span class="literal">true</span> --name=gewe gewe /usr/sbin/initse</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这个时候跟着官方走看不到容器日志，但是可以看astrbot上面的日志登陆微信</p>
-</blockquote>
-<h2 id="接入qq">接入qq</h2>
-<ol>
-<li>docker拉取镜像</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull mlikiowa/napcat-docker:latest</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>启动</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">-e NAPCAT_GID=$(<span class="built_in">id</span> -g) \</span><br><span class="line">-e NAPCAT_UID=$(<span class="built_in">id</span> -u) \</span><br><span class="line">-p 3000:3000 \</span><br><span class="line">-p 3001:3001 \</span><br><span class="line">-p 6099:6099 \</span><br><span class="line">--name napcat \</span><br><span class="line">--restart=always \</span><br><span class="line">mlikiowa/napcat-docker:latest \</span><br><span class="line">--network default-astrbot</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>network写上面astrbot使用的网络</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>娱乐</category>
-      </categories>
-      <tags>
-        <tag>astrbot</tag>
-        <tag>napcat</tag>
-        <tag>Gewechat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>arp欺骗</title>
-    <url>/2024/08/01/arpspoof/</url>
-    <content><![CDATA[<h2 id="使用arpspoof命令：">使用arpspoof命令：</h2>
-<pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
-</code></pre>
-<p>-i interface          指定要使用的接口。<br>
--c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>
--t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>
--r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>
-host               指定您希望抓取数据包的host（通常是本地网关）</p>
-<h2 id="使用ettercap-G-蜘蛛工具">使用ettercap -G 蜘蛛工具</h2>
-<p>实例演示-arp欺骗</p>
-<p>1.打开ettercap，选择你要使用的网卡，点击&quot;对号&quot;。<br>
-<img src="/images/pasted-4.png" alt="upload successful"></p>
-<p>2.点击&quot;搜索&quot;按钮，进行主机发现。<br>
-<img src="/images/pasted-5.png" alt="upload successful"></p>
-<p>3.点击&quot;红色方框里面的按钮&quot;，我们可以查看&quot;host list&quot;.<br>
-<img src="/images/pasted-6.png" alt="upload successful"></p>
-<p>4.将想要欺骗的网关和受害者分别添加到&quot;add to target 1&quot;和&quot;add to target 2&quot;。<br>
-<img src="/images/pasted-7.png" alt="upload successful"></p>
-<p>5.点击&quot;圆圈&quot;，选择&quot;arp poisoning spoofing&quot;。<br>
-<img src="/images/pasted-8.png" alt="upload successful"></p>
-<p>6.选择&quot;sniff remote connections&quot;，然后点击&quot;OK&quot;。这样就配置完成，ettercap会自动开始arp欺骗。<br>
-<img src="/images/pasted-9.png" alt="upload successful"></p>
-<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br>
-<img src="/images/pasted-10.png" alt="upload successful"></p>
-<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>实战演示</tag>
       </tags>
   </entry>
   <entry>
@@ -678,6 +615,63 @@ host               指定您希望抓取数据包的host（通常是本地网关
       </tags>
   </entry>
   <entry>
+    <title>astrbot-ai接入微信和qq</title>
+    <url>/2025/03/20/astrbot-ai%E6%8E%A5%E5%85%A5%E5%BE%AE%E4%BF%A1%E5%92%8Cqq/</url>
+    <content><![CDATA[<h2 id="astrbot">astrbot</h2>
+<p>一个易于上手的多平台聊天机器人及开发框架，官方已经有详细的部署步骤，只写一下我规避遇到的问题的部署方法</p>
+<blockquote>
+<p>官网：<a href="https://astrbot.app/what-is-astrbot.html">https://astrbot.app/what-is-astrbot.html</a></p>
+</blockquote>
+<h2 id="ai接入微信">ai接入微信</h2>
+<p>docker部署</p>
+<h3 id="astrbot部署">astrbot部署</h3>
+<ol>
+<li>拉取项目</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/Soulter/AstrBot</span><br><span class="line"><span class="built_in">cd</span> AstrBot</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>运行compose</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker compose up -d</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>配置 Gewechat 适配器时跟着官方方法配置即可，host其实只要网络通即可，11451端口已经映射宿主机，所以直接写宿主机ip即可</p>
+</blockquote>
+<h3 id="部署-Gewechat">部署 Gewechat</h3>
+<ol>
+<li>拉取镜像</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/gewe/gewe:latest</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/gewe/gewe gewe</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>启动</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> gewechat</span><br><span class="line">docker run -itd -v ./gewechat:/root/temp -p 2531:2531 -p 2532:2532 --privileged=<span class="literal">true</span> --name=gewe gewe /usr/sbin/initse</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个时候跟着官方走看不到容器日志，但是可以看astrbot上面的日志登陆微信</p>
+</blockquote>
+<h2 id="接入qq">接入qq</h2>
+<ol>
+<li>docker拉取镜像</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull mlikiowa/napcat-docker:latest</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>启动</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">-e NAPCAT_GID=$(<span class="built_in">id</span> -g) \</span><br><span class="line">-e NAPCAT_UID=$(<span class="built_in">id</span> -u) \</span><br><span class="line">-p 3000:3000 \</span><br><span class="line">-p 3001:3001 \</span><br><span class="line">-p 6099:6099 \</span><br><span class="line">--name napcat \</span><br><span class="line">--restart=always \</span><br><span class="line">mlikiowa/napcat-docker:latest \</span><br><span class="line">--network default-astrbot</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>network写上面astrbot使用的网络</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>astrbot</tag>
+        <tag>napcat</tag>
+        <tag>Gewechat</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>burpsuite工具学习版方法</title>
     <url>/2025/02/21/burpsuite%E5%B7%A5%E5%85%B7%E5%AD%A6%E4%B9%A0%E7%89%88%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -803,30 +797,6 @@ host               指定您希望抓取数据包的host（通常是本地网关
       </tags>
   </entry>
   <entry>
-    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
-    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="问题现象">问题现象</h2>
-<p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
-<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
-<h2 id="解决方法">解决方法</h2>
-<p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
-<h3 id="停止docker服务">停止docker服务</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
-<h3 id="参数修改下载数">参数修改下载数</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
-<h3 id="开始下载">开始下载</h3>
-<p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker pull 镜像ai的理解</title>
     <url>/2025/05/27/docker-pull-%E9%95%9C%E5%83%8Fai%E7%9A%84%E7%90%86%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="🧪-场景">🧪 场景</h2>
@@ -907,6 +877,30 @@ Digest: sha256:xxx…<br>
 <h2 id="✅-小结一句话：">✅ 小结一句话：</h2>
 <p>Docker 下载镜像时，不是一次性拿一个“压缩包”，而是像“叠汉堡”一样，一个个去下载构成镜像的文件系统层（layers），最后组合成可运行的镜像。</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>docker pull 镜像失败问题解决方法（镜像多）</title>
+    <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="问题现象">问题现象</h2>
+<p>1、下载无法开始、重试、超时，这个问题更换可用的docker镜像仓库即可。</p>
+<p>2、经常下载到一半没办法进行，卡在小镜像等等中途无法下载的情况。</p>
+<h2 id="解决方法">解决方法</h2>
+<p>这次解决中发现docker分两个服务，docker.server和docker.socket，这次只停掉docker.server，然后使用参数让每次下载个数为1，即可解决。</p>
+<h3 id="停止docker服务">停止docker服务</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
+<h3 id="参数修改下载数">参数修改下载数</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dockerd --max-concurrent-downloads 1</span><br></pre></td></tr></table></figure>
+<h3 id="开始下载">开始下载</h3>
+<p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
   </entry>
   <entry>
     <title>docker 卸载</title>
@@ -1018,60 +1012,6 @@ mysql:5.7
       </tags>
   </entry>
   <entry>
-    <title>docker安装awvs并激活</title>
-    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h2 id="安装awvs">安装awvs</h2>
-<h4 id="拉取镜像">拉取镜像</h4>
-<p>搜索</p>
-<pre><code>docker search awvs
-</code></pre>
-<p>选择一个awvs镜像下载<br>
-<img src="/images/pasted-35.png" alt="upload successful"></p>
-<p>选择secfa/awvs的镜像</p>
-<pre><code>docker pull secfa/awvs
-docker images -a
-</code></pre>
-<h4 id="创建并启动容器">创建并启动容器</h4>
-<p>运行命令</p>
-<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
-</code></pre>
-<p>如果报错！（提示crack失败）<br>
-添加参数–cap-add LINUX_IMMUTABLE</p>
-<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
-</code></pre>
-<h2 id="访问">访问</h2>
-<p>账号密码：</p>
-<pre><code>awvs username: admin@admin.com
-awvs password: Admin123
-</code></pre>
-<h2 id="激活">激活</h2>
-<p>需要下载破解版的两个文件替换，分别是：</p>
-<pre><code>license_info.json
-wa_data.dat
-</code></pre>
-<p>windows和linux文件通用<br>
-替换目录为容器内目录：</p>
-<pre><code>/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>文件传输进入容器命令为：</p>
-<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
-docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>重启容器</p>
-<pre><code>docker restart 容器id
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>awvs安装</tag>
-        <tag>awvs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Docker 安装</title>
     <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<h2 id="centos">centos</h2>
@@ -1135,6 +1075,131 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       </categories>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker安装awvs并激活</title>
+    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h2 id="安装awvs">安装awvs</h2>
+<h4 id="拉取镜像">拉取镜像</h4>
+<p>搜索</p>
+<pre><code>docker search awvs
+</code></pre>
+<p>选择一个awvs镜像下载<br>
+<img src="/images/pasted-35.png" alt="upload successful"></p>
+<p>选择secfa/awvs的镜像</p>
+<pre><code>docker pull secfa/awvs
+docker images -a
+</code></pre>
+<h4 id="创建并启动容器">创建并启动容器</h4>
+<p>运行命令</p>
+<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
+</code></pre>
+<p>如果报错！（提示crack失败）<br>
+添加参数–cap-add LINUX_IMMUTABLE</p>
+<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
+</code></pre>
+<h2 id="访问">访问</h2>
+<p>账号密码：</p>
+<pre><code>awvs username: admin@admin.com
+awvs password: Admin123
+</code></pre>
+<h2 id="激活">激活</h2>
+<p>需要下载破解版的两个文件替换，分别是：</p>
+<pre><code>license_info.json
+wa_data.dat
+</code></pre>
+<p>windows和linux文件通用<br>
+替换目录为容器内目录：</p>
+<pre><code>/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>文件传输进入容器命令为：</p>
+<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
+docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>重启容器</p>
+<pre><code>docker restart 容器id
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>awvs安装</tag>
+        <tag>awvs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ettercap arp欺骗+dns劫持+钓鱼网站</title>
+    <url>/2024/10/15/ettercap-arp%E6%AC%BA%E9%AA%97-dns%E5%8A%AB%E6%8C%81-%E9%92%93%E9%B1%BC%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<h2 id="简介">简介</h2>
+<p>这次主要是使用ettercap在局域网中发现主机并欺骗其arp表，让其mac地址与攻击主机mac一致，使用dns污染其dns解析，将其访问的域名解析到本机的钓鱼网站中。</p>
+<p>注意！<br>
+ettercap使用要一次完成，在多次测试中发现，重新arp欺骗会无法生效，原因不知。</p>
+<h2 id="步骤">步骤</h2>
+<h3 id="发现局域网主机">发现局域网主机</h3>
+<p>在kali中打开ettercap</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ettercap -G</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-46.png" alt="upload successful"></p>
+<p>选择对应的接口，点击√号，再点击放大镜，再点击服务器<br>
+<img src="/images/pasted-47.png" alt="upload successful"></p>
+<p>192.168.0.1:网关<br>
+192.168.0.197:靶机</p>
+<h3 id="arp欺骗">arp欺骗</h3>
+<p>点击靶机，再点击add to target1<br>
+点击网关，再点击add to target2<br>
+<img src="/images/pasted-48.png" alt="upload successful"></p>
+<p>点击地球图标，点击arp poisoning，点击ok<br>
+<img src="/images/pasted-49.png" alt="upload successful"><br>
+<img src="/images/pasted-50.png" alt="upload successful"></p>
+<p>可在靶机上查看arp表，发现网关mac和本机mac一致，欺骗成功；但是访问正常，可能会短暂无法访问互联网。</p>
+<h3 id="制作钓鱼网站">制作钓鱼网站</h3>
+<p>使用setoolkit社工软件制作</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">setoolkit</span><br></pre></td></tr></table></figure>
+<p>来个好看的封面<br>
+<img src="/images/pasted-51.png" alt="upload successful"></p>
+<p>选择1<br>
+<img src="/images/pasted-52.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Social-Engineering Attacks：社会工程学攻击</span><br><span class="line">2）Penetration Testing(Fast-Track)：渗透测试（快速通道）</span><br><span class="line">3）Third Party Modules：第三模块</span><br><span class="line">4）Update the Social-Engineer Toolkit：更新社会工程学工具包</span><br><span class="line">5）Update SET configuration：更新SET配置</span><br><span class="line">6）Help, Credits, and About：帮助、致谢和关于</span><br><span class="line"></span><br><span class="line">99）Exit the Social-Engineer Toolkit：退出</span><br></pre></td></tr></table></figure>
+<p>选择2<br>
+<img src="/images/pasted-53.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）鱼叉式网络钓鱼攻击向量</span><br><span class="line">2）网站攻击向量</span><br><span class="line">3）感染性媒体生成器</span><br><span class="line">4）创建载荷和监听器</span><br><span class="line">5）批量邮件攻击</span><br><span class="line">6）基于Arduino的攻击向量</span><br><span class="line">7）无线接入点攻击向量</span><br><span class="line">8）QR码生成器攻击向量</span><br><span class="line">9）PowerShell攻击向量</span><br><span class="line">10）第三方模块</span><br><span class="line"></span><br><span class="line">99）返回主菜单。</span><br></pre></td></tr></table></figure>
+<p>选择3<br>
+<img src="/images/pasted-54.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Java小程序攻击方法</span><br><span class="line">2）Metasploit浏览器漏洞利用方法</span><br><span class="line">3）凭证收集攻击方法</span><br><span class="line">4）Tabnabbing攻击方法</span><br><span class="line">5）Web劫持攻击方法</span><br><span class="line">6）多攻击网络方法</span><br><span class="line">7）HTA攻击方法</span><br><span class="line"></span><br><span class="line">99）返回主菜单</span><br></pre></td></tr></table></figure>
+<p>随意，我这里选择1，比较方便<br>
+<img src="/images/pasted-55.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）网络模板</span><br><span class="line">2）网站克隆器</span><br><span class="line">3）自定义导入</span><br><span class="line"></span><br><span class="line">99）返回网络攻击菜单</span><br></pre></td></tr></table></figure>
+<p>然后输入要被访问的ip，选择谷歌模板，网站制作完成。<br>
+<img src="/images/pasted-56.png" alt="upload successful"></p>
+<h3 id="dns劫持">dns劫持</h3>
+<p>配置ettercap的dns劫持配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/ettercap/etter.dns</span><br></pre></td></tr></table></figure>
+<p>末尾添加以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*	A	192.168.0.194</span><br></pre></td></tr></table></figure>
+<p>意思是所有域名均解析成后面的ip<br>
+<img src="/images/pasted-57.png" alt="upload successful"></p>
+<p>点击软件三个点，然后选择plugins，再选择manage plugins<br>
+<img src="/images/pasted-59.png" alt="upload successful"></p>
+<p>双击dns_spoof即可<br>
+<img src="/images/pasted-60.png" alt="upload successful"></p>
+<h2 id="验证">验证</h2>
+<h3 id="因为创建的是80端口的页面，靶机要输入http-域名">因为创建的是80端口的页面，靶机要输入<a href="http://xn--+-j68a70j">http://+域名</a></h3>
+<p><img src="/images/pasted-63.png" alt="upload successful"></p>
+<h3 id="工具会有劫持成功的返回">工具会有劫持成功的返回</h3>
+<p><img src="/images/pasted-62.png" alt="upload successful"></p>
+<h3 id="拿到密码">拿到密码</h3>
+<p><img src="/images/pasted-61.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+        <tag>ettercap</tag>
       </tags>
   </entry>
   <entry>
@@ -1237,77 +1302,6 @@ admin/password
       <tags>
         <tag>docker</tag>
         <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ettercap arp欺骗+dns劫持+钓鱼网站</title>
-    <url>/2024/10/15/ettercap-arp%E6%AC%BA%E9%AA%97-dns%E5%8A%AB%E6%8C%81-%E9%92%93%E9%B1%BC%E7%BD%91%E7%AB%99/</url>
-    <content><![CDATA[<h2 id="简介">简介</h2>
-<p>这次主要是使用ettercap在局域网中发现主机并欺骗其arp表，让其mac地址与攻击主机mac一致，使用dns污染其dns解析，将其访问的域名解析到本机的钓鱼网站中。</p>
-<p>注意！<br>
-ettercap使用要一次完成，在多次测试中发现，重新arp欺骗会无法生效，原因不知。</p>
-<h2 id="步骤">步骤</h2>
-<h3 id="发现局域网主机">发现局域网主机</h3>
-<p>在kali中打开ettercap</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ettercap -G</span><br></pre></td></tr></table></figure>
-<p><img src="/images/pasted-46.png" alt="upload successful"></p>
-<p>选择对应的接口，点击√号，再点击放大镜，再点击服务器<br>
-<img src="/images/pasted-47.png" alt="upload successful"></p>
-<p>192.168.0.1:网关<br>
-192.168.0.197:靶机</p>
-<h3 id="arp欺骗">arp欺骗</h3>
-<p>点击靶机，再点击add to target1<br>
-点击网关，再点击add to target2<br>
-<img src="/images/pasted-48.png" alt="upload successful"></p>
-<p>点击地球图标，点击arp poisoning，点击ok<br>
-<img src="/images/pasted-49.png" alt="upload successful"><br>
-<img src="/images/pasted-50.png" alt="upload successful"></p>
-<p>可在靶机上查看arp表，发现网关mac和本机mac一致，欺骗成功；但是访问正常，可能会短暂无法访问互联网。</p>
-<h3 id="制作钓鱼网站">制作钓鱼网站</h3>
-<p>使用setoolkit社工软件制作</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">setoolkit</span><br></pre></td></tr></table></figure>
-<p>来个好看的封面<br>
-<img src="/images/pasted-51.png" alt="upload successful"></p>
-<p>选择1<br>
-<img src="/images/pasted-52.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Social-Engineering Attacks：社会工程学攻击</span><br><span class="line">2）Penetration Testing(Fast-Track)：渗透测试（快速通道）</span><br><span class="line">3）Third Party Modules：第三模块</span><br><span class="line">4）Update the Social-Engineer Toolkit：更新社会工程学工具包</span><br><span class="line">5）Update SET configuration：更新SET配置</span><br><span class="line">6）Help, Credits, and About：帮助、致谢和关于</span><br><span class="line"></span><br><span class="line">99）Exit the Social-Engineer Toolkit：退出</span><br></pre></td></tr></table></figure>
-<p>选择2<br>
-<img src="/images/pasted-53.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）鱼叉式网络钓鱼攻击向量</span><br><span class="line">2）网站攻击向量</span><br><span class="line">3）感染性媒体生成器</span><br><span class="line">4）创建载荷和监听器</span><br><span class="line">5）批量邮件攻击</span><br><span class="line">6）基于Arduino的攻击向量</span><br><span class="line">7）无线接入点攻击向量</span><br><span class="line">8）QR码生成器攻击向量</span><br><span class="line">9）PowerShell攻击向量</span><br><span class="line">10）第三方模块</span><br><span class="line"></span><br><span class="line">99）返回主菜单。</span><br></pre></td></tr></table></figure>
-<p>选择3<br>
-<img src="/images/pasted-54.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Java小程序攻击方法</span><br><span class="line">2）Metasploit浏览器漏洞利用方法</span><br><span class="line">3）凭证收集攻击方法</span><br><span class="line">4）Tabnabbing攻击方法</span><br><span class="line">5）Web劫持攻击方法</span><br><span class="line">6）多攻击网络方法</span><br><span class="line">7）HTA攻击方法</span><br><span class="line"></span><br><span class="line">99）返回主菜单</span><br></pre></td></tr></table></figure>
-<p>随意，我这里选择1，比较方便<br>
-<img src="/images/pasted-55.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）网络模板</span><br><span class="line">2）网站克隆器</span><br><span class="line">3）自定义导入</span><br><span class="line"></span><br><span class="line">99）返回网络攻击菜单</span><br></pre></td></tr></table></figure>
-<p>然后输入要被访问的ip，选择谷歌模板，网站制作完成。<br>
-<img src="/images/pasted-56.png" alt="upload successful"></p>
-<h3 id="dns劫持">dns劫持</h3>
-<p>配置ettercap的dns劫持配置文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/ettercap/etter.dns</span><br></pre></td></tr></table></figure>
-<p>末尾添加以下内容</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*	A	192.168.0.194</span><br></pre></td></tr></table></figure>
-<p>意思是所有域名均解析成后面的ip<br>
-<img src="/images/pasted-57.png" alt="upload successful"></p>
-<p>点击软件三个点，然后选择plugins，再选择manage plugins<br>
-<img src="/images/pasted-59.png" alt="upload successful"></p>
-<p>双击dns_spoof即可<br>
-<img src="/images/pasted-60.png" alt="upload successful"></p>
-<h2 id="验证">验证</h2>
-<h3 id="因为创建的是80端口的页面，靶机要输入http-域名">因为创建的是80端口的页面，靶机要输入<a href="http://xn--+-j68a70j">http://+域名</a></h3>
-<p><img src="/images/pasted-63.png" alt="upload successful"></p>
-<h3 id="工具会有劫持成功的返回">工具会有劫持成功的返回</h3>
-<p><img src="/images/pasted-62.png" alt="upload successful"></p>
-<h3 id="拿到密码">拿到密码</h3>
-<p><img src="/images/pasted-61.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>娱乐</category>
-      </categories>
-      <tags>
-        <tag>kali</tag>
-        <tag>ettercap</tag>
       </tags>
   </entry>
   <entry>
@@ -1567,6 +1561,81 @@ vim custom.css</p>
       </tags>
   </entry>
   <entry>
+    <title>hexo-书写</title>
+    <url>/2025/02/08/hexo-%E4%B9%A6%E5%86%99/</url>
+    <content><![CDATA[<h2 id="常用书写">常用书写</h2>
+<h3 id="代码">代码</h3>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">\```bash</span><br><span class="line"></span><br><span class="line">\```</span><br></pre></td></tr></table></figure>
+<h3 id="引用">引用</h3>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">一级</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">二级</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>演示</p>
+</blockquote>
+<h3 id="列表">列表</h3>
+<h4 id="无序列表">无序列表</h4>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">* 1</span><br><span class="line">* 2</span><br><span class="line">* 3</span><br></pre></td></tr></table></figure>
+<ul>
+<li>演示</li>
+</ul>
+<h4 id="有序列表">有序列表</h4>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1. </span><br><span class="line">2. </span><br><span class="line">3. </span><br></pre></td></tr></table></figure>
+<ol>
+<li>演示</li>
+<li>ha</li>
+<li>ha</li>
+</ol>
+<h3 id="特殊字效果">特殊字效果</h3>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;u&gt;下划线演示&lt;/u&gt;</span><br><span class="line"></span><br><span class="line">文字**加粗**演示</span><br><span class="line"></span><br><span class="line">文字*斜体*演示</span><br><span class="line"></span><br><span class="line">文本`高亮`演示</span><br><span class="line"></span><br><span class="line">文本~~删除~~线演示</span><br></pre></td></tr></table></figure>
+<p><u>下划线演示</u><br>
+文字<strong>加粗</strong>演示<br>
+文字<em>斜体</em>演示<br>
+文本<code>高亮</code>演示<br>
+文本<s>删除</s>线演示</p>
+<h3 id="note">note</h3>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&#123;% note &#x27;fab fa-cc-visa&#x27; modern %&#125;</span><br><span class="line">卡</span><br><span class="line">&#123;% endnote %&#125;</span><br><span class="line">&#123;% note red &#x27;fas fa-bullhorn&#x27; modern %&#125;</span><br><span class="line">通知</span><br><span class="line">&#123;% endnote %&#125;</span><br><span class="line">&#123;% note pink &#x27;fas fa-car-crash&#x27; modern %&#125;</span><br><span class="line">车</span><br><span class="line">&#123;% endnote %&#125;</span><br></pre></td></tr></table></figure>
+<div class="note icon-padding modern"><i class="note-icon fab fa-cc-visa"></i><p>卡</p>
+</div>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>通知</p>
+</div>
+<div class="note pink icon-padding modern"><i class="note-icon fas fa-car-crash"></i><p>车</p>
+</div>
+<h3 id="插入文章链接">插入文章链接</h3>
+<p>插入本文文章的链接</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[hexo-书写](/2025/02/08/hexo-书写/)</span><br></pre></td></tr></table></figure>
+<p><a href="/2025/02/08/hexo-%E4%B9%A6%E5%86%99/">演示</a>，还是回到本文</p>
+<h2 id="标签外挂">标签外挂</h2>
+<h3 id="Gallery-相册图库">Gallery 相册图库</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;div class=&quot;gallery-group-main&quot;&gt;</span><br><span class="line">&#123;% galleryGroup &#x27;壁纸&#x27; &#x27;收藏的一些壁纸&#x27; &#x27;壁纸/index.html&#x27; https://api.aqcoder.cn/today %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<div class="gallery-group-main">
+<figure class="gallery-group">
+  <img class="gallery-group-img no-lightbox" src='https://i.postimg.cc/3RcrjP4F/image.jpg' alt="Group Image Gallery">
+  <figcaption>
+  <div class="gallery-group-name">壁纸</div>
+  <p>收藏的一些壁纸</p>
+  <a href='/%E5%A3%81%E7%BA%B8/index.html'></a>
+  </figcaption>
+  </figure>
+  
+</div>
+<h3 id="Gallery-相册">Gallery 相册</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;% gallery %&#125;</span><br><span class="line">![](https://i.postimg.cc/nL8wr5jT/image.jpg)</span><br><span class="line">![](https://i.postimg.cc/3RcrjP4F/image.jpg)</span><br><span class="line">![](https://i.postimg.cc/Nfq41Tff/image.png)</span><br><span class="line">![](https://i.postimg.cc/y8ny4bhk/image.png)</span><br><span class="line">![](https://i.postimg.cc/Gp2Jcxzz/wallhaven-x6vx93.jpg)</span><br><span class="line">&#123;% endgallery %&#125;</span><br></pre></td></tr></table></figure>
+<div class="gallery-container" data-type="data" data-button="">
+      <div class="gallery-data">[{"url":"https://i.postimg.cc/nL8wr5jT/image.jpg","alt":""},{"url":"https://i.postimg.cc/3RcrjP4F/image.jpg","alt":""},{"url":"https://i.postimg.cc/Nfq41Tff/image.png","alt":""},{"url":"https://i.postimg.cc/y8ny4bhk/image.png","alt":""},{"url":"https://i.postimg.cc/Gp2Jcxzz/wallhaven-x6vx93.jpg","alt":""}]</div>
+      <div class="gallery-items">
+      </div>
+    </div>]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo-gitee部署</title>
     <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
     <content><![CDATA[<h2 id="导语">导语</h2>
@@ -1646,81 +1715,6 @@ vim custom.css</p>
       </tags>
   </entry>
   <entry>
-    <title>hexo-书写</title>
-    <url>/2025/02/08/hexo-%E4%B9%A6%E5%86%99/</url>
-    <content><![CDATA[<h2 id="常用书写">常用书写</h2>
-<h3 id="代码">代码</h3>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">\```bash</span><br><span class="line"></span><br><span class="line">\```</span><br></pre></td></tr></table></figure>
-<h3 id="引用">引用</h3>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">一级</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">二级</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>演示</p>
-</blockquote>
-<h3 id="列表">列表</h3>
-<h4 id="无序列表">无序列表</h4>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">* 1</span><br><span class="line">* 2</span><br><span class="line">* 3</span><br></pre></td></tr></table></figure>
-<ul>
-<li>演示</li>
-</ul>
-<h4 id="有序列表">有序列表</h4>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1. </span><br><span class="line">2. </span><br><span class="line">3. </span><br></pre></td></tr></table></figure>
-<ol>
-<li>演示</li>
-<li>ha</li>
-<li>ha</li>
-</ol>
-<h3 id="特殊字效果">特殊字效果</h3>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;u&gt;下划线演示&lt;/u&gt;</span><br><span class="line"></span><br><span class="line">文字**加粗**演示</span><br><span class="line"></span><br><span class="line">文字*斜体*演示</span><br><span class="line"></span><br><span class="line">文本`高亮`演示</span><br><span class="line"></span><br><span class="line">文本~~删除~~线演示</span><br></pre></td></tr></table></figure>
-<p><u>下划线演示</u><br>
-文字<strong>加粗</strong>演示<br>
-文字<em>斜体</em>演示<br>
-文本<code>高亮</code>演示<br>
-文本<s>删除</s>线演示</p>
-<h3 id="note">note</h3>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&#123;% note &#x27;fab fa-cc-visa&#x27; modern %&#125;</span><br><span class="line">卡</span><br><span class="line">&#123;% endnote %&#125;</span><br><span class="line">&#123;% note red &#x27;fas fa-bullhorn&#x27; modern %&#125;</span><br><span class="line">通知</span><br><span class="line">&#123;% endnote %&#125;</span><br><span class="line">&#123;% note pink &#x27;fas fa-car-crash&#x27; modern %&#125;</span><br><span class="line">车</span><br><span class="line">&#123;% endnote %&#125;</span><br></pre></td></tr></table></figure>
-<div class="note icon-padding modern"><i class="note-icon fab fa-cc-visa"></i><p>卡</p>
-</div>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>通知</p>
-</div>
-<div class="note pink icon-padding modern"><i class="note-icon fas fa-car-crash"></i><p>车</p>
-</div>
-<h3 id="插入文章链接">插入文章链接</h3>
-<p>插入本文文章的链接</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[hexo-书写](/2025/02/08/hexo-书写/)</span><br></pre></td></tr></table></figure>
-<p><a href="/2025/02/08/hexo-%E4%B9%A6%E5%86%99/">演示</a>，还是回到本文</p>
-<h2 id="标签外挂">标签外挂</h2>
-<h3 id="Gallery-相册图库">Gallery 相册图库</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;div class=&quot;gallery-group-main&quot;&gt;</span><br><span class="line">&#123;% galleryGroup &#x27;壁纸&#x27; &#x27;收藏的一些壁纸&#x27; &#x27;壁纸/index.html&#x27; https://api.aqcoder.cn/today %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>示例</p>
-</blockquote>
-<div class="gallery-group-main">
-<figure class="gallery-group">
-  <img class="gallery-group-img no-lightbox" src='https://i.postimg.cc/3RcrjP4F/image.jpg' alt="Group Image Gallery">
-  <figcaption>
-  <div class="gallery-group-name">壁纸</div>
-  <p>收藏的一些壁纸</p>
-  <a href='/%E5%A3%81%E7%BA%B8/index.html'></a>
-  </figcaption>
-  </figure>
-  
-</div>
-<h3 id="Gallery-相册">Gallery 相册</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;% gallery %&#125;</span><br><span class="line">![](https://i.postimg.cc/nL8wr5jT/image.jpg)</span><br><span class="line">![](https://i.postimg.cc/3RcrjP4F/image.jpg)</span><br><span class="line">![](https://i.postimg.cc/Nfq41Tff/image.png)</span><br><span class="line">![](https://i.postimg.cc/y8ny4bhk/image.png)</span><br><span class="line">![](https://i.postimg.cc/Gp2Jcxzz/wallhaven-x6vx93.jpg)</span><br><span class="line">&#123;% endgallery %&#125;</span><br></pre></td></tr></table></figure>
-<div class="gallery-container" data-type="data" data-button="">
-      <div class="gallery-data">[{"url":"https://i.postimg.cc/nL8wr5jT/image.jpg","alt":""},{"url":"https://i.postimg.cc/3RcrjP4F/image.jpg","alt":""},{"url":"https://i.postimg.cc/Nfq41Tff/image.png","alt":""},{"url":"https://i.postimg.cc/y8ny4bhk/image.png","alt":""},{"url":"https://i.postimg.cc/Gp2Jcxzz/wallhaven-x6vx93.jpg","alt":""}]</div>
-      <div class="gallery-items">
-      </div>
-    </div>]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo博客安装方法</title>
     <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h2 id="termux">termux</h2>
@@ -1752,31 +1746,6 @@ vim themes/butterfly/_config.yml</p>
       <tags>
         <tag>博客</tag>
         <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hoic高射炮工具</title>
-    <url>/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<h2 id="安装">安装</h2>
-<p>下载地址：</p>
-<blockquote>
-<p><a href="https://sourceforge.net/projects/high-orbit-ion-cannon/">https://sourceforge.net/projects/high-orbit-ion-cannon/</a><br>
-官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载</p>
-</blockquote>
-<h2 id="使用">使用</h2>
-<ol>
-<li>解压后运行exe</li>
-<li>选择<code>+号</code>添加url</li>
-<li>可选择脚本第一个为伪造来源，后面的可以试试</li>
-</ol>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-        <tag>网络安全</tag>
-        <tag>hoic</tag>
       </tags>
   </entry>
   <entry>
@@ -1854,50 +1823,28 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>字典生成工具</title>
-    <url>/2025/02/21/kali-cupp%E5%AD%97%E5%85%B8%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
-<p>kali有很多字典生成工具，这里主要说cupp这个工具，他是一款社交工程学字典生成工具，可以根据目标用户的个人信息生成定制的密码字典，</p>
-<h2 id="cupp">cupp</h2>
-<h3 id="使用方法">使用方法</h3>
-<p>输入命令根据提示输入提示词即可</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cupp -i</span><br></pre></td></tr></table></figure>
-<h3 id="翻译">翻译</h3>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&gt; First Name: </span><br><span class="line">名字：目标的名字</span><br><span class="line">&gt; Surname: </span><br><span class="line">姓：目标的姓氏</span><br><span class="line">&gt; Nickname: </span><br><span class="line">昵称：目标的常用昵称或别名</span><br><span class="line">&gt; Birthdate (DDMMYYYY): </span><br><span class="line">出生日期：目标的出生日期，格式为日月年（DDMMYYYY）</span><br><span class="line">&gt; Partners) name:</span><br><span class="line">伴侣的名字</span><br><span class="line">&gt; Partners) nickname:</span><br><span class="line">伴侣的昵称：</span><br><span class="line">&gt; Partners) birthdate (DDMMYYYY):</span><br><span class="line">伴侣的出生日期（DDMMYYYY）</span><br><span class="line">&gt; Child&#x27;s name:</span><br><span class="line">孩子的名字：</span><br><span class="line">&gt; Child&#x27;s nickname:</span><br><span class="line">孩子的昵称：</span><br><span class="line">&gt; Child&#x27;s birthdate (DDMMYYYY):</span><br><span class="line">孩子的出生日期（DDMMYYYY）：</span><br><span class="line">&gt; Pet&#x27;s name:</span><br><span class="line">宠物的名字：</span><br><span class="line">&gt; Company name:</span><br><span class="line">公司名字：</span><br><span class="line">&gt; Do you want to add some key words about the victim? Y/[N]: y</span><br><span class="line">是否要添加一些关于目标的关键词？Y/[N]：y</span><br><span class="line">&gt; Please enter the words, separated by comma. [i.e. hacker,juice,black], spaces will be removed:</span><br><span class="line">请输入单词，用逗号分隔。[例如：hacker,juice,black]，空格将被移除：</span><br><span class="line">&gt; Do you want to add special chars at the end of words? Y/[N]: y</span><br><span class="line">是否要在单词末尾添加特殊字符？Y/[N]：y</span><br><span class="line">&gt; Do you want to add some random numbers at the end of words? Y/[N]:y</span><br><span class="line">是否要在单词末尾添加一些随机数字？Y/[N]：y</span><br><span class="line">&gt; Leet mode? (i.e. leet = 1337) Y/[N]:</span><br><span class="line">是否启用“Leet 模式”？（例如：leet = 1337）Y/[N]：</span><br></pre></td></tr></table></figure>
+    <title>hoic高射炮工具</title>
+    <url>/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="安装">安装</h2>
+<p>下载地址：</p>
 <blockquote>
-<p>是否启用“Leet 模式”？（例如：leet = 1337）<br>
-如果选择 Y，CUPP 会将单词中的某些字母替换为数字或特殊字符，以生成“Leet Speak”（1337 语言）。<br>
-例如：<br>
-a 替换为 4<br>
-e 替换为 3<br>
-i 替换为 1<br>
-o 替换为 0<br>
-s 替换为 5<br>
-t 替换为 7<br>
-例如，单词 password 会被替换为 p@ssw0rd 或 p@ssw0rd7 等。</p>
+<p><a href="https://sourceforge.net/projects/high-orbit-ion-cannon/">https://sourceforge.net/projects/high-orbit-ion-cannon/</a><br>
+官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载</p>
 </blockquote>
-<h2 id="其他">其他</h2>
-<h3 id="SocialEngineeringDictionaryGenerator">SocialEngineeringDictionaryGenerator</h3>
-<p>下载<code>index.html</code>打开即可使用；</p>
-<blockquote>
-<p>来自CN-SEC中文网:<br>
-<a href="https://cn-sec.com/archives/2202717.html">https://cn-sec.com/archives/2202717.html</a></p>
-</blockquote>
-<blockquote>
-<p>项目地址：<br>
-<a href="https://github.com/zgjx6/SocialEngineeringDictionaryGenerator">https://github.com/zgjx6/SocialEngineeringDictionaryGenerator</a></p>
-</blockquote>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>注：工具仅供安全研究与学习之用，若将工具做其他用途，由使用者承担全部法律及连带责任，作者及发布者不承担任何法律及连带责任。</p>
-</div>]]></content>
+<h2 id="使用">使用</h2>
+<ol>
+<li>解压后运行exe</li>
+<li>选择<code>+号</code>添加url</li>
+<li>可选择脚本第一个为伪造来源，后面的可以试试</li>
+</ol>
+]]></content>
       <categories>
         <category>网络安全</category>
-        <category>kali</category>
-        <category>命令</category>
       </categories>
       <tags>
-        <tag>kali</tag>
-        <tag>cupp</tag>
-        <tag>字典</tag>
+        <tag>工具</tag>
+        <tag>网络安全</tag>
+        <tag>hoic</tag>
       </tags>
   </entry>
   <entry>
@@ -1950,6 +1897,53 @@ t 替换为 7<br>
       </tags>
   </entry>
   <entry>
+    <title>字典生成工具</title>
+    <url>/2025/02/21/kali-cupp%E5%AD%97%E5%85%B8%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>kali有很多字典生成工具，这里主要说cupp这个工具，他是一款社交工程学字典生成工具，可以根据目标用户的个人信息生成定制的密码字典，</p>
+<h2 id="cupp">cupp</h2>
+<h3 id="使用方法">使用方法</h3>
+<p>输入命令根据提示输入提示词即可</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cupp -i</span><br></pre></td></tr></table></figure>
+<h3 id="翻译">翻译</h3>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&gt; First Name: </span><br><span class="line">名字：目标的名字</span><br><span class="line">&gt; Surname: </span><br><span class="line">姓：目标的姓氏</span><br><span class="line">&gt; Nickname: </span><br><span class="line">昵称：目标的常用昵称或别名</span><br><span class="line">&gt; Birthdate (DDMMYYYY): </span><br><span class="line">出生日期：目标的出生日期，格式为日月年（DDMMYYYY）</span><br><span class="line">&gt; Partners) name:</span><br><span class="line">伴侣的名字</span><br><span class="line">&gt; Partners) nickname:</span><br><span class="line">伴侣的昵称：</span><br><span class="line">&gt; Partners) birthdate (DDMMYYYY):</span><br><span class="line">伴侣的出生日期（DDMMYYYY）</span><br><span class="line">&gt; Child&#x27;s name:</span><br><span class="line">孩子的名字：</span><br><span class="line">&gt; Child&#x27;s nickname:</span><br><span class="line">孩子的昵称：</span><br><span class="line">&gt; Child&#x27;s birthdate (DDMMYYYY):</span><br><span class="line">孩子的出生日期（DDMMYYYY）：</span><br><span class="line">&gt; Pet&#x27;s name:</span><br><span class="line">宠物的名字：</span><br><span class="line">&gt; Company name:</span><br><span class="line">公司名字：</span><br><span class="line">&gt; Do you want to add some key words about the victim? Y/[N]: y</span><br><span class="line">是否要添加一些关于目标的关键词？Y/[N]：y</span><br><span class="line">&gt; Please enter the words, separated by comma. [i.e. hacker,juice,black], spaces will be removed:</span><br><span class="line">请输入单词，用逗号分隔。[例如：hacker,juice,black]，空格将被移除：</span><br><span class="line">&gt; Do you want to add special chars at the end of words? Y/[N]: y</span><br><span class="line">是否要在单词末尾添加特殊字符？Y/[N]：y</span><br><span class="line">&gt; Do you want to add some random numbers at the end of words? Y/[N]:y</span><br><span class="line">是否要在单词末尾添加一些随机数字？Y/[N]：y</span><br><span class="line">&gt; Leet mode? (i.e. leet = 1337) Y/[N]:</span><br><span class="line">是否启用“Leet 模式”？（例如：leet = 1337）Y/[N]：</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>是否启用“Leet 模式”？（例如：leet = 1337）<br>
+如果选择 Y，CUPP 会将单词中的某些字母替换为数字或特殊字符，以生成“Leet Speak”（1337 语言）。<br>
+例如：<br>
+a 替换为 4<br>
+e 替换为 3<br>
+i 替换为 1<br>
+o 替换为 0<br>
+s 替换为 5<br>
+t 替换为 7<br>
+例如，单词 password 会被替换为 p@ssw0rd 或 p@ssw0rd7 等。</p>
+</blockquote>
+<h2 id="其他">其他</h2>
+<h3 id="SocialEngineeringDictionaryGenerator">SocialEngineeringDictionaryGenerator</h3>
+<p>下载<code>index.html</code>打开即可使用；</p>
+<blockquote>
+<p>来自CN-SEC中文网:<br>
+<a href="https://cn-sec.com/archives/2202717.html">https://cn-sec.com/archives/2202717.html</a></p>
+</blockquote>
+<blockquote>
+<p>项目地址：<br>
+<a href="https://github.com/zgjx6/SocialEngineeringDictionaryGenerator">https://github.com/zgjx6/SocialEngineeringDictionaryGenerator</a></p>
+</blockquote>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>注：工具仅供安全研究与学习之用，若将工具做其他用途，由使用者承担全部法律及连带责任，作者及发布者不承担任何法律及连带责任。</p>
+</div>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+        <tag>cupp</tag>
+        <tag>字典</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>kali移动端（root安装，不改内核）</title>
     <url>/2024/10/15/kali/</url>
     <content><![CDATA[<h2 id="简介">简介</h2>
@@ -1980,26 +1974,6 @@ t 替换为 7<br>
       <tags>
         <tag>kali</tag>
         <tag>手机root</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux下载离线安装包</title>
-    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
-    <content><![CDATA[<h2 id="centos">centos</h2>
-<p>以wget为例，需要先下载yum-utils，再下载安装包</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
-<p>选择保存位置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
-<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>
-yum install --downloadonly --downloaddir=/root wget</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
@@ -2472,6 +2446,26 @@ yum install --downloadonly --downloaddir=/root wget</p>
       </tags>
   </entry>
   <entry>
+    <title>linux下载离线安装包</title>
+    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
+    <content><![CDATA[<h2 id="centos">centos</h2>
+<p>以wget为例，需要先下载yum-utils，再下载安装包</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
+<p>选择保存位置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
+<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>
+yum install --downloadonly --downloaddir=/root wget</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux硬盘分区挂载和扩容</title>
     <url>/2025/01/15/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98/</url>
     <content><![CDATA[<h2 id="分区和挂载">分区和挂载</h2>
@@ -2523,57 +2517,6 @@ yum install --downloadonly --downloaddir=/root wget</p>
       <tags>
         <tag>硬盘分区</tag>
         <tag>分区扩容</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux服务管理入门</title>
-    <url>/2025/06/24/linux%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<h2 id="基本操作">基本操作</h2>
-<h3 id="查看服务">查看服务</h3>
-<ul>
-<li>列出所有服务</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-units --type=service</span><br></pre></td></tr></table></figure>
-<ul>
-<li>列出所有已启用的服务</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-unit-files --state=enabled</span><br></pre></td></tr></table></figure>
-<h3 id="查看日志">查看日志</h3>
-<ol>
-<li>journalctl -u <service> — 查看指定服务日志</li>
-<li>journalctl -xe — 检查最新日志，排查错误</li>
-</ol>
-<hr>
-<h2 id="额外技能">额外技能</h2>
-<h3 id="检查依赖">检查依赖</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl list-dependencies &lt;service&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="修改配置">修改配置</h3>
-<ol>
-<li>配置文件位置通常是：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/etc/systemd/system/</span><br><span class="line">/lib/systemd/system/</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>修改后：</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>重启服务使修改生效</li>
-</ol>
-<hr>
-<h2 id="其他管理器概览">其他管理器概览</h2>
-<p>虽说 systemd 完全是主流，但是还有其他管理器的使用：</p>
-<h3 id="SysV-管理器：">SysV 管理器：</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service &lt;service&gt; start|stop|restart|status</span><br><span class="line">chkconfig &lt;service&gt; on|off</span><br></pre></td></tr></table></figure>
-<h3 id="Upstart-管理器：">Upstart 管理器：</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">initctl list</span><br><span class="line">initctl start|stop|restart &lt;service&gt;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>基础学习篇</category>
-      </categories>
-      <tags>
-        <tag>系统运维</tag>
-        <tag>linux</tag>
-        <tag>linux服务</tag>
       </tags>
   </entry>
   <entry>
@@ -2767,6 +2710,28 @@ yum install --downloadonly --downloaddir=/root wget</p>
       </tags>
   </entry>
   <entry>
+    <title>oppoA9 mtk手机root</title>
+    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
+    <content><![CDATA[<h2 id="mtk手机root">mtk手机root</h2>
+<p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
+<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
+<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
+</code></pre>
+<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量±键，插入数据线，等待软件连接<br>
+2、连接后通过读分区导出boot文件，不带后缀<br>
+3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"></p>
+<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
+<p><img src="/images/pasted-3.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>手机搞机</category>
+      </categories>
+      <tags>
+        <tag>手机root</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>msfconsole命令</title>
     <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="攻击模块">攻击模块</h2>
@@ -2833,131 +2798,54 @@ run
       </tags>
   </entry>
   <entry>
-    <title>nginx和apache-简单配置</title>
-    <url>/2025/06/23/nginx%E5%92%8Capache/</url>
-    <content><![CDATA[<h2 id="Apache-配置">Apache 配置</h2>
-<blockquote>
-<p>一般配置文件位置：</p>
+    <title>linux服务管理入门</title>
+    <url>/2025/06/24/linux%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h2 id="基本操作">基本操作</h2>
+<h3 id="查看服务">查看服务</h3>
 <ul>
-<li>Debian/Ubuntu: <code>/etc/apache2/sites-available/000-default.conf</code></li>
-<li>CentOS/RHEL: <code>/etc/httpd/conf.d/</code></li>
+<li>列出所有服务</li>
 </ul>
-<p>启动/重启命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-units --type=service</span><br></pre></td></tr></table></figure>
 <ul>
-<li>Debian/Ubuntu: <code>sudo systemctl restart apache2</code></li>
-<li>CentOS/RHEL: <code>sudo systemctl restart httpd</code></li>
+<li>列出所有已启用的服务</li>
 </ul>
-</blockquote>
-<h3 id="示例配置">示例配置</h3>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"></span><br><span class="line">    <span class="section">&lt;Directory /var/www/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> Indexes FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> None</span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> /var/log/httpd/html_error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> /var/log/httpd/html_access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ul>
-<li><code>ServerName</code>：指定主机名。</li>
-<li><code>DocumentRoot</code>：指定网站根目录。</li>
-<li><code>&lt;Directory&gt;</code>：设置对该目录的访问规则。</li>
-</ul>
-<h3 id="其他">其他</h3>
-<h4 id="禁用默认欢迎页面">禁用默认欢迎页面</h4>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment"># CentOS手动禁用默认配置文件或者删除欢迎页面配置</span></span><br><span class="line"><span class="attribute">sudo</span> mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.conf.disabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ubuntu禁用默认站点</span></span><br><span class="line"><span class="attribute">sudo</span> a2dissite <span class="number">000</span>-default.conf</span><br></pre></td></tr></table></figure>
-<h4 id="防止泄漏Apache版本信息">防止泄漏Apache版本信息</h4>
-<p>新增一个安全配置文件security.conf</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">ServerTokens</span> Prod</span><br><span class="line"><span class="attribute">ServerSignature</span> <span class="literal">Off</span></span><br></pre></td></tr></table></figure>
-<h3 id="检查配置情况">检查配置情况</h3>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">apachectl</span> configtest</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-unit-files --state=enabled</span><br></pre></td></tr></table></figure>
+<h3 id="查看日志">查看日志</h3>
+<ol>
+<li>journalctl -u <service> — 查看指定服务日志</li>
+<li>journalctl -xe — 检查最新日志，排查错误</li>
+</ol>
 <hr>
-<h2 id="Nginx-配置">Nginx 配置</h2>
-<blockquote>
-<p>配置文件位置：</p>
-<ul>
-<li>Debian/Ubuntu: <code>/etc/nginx/sites-available/default</code></li>
-<li>CentOS/RHEL: <code>/etc/nginx/nginx.conf</code></li>
-</ul>
-<p>启动/重启命令：</p>
-<ul>
-<li>Debian/Ubuntu/CentOS/RHEL 通用：<code>sudo systemctl restart nginx</code></li>
-</ul>
-</blockquote>
-<h3 id="示例配置-2">示例配置</h3>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html index.php;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_log</span> /var/log/nginx/<span class="literal">error</span>.log;</span><br><span class="line">    <span class="attribute">access_log</span> /var/log/nginx/access.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ul>
-<li><code>listen 80</code>：监听80端口。</li>
-<li><code>server_name</code>：指定主机名。</li>
-<li><code>root</code>：指定网站根目录。</li>
-<li><code>try_files</code>：检查请求是否为实际存在的文件，否则显示404。</li>
-</ul>
-<h3 id="仅允许域名访问">仅允许域名访问</h3>
-<h4 id="nginx">nginx</h4>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先处理非法 Host</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只允许指定的域名</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
+<h2 id="额外技能">额外技能</h2>
+<h3 id="检查依赖">检查依赖</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl list-dependencies &lt;service&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="修改配置">修改配置</h3>
 <ol>
-<li>第一个 server_name _ 区块匹配所有没有匹配到指定 server_name 的请求，直接 404</li>
-<li>第二个只允许 <a href="http://www.example.com">www.example.com</a></li>
+<li>配置文件位置通常是：</li>
 </ol>
-<h4 id="apache">apache</h4>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 拒绝其他请求</span></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> _</span><br><span class="line">    <span class="section">&lt;Location /&gt;</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> denied</span><br><span class="line">    <span class="section">&lt;/Location&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ol>
-<li>第一个配置只允许指定的 <a href="http://www.example.com">www.example.com</a></li>
-<li>第二个默认匹配其他 Host 请求，并 Require all denied</li>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/etc/systemd/system/</span><br><span class="line">/lib/systemd/system/</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>修改后：</li>
 </ol>
-<h2 id="仅允许域名访问-2">仅允许域名访问</h2>
-<h3 id="nginx-2">nginx</h3>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认 Server：处理非法请求</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对没有匹配到的 Host 返回 404</span></span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正确的域名配置</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ol>
-<li>非法处理请求
-<ul>
-<li>不通过域名访问的处置方式</li>
-</ul>
-</li>
-<li>正确的域名配置
-<ul>
-<li>设置可访问的域名</li>
-</ul>
-</li>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>重启服务使修改生效</li>
 </ol>
-<h3 id="apache-2">apache</h3>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认虚拟主机配置</span></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> _default_</span><br><span class="line">    </span><br><span class="line">	  <span class="comment"># 返回403禁止访问</span></span><br><span class="line">    <span class="section">&lt;Location /&gt;</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> denied</span><br><span class="line">    <span class="section">&lt;/Location&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.local.com</span><br><span class="line">    <span class="attribute">ServerAlias</span> www.local.com</span><br><span class="line"></span><br><span class="line">    <span class="attribute">DocumentRoot</span> /usr/share/nginx/html</span><br><span class="line">    <span class="section">&lt;Directory /usr/share/nginx/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> -Indexes +FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> <span class="literal">All</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> /var/log/httpd/html_error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> /var/log/httpd/html_access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>除了拒绝访问，还可以重定向到你的网页</p>
-</blockquote>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;Location /&gt;</span></span><br><span class="line">    <span class="attribute">Redirect</span> permanent / http://www.example.com/</span><br><span class="line"><span class="section">&lt;/Location&gt;</span></span><br></pre></td></tr></table></figure>
-<p>说明：（和nginx相似）</p>
-<ol>
-<li>默认虚拟主机放在第一个加载的配置文件中，匹配未指定域名的请求，比如直接访问IP</li>
-<li>正确的域名配置</li>
-</ol>
-]]></content>
+<hr>
+<h2 id="其他管理器概览">其他管理器概览</h2>
+<p>虽说 systemd 完全是主流，但是还有其他管理器的使用：</p>
+<h3 id="SysV-管理器：">SysV 管理器：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service &lt;service&gt; start|stop|restart|status</span><br><span class="line">chkconfig &lt;service&gt; on|off</span><br></pre></td></tr></table></figure>
+<h3 id="Upstart-管理器：">Upstart 管理器：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">initctl list</span><br><span class="line">initctl start|stop|restart &lt;service&gt;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
         <category>基础学习篇</category>
       </categories>
       <tags>
-        <tag>apache</tag>
-        <tag>nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>oppoA9 mtk手机root</title>
-    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
-    <content><![CDATA[<h2 id="mtk手机root">mtk手机root</h2>
-<p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
-<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
-<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
-</code></pre>
-<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量±键，插入数据线，等待软件连接<br>
-2、连接后通过读分区导出boot文件，不带后缀<br>
-3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
-<p><img src="/images/pasted-2.png" alt="upload successful"></p>
-<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
-<p><img src="/images/pasted-3.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>手机搞机</category>
-      </categories>
-      <tags>
-        <tag>手机root</tag>
+        <tag>系统运维</tag>
+        <tag>linux</tag>
+        <tag>linux服务</tag>
       </tags>
   </entry>
   <entry>
@@ -3083,6 +2971,112 @@ run
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>渗透命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx和apache-简单配置</title>
+    <url>/2025/06/23/nginx%E5%92%8Capache/</url>
+    <content><![CDATA[<h2 id="Apache-配置">Apache 配置</h2>
+<blockquote>
+<p>一般配置文件位置：</p>
+<ul>
+<li>Debian/Ubuntu: <code>/etc/apache2/sites-available/000-default.conf</code></li>
+<li>CentOS/RHEL: <code>/etc/httpd/conf.d/</code></li>
+</ul>
+<p>启动/重启命令：</p>
+<ul>
+<li>Debian/Ubuntu: <code>sudo systemctl restart apache2</code></li>
+<li>CentOS/RHEL: <code>sudo systemctl restart httpd</code></li>
+</ul>
+</blockquote>
+<h3 id="示例配置">示例配置</h3>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"></span><br><span class="line">    <span class="section">&lt;Directory /var/www/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> Indexes FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> None</span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> /var/log/httpd/html_error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> /var/log/httpd/html_access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li><code>ServerName</code>：指定主机名。</li>
+<li><code>DocumentRoot</code>：指定网站根目录。</li>
+<li><code>&lt;Directory&gt;</code>：设置对该目录的访问规则。</li>
+</ul>
+<h3 id="其他">其他</h3>
+<h4 id="禁用默认欢迎页面">禁用默认欢迎页面</h4>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment"># CentOS手动禁用默认配置文件或者删除欢迎页面配置</span></span><br><span class="line"><span class="attribute">sudo</span> mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.conf.disabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ubuntu禁用默认站点</span></span><br><span class="line"><span class="attribute">sudo</span> a2dissite <span class="number">000</span>-default.conf</span><br></pre></td></tr></table></figure>
+<h4 id="防止泄漏Apache版本信息">防止泄漏Apache版本信息</h4>
+<p>新增一个安全配置文件security.conf</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">ServerTokens</span> Prod</span><br><span class="line"><span class="attribute">ServerSignature</span> <span class="literal">Off</span></span><br></pre></td></tr></table></figure>
+<h3 id="检查配置情况">检查配置情况</h3>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">apachectl</span> configtest</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Nginx-配置">Nginx 配置</h2>
+<blockquote>
+<p>配置文件位置：</p>
+<ul>
+<li>Debian/Ubuntu: <code>/etc/nginx/sites-available/default</code></li>
+<li>CentOS/RHEL: <code>/etc/nginx/nginx.conf</code></li>
+</ul>
+<p>启动/重启命令：</p>
+<ul>
+<li>Debian/Ubuntu/CentOS/RHEL 通用：<code>sudo systemctl restart nginx</code></li>
+</ul>
+</blockquote>
+<h3 id="示例配置-2">示例配置</h3>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html index.php;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_log</span> /var/log/nginx/<span class="literal">error</span>.log;</span><br><span class="line">    <span class="attribute">access_log</span> /var/log/nginx/access.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li><code>listen 80</code>：监听80端口。</li>
+<li><code>server_name</code>：指定主机名。</li>
+<li><code>root</code>：指定网站根目录。</li>
+<li><code>try_files</code>：检查请求是否为实际存在的文件，否则显示404。</li>
+</ul>
+<h3 id="仅允许域名访问">仅允许域名访问</h3>
+<h4 id="nginx">nginx</h4>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先处理非法 Host</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只允许指定的域名</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ol>
+<li>第一个 server_name _ 区块匹配所有没有匹配到指定 server_name 的请求，直接 404</li>
+<li>第二个只允许 <a href="http://www.example.com">www.example.com</a></li>
+</ol>
+<h4 id="apache">apache</h4>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 拒绝其他请求</span></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> _</span><br><span class="line">    <span class="section">&lt;Location /&gt;</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> denied</span><br><span class="line">    <span class="section">&lt;/Location&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ol>
+<li>第一个配置只允许指定的 <a href="http://www.example.com">www.example.com</a></li>
+<li>第二个默认匹配其他 Host 请求，并 Require all denied</li>
+</ol>
+<h2 id="仅允许域名访问-2">仅允许域名访问</h2>
+<h3 id="nginx-2">nginx</h3>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认 Server：处理非法请求</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对没有匹配到的 Host 返回 404</span></span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正确的域名配置</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ol>
+<li>非法处理请求
+<ul>
+<li>不通过域名访问的处置方式</li>
+</ul>
+</li>
+<li>正确的域名配置
+<ul>
+<li>设置可访问的域名</li>
+</ul>
+</li>
+</ol>
+<h3 id="apache-2">apache</h3>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认虚拟主机配置</span></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> _default_</span><br><span class="line">    </span><br><span class="line">	  <span class="comment"># 返回403禁止访问</span></span><br><span class="line">    <span class="section">&lt;Location /&gt;</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> denied</span><br><span class="line">    <span class="section">&lt;/Location&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.local.com</span><br><span class="line">    <span class="attribute">ServerAlias</span> www.local.com</span><br><span class="line"></span><br><span class="line">    <span class="attribute">DocumentRoot</span> /usr/share/nginx/html</span><br><span class="line">    <span class="section">&lt;Directory /usr/share/nginx/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> -Indexes +FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> <span class="literal">All</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> /var/log/httpd/html_error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> /var/log/httpd/html_access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>除了拒绝访问，还可以重定向到你的网页</p>
+</blockquote>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;Location /&gt;</span></span><br><span class="line">    <span class="attribute">Redirect</span> permanent / http://www.example.com/</span><br><span class="line"><span class="section">&lt;/Location&gt;</span></span><br></pre></td></tr></table></figure>
+<p>说明：（和nginx相似）</p>
+<ol>
+<li>默认虚拟主机放在第一个加载的配置文件中，匹配未指定域名的请求，比如直接访问IP</li>
+<li>正确的域名配置</li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>基础学习篇</category>
+      </categories>
+      <tags>
+        <tag>apache</tag>
+        <tag>nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -3326,35 +3320,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>portainer docker的web管理页面</title>
-    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="portainer">portainer</h2>
-<p>一个web可视化的docker管理页面</p>
-<h2 id="拉取镜像">拉取镜像</h2>
-<p>先搜索镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
-<p>一般我下载最多下载的那几个</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
-<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
-<p>接下来就可以登录管理了</p>
-<h2 id="初始化配置">初始化配置</h2>
-<p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
-<p>也可通过上传配置文件创建</p>
-<p>选其中一个即可</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sqlmap</title>
     <url>/2025/03/05/sqlmap/</url>
     <content><![CDATA[<h2 id="应用场景">应用场景</h2>
@@ -3541,6 +3506,58 @@ run
 ]]></content>
   </entry>
   <entry>
+    <title>portainer docker的web管理页面</title>
+    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="portainer">portainer</h2>
+<p>一个web可视化的docker管理页面</p>
+<h2 id="拉取镜像">拉取镜像</h2>
+<p>先搜索镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
+<p>一般我下载最多下载的那几个</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
+<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
+<p>接下来就可以登录管理了</p>
+<h2 id="初始化配置">初始化配置</h2>
+<p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
+<p>也可通过上传配置文件创建</p>
+<p>选其中一个即可</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>switch-大气层与模拟器局域网联机</title>
+    <url>/2025/05/01/switch-%E5%A4%A7%E6%B0%94%E5%B1%82%E4%B8%8E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%B1%80%E5%9F%9F%E7%BD%91%E8%81%94%E6%9C%BA/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>大气层与大气层，模拟器与模拟器都有了联机方法，但是大气层与模拟器不能直接联机</p>
+<h2 id="安装ldn-mitm">安装ldn_mitm</h2>
+<p>是一个用于 Nintendo Switch 的中间人（MITM）系统模块，它通过替换系统中的 ldn 服务来实现局域网（LAN）连接。原本是可以实现互联网连接的插件，龙神模拟器中网络设置支持ldn_mitm，所以无需中间服务器就能让大气层和模拟器连接。</p>
+<blockquote>
+<p>项目地址：<br>
+<a href="https://github.com/spacemeowx2/ldn_mitm">https://github.com/spacemeowx2/ldn_mitm</a></p>
+</blockquote>
+<blockquote>
+<p>下载安装后，就能局域网搜索到了</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>switch</category>
+      </categories>
+      <tags>
+        <tag>switch</tag>
+        <tag>大气层</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sql注入-pikachu</title>
     <url>/2025/02/27/sql%E6%B3%A8%E5%85%A5/</url>
     <content><![CDATA[<h2 id="数字型注入">数字型注入</h2>
@@ -3601,26 +3618,21 @@ run
       </tags>
   </entry>
   <entry>
-    <title>switch-大气层与模拟器局域网联机</title>
-    <url>/2025/05/01/switch-%E5%A4%A7%E6%B0%94%E5%B1%82%E4%B8%8E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%B1%80%E5%9F%9F%E7%BD%91%E8%81%94%E6%9C%BA/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
-<p>大气层与大气层，模拟器与模拟器都有了联机方法，但是大气层与模拟器不能直接联机</p>
-<h2 id="安装ldn-mitm">安装ldn_mitm</h2>
-<p>是一个用于 Nintendo Switch 的中间人（MITM）系统模块，它通过替换系统中的 ldn 服务来实现局域网（LAN）连接。原本是可以实现互联网连接的插件，龙神模拟器中网络设置支持ldn_mitm，所以无需中间服务器就能让大气层和模拟器连接。</p>
-<blockquote>
-<p>项目地址：<br>
-<a href="https://github.com/spacemeowx2/ldn_mitm">https://github.com/spacemeowx2/ldn_mitm</a></p>
-</blockquote>
-<blockquote>
-<p>下载安装后，就能局域网搜索到了</p>
-</blockquote>
+    <title>switch大气层升级18.1.0</title>
+    <url>/2024/08/22/switch%E5%A4%A7%E6%B0%94%E5%B1%82%E5%8D%87%E7%BA%A7/</url>
+    <content><![CDATA[<h2 id="下载离线固件和大气层最新包">下载离线固件和大气层最新包</h2>
+<p>下载地址:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://github.com/rumla34/Atmosphere-stable/releases/tag/1.7.1</span><br></pre></td></tr></table></figure>
+<p>下载大气层和固件之后，通过switch选择系统页面的usb工具替换这两个文件</p>
+<h2 id="升级步骤">升级步骤</h2>
+<p>仅保留emuMMC和Nintendo两个文件，其余文件删除，然后将下载的文件都解压放到sd卡根目录</p>
+<p>然后选择虚拟系统启动，打开大气层软件，一个白色太阳的图标，然后选择我们保存的大气层固件文件夹，更新即可</p>
 ]]></content>
       <categories>
         <category>switch</category>
       </categories>
       <tags>
-        <tag>switch</tag>
-        <tag>大气层</tag>
+        <tag>switch大气层</tag>
       </tags>
   </entry>
   <entry>
@@ -4000,77 +4012,6 @@ WhatWeb：<a href="https://whatweb.net/">https://whatweb.net/</a></p>
       </tags>
   </entry>
   <entry>
-    <title>switch大气层升级18.1.0</title>
-    <url>/2024/08/22/switch%E5%A4%A7%E6%B0%94%E5%B1%82%E5%8D%87%E7%BA%A7/</url>
-    <content><![CDATA[<h2 id="下载离线固件和大气层最新包">下载离线固件和大气层最新包</h2>
-<p>下载地址:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://github.com/rumla34/Atmosphere-stable/releases/tag/1.7.1</span><br></pre></td></tr></table></figure>
-<p>下载大气层和固件之后，通过switch选择系统页面的usb工具替换这两个文件</p>
-<h2 id="升级步骤">升级步骤</h2>
-<p>仅保留emuMMC和Nintendo两个文件，其余文件删除，然后将下载的文件都解压放到sd卡根目录</p>
-<p>然后选择虚拟系统启动，打开大气层软件，一个白色太阳的图标，然后选择我们保存的大气层固件文件夹，更新即可</p>
-]]></content>
-      <categories>
-        <category>switch</category>
-      </categories>
-      <tags>
-        <tag>switch大气层</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>windows域部署及管理</title>
-    <url>/2025/04/26/windows%E5%9F%9F%E9%83%A8%E7%BD%B2%E5%8F%8A%E7%AE%A1%E7%90%86/</url>
-    <content><![CDATA[<h2 id="windows域">windows域</h2>
-<ul>
-<li>单域：在网络中只建立了一个域</li>
-<li>域树：具有连续域名空间的多个域</li>
-<li>域林：由一个或者多个没有形成连续域名空的域树组成</li>
-</ul>
-<h2 id="创建域">创建域</h2>
-<h3 id="ip和dns设置">ip和dns设置</h3>
-<p>作为域控制器，也作为dns服务器，ip最好是固定不变的，可以设置静态，或者dhcp设置mac保留</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ip：192.168.11.200</span><br><span class="line">dns：127.0.0.1</span><br></pre></td></tr></table></figure>
-<h3 id="添加角色功能">添加角色功能</h3>
-<ol>
-<li>开始</li>
-<li>基于角色或基于功能的安装</li>
-<li>从服务器池中选择服务器<br>
-服务器选择自己</li>
-<li>服务器角色<br>
-选中Active Directory 域服务<br>
-点击添加功能</li>
-<li>下一步直到安装完成</li>
-<li>右上角黄色感叹号提示<br>
-点击“将此服务器提升为域控制器”<br>
-添加新林，设置根域名为“<a href="http://haha.com">haha.com</a>”<br>
-dns和全局编录GC勾选，设置密码<br>
-确认域名“HAHA”</li>
-<li>下一步直到安装重启</li>
-<li>安装成功，在服务器管理器中查看AD DS</li>
-</ol>
-<h3 id="域账号登录服务器">域账号登录服务器</h3>
-<p>账号开始使用原来的账号加上@haha.com，或者是HAHA/账号登录</p>
-<h2 id="加入域">加入域</h2>
-<h3 id="dns设置">dns设置</h3>
-<p>设置dns为DC域控制器的ip</p>
-<h3 id="设置域">设置域</h3>
-<ol>
-<li>点开此电脑的属性</li>
-<li>选择隶属于域：HAHA</li>
-<li>登录管理员账号</li>
-<li>重启后使用域账号登录</li>
-</ol>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>windows域</category>
-      </categories>
-      <tags>
-        <tag>windows域</tag>
-        <tag>AD DC</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>windows-好用软件</title>
     <url>/2025/02/24/windows-%E5%A5%BD%E7%94%A8%E8%BD%AF%E4%BB%B6/</url>
     <content><![CDATA[<h2 id="U盘工具">U盘工具</h2>
@@ -4163,6 +4104,59 @@ steam搜索 <strong>Wallpaper Engine</strong></p>
       <tags>
         <tag>工具</tag>
         <tag>资源</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows域部署及管理</title>
+    <url>/2025/04/26/windows%E5%9F%9F%E9%83%A8%E7%BD%B2%E5%8F%8A%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h2 id="windows域">windows域</h2>
+<ul>
+<li>单域：在网络中只建立了一个域</li>
+<li>域树：具有连续域名空间的多个域</li>
+<li>域林：由一个或者多个没有形成连续域名空的域树组成</li>
+</ul>
+<h2 id="创建域">创建域</h2>
+<h3 id="ip和dns设置">ip和dns设置</h3>
+<p>作为域控制器，也作为dns服务器，ip最好是固定不变的，可以设置静态，或者dhcp设置mac保留</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ip：192.168.11.200</span><br><span class="line">dns：127.0.0.1</span><br></pre></td></tr></table></figure>
+<h3 id="添加角色功能">添加角色功能</h3>
+<ol>
+<li>开始</li>
+<li>基于角色或基于功能的安装</li>
+<li>从服务器池中选择服务器<br>
+服务器选择自己</li>
+<li>服务器角色<br>
+选中Active Directory 域服务<br>
+点击添加功能</li>
+<li>下一步直到安装完成</li>
+<li>右上角黄色感叹号提示<br>
+点击“将此服务器提升为域控制器”<br>
+添加新林，设置根域名为“<a href="http://haha.com">haha.com</a>”<br>
+dns和全局编录GC勾选，设置密码<br>
+确认域名“HAHA”</li>
+<li>下一步直到安装重启</li>
+<li>安装成功，在服务器管理器中查看AD DS</li>
+</ol>
+<h3 id="域账号登录服务器">域账号登录服务器</h3>
+<p>账号开始使用原来的账号加上@haha.com，或者是HAHA/账号登录</p>
+<h2 id="加入域">加入域</h2>
+<h3 id="dns设置">dns设置</h3>
+<p>设置dns为DC域控制器的ip</p>
+<h3 id="设置域">设置域</h3>
+<ol>
+<li>点开此电脑的属性</li>
+<li>选择隶属于域：HAHA</li>
+<li>登录管理员账号</li>
+<li>重启后使用域账号登录</li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>windows域</category>
+      </categories>
+      <tags>
+        <tag>windows域</tag>
+        <tag>AD DC</tag>
       </tags>
   </entry>
   <entry>
@@ -4423,6 +4417,52 @@ steam搜索 <strong>Wallpaper Engine</strong></p>
       </tags>
   </entry>
   <entry>
+    <title>安全-内网渗透</title>
+    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
+    <content><![CDATA[<h2 id="信息收集">信息收集</h2>
+<p>主机存活<br>
+ettercap -G 蜘蛛<br>
+nmap<br>
+nmap -sS 网段</p>
+<p>漏洞搜集<br>
+awvs			网站扫描<br>
+gvm(openvas)	系统扫描<br>
+nmap<br>
+nmap --script=vuln //常见漏洞<br>
+nmap --script-default //默认收集信息脚本</p>
+<h2 id="进入目标后">进入目标后</h2>
+<p>提权<br>
+创建高权限用户<br>
+windows<br>
+net use<br>
+linux<br>
+user add</p>
+<p>留后门<br>
+创建木马<br>
+木马(msfconsole)<br>
+上传木马<br>
+meterpreter<br>
+upload</p>
+<h2 id="攻击方式">攻击方式</h2>
+<p>改变流量走向<br>
+ettercap(arp欺骗、dns劫持等)<br>
+arpspoof<br>
+arpspoof -i 网卡名称 -t 目标IP 网关</p>
+<p>爆破密码<br>
+hydra（九头蛇）<br>
+msfconsole（爆破密码模块）</p>
+<p>漏洞攻击<br>
+msfconsole（漏洞攻击目录）</p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>数据通信基础-公式</title>
     <url>/2025/06/25/%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80-%E5%85%AC%E5%BC%8F/</url>
     <content><![CDATA[<h2 id="信道带宽（W）">信道带宽（W）</h2>
@@ -4486,111 +4526,6 @@ S/N=10时，信噪比为10dB</li>
       <tags>
         <tag>网络工程师</tag>
         <tag>软考</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>安全-内网渗透</title>
-    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
-    <content><![CDATA[<h2 id="信息收集">信息收集</h2>
-<p>主机存活<br>
-ettercap -G 蜘蛛<br>
-nmap<br>
-nmap -sS 网段</p>
-<p>漏洞搜集<br>
-awvs			网站扫描<br>
-gvm(openvas)	系统扫描<br>
-nmap<br>
-nmap --script=vuln //常见漏洞<br>
-nmap --script-default //默认收集信息脚本</p>
-<h2 id="进入目标后">进入目标后</h2>
-<p>提权<br>
-创建高权限用户<br>
-windows<br>
-net use<br>
-linux<br>
-user add</p>
-<p>留后门<br>
-创建木马<br>
-木马(msfconsole)<br>
-上传木马<br>
-meterpreter<br>
-upload</p>
-<h2 id="攻击方式">攻击方式</h2>
-<p>改变流量走向<br>
-ettercap(arp欺骗、dns劫持等)<br>
-arpspoof<br>
-arpspoof -i 网卡名称 -t 目标IP 网关</p>
-<p>爆破密码<br>
-hydra（九头蛇）<br>
-msfconsole（爆破密码模块）</p>
-<p>漏洞攻击<br>
-msfconsole（漏洞攻击目录）</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>滑蛋饭</title>
-    <url>/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/</url>
-    <content><![CDATA[<h2 id="调料">调料</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:left">量</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">蚝油</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">糖</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">胡椒粉</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">香油</td>
-<td style="text-align:left">极少量</td>
-</tr>
-<tr>
-<td style="text-align:center">酱油</td>
-<td style="text-align:left">少量</td>
-</tr>
-<tr>
-<td style="text-align:center">鸡精</td>
-<td style="text-align:left">少量</td>
-</tr>
-<tr>
-<td style="text-align:center">生粉</td>
-<td style="text-align:left">适量</td>
-</tr>
-</tbody>
-</table>
-<h2 id="酱汁">酱汁</h2>
-<ol>
-<li>半碗水，加入耗油，糖，喜欢甜可以多一点糖，白胡椒，搅在一起</li>
-<li>差不多出锅的时候放一点酱油，香油</li>
-<li>最后用生粉调一个芡，冒泡即可</li>
-</ol>
-<h2 id="滑蛋">滑蛋</h2>
-<p>小火煎蛋即可，腊肠韭黄，都可以，按喜欢的放。</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>菜谱</category>
-      </categories>
-      <tags>
-        <tag>菜谱</tag>
       </tags>
   </entry>
   <entry>
@@ -4701,6 +4636,187 @@ msfconsole（漏洞攻击目录）</p>
       <tags>
         <tag>笔记本无线网卡</tag>
         <tag>维修</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>滑蛋饭</title>
+    <url>/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/</url>
+    <content><![CDATA[<h2 id="调料">调料</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:left">量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">蚝油</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">糖</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">胡椒粉</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">香油</td>
+<td style="text-align:left">极少量</td>
+</tr>
+<tr>
+<td style="text-align:center">酱油</td>
+<td style="text-align:left">少量</td>
+</tr>
+<tr>
+<td style="text-align:center">鸡精</td>
+<td style="text-align:left">少量</td>
+</tr>
+<tr>
+<td style="text-align:center">生粉</td>
+<td style="text-align:left">适量</td>
+</tr>
+</tbody>
+</table>
+<h2 id="酱汁">酱汁</h2>
+<ol>
+<li>半碗水，加入耗油，糖，喜欢甜可以多一点糖，白胡椒，搅在一起</li>
+<li>差不多出锅的时候放一点酱油，香油</li>
+<li>最后用生粉调一个芡，冒泡即可</li>
+</ol>
+<h2 id="滑蛋">滑蛋</h2>
+<p>小火煎蛋即可，腊肠韭黄，都可以，按喜欢的放。</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>菜谱</category>
+      </categories>
+      <tags>
+        <tag>菜谱</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>简单部署k8s</title>
+    <url>/2024/08/15/%E7%AE%80%E5%8D%95%E9%83%A8%E7%BD%B2k8s/</url>
+    <content><![CDATA[<h2 id="准备环境">准备环境</h2>
+<h3 id="服务器规划：">服务器规划：</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">角色</th>
+<th style="text-align:center">IP地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">k8s-master</td>
+<td style="text-align:center">192.168.11.130</td>
+</tr>
+<tr>
+<td style="text-align:center">k8s-node1</td>
+<td style="text-align:center">192.168.11.134</td>
+</tr>
+<tr>
+<td style="text-align:center">k8s-node2</td>
+<td style="text-align:center">192.168.11.135</td>
+</tr>
+</tbody>
+</table>
+<h3 id="服务器要求：">服务器要求：</h3>
+<p>建议最小硬件配置：2核CPU、2G内存、20G硬盘。<br>
+服务器可以访问互联网，会联网下载镜像。<br>
+软件环境：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">软件</th>
+<th style="text-align:center">版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">操作系统</td>
+<td style="text-align:center">CentOS7.9_x64</td>
+</tr>
+<tr>
+<td style="text-align:center">Docker</td>
+<td style="text-align:center">24.0.0（CE）</td>
+</tr>
+<tr>
+<td style="text-align:center">Kubernetes</td>
+<td style="text-align:center">1.28</td>
+</tr>
+</tbody>
+</table>
+<h2 id="初始化配置">初始化配置</h2>
+<h3 id="关闭-Selinux">关闭 Selinux</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/enforcing/disabled/&#x27; /etc/selinux/config # 永久</span><br><span class="line">setenforce 0 # 临时</span><br></pre></td></tr></table></figure>
+<h3 id="关闭-Swap">关闭 Swap</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">swapoff -a # 临时</span><br><span class="line">sed -ri &#x27;s/.*swap.*/#&amp;/&#x27; /etc/fstab # 永久</span><br></pre></td></tr></table></figure>
+<h3 id="设置主机名">设置主机名</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hostnamectl set-hostname k8s-master</span><br></pre></td></tr></table></figure>
+<h3 id="确保网络桥接的数据包经过-Iptables-处理，启用相关的内核参数">确保网络桥接的数据包经过 Iptables 处理，启用相关的内核参数</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &gt; /etc/sysctl.d/k8s.conf &lt;&lt; EOF</span><br><span class="line">net.bridge.bridge-nf-call-ip6tables = 1</span><br><span class="line">net.bridge.bridge-nf-call-iptables = 1</span><br><span class="line">EOF</span><br><span class="line">sysctl --system # 生效</span><br></pre></td></tr></table></figure>
+<h2 id="安装-Docker">安装 Docker</h2>
+<h3 id="下载安装">下载安装</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo</span><br><span class="line">yum -y install docker-ce</span><br><span class="line">systemctl enable docker &amp;&amp; systemctl start docker</span><br></pre></td></tr></table></figure>
+<h3 id="配置镜像下载加速器和设置-Cgroup-驱动">配置镜像下载加速器和设置 Cgroup 驱动</h3>
+<p>这一步可以参考最新的docker可用镜像源设置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &gt; /etc/docker/daemon.json &lt;&lt; EOF</span><br><span class="line"> &#123;</span><br><span class="line"> &quot;registry-mirrors&quot;: [&quot;https://b9pmyelo.mirror.aliyuncs.com&quot;],</span><br><span class="line"> &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;]</span><br><span class="line"> &#125;</span><br><span class="line">EOF</span><br><span class="line">systemctl restart docker</span><br><span class="line">docker info</span><br></pre></td></tr></table></figure>
+<h3 id="安装-cri-dockerd（Docker-与-Kubernetes-通信的中间程序）">安装 cri-dockerd（Docker 与 Kubernetes 通信的中间程序）</h3>
+<p>测试最新版本0.3.15安装在centos7.9缺少依赖，但是显示的依赖包已安装，安装旧一版本0.3.14没什么问题，可能版本和我最简的centos7.9有些问题，下载地址为：<br>
+<a href="https://github.com/Mirantis/cri-dockerd/releases">https://github.com/Mirantis/cri-dockerd/releases</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.14/cri-dockerd-0.3.14-3.el7.x86_64.rpm</span><br><span class="line">rpm -ivh cri-dockerd-0.3.2-3.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<h3 id="指定依赖镜像地址为国内镜像地址：">指定依赖镜像地址为国内镜像地址：</h3>
+<p>修改ExecStart=/usr/bin/cri-dockerd --container-runtime-endpoint fd://部分，添加以下参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vi /usr/lib/systemd/system/cri-docker.service</span><br><span class="line">ExecStart=/usr/bin/cri-dockerd --container-runtime-endpoint fd:// --pod-infra-container-image=registry.aliyuncs.com/google_containers/pause:3.9</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable cri-docker &amp;&amp; systemctl start cri-docker</span><br></pre></td></tr></table></figure>
+<h2 id="部署-Kubernetes-集群">部署 Kubernetes 集群</h2>
+<h3 id="添加阿里云-YUM-软件源">添加阿里云 YUM 软件源</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &gt; /etc/yum.repos.d/kubernetes.repo &lt;&lt; EOF</span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">repo_gpgcheck=0</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.ali</span><br><span class="line">yun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="安装-kubeadm，kubelet-和-kubectl">安装 kubeadm，kubelet 和 kubectl</h3>
+<p>我一般默认安装最新版yum install -y kubelet kubeadm kubectl，这里我指定下版本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install -y kubelet-1.28.2 kubeadm-1.28.2 kubectl-1.28.2</span><br><span class="line">systemctl enable kubelet</span><br></pre></td></tr></table></figure>
+<h3 id="初始化-Master-节点">初始化 Master 节点</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubeadm init \</span><br><span class="line">--apiserver-advertise-address=192.168.11.128 \</span><br><span class="line">--image-repository registry.aliyuncs.com/google_containers \</span><br><span class="line">--kubernetes-version v1.28.2 \</span><br><span class="line">--service-cidr=10.96.0.0/12 \</span><br><span class="line">--pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">--cri-socket=unix:///var/run/cri-dockerd.sock</span><br></pre></td></tr></table></figure>
+<p>初始化完成后，根据提示信息，拷贝 kubectl 工具认证文件到默认路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir -p $HOME/.kube</span><br><span class="line">sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</span><br><span class="line">sudo chown $(id -u):$(id -g) $HOME/.kube/config</span><br></pre></td></tr></table></figure>
+<p>使用 kubectl 工具查看节点状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+<p>ps:由于网络插件还没有部署，节点会处于“NotReady”状态</p>
+<h3 id="将-Node-节点加入集群">将 Node 节点加入集群</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubeadm join 192.168.11.130:6443 --token pt332w.pz2sldn46h9ynfsw         --discovery-token-ca-cert-hash sha256:b6bdbc14bee762e5a7cfc24aa60cc842077180ae6595eb68b09d0333243cfa0c --cri-socket=unix:///var/run/cri-dockerd.sock</span><br></pre></td></tr></table></figure>
+<h3 id="安装网络组件">安装网络组件</h3>
+<p>Pod 网络:Kubernetes 需要一个 Pod 网络插件来管理集群中的网络通信。你可以选择一个适合你环境的网络插件（如 Flannel、Calico、Weave 等），并使用 kubectl 命令来部署。</p>
+<p>这里使用 Calico 作为 Kubernetes 的网络插件，负责集群中网络通信。<br>
+创建 Calico 网络组件的资源：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml</span><br></pre></td></tr></table></figure>
+<p>配置安全策略</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim network-policy.yaml</span><br><span class="line"></span><br><span class="line">apiVersion: networking.k8s.io/v1</span><br><span class="line">kind: NetworkPolicy</span><br><span class="line">metadata:</span><br><span class="line">  name: allow-all</span><br><span class="line">  namespace: default</span><br><span class="line">spec:</span><br><span class="line">  podSelector: &#123;&#125;</span><br><span class="line">  policyTypes:</span><br><span class="line">  - Ingress</span><br><span class="line">  - Egress</span><br><span class="line">  ingress:</span><br><span class="line">  - &#123;&#125;</span><br><span class="line">  egress:</span><br><span class="line">  - &#123;&#125;</span><br><span class="line"></span><br><span class="line">kubectl apply -f network-policy.yaml</span><br></pre></td></tr></table></figure>
+<p>应用完成后，等待 5 分钟后，查看 Pod 运行状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl get pods -n kube-system</span><br></pre></td></tr></table></figure>
+<p>如果出现问题，可能是还未下载完，也可以查看日志排查</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl logs -n kube-system &lt;pod-name&gt;</span><br></pre></td></tr></table></figure>
+<p>ps：如果 Pod 处于“ContainerCreating”状态说明在下载镜像中，需耐心等待</p>
+<h2 id="安装-Dashboard">安装 Dashboard</h2>
+<p>Dashboard 是官方提供的一个 UI，可用于基本管理 K8s 资源。</p>
+<h3 id="安装">安装</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl apply -f kubernetes-dashboard.yaml</span><br><span class="line">kubectl get pods -n kubernetes-dashboard</span><br></pre></td></tr></table></figure>
+<p>浏览器访问“https://&lt;节点 IP 地址&gt;:30001”，将看到 Dashboard 登录界面。</p>
+<h3 id="创建服务账号并授权管理员权限：">创建服务账号并授权管理员权限：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 创建用户</span><br><span class="line">kubectl create serviceaccount dashboard-admin -n kubernetes-dashboard</span><br><span class="line"># 用户授权</span><br><span class="line">kubectl create clusterrolebinding dashboard-admin --clusterrole=cluster-admin --</span><br><span class="line">serviceaccount=kubernetes-dashboard:dashboard-admin</span><br><span class="line"># 获取用户 Token</span><br><span class="line">kubectl create token dashboard-admin -n kubernetes-dashboard</span><br></pre></td></tr></table></figure>
+<p>使用输出的 Token 登录 Dashboard，将进入到首页<br>
+至此，k8s部署完成</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>k8s</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>k8s</tag>
       </tags>
   </entry>
   <entry>
@@ -4873,207 +4989,6 @@ width: 20%;
       </tags>
   </entry>
   <entry>
-    <title>简单部署k8s</title>
-    <url>/2024/08/15/%E7%AE%80%E5%8D%95%E9%83%A8%E7%BD%B2k8s/</url>
-    <content><![CDATA[<h2 id="准备环境">准备环境</h2>
-<h3 id="服务器规划：">服务器规划：</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">角色</th>
-<th style="text-align:center">IP地址</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">k8s-master</td>
-<td style="text-align:center">192.168.11.130</td>
-</tr>
-<tr>
-<td style="text-align:center">k8s-node1</td>
-<td style="text-align:center">192.168.11.134</td>
-</tr>
-<tr>
-<td style="text-align:center">k8s-node2</td>
-<td style="text-align:center">192.168.11.135</td>
-</tr>
-</tbody>
-</table>
-<h3 id="服务器要求：">服务器要求：</h3>
-<p>建议最小硬件配置：2核CPU、2G内存、20G硬盘。<br>
-服务器可以访问互联网，会联网下载镜像。<br>
-软件环境：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">软件</th>
-<th style="text-align:center">版本</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">操作系统</td>
-<td style="text-align:center">CentOS7.9_x64</td>
-</tr>
-<tr>
-<td style="text-align:center">Docker</td>
-<td style="text-align:center">24.0.0（CE）</td>
-</tr>
-<tr>
-<td style="text-align:center">Kubernetes</td>
-<td style="text-align:center">1.28</td>
-</tr>
-</tbody>
-</table>
-<h2 id="初始化配置">初始化配置</h2>
-<h3 id="关闭-Selinux">关闭 Selinux</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/enforcing/disabled/&#x27; /etc/selinux/config # 永久</span><br><span class="line">setenforce 0 # 临时</span><br></pre></td></tr></table></figure>
-<h3 id="关闭-Swap">关闭 Swap</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">swapoff -a # 临时</span><br><span class="line">sed -ri &#x27;s/.*swap.*/#&amp;/&#x27; /etc/fstab # 永久</span><br></pre></td></tr></table></figure>
-<h3 id="设置主机名">设置主机名</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hostnamectl set-hostname k8s-master</span><br></pre></td></tr></table></figure>
-<h3 id="确保网络桥接的数据包经过-Iptables-处理，启用相关的内核参数">确保网络桥接的数据包经过 Iptables 处理，启用相关的内核参数</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &gt; /etc/sysctl.d/k8s.conf &lt;&lt; EOF</span><br><span class="line">net.bridge.bridge-nf-call-ip6tables = 1</span><br><span class="line">net.bridge.bridge-nf-call-iptables = 1</span><br><span class="line">EOF</span><br><span class="line">sysctl --system # 生效</span><br></pre></td></tr></table></figure>
-<h2 id="安装-Docker">安装 Docker</h2>
-<h3 id="下载安装">下载安装</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo</span><br><span class="line">yum -y install docker-ce</span><br><span class="line">systemctl enable docker &amp;&amp; systemctl start docker</span><br></pre></td></tr></table></figure>
-<h3 id="配置镜像下载加速器和设置-Cgroup-驱动">配置镜像下载加速器和设置 Cgroup 驱动</h3>
-<p>这一步可以参考最新的docker可用镜像源设置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &gt; /etc/docker/daemon.json &lt;&lt; EOF</span><br><span class="line"> &#123;</span><br><span class="line"> &quot;registry-mirrors&quot;: [&quot;https://b9pmyelo.mirror.aliyuncs.com&quot;],</span><br><span class="line"> &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;]</span><br><span class="line"> &#125;</span><br><span class="line">EOF</span><br><span class="line">systemctl restart docker</span><br><span class="line">docker info</span><br></pre></td></tr></table></figure>
-<h3 id="安装-cri-dockerd（Docker-与-Kubernetes-通信的中间程序）">安装 cri-dockerd（Docker 与 Kubernetes 通信的中间程序）</h3>
-<p>测试最新版本0.3.15安装在centos7.9缺少依赖，但是显示的依赖包已安装，安装旧一版本0.3.14没什么问题，可能版本和我最简的centos7.9有些问题，下载地址为：<br>
-<a href="https://github.com/Mirantis/cri-dockerd/releases">https://github.com/Mirantis/cri-dockerd/releases</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.14/cri-dockerd-0.3.14-3.el7.x86_64.rpm</span><br><span class="line">rpm -ivh cri-dockerd-0.3.2-3.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
-<h3 id="指定依赖镜像地址为国内镜像地址：">指定依赖镜像地址为国内镜像地址：</h3>
-<p>修改ExecStart=/usr/bin/cri-dockerd --container-runtime-endpoint fd://部分，添加以下参数：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vi /usr/lib/systemd/system/cri-docker.service</span><br><span class="line">ExecStart=/usr/bin/cri-dockerd --container-runtime-endpoint fd:// --pod-infra-container-image=registry.aliyuncs.com/google_containers/pause:3.9</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable cri-docker &amp;&amp; systemctl start cri-docker</span><br></pre></td></tr></table></figure>
-<h2 id="部署-Kubernetes-集群">部署 Kubernetes 集群</h2>
-<h3 id="添加阿里云-YUM-软件源">添加阿里云 YUM 软件源</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &gt; /etc/yum.repos.d/kubernetes.repo &lt;&lt; EOF</span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">repo_gpgcheck=0</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.ali</span><br><span class="line">yun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<h3 id="安装-kubeadm，kubelet-和-kubectl">安装 kubeadm，kubelet 和 kubectl</h3>
-<p>我一般默认安装最新版yum install -y kubelet kubeadm kubectl，这里我指定下版本</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install -y kubelet-1.28.2 kubeadm-1.28.2 kubectl-1.28.2</span><br><span class="line">systemctl enable kubelet</span><br></pre></td></tr></table></figure>
-<h3 id="初始化-Master-节点">初始化 Master 节点</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubeadm init \</span><br><span class="line">--apiserver-advertise-address=192.168.11.128 \</span><br><span class="line">--image-repository registry.aliyuncs.com/google_containers \</span><br><span class="line">--kubernetes-version v1.28.2 \</span><br><span class="line">--service-cidr=10.96.0.0/12 \</span><br><span class="line">--pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">--cri-socket=unix:///var/run/cri-dockerd.sock</span><br></pre></td></tr></table></figure>
-<p>初始化完成后，根据提示信息，拷贝 kubectl 工具认证文件到默认路径：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir -p $HOME/.kube</span><br><span class="line">sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</span><br><span class="line">sudo chown $(id -u):$(id -g) $HOME/.kube/config</span><br></pre></td></tr></table></figure>
-<p>使用 kubectl 工具查看节点状态：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
-<p>ps:由于网络插件还没有部署，节点会处于“NotReady”状态</p>
-<h3 id="将-Node-节点加入集群">将 Node 节点加入集群</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubeadm join 192.168.11.130:6443 --token pt332w.pz2sldn46h9ynfsw         --discovery-token-ca-cert-hash sha256:b6bdbc14bee762e5a7cfc24aa60cc842077180ae6595eb68b09d0333243cfa0c --cri-socket=unix:///var/run/cri-dockerd.sock</span><br></pre></td></tr></table></figure>
-<h3 id="安装网络组件">安装网络组件</h3>
-<p>Pod 网络:Kubernetes 需要一个 Pod 网络插件来管理集群中的网络通信。你可以选择一个适合你环境的网络插件（如 Flannel、Calico、Weave 等），并使用 kubectl 命令来部署。</p>
-<p>这里使用 Calico 作为 Kubernetes 的网络插件，负责集群中网络通信。<br>
-创建 Calico 网络组件的资源：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml</span><br></pre></td></tr></table></figure>
-<p>配置安全策略</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim network-policy.yaml</span><br><span class="line"></span><br><span class="line">apiVersion: networking.k8s.io/v1</span><br><span class="line">kind: NetworkPolicy</span><br><span class="line">metadata:</span><br><span class="line">  name: allow-all</span><br><span class="line">  namespace: default</span><br><span class="line">spec:</span><br><span class="line">  podSelector: &#123;&#125;</span><br><span class="line">  policyTypes:</span><br><span class="line">  - Ingress</span><br><span class="line">  - Egress</span><br><span class="line">  ingress:</span><br><span class="line">  - &#123;&#125;</span><br><span class="line">  egress:</span><br><span class="line">  - &#123;&#125;</span><br><span class="line"></span><br><span class="line">kubectl apply -f network-policy.yaml</span><br></pre></td></tr></table></figure>
-<p>应用完成后，等待 5 分钟后，查看 Pod 运行状态：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl get pods -n kube-system</span><br></pre></td></tr></table></figure>
-<p>如果出现问题，可能是还未下载完，也可以查看日志排查</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl logs -n kube-system &lt;pod-name&gt;</span><br></pre></td></tr></table></figure>
-<p>ps：如果 Pod 处于“ContainerCreating”状态说明在下载镜像中，需耐心等待</p>
-<h2 id="安装-Dashboard">安装 Dashboard</h2>
-<p>Dashboard 是官方提供的一个 UI，可用于基本管理 K8s 资源。</p>
-<h3 id="安装">安装</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl apply -f kubernetes-dashboard.yaml</span><br><span class="line">kubectl get pods -n kubernetes-dashboard</span><br></pre></td></tr></table></figure>
-<p>浏览器访问“https://&lt;节点 IP 地址&gt;:30001”，将看到 Dashboard 登录界面。</p>
-<h3 id="创建服务账号并授权管理员权限：">创建服务账号并授权管理员权限：</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 创建用户</span><br><span class="line">kubectl create serviceaccount dashboard-admin -n kubernetes-dashboard</span><br><span class="line"># 用户授权</span><br><span class="line">kubectl create clusterrolebinding dashboard-admin --clusterrole=cluster-admin --</span><br><span class="line">serviceaccount=kubernetes-dashboard:dashboard-admin</span><br><span class="line"># 获取用户 Token</span><br><span class="line">kubectl create token dashboard-admin -n kubernetes-dashboard</span><br></pre></td></tr></table></figure>
-<p>使用输出的 Token 登录 Dashboard，将进入到首页<br>
-至此，k8s部署完成</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>k8s</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>k8s</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>莴笋炒腊肠</title>
-    <url>/2025/02/10/%E8%8E%B4%E7%AC%8B%E7%82%92%E8%85%8A%E8%82%A0/</url>
-    <content><![CDATA[<h2 id="配料">配料</h2>
-<style>
-table th:nth-of-type(1) {
-width: 20%;
-}
-</style>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:left">量</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">莴笋</td>
-<td style="text-align:left">一根</td>
-</tr>
-<tr>
-<td style="text-align:center">腊肠</td>
-<td style="text-align:left">两根</td>
-</tr>
-<tr>
-<td style="text-align:center">大蒜</td>
-<td style="text-align:left">4-5瓣</td>
-</tr>
-<tr>
-<td style="text-align:center">姜</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">干辣椒</td>
-<td style="text-align:left">三个</td>
-</tr>
-<tr>
-<td style="text-align:center">鸡精</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">盐</td>
-<td style="text-align:left">少</td>
-</tr>
-<tr>
-<td style="text-align:center">糖</td>
-<td style="text-align:left">少</td>
-</tr>
-<tr>
-<td style="text-align:center">酱油</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">蚝油</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">香油</td>
-<td style="text-align:left">适量</td>
-</tr>
-</tbody>
-</table>
-<h2 id="步骤">步骤</h2>
-<ol>
-<li>腊肠如果太硬焯水，或者泡水，切片；莴笋切片；姜切丝；干辣椒切段；蒜剥皮随便剁两下；</li>
-<li>油烧热炒腊肠微微黄即可；</li>
-<li>加姜丝、蒜、干辣椒，炒香后倒入莴笋；</li>
-<li>翻炒几下加少量水；加入所有调味料，香油出锅前加入翻炒几下即可。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>菜谱</category>
-      </categories>
-      <tags>
-        <tag>菜谱</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>过防火墙业务端口畅通但业务异常-云虚拟网络</title>
     <url>/2025/01/19/%E8%BF%87%E9%98%B2%E7%81%AB%E5%A2%99%E4%B8%9A%E5%8A%A1%E7%AB%AF%E5%8F%A3%E7%95%85%E9%80%9A%E4%BD%86%E4%B8%9A%E5%8A%A1%E5%BC%82%E5%B8%B8-%E4%BA%91%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C/</url>
     <content><![CDATA[<h2 id="通话语音服务过防火墙异常">通话语音服务过防火墙异常</h2>
@@ -5120,241 +5035,6 @@ width: 20%;
       <tags>
         <tag>防火墙</tag>
         <tag>排障</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>防火墙firewall和iptables命令</title>
-    <url>/2024/08/11/%E9%98%B2%E7%81%AB%E5%A2%99firewall%E5%92%8Ciptables%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="firewall">firewall</h2>
-<h3 id="防火墙管理操作">防火墙管理操作</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">命令功能</th>
-<th style="text-align:left">命令</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">启动 firewalld.service服务</td>
-<td style="text-align:left">service firewalld start</td>
-</tr>
-<tr>
-<td style="text-align:center">停止firewalld.service服务</td>
-<td style="text-align:left">service firewalld stop</td>
-</tr>
-<tr>
-<td style="text-align:center">重启firewalld.service服务</td>
-<td style="text-align:left">service firewalld restart</td>
-</tr>
-<tr>
-<td style="text-align:center">查看firewall的状态</td>
-<td style="text-align:left">firewall-cmd - -state</td>
-</tr>
-<tr>
-<td style="text-align:center">查看防火墙已有规则列表</td>
-<td style="text-align:left">firewall-cmd - -list-all</td>
-</tr>
-<tr>
-<td style="text-align:center">查看firewall服务状态</td>
-<td style="text-align:left">systemctl status firewalld</td>
-</tr>
-</tbody>
-</table>
-<p>原文链接：<a href="https://blog.csdn.net/ababab12345/article/details/121989807">https://blog.csdn.net/ababab12345/article/details/121989807</a></p>
-<h3 id="开放端口">开放端口</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --permanent --add-port=80/tcp</span><br></pre></td></tr></table></figure>
-<h3 id="禁用端口">禁用端口</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --permanent --remove-port=80/tcp</span><br></pre></td></tr></table></figure>
-<h3 id="刷新规则">刷新规则</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
-<h3 id="查询端口是否开放">查询端口是否开放</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --query-port=80w/tcp</span><br></pre></td></tr></table></figure>
-<h3 id="查看已开放的端口">查看已开放的端口</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --list-ports</span><br></pre></td></tr></table></figure>
-<h2 id="iptables">iptables</h2>
-<h3 id="防火墙命令参数">防火墙命令参数</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:right">选 项</th>
-<th style="text-align:left">功 能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:right">-A</td>
-<td style="text-align:left">添加防火墙规则</td>
-</tr>
-<tr>
-<td style="text-align:right">-D</td>
-<td style="text-align:left">删除防火墙规则</td>
-</tr>
-<tr>
-<td style="text-align:right">-I</td>
-<td style="text-align:left">插入防火墙规则</td>
-</tr>
-<tr>
-<td style="text-align:right">-F</td>
-<td style="text-align:left">清空防火墙规则</td>
-</tr>
-<tr>
-<td style="text-align:right">-L</td>
-<td style="text-align:left">列出添加防火墙规则</td>
-</tr>
-<tr>
-<td style="text-align:right">-R</td>
-<td style="text-align:left">替换防火墙规则</td>
-</tr>
-<tr>
-<td style="text-align:right">-Z</td>
-<td style="text-align:left">清空防火墙数据表统计信息</td>
-</tr>
-<tr>
-<td style="text-align:right">-P</td>
-<td style="text-align:left">设置链默认规则</td>
-</tr>
-</tbody>
-</table>
-<h3 id="防火墙规则增删改参数">防火墙规则增删改参数</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">参 数</th>
-<th style="text-align:left">功 能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">[!]-p</td>
-<td style="text-align:left">匹配协议（不加协议则是all），! 表示取反</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]-s</td>
-<td style="text-align:left">匹配源地址</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]-d</td>
-<td style="text-align:left">匹配目标地址</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]-i</td>
-<td style="text-align:left">匹配入站网卡接口</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]-o</td>
-<td style="text-align:left">匹配出站网卡接口</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]–sport</td>
-<td style="text-align:left">匹配源端口</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]–dport</td>
-<td style="text-align:left">匹配目标端口</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]–src-range</td>
-<td style="text-align:left">匹配源地址范围</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]–dst-range</td>
-<td style="text-align:left">匹配目标地址范围</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]–limit</td>
-<td style="text-align:left">四配数据表速率</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]–mac-source</td>
-<td style="text-align:left">匹配源MAC地址</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]–sports</td>
-<td style="text-align:left">匹配源端口</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]–dports</td>
-<td style="text-align:left">匹配目标端口</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]–stste</td>
-<td style="text-align:left">匹配状态（INVALID、ESTABLISHED、NEW、RELATED)</td>
-</tr>
-<tr>
-<td style="text-align:center">[!]–string</td>
-<td style="text-align:left">匹配应用层字串</td>
-</tr>
-</tbody>
-</table>
-<h3 id="防火墙信息详细意义">防火墙信息详细意义</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">触发动作</th>
-<th style="text-align:left">功 能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">ACCEPT</td>
-<td style="text-align:left">允许数据包通过</td>
-</tr>
-<tr>
-<td style="text-align:center">DROP</td>
-<td style="text-align:left">丢弃数据包</td>
-</tr>
-<tr>
-<td style="text-align:center">REJECT</td>
-<td style="text-align:left">拒绝数据包通过</td>
-</tr>
-<tr>
-<td style="text-align:center">LOG</td>
-<td style="text-align:left">将数据包信息记录 syslog 曰志</td>
-</tr>
-<tr>
-<td style="text-align:center">DNAT</td>
-<td style="text-align:left">目标地址转换</td>
-</tr>
-<tr>
-<td style="text-align:center">SNAT</td>
-<td style="text-align:left">源地址转换</td>
-</tr>
-<tr>
-<td style="text-align:center">MASQUERADE</td>
-<td style="text-align:left">地址欺骗</td>
-</tr>
-<tr>
-<td style="text-align:center">REDIRECT</td>
-<td style="text-align:left">重定向</td>
-</tr>
-</tbody>
-</table>
-<p>原文链接：<a href="https://blog.csdn.net/daocaokafei/article/details/115091313">https://blog.csdn.net/daocaokafei/article/details/115091313</a></p>
-<h3 id="命令使用实例">命令使用实例</h3>
-<p>查看防火墙规则</p>
-<pre><code>iptables -L （可加INPUT或者OUTPUT等参数）
-</code></pre>
-<p>开放端口</p>
-<pre><code>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT
-</code></pre>
-<p>增加规则</p>
-<pre><code>iptables -A INPUT -s 192.168.1.5 -j DROP
-</code></pre>
-<p>改规则</p>
-<pre><code>iptables -R INPUT 6 -s 194.168.1.5 -j ACCEPT
-</code></pre>
-<p>删规则</p>
-<pre><code>iptables -D INPUT 6
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
@@ -5691,6 +5371,320 @@ width: 20%;
       <tags>
         <tag>系统运维</tag>
         <tag>日志文件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>防火墙firewall和iptables命令</title>
+    <url>/2024/08/11/%E9%98%B2%E7%81%AB%E5%A2%99firewall%E5%92%8Ciptables%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="firewall">firewall</h2>
+<h3 id="防火墙管理操作">防火墙管理操作</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令功能</th>
+<th style="text-align:left">命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">启动 firewalld.service服务</td>
+<td style="text-align:left">service firewalld start</td>
+</tr>
+<tr>
+<td style="text-align:center">停止firewalld.service服务</td>
+<td style="text-align:left">service firewalld stop</td>
+</tr>
+<tr>
+<td style="text-align:center">重启firewalld.service服务</td>
+<td style="text-align:left">service firewalld restart</td>
+</tr>
+<tr>
+<td style="text-align:center">查看firewall的状态</td>
+<td style="text-align:left">firewall-cmd - -state</td>
+</tr>
+<tr>
+<td style="text-align:center">查看防火墙已有规则列表</td>
+<td style="text-align:left">firewall-cmd - -list-all</td>
+</tr>
+<tr>
+<td style="text-align:center">查看firewall服务状态</td>
+<td style="text-align:left">systemctl status firewalld</td>
+</tr>
+</tbody>
+</table>
+<p>原文链接：<a href="https://blog.csdn.net/ababab12345/article/details/121989807">https://blog.csdn.net/ababab12345/article/details/121989807</a></p>
+<h3 id="开放端口">开放端口</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --permanent --add-port=80/tcp</span><br></pre></td></tr></table></figure>
+<h3 id="禁用端口">禁用端口</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --permanent --remove-port=80/tcp</span><br></pre></td></tr></table></figure>
+<h3 id="刷新规则">刷新规则</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<h3 id="查询端口是否开放">查询端口是否开放</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --query-port=80w/tcp</span><br></pre></td></tr></table></figure>
+<h3 id="查看已开放的端口">查看已开放的端口</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --list-ports</span><br></pre></td></tr></table></figure>
+<h2 id="iptables">iptables</h2>
+<h3 id="防火墙命令参数">防火墙命令参数</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">选 项</th>
+<th style="text-align:left">功 能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">-A</td>
+<td style="text-align:left">添加防火墙规则</td>
+</tr>
+<tr>
+<td style="text-align:right">-D</td>
+<td style="text-align:left">删除防火墙规则</td>
+</tr>
+<tr>
+<td style="text-align:right">-I</td>
+<td style="text-align:left">插入防火墙规则</td>
+</tr>
+<tr>
+<td style="text-align:right">-F</td>
+<td style="text-align:left">清空防火墙规则</td>
+</tr>
+<tr>
+<td style="text-align:right">-L</td>
+<td style="text-align:left">列出添加防火墙规则</td>
+</tr>
+<tr>
+<td style="text-align:right">-R</td>
+<td style="text-align:left">替换防火墙规则</td>
+</tr>
+<tr>
+<td style="text-align:right">-Z</td>
+<td style="text-align:left">清空防火墙数据表统计信息</td>
+</tr>
+<tr>
+<td style="text-align:right">-P</td>
+<td style="text-align:left">设置链默认规则</td>
+</tr>
+</tbody>
+</table>
+<h3 id="防火墙规则增删改参数">防火墙规则增删改参数</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参 数</th>
+<th style="text-align:left">功 能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">[!]-p</td>
+<td style="text-align:left">匹配协议（不加协议则是all），! 表示取反</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]-s</td>
+<td style="text-align:left">匹配源地址</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]-d</td>
+<td style="text-align:left">匹配目标地址</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]-i</td>
+<td style="text-align:left">匹配入站网卡接口</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]-o</td>
+<td style="text-align:left">匹配出站网卡接口</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]–sport</td>
+<td style="text-align:left">匹配源端口</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]–dport</td>
+<td style="text-align:left">匹配目标端口</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]–src-range</td>
+<td style="text-align:left">匹配源地址范围</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]–dst-range</td>
+<td style="text-align:left">匹配目标地址范围</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]–limit</td>
+<td style="text-align:left">四配数据表速率</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]–mac-source</td>
+<td style="text-align:left">匹配源MAC地址</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]–sports</td>
+<td style="text-align:left">匹配源端口</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]–dports</td>
+<td style="text-align:left">匹配目标端口</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]–stste</td>
+<td style="text-align:left">匹配状态（INVALID、ESTABLISHED、NEW、RELATED)</td>
+</tr>
+<tr>
+<td style="text-align:center">[!]–string</td>
+<td style="text-align:left">匹配应用层字串</td>
+</tr>
+</tbody>
+</table>
+<h3 id="防火墙信息详细意义">防火墙信息详细意义</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">触发动作</th>
+<th style="text-align:left">功 能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ACCEPT</td>
+<td style="text-align:left">允许数据包通过</td>
+</tr>
+<tr>
+<td style="text-align:center">DROP</td>
+<td style="text-align:left">丢弃数据包</td>
+</tr>
+<tr>
+<td style="text-align:center">REJECT</td>
+<td style="text-align:left">拒绝数据包通过</td>
+</tr>
+<tr>
+<td style="text-align:center">LOG</td>
+<td style="text-align:left">将数据包信息记录 syslog 曰志</td>
+</tr>
+<tr>
+<td style="text-align:center">DNAT</td>
+<td style="text-align:left">目标地址转换</td>
+</tr>
+<tr>
+<td style="text-align:center">SNAT</td>
+<td style="text-align:left">源地址转换</td>
+</tr>
+<tr>
+<td style="text-align:center">MASQUERADE</td>
+<td style="text-align:left">地址欺骗</td>
+</tr>
+<tr>
+<td style="text-align:center">REDIRECT</td>
+<td style="text-align:left">重定向</td>
+</tr>
+</tbody>
+</table>
+<p>原文链接：<a href="https://blog.csdn.net/daocaokafei/article/details/115091313">https://blog.csdn.net/daocaokafei/article/details/115091313</a></p>
+<h3 id="命令使用实例">命令使用实例</h3>
+<p>查看防火墙规则</p>
+<pre><code>iptables -L （可加INPUT或者OUTPUT等参数）
+</code></pre>
+<p>开放端口</p>
+<pre><code>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT
+</code></pre>
+<p>增加规则</p>
+<pre><code>iptables -A INPUT -s 192.168.1.5 -j DROP
+</code></pre>
+<p>改规则</p>
+<pre><code>iptables -R INPUT 6 -s 194.168.1.5 -j ACCEPT
+</code></pre>
+<p>删规则</p>
+<pre><code>iptables -D INPUT 6
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>莴笋炒腊肠</title>
+    <url>/2025/02/10/%E8%8E%B4%E7%AC%8B%E7%82%92%E8%85%8A%E8%82%A0/</url>
+    <content><![CDATA[<h2 id="配料">配料</h2>
+<style>
+table th:nth-of-type(1) {
+width: 20%;
+}
+</style>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:left">量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">莴笋</td>
+<td style="text-align:left">一根</td>
+</tr>
+<tr>
+<td style="text-align:center">腊肠</td>
+<td style="text-align:left">两根</td>
+</tr>
+<tr>
+<td style="text-align:center">大蒜</td>
+<td style="text-align:left">4-5瓣</td>
+</tr>
+<tr>
+<td style="text-align:center">姜</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">干辣椒</td>
+<td style="text-align:left">三个</td>
+</tr>
+<tr>
+<td style="text-align:center">鸡精</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">盐</td>
+<td style="text-align:left">少</td>
+</tr>
+<tr>
+<td style="text-align:center">糖</td>
+<td style="text-align:left">少</td>
+</tr>
+<tr>
+<td style="text-align:center">酱油</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">蚝油</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">香油</td>
+<td style="text-align:left">适量</td>
+</tr>
+</tbody>
+</table>
+<h2 id="步骤">步骤</h2>
+<ol>
+<li>腊肠如果太硬焯水，或者泡水，切片；莴笋切片；姜切丝；干辣椒切段；蒜剥皮随便剁两下；</li>
+<li>油烧热炒腊肠微微黄即可；</li>
+<li>加姜丝、蒜、干辣椒，炒香后倒入莴笋；</li>
+<li>翻炒几下加少量水；加入所有调味料，香油出锅前加入翻炒几下即可。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>菜谱</category>
+      </categories>
+      <tags>
+        <tag>菜谱</tag>
       </tags>
   </entry>
 </search>
