@@ -51,7 +51,7 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2025-07-24 20:42:43'
+  postUpdate: '2025-07-24 22:16:39'
 }</script><script>(win=>{
       win.saveToLocal = {
         set: (key, value, ttl) => {
@@ -186,8 +186,8 @@ crontab -l &amp;&amp; ls /etc/periodic/
 
 
 
-
-Ubuntu / Debian / Linux Mint12345678910111213141516171819202122232425# 系统级 syste ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/24/%E6%8C%96%E7%9F%BF%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" title="挖矿排查方法">挖矿排查方法</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-24T11:59:47.000Z" title="发表于 2025-07-24 19:59:47">2025-07-24</time></span></div><div class="content">辅助工具
+Ubuntu / Debian / Linux Mint
+12345678910111213141516171819202122232425# 系统级 syste ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/24/%E6%8C%96%E7%9F%BF%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" title="挖矿排查方法">挖矿排查方法</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-24T11:59:47.000Z" title="发表于 2025-07-24 19:59:47">2025-07-24</time></span></div><div class="content">辅助工具
 
 
 
@@ -214,13 +214,19 @@ apt install clamav
 
 
 
+通用
+确认进程
 
-通用确认进程
-输出高CPU进程检查是否有名为 java、python、bash、sshd、kworker 等伪装进程 1ps -eo pid,ppid,cmd,%cpu --sort=-%cpu | head -n 20
-检查进程实际路径如果路径指向 /tmp/.X11-unix/…、.font-unix/、.configrc5/ 等，极可能是挖矿木马 1ls -l /proc/$PID/exe
+输出高CPU进程
+检查是否有名为 java、python、bash、sshd、kworker 等伪装进程 1ps -eo pid,ppid,cmd,%cpu --sort=-%cpu | head -n 20
+
+检查进程实际路径
+如果路径指向 /tmp/.X11-unix/…、.font-unix/、.configrc5/ 等，极可能是挖矿木马 1ls -l /proc/$PID/exe
 
 
-检查网络连接是否连向矿池检查是否有陌生的外联地址1sudo netstat -antlp | grep ESTABLISHED
+检查网络连接是否连向矿池
+检查是否有陌生的外联地址
+1sudo netstat -antlp | grep ESTABLISHED
 可使用 情报社区 或 VirusTotal 查询IP是否为矿池
 排查计划任务与启动项
 
@@ -234,47 +240,85 @@ apt install clamav
 
 
 Ubuntu
-systemctl l ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/15/playwright-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" title="playwright-基础使用">playwright-基础使用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-15T12:57:00.000Z" title="发表于 2025-07-15 20:57:00">2025-07-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/web%E8%87%AA%E5%8A%A8%E5%8C%96/">web自动化</a></span></div><div class="content">官网
-官方：https://playwright.dev/docs/intro中文网：https://playwright.nodejs.cn/
+syste ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/15/playwright-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" title="playwright-基础使用">playwright-基础使用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-15T12:57:00.000Z" title="发表于 2025-07-15 20:57:00">2025-07-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/web%E8%87%AA%E5%8A%A8%E5%8C%96/">web自动化</a></span></div><div class="content">官网
 
-高频常用语法123456789101112131415161718// 启动并打开页面with sync_playwright() as p:  browser = p.chromium.launch(headless=False)  # 改成 True 可后台  context = browser.new_context()  page = context.new_page()// 输入 &amp; 点击page.locator(&#x27;#user&#x27;).fill(&#x27;admin&#x27;);page.getByRole(&#x27;button&#x27;, &#123; name: &#x27;登录&#x27; &#125;).click();// 断言expect(page.locator(&#x27;.welcome&#x27;)).toHaveText(&#x27;欢迎 admin&#x27;);// 截图 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/13/apt%E6%BA%90/" title="apt源">apt源</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-13T09:59:22.000Z" title="发表于 2025-07-13 17:59:22">2025-07-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/linux/">linux</a></span></div><div class="content">修改 APT 源手动修改 sources.list
+官方：
+https://playwright.dev/docs/intro
+中文网：
+https://playwright.nodejs.cn/
+
+高频常用语法
+123456789101112131415161718// 启动并打开页面with sync_playwright() as p:  browser = p.chromium.launch(headless=False)  # 改成 True 可后台  context = browser.new_context()  page = context.new_page()// 输入 &amp; 点击page.locator(&#x27;#user&#x27;).fill(&#x27;admin&#x27;);page.getByRole(&#x27;button&#x27;, &#123; name: &#x27;登录&#x27; &#125;).click();// 断言expect(page.locator(&#x27;.welcome&#x27;)).toHaveText(&#x27;欢迎 admin&#x27;); ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/13/apt%E6%BA%90/" title="apt源">apt源</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-13T09:59:22.000Z" title="发表于 2025-07-13 17:59:22">2025-07-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/linux/">linux</a></span></div><div class="content">修改 APT 源
+手动修改 sources.list
+
+
 备份原文件：
 1sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+
 
 编辑源文件：
 1sudo nano /etc/apt/sources.list
 
+
 替换为官方源（以 Ubuntu 22.04 为例）：
-1234deb http://archive.ubuntu.com/ubuntu jammy main restricted universe multiversedeb http://archive.ubuntu.com/ubuntu jammy-updates main restricted universe multiversedeb http://archive.ubuntu.com/ubuntu jammy-security main restricted universe multiversedeb http://archive.ubuntu.com/ubuntu jammy-backports main restricted universe multiver ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/11/Kubernetes%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/" title="Kubernetes集群部署">Kubernetes集群部署</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-11T13:08:24.000Z" title="发表于 2025-07-11 21:08:24">2025-07-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/k8s/">k8s</a></span></div><div class="content">准备工作（所有节点执行）
+1234deb http://archive.ubuntu.com/ubuntu jammy main restricted universe multiversedeb http://archive.ubuntu.com/ubuntu jammy-updates main restricted universe multiversedeb http://archive.ubuntu.com/ubuntu jammy-security main restricted universe multiversedeb http://archive.ubuntu.com/ubuntu jammy-backports main restricted universe mul ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/11/Kubernetes%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/" title="Kubernetes集群部署">Kubernetes集群部署</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-11T13:08:24.000Z" title="发表于 2025-07-11 21:08:24">2025-07-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/k8s/">k8s</a></span></div><div class="content">准备工作
+（所有节点执行）
 
 三台ubuntu
+
 master：192.168.11.100
 node1：192.168.11.11
 node2：192.168.11.22
 
 
 
-设置主机名（各自设置）
+设置主机名
+（各自设置）
 
-master 节点12sudo hostnamectl set-hostname masterexec bash
-node1 节点12sudo hostnamectl set-hostname node1exec bash
-node2 节点12sudo hostnamectl set-hostname node2exec bash
+master 节点
 
+12sudo hostnamectl set-hostname masterexec bash
 
-添加 hosts 解析（所有节点执行）12345sudo tee -a /etc/hosts &lt;&lt;EOF192.168.11.100 master192.168.11.11 node1192.168.11.22 node2EOF
-禁用 swap（所有节点）12sudo swapoff -asudo sed -i &#x27;/ swap / s/^/#/&#x27; /etc/fstab
-配置内核参数（所有节点）1234567891011121 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/11/Kubernetes%E6%A6%82%E8%A7%88/" title="Kubernetes概览">Kubernetes概览</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-10T16:17:22.000Z" title="发表于 2025-07-11 00:17:22">2025-07-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/k8s/">k8s</a></span></div><div class="content">k8s多节点集群架构图1234567891011121314151617181920212223242526         +----------------------------------------------------------------+         |                   Master 节点（控制平面）    	                  |         |                                                                |         |  +----------------+   +--------------+   +----------------+    |         |  |  API Server    |&lt;-&gt;| Scheduler    |&lt;-&gt;| Controller Mgr |    |         |  +----------------+   +--------------+   +------------- ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/09/ubuntu-%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" title="ubuntu-网卡配置文件">ubuntu-网卡配置文件</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-09T15:31:25.000Z" title="发表于 2025-07-09 23:31:25">2025-07-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/linux/">linux</a></span></div><div class="content">dhcp
-打开网卡配置文件/etc/netplan下的类似50-cloud-init.yaml写法的yaml文件:1vim /etc/netplan/50-cloud-init.yaml
-开启dhcp自动获取地址123ethernets:  ens33:    dhcp4: true
-应用配置1sudo netplan apply
+node1 节点
 
+12sudo hostnamectl set-hostname node1exec bash
 
+node2 节点
 
-静态地址打开配置文件后，修改内容格式为：
+12sudo hostnamectl set-hostname node2exec bash
+添加 hosts 解析
+（所有节点执行）
+12345sudo tee -a /etc/hosts &lt;&lt;EOF192.168.11.100 master192.168.11.11 node1192.168.11.22 node2EOF
+禁用 swap
+（所有节点）
+12sudo swapoff -asudo sed -i &#x27;/ swap / s/^/#/&#x27; /etc/fstab
+配置内核参数
+（所有节点）
+1 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/11/Kubernetes%E6%A6%82%E8%A7%88/" title="Kubernetes概览">Kubernetes概览</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-10T16:17:22.000Z" title="发表于 2025-07-11 00:17:22">2025-07-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/k8s/">k8s</a></span></div><div class="content">k8s多节点集群架构图
+1234567891011121314151617181920212223242526         +----------------------------------------------------------------+         |                   Master 节点（控制平面）    	                  |         |                                                                |         |  +----------------+   +--------------+   +----------------+    |         |  |  API Server    |&lt;-&gt;| Scheduler    |&lt;-&gt;| Controller Mgr |    |         |  +----------------+   +--------------+   +------------ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/09/ubuntu-%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" title="ubuntu-网卡配置文件">ubuntu-网卡配置文件</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-09T15:31:25.000Z" title="发表于 2025-07-09 23:31:25">2025-07-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/linux/">linux</a></span></div><div class="content">dhcp
 
-老版本1234567ethernets:  ens33:    dhcp4: no    addresses: [192.168.11.10/24]    gateway4: 192.168.11.1    nameservers:      addresses: [223.5.5.5]
+打开网卡配置文件/etc/netplan下的类似50-cloud-init.yaml写法的yaml文件:
+
+1vim /etc/netplan/50-cloud-init.yaml
+
+开启dhcp自动获取地址
+
+123ethernets:  ens33:    dhcp4: true
+
+应用配置
+
+1sudo netplan apply
+
+静态地址
+打开配置文件后，修改内容格式为：
+
+老版本
+
+1234567ethernets:  ens33:    dhcp4: no    addresses: [192.168.11.10/24]    gateway4: 192.168.11.1    nameservers:      addresses: [223.5.5.5]
+
 新版本写法
-123456789ethernets:  ens33:    dhcp4: no    addresses: [192.168.11.10/24]    routes:      - to: 0.0.0.0/0        via: 192.168.11.2    nameservers:      addre ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/07/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%A6%E5%8F%B7%E5%A4%A7%E5%85%A8/" title="正则表达式符号大全">正则表达式符号大全</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-07T15:55:39.000Z" title="发表于 2025-07-07 23:55:39">2025-07-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF/">基础信息</a></span></div><div class="content">普通字符（最基础）
+
+123456789ethernets:  ens33:    dhcp4: no    addresses: [192.168.11.10/24]    routes:      - to: 0.0.0.0/0        via: 192.168.11.2    nameservers ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/07/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%A6%E5%8F%B7%E5%A4%A7%E5%85%A8/" title="正则表达式符号大全">正则表达式符号大全</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-07T15:55:39.000Z" title="发表于 2025-07-07 23:55:39">2025-07-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF/">基础信息</a></span></div><div class="content">普通字符（最基础）
 
 
 
@@ -302,7 +346,6 @@ abc 匹配 “abc”
 
 
 
-
 元字符（具有特殊意义）
 
 
@@ -324,9 +367,9 @@ a.c 匹配 abc、a1c
 ^abc 匹配以 abc 开头
 
 
-$$`
+$
 匹配字符串结尾
-abc$$ 匹配以abc` 结尾
+abc$ 匹配以 abc 结尾
 
 
 []
@@ -339,11 +382,9 @@ abc$$ 匹配以abc` 结尾
 [^abc] 匹配非 a、b、c 的字符
 
 
-`\
-`
+|
 或操作，匹配左右任一模式
-`a\
-b匹配a或b`
+a|b 匹配 a 或 b
 
 
 ()
@@ -354,7 +395,6 @@ b匹配a或b`
 \
 转义字符，用于匹配特殊符号本身
 \. 匹配字面上的点号 .
-
 
 
 
@@ -377,11 +417,16 @@ a* 可匹配 “”, “a”, “aaa”
 
 +
 匹配前一项 1次或多次
-a+ 匹配 “a”, “ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/07/Browser-use-%E5%AE%89%E8%A3%85/" title="Browser-use 安装">Browser-use 安装</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-07T12:57:12.000Z" title="发表于 2025-07-07 20:57:12">2025-07-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85/">工具安装</a></span></div><div class="content">简介这次安装是通过windows安装
+a+ 匹配 “a”, “aa” 等
+
+ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/07/Browser-use-%E5%AE%89%E8%A3%85/" title="Browser-use 安装">Browser-use 安装</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-07T12:57:12.000Z" title="发表于 2025-07-07 20:57:12">2025-07-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85/">工具安装</a></span></div><div class="content">简介
+这次安装是通过windows安装
 
 官网
 
 https://browser-use.com/
+
+
 
 github
 
@@ -390,44 +435,67 @@ https://github.com/browser-use/browser-use
 
 
 安装步骤
+
 官方安装方法：
 
 https://github.com/browser-use/web-ui
 
 
-可以先安装uv，uv比较好用：1pip install uv
+可以先安装uv，uv比较好用：
+1pip install uv
 
-创建python虚拟环境12python -m venv venvvenv\Scripts\activate
+创建python虚拟环境
 
-退出虚拟环境1deactivate
+12python -m venv venvvenv\Scripts\activate
 
+退出虚拟环境
 
-git Browser-use的web ui项目1git clone https://github.com/browser-use/web-ui.git
+  1deactivate
+
+git Browser-use的web ui项目
+
+1git clone https://github.com/browser-use/web-ui.git
+
 安装依赖项
-安装 Python 包：123uv pip install -r requirements.txt# 新版本要安装setuptoolsuv pip install setuptools
-在 playwright 中安装浏览器1playwright install --with-deps
 
 
-配置环境  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/06/Magentic-UI-%E5%AE%89%E8%A3%85/" title="Magentic-UI 安装">Magentic-UI 安装</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-05T18:10:24.000Z" title="发表于 2025-07-06 02:10:24">2025-07-06</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85/">工具安装</a></span></div><div class="content">简介
-Magentic-UI：https://github.com/microsoft/Magentic-UI?tab=readme-ov-file#%EF%B8%8F-installation
+安装 Python 包：
+
+  123uv pip install -r requirements.txt# 新版本要安装setuptoolsuv pip install setuptools
+
+在 playwright 中安装浏览器
+
+  1playwright ins ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/06/Magentic-UI-%E5%AE%89%E8%A3%85/" title="Magentic-UI 安装">Magentic-UI 安装</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-05T18:10:24.000Z" title="发表于 2025-07-06 02:10:24">2025-07-06</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85/">工具安装</a></span></div><div class="content">简介
+
+Magentic-UI：
+https://github.com/microsoft/Magentic-UI?tab=readme-ov-file#️-installation
 
 
-安装环境准备
+安装
+环境准备
+
 需要docker环境，安装可参照docker 安装
 安装python3.12、python3.12-venv
-导入 Python 的稳定版 PPA，如果遇到网络问题可以使用代理proxychains4，不需要代理删除proxychains4即可：1proxychains4 add-apt-repository ppa:deadsnakes/ppa
+
+导入 Python 的稳定版 PPA，如果遇到网络问题可以使用代理proxychains4，不需要代理删除proxychains4即可：
+
+ 1proxychains4 add-apt-repository ppa:deadsnakes/ppa
 deadsnakes PPA 是由 Python 社区维护的一个软件源，专门用于提供不同版本的 Python（包括一些较新的版本），这些版本可能不在 Ubuntu 的默认软件源中。
-更新 APT 缓存：1sudo apt update
 
-安装 Python 3.121apt install python3.12 python3.12-venv
-检查版本1python3.12 --version
+更新 APT 缓存：
+
+1sudo apt update
+
+安装 Python 3.12
+
+	1apt install python3.12 python3.12-venv
+
+检查版本
+
+1python3.12 --version
 
 
-
-
-
-
-Magentic-UI 安 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#content-inner">9</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/haha.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">haha</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">91</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">38</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/w00123"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">已经开始放假！！！</div></div><div class="sticky_layout"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">81</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-07-24T12:42:43.563Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><div class="card-widget" id="weibo"><div class="item-headline"><i class="fa-brands fa-weibo"></i><span>微博热搜</span></div><div class="item-content"><link rel="stylesheet" href="/css/weibo.css"><div id="weiboContent"></script></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By haha</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+Magentic ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#content-inner">9</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/haha.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">haha</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">91</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">38</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/w00123"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">已经开始放假！！！</div></div><div class="sticky_layout"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">81</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-07-24T14:16:38.393Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><div class="card-widget" id="weibo"><div class="item-headline"><i class="fa-brands fa-weibo"></i><span>微博热搜</span></div><div class="item-content"><link rel="stylesheet" href="/css/weibo.css"><div id="weiboContent"></script></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By haha</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
   init: (str) => {
     window.typed = new Typed('#subtitle', Object.assign({
       strings: str,
@@ -458,6 +526,9 @@ Magentic-UI 安 ...</div></div></div><nav id="pagination"><div class="pagination
 }
 typedJSFn.run(subtitleType)</script></div><script src="/js/weibo.js"></script><script src="https://cdn.jsdelivr.net/npm/live2d-widget@latest/lib/L2Dwidget.min.js"></script>
 <script>
+  var live2d_settings = live2d_settings || {};
+  live2d_settings.showF12Status = false;
+  live2d_settings.showF12Message = false;
   L2Dwidget.init({
     model: {
       jsonPath: '/normal/model.json'
