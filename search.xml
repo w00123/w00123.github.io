@@ -165,118 +165,6 @@ api配置文件</li>
       </tags>
   </entry>
   <entry>
-    <title>Kubernetes集群部署</title>
-    <url>/2025/07/11/Kubernetes%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<h2 id="准备工作">准备工作</h2>
-<p>（所有节点执行）</p>
-<ul>
-<li>三台ubuntu
-<ul>
-<li>master：192.168.11.100</li>
-<li>node1：192.168.11.11</li>
-<li>node2：192.168.11.22</li>
-</ul>
-</li>
-</ul>
-<h3 id="设置主机名">设置主机名</h3>
-<p>（各自设置）</p>
-<ol>
-<li>master 节点</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname master</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>node1 节点</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname node1</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>node2 节点</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname node2</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
-<h3 id="添加-hosts-解析">添加 hosts 解析</h3>
-<p>（所有节点执行）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/hosts &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">192.168.11.100 master</span></span><br><span class="line"><span class="string">192.168.11.11 node1</span></span><br><span class="line"><span class="string">192.168.11.22 node2</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
-<h3 id="禁用-swap">禁用 swap</h3>
-<p>（所有节点）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> swapoff -a</span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;/ swap / s/^/#/&#x27;</span> /etc/fstab</span><br></pre></td></tr></table></figure>
-<h3 id="配置内核参数">配置内核参数</h3>
-<p>（所有节点）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/modules-load.d/k8s.conf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">br_netfilter</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> modprobe br_netfilter</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/sysctl.d/k8s.conf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-iptables = 1</span></span><br><span class="line"><span class="string">net.ipv4.ip_forward = 1</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-ip6tables = 1</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> sysctl --system</span><br></pre></td></tr></table></figure>
-<h3 id="安装-containerd">安装 containerd</h3>
-<p>（所有节点）</p>
-<ol>
-<li>更新 apt 源</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>安装 containerd</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y containerd</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>创建配置目录（如果不存在）</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/containerd</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>生成默认配置文件</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> containerd config default | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/containerd/config.toml</span><br></pre></td></tr></table></figure>
-<ol start="5">
-<li>关键：国内镜像 + systemd cgroup</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s|sandbox_image = &quot;registry.k8s.io/pause:.*&quot;|sandbox_image = &quot;registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.9&quot;|g&#x27;</span> /etc/containerd/config.toml</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s/SystemdCgroup = false/SystemdCgroup = true/g&#x27;</span> /etc/containerd/config.toml</span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li>重启并开启 containerd 服务</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart containerd</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> containerd</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>查看 containerd 状态确认运行中</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status containerd</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="安装-Kubernetes">安装 Kubernetes</h2>
-<h3 id="添加-Kubernetes-源">添加 Kubernetes 源</h3>
-<p>（所有节点）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 添加 Kubernetes 国内 apt 源（阿里云）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /&#x27;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 添加 GPG 公钥</span></span><br><span class="line">curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | \</span><br><span class="line">  <span class="built_in">sudo</span> gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 更新源</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br></pre></td></tr></table></figure>
-<h3 id="安装-kubelet、kubeadm、kubectl">安装 kubelet、kubeadm、kubectl</h3>
-<p>（kubectl 可只在 master 装）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 安装</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y kubelet kubeadm kubectl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 锁定版本，避免系统升级时自动升级</span></span><br><span class="line"><span class="built_in">sudo</span> apt-mark hold kubelet kubeadm kubectl</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now kubelet</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="初始化-master-节点">初始化 master 节点</h2>
-<p>（只在 master 执行）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 初始化 master 节点</span></span><br><span class="line"><span class="built_in">sudo</span> kubeadm init \</span><br><span class="line">  --apiserver-advertise-address=192.168.11.100 \</span><br><span class="line">  --control-plane-endpoint=master \</span><br><span class="line">  --pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">  --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers</span><br></pre></td></tr></table></figure>
-<p>如果安装中断，有残留文件，先执行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo kubeadm reset -f</span><br><span class="line">sudo systemctl restart containerd</span><br><span class="line">sudo rm -rf ~/.kube /etc/kubernetes/pki /etc/kubernetes/manifests</span><br></pre></td></tr></table></figure>
-<h3 id="初始化成功后，执行提示中的命令以配置-kubectl：">初始化成功后，执行提示中的命令以配置 kubectl：</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p <span class="variable">$HOME</span>/.kube</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chown</span> $(<span class="built_in">id</span> -u):$(<span class="built_in">id</span> -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="安装网络插件">安装网络插件</h2>
-<p>（只在 master 执行）<br>
-以 calico 为例：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载yaml</span></span><br><span class="line">curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/calico.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换为 DaoCloud 镜像</span></span><br><span class="line">sed -i <span class="string">&#x27;s|docker.io/calico/|docker.m.daocloud.io/calico/|g&#x27;</span> calico.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署</span></span><br><span class="line">kubectl apply -f calico.yaml</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="加入节点">加入节点</h2>
-<p>（在 node1 和 node2 执行）<br>
-初始化 master 成功后会输出一个 <code>kubeadm join</code> 命令，形如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm <span class="built_in">join</span> 192.168.11.100:6443 --token &lt;token&gt; --discovery-token-ca-cert-hash sha256:&lt;<span class="built_in">hash</span>&gt;</span><br></pre></td></tr></table></figure>
-<p>在 node1 和 node2 上运行这个命令即可加入集群。</p>
-<p>如果没保存，可以在 master 上用下面命令重新获取：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm token create --print-join-command</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="验证集群状态">验证集群状态</h2>
-<p>（master 上）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
-<p>看到三台机器 <code>STATUS</code> 是 <code>Ready</code> 就说明集群搭建成功。</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>k8s</category>
-      </categories>
-      <tags>
-        <tag>k8s</tag>
-        <tag>kubernetes</tag>
-        <tag>k8s部署</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Kubernetes概览</title>
     <url>/2025/07/11/Kubernetes%E6%A6%82%E8%A7%88/</url>
     <content><![CDATA[<h2 id="k8s多节点集群架构图">k8s多节点集群架构图</h2>
@@ -430,8 +318,120 @@ api配置文件</li>
         <category>k8s</category>
       </categories>
       <tags>
-        <tag>k8s</tag>
         <tag>Kubernetes</tag>
+        <tag>k8s</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kubernetes集群部署</title>
+    <url>/2025/07/11/Kubernetes%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h2 id="准备工作">准备工作</h2>
+<p>（所有节点执行）</p>
+<ul>
+<li>三台ubuntu
+<ul>
+<li>master：192.168.11.100</li>
+<li>node1：192.168.11.11</li>
+<li>node2：192.168.11.22</li>
+</ul>
+</li>
+</ul>
+<h3 id="设置主机名">设置主机名</h3>
+<p>（各自设置）</p>
+<ol>
+<li>master 节点</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname master</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>node1 节点</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname node1</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>node2 节点</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname node2</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
+<h3 id="添加-hosts-解析">添加 hosts 解析</h3>
+<p>（所有节点执行）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/hosts &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">192.168.11.100 master</span></span><br><span class="line"><span class="string">192.168.11.11 node1</span></span><br><span class="line"><span class="string">192.168.11.22 node2</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+<h3 id="禁用-swap">禁用 swap</h3>
+<p>（所有节点）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> swapoff -a</span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;/ swap / s/^/#/&#x27;</span> /etc/fstab</span><br></pre></td></tr></table></figure>
+<h3 id="配置内核参数">配置内核参数</h3>
+<p>（所有节点）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/modules-load.d/k8s.conf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">br_netfilter</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> modprobe br_netfilter</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/sysctl.d/k8s.conf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-iptables = 1</span></span><br><span class="line"><span class="string">net.ipv4.ip_forward = 1</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-ip6tables = 1</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> sysctl --system</span><br></pre></td></tr></table></figure>
+<h3 id="安装-containerd">安装 containerd</h3>
+<p>（所有节点）</p>
+<ol>
+<li>更新 apt 源</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>安装 containerd</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y containerd</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>创建配置目录（如果不存在）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/containerd</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>生成默认配置文件</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> containerd config default | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/containerd/config.toml</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>关键：国内镜像 + systemd cgroup</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s|sandbox_image = &quot;registry.k8s.io/pause:.*&quot;|sandbox_image = &quot;registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.9&quot;|g&#x27;</span> /etc/containerd/config.toml</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s/SystemdCgroup = false/SystemdCgroup = true/g&#x27;</span> /etc/containerd/config.toml</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>重启并开启 containerd 服务</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart containerd</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> containerd</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>查看 containerd 状态确认运行中</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status containerd</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="安装-Kubernetes">安装 Kubernetes</h2>
+<h3 id="添加-Kubernetes-源">添加 Kubernetes 源</h3>
+<p>（所有节点）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 添加 Kubernetes 国内 apt 源（阿里云）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /&#x27;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 添加 GPG 公钥</span></span><br><span class="line">curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | \</span><br><span class="line">  <span class="built_in">sudo</span> gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 更新源</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br></pre></td></tr></table></figure>
+<h3 id="安装-kubelet、kubeadm、kubectl">安装 kubelet、kubeadm、kubectl</h3>
+<p>（kubectl 可只在 master 装）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 安装</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y kubelet kubeadm kubectl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 锁定版本，避免系统升级时自动升级</span></span><br><span class="line"><span class="built_in">sudo</span> apt-mark hold kubelet kubeadm kubectl</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now kubelet</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="初始化-master-节点">初始化 master 节点</h2>
+<p>（只在 master 执行）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 初始化 master 节点</span></span><br><span class="line"><span class="built_in">sudo</span> kubeadm init \</span><br><span class="line">  --apiserver-advertise-address=192.168.11.100 \</span><br><span class="line">  --control-plane-endpoint=master \</span><br><span class="line">  --pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">  --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers</span><br></pre></td></tr></table></figure>
+<p>如果安装中断，有残留文件，先执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo kubeadm reset -f</span><br><span class="line">sudo systemctl restart containerd</span><br><span class="line">sudo rm -rf ~/.kube /etc/kubernetes/pki /etc/kubernetes/manifests</span><br></pre></td></tr></table></figure>
+<h3 id="初始化成功后，执行提示中的命令以配置-kubectl：">初始化成功后，执行提示中的命令以配置 kubectl：</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p <span class="variable">$HOME</span>/.kube</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chown</span> $(<span class="built_in">id</span> -u):$(<span class="built_in">id</span> -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="安装网络插件">安装网络插件</h2>
+<p>（只在 master 执行）<br>
+以 calico 为例：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载yaml</span></span><br><span class="line">curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/calico.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换为 DaoCloud 镜像</span></span><br><span class="line">sed -i <span class="string">&#x27;s|docker.io/calico/|docker.m.daocloud.io/calico/|g&#x27;</span> calico.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署</span></span><br><span class="line">kubectl apply -f calico.yaml</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="加入节点">加入节点</h2>
+<p>（在 node1 和 node2 执行）<br>
+初始化 master 成功后会输出一个 <code>kubeadm join</code> 命令，形如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm <span class="built_in">join</span> 192.168.11.100:6443 --token &lt;token&gt; --discovery-token-ca-cert-hash sha256:&lt;<span class="built_in">hash</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>在 node1 和 node2 上运行这个命令即可加入集群。</p>
+<p>如果没保存，可以在 master 上用下面命令重新获取：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm token create --print-join-command</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="验证集群状态">验证集群状态</h2>
+<p>（master 上）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+<p>看到三台机器 <code>STATUS</code> 是 <code>Ready</code> 就说明集群搭建成功。</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>k8s</category>
+      </categories>
+      <tags>
+        <tag>k8s</tag>
+        <tag>kubernetes</tag>
+        <tag>k8s部署</tag>
       </tags>
   </entry>
   <entry>
@@ -533,52 +533,6 @@ deadsnakes PPA 是由 Python 社区维护的一个软件源，专门用于提供
       </tags>
   </entry>
   <entry>
-    <title>ansible命令</title>
-    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
-<h2 id="安装软件">安装软件</h2>
-<p>安装 EPEL 仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install epel-release -y</span><br></pre></td></tr></table></figure>
-<p>安装 Ansible</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install ansible -y</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="使用">使用</h2>
-<ul>
-<li>使用前需要定义两个文件：<br>
-一个指定需要批量执行的主机<code>hosts.ini</code>，可以随意指定名称；一个指定需要运行的命令和动作<code>command.yml</code>，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</li>
-</ul>
-<ol>
-<li>hosts.ini：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[hostst_g]</span><br><span class="line">此处填写ip</span><br><span class="line">[hosts_g:vars]</span><br><span class="line">ansible_ssh_user=root ##账号</span><br><span class="line">ansible_ssh_pass=123456 ##密码</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>command.yml：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: 在远程主机上执行任意命令  </span><br><span class="line">  hosts: all</span><br><span class="line">  gather_facts: no</span><br><span class="line">  tasks:</span><br><span class="line">      - name: 执行一个特定命令</span><br><span class="line">        command: echo &quot;你好，世界！&quot;</span><br><span class="line">        # 使用  command  模块执行简单命令，不支持管道和重定向</span><br><span class="line">      - name:  列出目录中的文件</span><br><span class="line">        command: ls /path/to/directory</span><br><span class="line">        # 列出指定目录中的所有文件</span><br><span class="line">      - name:  使用 shell 运行包含管道的命令</span><br><span class="line">        shell: echo &quot;你好，世界！&quot; | grep 你好</span><br><span class="line">        # 使用 shell 模块支持管道、变量和重定向等 shell 特性</span><br><span class="line">      - name: 使用  hell  特性运行命令</span><br><span class="line">        shell: cat /etc/passwd | grep root</span><br><span class="line">        # 通过管道过滤包含 &quot;root&quot; 的行</span><br></pre></td></tr></table></figure>
-<p>可使用shell：模拟终端上所有执行的命令。</p>
-<ul>
-<li>使用命令</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ansible-playbook -i hosts.ini command.yml</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="安装ansible示例">安装ansible示例</h2>
-<h3 id="文件结构">文件结构</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">project_dir/</span><br><span class="line">├── install_tomcat.yml        # Ansible 剧本</span><br><span class="line">├── hosts.ini                 # 主机信息</span><br><span class="line">└── html/                     # 本地网页目录（你已经准备好了）</span><br><span class="line">    ├── index.html</span><br><span class="line">    └── images/</span><br><span class="line">        └── logo.png</span><br></pre></td></tr></table></figure>
-<h3 id="hosts-ini-文件内容：">hosts.ini 文件内容：</h3>
-<p>目标主机信息</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[test]</span><br><span class="line">192.168.1.101</span><br><span class="line">192.168.1.102</span><br><span class="line"></span><br><span class="line">[test:vars]</span><br><span class="line">ansible_user=root</span><br><span class="line">ansible_ssh_pass=你的密码</span><br><span class="line">ansible_python_interpreter=/usr/bin/python3</span><br></pre></td></tr></table></figure>
-<h3 id="install-tomcat-yml-内容">install_tomcat.yml 内容</h3>
-<p>执行的任务</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- name: 在所有 test 主机上安装并配置 Tomcat</span><br><span class="line">  hosts: test</span><br><span class="line">  become: yes</span><br><span class="line">  tasks:</span><br><span class="line"></span><br><span class="line">    - name: 安装 Java（Tomcat 依赖）</span><br><span class="line">      package:</span><br><span class="line">        name: java-1.8.0-openjdk</span><br><span class="line">        state: present</span><br><span class="line"></span><br><span class="line">    - name: 创建 tomcat 用户</span><br><span class="line">      user:</span><br><span class="line">        name: tomcat</span><br><span class="line">        shell: /bin/false</span><br><span class="line">        system: yes</span><br><span class="line">        create_home: no</span><br><span class="line"></span><br><span class="line">    - name: 下载 Tomcat 安装包</span><br><span class="line">      get_url:</span><br><span class="line">        url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.89/bin/apache-tomcat-9.0.89.tar.gz</span><br><span class="line">        dest: /tmp/tomcat.tar.gz</span><br><span class="line"></span><br><span class="line">    - name: 创建 Tomcat 安装目录</span><br><span class="line">      file:</span><br><span class="line">        path: /opt/tomcat</span><br><span class="line">        state: directory</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0755&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 解压 Tomcat 安装包</span><br><span class="line">      unarchive:</span><br><span class="line">        src: /tmp/tomcat.tar.gz</span><br><span class="line">        dest: /opt/tomcat</span><br><span class="line">        remote_src: yes</span><br><span class="line">        creates: /opt/tomcat/apache-tomcat-9.0.89</span><br><span class="line"></span><br><span class="line">    - name: 配置 Tomcat 环境变量（可选）</span><br><span class="line">      copy:</span><br><span class="line">        dest: /etc/profile.d/tomcat.sh</span><br><span class="line">        content: |</span><br><span class="line">          export CATALINA_HOME=/opt/tomcat/apache-tomcat-9.0.89</span><br><span class="line"></span><br><span class="line">    - name: 备份默认 webapps 目录</span><br><span class="line">      command: mv /opt/tomcat/apache-tomcat-9.0.89/webapps /opt/tomcat/apache-tomcat-9.0.89/webapps.bak</span><br><span class="line">      args:</span><br><span class="line">        creates: /opt/tomcat/apache-tomcat-9.0.89/webapps.bak</span><br><span class="line"></span><br><span class="line">    - name: 创建网页目录 /var/www/html</span><br><span class="line">      file:</span><br><span class="line">        path: /var/www/html</span><br><span class="line">        state: directory</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0755&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 上传本地 html 文件到远程 /var/www/html</span><br><span class="line">      copy:</span><br><span class="line">        src: html/</span><br><span class="line">        dest: /var/www/html/</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0644&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 创建 /var/www/html 到 Tomcat webapps 的符号链接</span><br><span class="line">      file:</span><br><span class="line">        src: /var/www/html</span><br><span class="line">        dest: /opt/tomcat/apache-tomcat-9.0.89/webapps</span><br><span class="line">        state: link</span><br><span class="line">        force: yes</span><br><span class="line"></span><br><span class="line">    - name: 启动 Tomcat 服务</span><br><span class="line">      shell: nohup /opt/tomcat/apache-tomcat-9.0.89/bin/startup.sh &amp;</span><br><span class="line">      args:</span><br><span class="line">        chdir: /opt/tomcat/apache-tomcat-9.0.89/bin</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>apt源</title>
     <url>/2025/07/13/apt%E6%BA%90/</url>
     <content><![CDATA[<h2 id="修改-APT-源">修改 APT 源</h2>
@@ -622,42 +576,49 @@ deadsnakes PPA 是由 Python 社区维护的一个软件源，专门用于提供
       </tags>
   </entry>
   <entry>
-    <title>arp欺骗</title>
-    <url>/2024/08/01/arpspoof/</url>
-    <content><![CDATA[<h2 id="使用arpspoof命令：">使用arpspoof命令：</h2>
-<pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
-</code></pre>
-<p>-i interface          指定要使用的接口。<br>
--c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>
--t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>
--r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>
-host               指定您希望抓取数据包的host（通常是本地网关）</p>
-<h2 id="使用ettercap-G-蜘蛛工具">使用ettercap -G 蜘蛛工具</h2>
-<p>实例演示-arp欺骗</p>
-<p>1.打开ettercap，选择你要使用的网卡，点击&quot;对号&quot;。<br>
-<img src="/images/pasted-4.png" alt="upload successful"></p>
-<p>2.点击&quot;搜索&quot;按钮，进行主机发现。<br>
-<img src="/images/pasted-5.png" alt="upload successful"></p>
-<p>3.点击&quot;红色方框里面的按钮&quot;，我们可以查看&quot;host list&quot;.<br>
-<img src="/images/pasted-6.png" alt="upload successful"></p>
-<p>4.将想要欺骗的网关和受害者分别添加到&quot;add to target 1&quot;和&quot;add to target 2&quot;。<br>
-<img src="/images/pasted-7.png" alt="upload successful"></p>
-<p>5.点击&quot;圆圈&quot;，选择&quot;arp poisoning spoofing&quot;。<br>
-<img src="/images/pasted-8.png" alt="upload successful"></p>
-<p>6.选择&quot;sniff remote connections&quot;，然后点击&quot;OK&quot;。这样就配置完成，ettercap会自动开始arp欺骗。<br>
-<img src="/images/pasted-9.png" alt="upload successful"></p>
-<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br>
-<img src="/images/pasted-10.png" alt="upload successful"></p>
-<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
-]]></content>
+    <title>ansible命令</title>
+    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
+<h2 id="安装软件">安装软件</h2>
+<p>安装 EPEL 仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install epel-release -y</span><br></pre></td></tr></table></figure>
+<p>安装 Ansible</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install ansible -y</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="使用">使用</h2>
+<ul>
+<li>使用前需要定义两个文件：<br>
+一个指定需要批量执行的主机<code>hosts.ini</code>，可以随意指定名称；一个指定需要运行的命令和动作<code>command.yml</code>，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</li>
+</ul>
+<ol>
+<li>hosts.ini：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[hostst_g]</span><br><span class="line">此处填写ip</span><br><span class="line">[hosts_g:vars]</span><br><span class="line">ansible_ssh_user=root ##账号</span><br><span class="line">ansible_ssh_pass=123456 ##密码</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>command.yml：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: 在远程主机上执行任意命令  </span><br><span class="line">  hosts: all</span><br><span class="line">  gather_facts: no</span><br><span class="line">  tasks:</span><br><span class="line">      - name: 执行一个特定命令</span><br><span class="line">        command: echo &quot;你好，世界！&quot;</span><br><span class="line">        # 使用  command  模块执行简单命令，不支持管道和重定向</span><br><span class="line">      - name:  列出目录中的文件</span><br><span class="line">        command: ls /path/to/directory</span><br><span class="line">        # 列出指定目录中的所有文件</span><br><span class="line">      - name:  使用 shell 运行包含管道的命令</span><br><span class="line">        shell: echo &quot;你好，世界！&quot; | grep 你好</span><br><span class="line">        # 使用 shell 模块支持管道、变量和重定向等 shell 特性</span><br><span class="line">      - name: 使用  hell  特性运行命令</span><br><span class="line">        shell: cat /etc/passwd | grep root</span><br><span class="line">        # 通过管道过滤包含 &quot;root&quot; 的行</span><br></pre></td></tr></table></figure>
+<p>可使用shell：模拟终端上所有执行的命令。</p>
+<ul>
+<li>使用命令</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ansible-playbook -i hosts.ini command.yml</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="安装ansible示例">安装ansible示例</h2>
+<h3 id="文件结构">文件结构</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">project_dir/</span><br><span class="line">├── install_tomcat.yml        # Ansible 剧本</span><br><span class="line">├── hosts.ini                 # 主机信息</span><br><span class="line">└── html/                     # 本地网页目录（你已经准备好了）</span><br><span class="line">    ├── index.html</span><br><span class="line">    └── images/</span><br><span class="line">        └── logo.png</span><br></pre></td></tr></table></figure>
+<h3 id="hosts-ini-文件内容：">hosts.ini 文件内容：</h3>
+<p>目标主机信息</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[test]</span><br><span class="line">192.168.1.101</span><br><span class="line">192.168.1.102</span><br><span class="line"></span><br><span class="line">[test:vars]</span><br><span class="line">ansible_user=root</span><br><span class="line">ansible_ssh_pass=你的密码</span><br><span class="line">ansible_python_interpreter=/usr/bin/python3</span><br></pre></td></tr></table></figure>
+<h3 id="install-tomcat-yml-内容">install_tomcat.yml 内容</h3>
+<p>执行的任务</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- name: 在所有 test 主机上安装并配置 Tomcat</span><br><span class="line">  hosts: test</span><br><span class="line">  become: yes</span><br><span class="line">  tasks:</span><br><span class="line"></span><br><span class="line">    - name: 安装 Java（Tomcat 依赖）</span><br><span class="line">      package:</span><br><span class="line">        name: java-1.8.0-openjdk</span><br><span class="line">        state: present</span><br><span class="line"></span><br><span class="line">    - name: 创建 tomcat 用户</span><br><span class="line">      user:</span><br><span class="line">        name: tomcat</span><br><span class="line">        shell: /bin/false</span><br><span class="line">        system: yes</span><br><span class="line">        create_home: no</span><br><span class="line"></span><br><span class="line">    - name: 下载 Tomcat 安装包</span><br><span class="line">      get_url:</span><br><span class="line">        url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.89/bin/apache-tomcat-9.0.89.tar.gz</span><br><span class="line">        dest: /tmp/tomcat.tar.gz</span><br><span class="line"></span><br><span class="line">    - name: 创建 Tomcat 安装目录</span><br><span class="line">      file:</span><br><span class="line">        path: /opt/tomcat</span><br><span class="line">        state: directory</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0755&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 解压 Tomcat 安装包</span><br><span class="line">      unarchive:</span><br><span class="line">        src: /tmp/tomcat.tar.gz</span><br><span class="line">        dest: /opt/tomcat</span><br><span class="line">        remote_src: yes</span><br><span class="line">        creates: /opt/tomcat/apache-tomcat-9.0.89</span><br><span class="line"></span><br><span class="line">    - name: 配置 Tomcat 环境变量（可选）</span><br><span class="line">      copy:</span><br><span class="line">        dest: /etc/profile.d/tomcat.sh</span><br><span class="line">        content: |</span><br><span class="line">          export CATALINA_HOME=/opt/tomcat/apache-tomcat-9.0.89</span><br><span class="line"></span><br><span class="line">    - name: 备份默认 webapps 目录</span><br><span class="line">      command: mv /opt/tomcat/apache-tomcat-9.0.89/webapps /opt/tomcat/apache-tomcat-9.0.89/webapps.bak</span><br><span class="line">      args:</span><br><span class="line">        creates: /opt/tomcat/apache-tomcat-9.0.89/webapps.bak</span><br><span class="line"></span><br><span class="line">    - name: 创建网页目录 /var/www/html</span><br><span class="line">      file:</span><br><span class="line">        path: /var/www/html</span><br><span class="line">        state: directory</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0755&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 上传本地 html 文件到远程 /var/www/html</span><br><span class="line">      copy:</span><br><span class="line">        src: html/</span><br><span class="line">        dest: /var/www/html/</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0644&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 创建 /var/www/html 到 Tomcat webapps 的符号链接</span><br><span class="line">      file:</span><br><span class="line">        src: /var/www/html</span><br><span class="line">        dest: /opt/tomcat/apache-tomcat-9.0.89/webapps</span><br><span class="line">        state: link</span><br><span class="line">        force: yes</span><br><span class="line"></span><br><span class="line">    - name: 启动 Tomcat 服务</span><br><span class="line">      shell: nohup /opt/tomcat/apache-tomcat-9.0.89/bin/startup.sh &amp;</span><br><span class="line">      args:</span><br><span class="line">        chdir: /opt/tomcat/apache-tomcat-9.0.89/bin</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>网络安全</category>
-        <category>kali</category>
+        <category>系统运维</category>
+        <category>linux</category>
       </categories>
       <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>实战演示</tag>
+        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
@@ -715,29 +676,6 @@ host               指定您希望抓取数据包的host（通常是本地网关
         <tag>astrbot</tag>
         <tag>napcat</tag>
         <tag>Gewechat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>centos-release-scl安装换源</title>
-    <url>/2025/03/23/centos-release-scl%E6%8A%A5%E9%94%99/</url>
-    <content><![CDATA[<h2 id="安装">安装</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum -y install centos-release-scl</span><br></pre></td></tr></table></figure>
-<p>centos7.9安装后遇到无法使用yum的问题，报错无法访问 <a href="http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo">http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo</a> ，换国内源即可解决</p>
-<h2 id="换源">换源</h2>
-<p>修改两个文件内容</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl.repo /etc/yum.repos.d/CentOS-SCLo-scl.repo.bak</span><br><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo.bak</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl.repo</span><br><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo</span><br></pre></td></tr></table></figure>
-<p>更换为</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[centos-sclo-rh]</span><br><span class="line">name=CentOS-7 - SCLo rh</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/rh/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br><span class="line"></span><br><span class="line">[centos-sclo-sclo]</span><br><span class="line">name=CentOS-7 - SCLo sclo</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/sclo/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br></pre></td></tr></table></figure>
-<p>清理缓存并生成新缓存</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo yum clean all</span><br><span class="line">sudo yum makecache</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>centos</tag>
-        <tag>centos-release-scl</tag>
       </tags>
   </entry>
   <entry>
@@ -1005,6 +943,68 @@ host               指定您希望抓取数据包的host（通常是本地网关
       <tags>
         <tag>bash</tag>
         <tag>shell命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>arp欺骗</title>
+    <url>/2024/08/01/arpspoof/</url>
+    <content><![CDATA[<h2 id="使用arpspoof命令：">使用arpspoof命令：</h2>
+<pre><code>arpspoof -i eth0 -t 目标IP地址 网关IP地址
+</code></pre>
+<p>-i interface          指定要使用的接口。<br>
+-c own|host|both     	指定范围own|host|both（自己|主机|两者）<br>
+-t target            指定一台特定主机进行ARP（如果未指定，则为LAN上的所有主机）<br>
+-r						  两个主机(主机和目标)以捕获两个方向的流量。(仅对-t有效)<br>
+host               指定您希望抓取数据包的host（通常是本地网关）</p>
+<h2 id="使用ettercap-G-蜘蛛工具">使用ettercap -G 蜘蛛工具</h2>
+<p>实例演示-arp欺骗</p>
+<p>1.打开ettercap，选择你要使用的网卡，点击&quot;对号&quot;。<br>
+<img src="/images/pasted-4.png" alt="upload successful"></p>
+<p>2.点击&quot;搜索&quot;按钮，进行主机发现。<br>
+<img src="/images/pasted-5.png" alt="upload successful"></p>
+<p>3.点击&quot;红色方框里面的按钮&quot;，我们可以查看&quot;host list&quot;.<br>
+<img src="/images/pasted-6.png" alt="upload successful"></p>
+<p>4.将想要欺骗的网关和受害者分别添加到&quot;add to target 1&quot;和&quot;add to target 2&quot;。<br>
+<img src="/images/pasted-7.png" alt="upload successful"></p>
+<p>5.点击&quot;圆圈&quot;，选择&quot;arp poisoning spoofing&quot;。<br>
+<img src="/images/pasted-8.png" alt="upload successful"></p>
+<p>6.选择&quot;sniff remote connections&quot;，然后点击&quot;OK&quot;。这样就配置完成，ettercap会自动开始arp欺骗。<br>
+<img src="/images/pasted-9.png" alt="upload successful"></p>
+<p>7.我们在受害者主机上可以看到网关的mac地址，已经替换成192.168.3.23的mac地址。<br>
+<img src="/images/pasted-10.png" alt="upload successful"></p>
+<p>攻击成功之后可以让流量经过本机一层代理，可以进行抓包，dns污染等等。</p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>实战演示</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos-release-scl安装换源</title>
+    <url>/2025/03/23/centos-release-scl%E6%8A%A5%E9%94%99/</url>
+    <content><![CDATA[<h2 id="安装">安装</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum -y install centos-release-scl</span><br></pre></td></tr></table></figure>
+<p>centos7.9安装后遇到无法使用yum的问题，报错无法访问 <a href="http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo">http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo</a> ，换国内源即可解决</p>
+<h2 id="换源">换源</h2>
+<p>修改两个文件内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl.repo /etc/yum.repos.d/CentOS-SCLo-scl.repo.bak</span><br><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo.bak</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl.repo</span><br><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo</span><br></pre></td></tr></table></figure>
+<p>更换为</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[centos-sclo-rh]</span><br><span class="line">name=CentOS-7 - SCLo rh</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/rh/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br><span class="line"></span><br><span class="line">[centos-sclo-sclo]</span><br><span class="line">name=CentOS-7 - SCLo sclo</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/sclo/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br></pre></td></tr></table></figure>
+<p>清理缓存并生成新缓存</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo yum clean all</span><br><span class="line">sudo yum makecache</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>centos</tag>
+        <tag>centos-release-scl</tag>
       </tags>
   </entry>
   <entry>
@@ -1391,36 +1391,6 @@ mysql:5.7
       </tags>
   </entry>
   <entry>
-    <title>docker目录挂载</title>
-    <url>/2024/08/11/docker%E7%9B%AE%E5%BD%95%E6%8C%82%E8%BD%BD/</url>
-    <content><![CDATA[<h2 id="简介">简介</h2>
-<p>docker目录的挂载有三种方式，分别试用于不同的场景：<br>
-1、Bind Mount将宿主机上的一个文件或目录挂载到容器内。<br>
-适用于修改配置文件或者代码文件的目录，容器会和宿主机同步更新。</p>
-<p>2、Volume由Docker创建和管理的目录，用于持久化和共享数据，与上述类似，区别在于是使用一个新的，由容器创建的目录</p>
-<p>3、tmpfs mount 存储临时文件，存储于主机内存中，不能多容器共享（使用场景少）</p>
-<h2 id="Bind-Mount">Bind Mount</h2>
-<p>常用命令</p>
-<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;绝对路径&gt;:&lt;容器目录&gt; &lt;镜像&gt;
-</code></pre>
-<p>使用 --mount 指令进行绑定挂载</p>
-<pre><code>docker run -d --name &lt;容器名&gt; --mount type=bind,source=&lt;宿主机目录&gt;,target=&lt;容器目录&gt; &lt;镜像&gt;
-</code></pre>
-<h2 id="Volume">Volume</h2>
-<p>常用命令&lt;数据卷名称&gt;直接写名字则是在当前目录创建目录</p>
-<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;数据卷名称&gt;:&lt;容器目录&gt; &lt;镜像&gt;
-</code></pre>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker安装awvs并激活</title>
     <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
     <content><![CDATA[<h2 id="安装awvs">安装awvs</h2>
@@ -1475,6 +1445,36 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       </tags>
   </entry>
   <entry>
+    <title>docker目录挂载</title>
+    <url>/2024/08/11/docker%E7%9B%AE%E5%BD%95%E6%8C%82%E8%BD%BD/</url>
+    <content><![CDATA[<h2 id="简介">简介</h2>
+<p>docker目录的挂载有三种方式，分别试用于不同的场景：<br>
+1、Bind Mount将宿主机上的一个文件或目录挂载到容器内。<br>
+适用于修改配置文件或者代码文件的目录，容器会和宿主机同步更新。</p>
+<p>2、Volume由Docker创建和管理的目录，用于持久化和共享数据，与上述类似，区别在于是使用一个新的，由容器创建的目录</p>
+<p>3、tmpfs mount 存储临时文件，存储于主机内存中，不能多容器共享（使用场景少）</p>
+<h2 id="Bind-Mount">Bind Mount</h2>
+<p>常用命令</p>
+<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;绝对路径&gt;:&lt;容器目录&gt; &lt;镜像&gt;
+</code></pre>
+<p>使用 --mount 指令进行绑定挂载</p>
+<pre><code>docker run -d --name &lt;容器名&gt; --mount type=bind,source=&lt;宿主机目录&gt;,target=&lt;容器目录&gt; &lt;镜像&gt;
+</code></pre>
+<h2 id="Volume">Volume</h2>
+<p>常用命令&lt;数据卷名称&gt;直接写名字则是在当前目录创建目录</p>
+<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;数据卷名称&gt;:&lt;容器目录&gt; &lt;镜像&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dvwa-命令执行</title>
     <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
     <content><![CDATA[<h2 id="Low等级">Low等级</h2>
@@ -1513,6 +1513,77 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       </categories>
       <tags>
         <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ettercap arp欺骗+dns劫持+钓鱼网站</title>
+    <url>/2024/10/15/ettercap-arp%E6%AC%BA%E9%AA%97-dns%E5%8A%AB%E6%8C%81-%E9%92%93%E9%B1%BC%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<h2 id="简介">简介</h2>
+<p>这次主要是使用ettercap在局域网中发现主机并欺骗其arp表，让其mac地址与攻击主机mac一致，使用dns污染其dns解析，将其访问的域名解析到本机的钓鱼网站中。</p>
+<p>注意！<br>
+ettercap使用要一次完成，在多次测试中发现，重新arp欺骗会无法生效，原因不知。</p>
+<h2 id="步骤">步骤</h2>
+<h3 id="发现局域网主机">发现局域网主机</h3>
+<p>在kali中打开ettercap</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ettercap -G</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-46.png" alt="upload successful"></p>
+<p>选择对应的接口，点击√号，再点击放大镜，再点击服务器<br>
+<img src="/images/pasted-47.png" alt="upload successful"></p>
+<p>192.168.0.1:网关<br>
+192.168.0.197:靶机</p>
+<h3 id="arp欺骗">arp欺骗</h3>
+<p>点击靶机，再点击add to target1<br>
+点击网关，再点击add to target2<br>
+<img src="/images/pasted-48.png" alt="upload successful"></p>
+<p>点击地球图标，点击arp poisoning，点击ok<br>
+<img src="/images/pasted-49.png" alt="upload successful"><br>
+<img src="/images/pasted-50.png" alt="upload successful"></p>
+<p>可在靶机上查看arp表，发现网关mac和本机mac一致，欺骗成功；但是访问正常，可能会短暂无法访问互联网。</p>
+<h3 id="制作钓鱼网站">制作钓鱼网站</h3>
+<p>使用setoolkit社工软件制作</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">setoolkit</span><br></pre></td></tr></table></figure>
+<p>来个好看的封面<br>
+<img src="/images/pasted-51.png" alt="upload successful"></p>
+<p>选择1<br>
+<img src="/images/pasted-52.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Social-Engineering Attacks：社会工程学攻击</span><br><span class="line">2）Penetration Testing(Fast-Track)：渗透测试（快速通道）</span><br><span class="line">3）Third Party Modules：第三模块</span><br><span class="line">4）Update the Social-Engineer Toolkit：更新社会工程学工具包</span><br><span class="line">5）Update SET configuration：更新SET配置</span><br><span class="line">6）Help, Credits, and About：帮助、致谢和关于</span><br><span class="line"></span><br><span class="line">99）Exit the Social-Engineer Toolkit：退出</span><br></pre></td></tr></table></figure>
+<p>选择2<br>
+<img src="/images/pasted-53.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）鱼叉式网络钓鱼攻击向量</span><br><span class="line">2）网站攻击向量</span><br><span class="line">3）感染性媒体生成器</span><br><span class="line">4）创建载荷和监听器</span><br><span class="line">5）批量邮件攻击</span><br><span class="line">6）基于Arduino的攻击向量</span><br><span class="line">7）无线接入点攻击向量</span><br><span class="line">8）QR码生成器攻击向量</span><br><span class="line">9）PowerShell攻击向量</span><br><span class="line">10）第三方模块</span><br><span class="line"></span><br><span class="line">99）返回主菜单。</span><br></pre></td></tr></table></figure>
+<p>选择3<br>
+<img src="/images/pasted-54.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Java小程序攻击方法</span><br><span class="line">2）Metasploit浏览器漏洞利用方法</span><br><span class="line">3）凭证收集攻击方法</span><br><span class="line">4）Tabnabbing攻击方法</span><br><span class="line">5）Web劫持攻击方法</span><br><span class="line">6）多攻击网络方法</span><br><span class="line">7）HTA攻击方法</span><br><span class="line"></span><br><span class="line">99）返回主菜单</span><br></pre></td></tr></table></figure>
+<p>随意，我这里选择1，比较方便<br>
+<img src="/images/pasted-55.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）网络模板</span><br><span class="line">2）网站克隆器</span><br><span class="line">3）自定义导入</span><br><span class="line"></span><br><span class="line">99）返回网络攻击菜单</span><br></pre></td></tr></table></figure>
+<p>然后输入要被访问的ip，选择谷歌模板，网站制作完成。<br>
+<img src="/images/pasted-56.png" alt="upload successful"></p>
+<h3 id="dns劫持">dns劫持</h3>
+<p>配置ettercap的dns劫持配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/ettercap/etter.dns</span><br></pre></td></tr></table></figure>
+<p>末尾添加以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*	A	192.168.0.194</span><br></pre></td></tr></table></figure>
+<p>意思是所有域名均解析成后面的ip<br>
+<img src="/images/pasted-57.png" alt="upload successful"></p>
+<p>点击软件三个点，然后选择plugins，再选择manage plugins<br>
+<img src="/images/pasted-59.png" alt="upload successful"></p>
+<p>双击dns_spoof即可<br>
+<img src="/images/pasted-60.png" alt="upload successful"></p>
+<h2 id="验证">验证</h2>
+<h3 id="因为创建的是80端口的页面，靶机要输入http-域名">因为创建的是80端口的页面，靶机要输入<a href="http://xn--+-j68a70j">http://+域名</a></h3>
+<p><img src="/images/pasted-63.png" alt="upload successful"></p>
+<h3 id="工具会有劫持成功的返回">工具会有劫持成功的返回</h3>
+<p><img src="/images/pasted-62.png" alt="upload successful"></p>
+<h3 id="拿到密码">拿到密码</h3>
+<p><img src="/images/pasted-61.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+        <tag>ettercap</tag>
       </tags>
   </entry>
   <entry>
@@ -1586,77 +1657,6 @@ the next reboot or after you run partprobe(8) or kpartx(8)
       </categories>
       <tags>
         <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ettercap arp欺骗+dns劫持+钓鱼网站</title>
-    <url>/2024/10/15/ettercap-arp%E6%AC%BA%E9%AA%97-dns%E5%8A%AB%E6%8C%81-%E9%92%93%E9%B1%BC%E7%BD%91%E7%AB%99/</url>
-    <content><![CDATA[<h2 id="简介">简介</h2>
-<p>这次主要是使用ettercap在局域网中发现主机并欺骗其arp表，让其mac地址与攻击主机mac一致，使用dns污染其dns解析，将其访问的域名解析到本机的钓鱼网站中。</p>
-<p>注意！<br>
-ettercap使用要一次完成，在多次测试中发现，重新arp欺骗会无法生效，原因不知。</p>
-<h2 id="步骤">步骤</h2>
-<h3 id="发现局域网主机">发现局域网主机</h3>
-<p>在kali中打开ettercap</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ettercap -G</span><br></pre></td></tr></table></figure>
-<p><img src="/images/pasted-46.png" alt="upload successful"></p>
-<p>选择对应的接口，点击√号，再点击放大镜，再点击服务器<br>
-<img src="/images/pasted-47.png" alt="upload successful"></p>
-<p>192.168.0.1:网关<br>
-192.168.0.197:靶机</p>
-<h3 id="arp欺骗">arp欺骗</h3>
-<p>点击靶机，再点击add to target1<br>
-点击网关，再点击add to target2<br>
-<img src="/images/pasted-48.png" alt="upload successful"></p>
-<p>点击地球图标，点击arp poisoning，点击ok<br>
-<img src="/images/pasted-49.png" alt="upload successful"><br>
-<img src="/images/pasted-50.png" alt="upload successful"></p>
-<p>可在靶机上查看arp表，发现网关mac和本机mac一致，欺骗成功；但是访问正常，可能会短暂无法访问互联网。</p>
-<h3 id="制作钓鱼网站">制作钓鱼网站</h3>
-<p>使用setoolkit社工软件制作</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">setoolkit</span><br></pre></td></tr></table></figure>
-<p>来个好看的封面<br>
-<img src="/images/pasted-51.png" alt="upload successful"></p>
-<p>选择1<br>
-<img src="/images/pasted-52.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Social-Engineering Attacks：社会工程学攻击</span><br><span class="line">2）Penetration Testing(Fast-Track)：渗透测试（快速通道）</span><br><span class="line">3）Third Party Modules：第三模块</span><br><span class="line">4）Update the Social-Engineer Toolkit：更新社会工程学工具包</span><br><span class="line">5）Update SET configuration：更新SET配置</span><br><span class="line">6）Help, Credits, and About：帮助、致谢和关于</span><br><span class="line"></span><br><span class="line">99）Exit the Social-Engineer Toolkit：退出</span><br></pre></td></tr></table></figure>
-<p>选择2<br>
-<img src="/images/pasted-53.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）鱼叉式网络钓鱼攻击向量</span><br><span class="line">2）网站攻击向量</span><br><span class="line">3）感染性媒体生成器</span><br><span class="line">4）创建载荷和监听器</span><br><span class="line">5）批量邮件攻击</span><br><span class="line">6）基于Arduino的攻击向量</span><br><span class="line">7）无线接入点攻击向量</span><br><span class="line">8）QR码生成器攻击向量</span><br><span class="line">9）PowerShell攻击向量</span><br><span class="line">10）第三方模块</span><br><span class="line"></span><br><span class="line">99）返回主菜单。</span><br></pre></td></tr></table></figure>
-<p>选择3<br>
-<img src="/images/pasted-54.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Java小程序攻击方法</span><br><span class="line">2）Metasploit浏览器漏洞利用方法</span><br><span class="line">3）凭证收集攻击方法</span><br><span class="line">4）Tabnabbing攻击方法</span><br><span class="line">5）Web劫持攻击方法</span><br><span class="line">6）多攻击网络方法</span><br><span class="line">7）HTA攻击方法</span><br><span class="line"></span><br><span class="line">99）返回主菜单</span><br></pre></td></tr></table></figure>
-<p>随意，我这里选择1，比较方便<br>
-<img src="/images/pasted-55.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）网络模板</span><br><span class="line">2）网站克隆器</span><br><span class="line">3）自定义导入</span><br><span class="line"></span><br><span class="line">99）返回网络攻击菜单</span><br></pre></td></tr></table></figure>
-<p>然后输入要被访问的ip，选择谷歌模板，网站制作完成。<br>
-<img src="/images/pasted-56.png" alt="upload successful"></p>
-<h3 id="dns劫持">dns劫持</h3>
-<p>配置ettercap的dns劫持配置文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/ettercap/etter.dns</span><br></pre></td></tr></table></figure>
-<p>末尾添加以下内容</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*	A	192.168.0.194</span><br></pre></td></tr></table></figure>
-<p>意思是所有域名均解析成后面的ip<br>
-<img src="/images/pasted-57.png" alt="upload successful"></p>
-<p>点击软件三个点，然后选择plugins，再选择manage plugins<br>
-<img src="/images/pasted-59.png" alt="upload successful"></p>
-<p>双击dns_spoof即可<br>
-<img src="/images/pasted-60.png" alt="upload successful"></p>
-<h2 id="验证">验证</h2>
-<h3 id="因为创建的是80端口的页面，靶机要输入http-域名">因为创建的是80端口的页面，靶机要输入<a href="http://xn--+-j68a70j">http://+域名</a></h3>
-<p><img src="/images/pasted-63.png" alt="upload successful"></p>
-<h3 id="工具会有劫持成功的返回">工具会有劫持成功的返回</h3>
-<p><img src="/images/pasted-62.png" alt="upload successful"></p>
-<h3 id="拿到密码">拿到密码</h3>
-<p><img src="/images/pasted-61.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>娱乐</category>
-      </categories>
-      <tags>
-        <tag>kali</tag>
-        <tag>ettercap</tag>
       </tags>
   </entry>
   <entry>
@@ -1782,48 +1782,6 @@ Repository name <a href="http://xn--fiq51fkycnswykwlh0b.github.io">中输入用�
       </tags>
   </entry>
   <entry>
-    <title>hexo-gitee部署</title>
-    <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<h2 id="导语">导语</h2>
-<p>与github的部署方式一样，仅是代码仓库的设置有些许不同，并且gitee上需要单独开启gitee pages，并且要实名认证，目前<code>pages服务暂停了</code>。</p>
-<blockquote>
-<p>gitee pages已暂停服务，无法通过其访问</p>
-<blockquote>
-<p>参考文章：<a href="https://cloud.tencent.com/developer/article/2495238">https://cloud.tencent.com/developer/article/2495238</a></p>
-</blockquote>
-</blockquote>
-<hr>
-<h2 id="配置方法">配置方法</h2>
-<p>hexo的创建和deploy的配置和github一样，可以参考<a href="/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/">github部署hexo</a></p>
-<ul>
-<li>注意git name和email</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 gitee 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 gitee 邮箱&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="创建仓库">创建仓库</h3>
-<p>创建gitee仓库，需要注意一点不一样的是，仓库名称不需要和github一样格式<br>
-我起的名称是haha_w</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Github:	&#123;username&#125;.github.io</span><br><span class="line">gitee:	&#123;username&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="修改yml">修改yml</h3>
-<p>根目录中<code>_config.yml</code>的deploy的配置需要修改一下，这样可以同时更新两个仓库</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span></span><br><span class="line">    <span class="attr">gitee:</span> <span class="string">https://gitee.com/haha_w/haha_w.git,master</span></span><br><span class="line">    <span class="attr">github:</span> <span class="string">git@github.com:w00123/w00123.github.io.git,master</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建SSH-key">创建SSH key</h3>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;<span class="number">15967126</span>+haha_w@user.noreply.gitee.com&quot;</span><br></pre></td></tr></table></figure>
-<p>上传公钥到gitee，测试可以用以下命令测试：</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>完成配置</p>
-</div>
-<hr>
-<h2 id="上传代码仓库">上传代码仓库</h2>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo cl</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>gitee</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo-butterfly美化</title>
     <url>/2024/08/03/hexo-butterfly%E7%BE%8E%E5%8C%96/</url>
     <content><![CDATA[<h2 id="hexo博客一图流">hexo博客一图流</h2>
@@ -1909,6 +1867,48 @@ vim custom.css</p>
       </tags>
   </entry>
   <entry>
+    <title>hexo-gitee部署</title>
+    <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h2 id="导语">导语</h2>
+<p>与github的部署方式一样，仅是代码仓库的设置有些许不同，并且gitee上需要单独开启gitee pages，并且要实名认证，目前<code>pages服务暂停了</code>。</p>
+<blockquote>
+<p>gitee pages已暂停服务，无法通过其访问</p>
+<blockquote>
+<p>参考文章：<a href="https://cloud.tencent.com/developer/article/2495238">https://cloud.tencent.com/developer/article/2495238</a></p>
+</blockquote>
+</blockquote>
+<hr>
+<h2 id="配置方法">配置方法</h2>
+<p>hexo的创建和deploy的配置和github一样，可以参考<a href="/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/">github部署hexo</a></p>
+<ul>
+<li>注意git name和email</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 gitee 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 gitee 邮箱&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="创建仓库">创建仓库</h3>
+<p>创建gitee仓库，需要注意一点不一样的是，仓库名称不需要和github一样格式<br>
+我起的名称是haha_w</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Github:	&#123;username&#125;.github.io</span><br><span class="line">gitee:	&#123;username&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="修改yml">修改yml</h3>
+<p>根目录中<code>_config.yml</code>的deploy的配置需要修改一下，这样可以同时更新两个仓库</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span></span><br><span class="line">    <span class="attr">gitee:</span> <span class="string">https://gitee.com/haha_w/haha_w.git,master</span></span><br><span class="line">    <span class="attr">github:</span> <span class="string">git@github.com:w00123/w00123.github.io.git,master</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建SSH-key">创建SSH key</h3>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;<span class="number">15967126</span>+haha_w@user.noreply.gitee.com&quot;</span><br></pre></td></tr></table></figure>
+<p>上传公钥到gitee，测试可以用以下命令测试：</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>完成配置</p>
+</div>
+<hr>
+<h2 id="上传代码仓库">上传代码仓库</h2>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo cl</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>gitee</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo-github贡献日历</title>
     <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
     <content><![CDATA[<h2 id="预览">预览</h2>
@@ -1940,6 +1940,31 @@ vim custom.css</p>
       <tags>
         <tag>博客</tag>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hoic高射炮工具</title>
+    <url>/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="安装">安装</h2>
+<p>下载地址：</p>
+<blockquote>
+<p><a href="https://sourceforge.net/projects/high-orbit-ion-cannon/">https://sourceforge.net/projects/high-orbit-ion-cannon/</a><br>
+官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载</p>
+</blockquote>
+<h2 id="使用">使用</h2>
+<ol>
+<li>解压后运行exe</li>
+<li>选择<code>+号</code>添加url</li>
+<li>可选择脚本第一个为伪造来源，后面的可以试试</li>
+</ol>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>网络安全</tag>
+        <tag>hoic</tag>
       </tags>
   </entry>
   <entry>
@@ -2020,102 +2045,6 @@ vim custom.css</p>
       </tags>
   </entry>
   <entry>
-    <title>hexo-微博热搜侧边栏</title>
-    <url>/2025/02/20/hexo-%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E4%BE%A7%E8%BE%B9%E6%A0%8F/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
-<p>学习来自<code>Ldyer</code>，原文链接：</p>
-<blockquote>
-<p><a href="https://blog.ldyer.top/2024/04/24/%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E6%9D%BF%E5%9D%97/index.html">https://blog.ldyer.top/2024/04/24/微博热搜板块/index.html</a></p>
-</blockquote>
-<p>有部分有问题的做了修改，也有部分不太符合主题的做了颜色修改。</p>
-<h2 id="效果图">效果图</h2>
-<p><img src="/images/pasted-85.png" alt="效果"></p>
-<h2 id="配置方法">配置方法</h2>
-<h3 id="创建widget-yml文件">创建widget.yml文件</h3>
-<p>如果没有这个目录需要创建，<code>source/_data/widget.yml</code></p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这里填top表示所有地方都显示，bottom表示只在非文章页面显示，如主页等等</span></span><br><span class="line"><span class="attr">bottom:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">class_name:</span></span><br><span class="line">    <span class="attr">id_name:</span> <span class="string">weibo</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">微博热搜</span></span><br><span class="line">    <span class="attr">icon:</span> <span class="string">fa-brands</span> <span class="string">fa-weibo</span></span><br><span class="line">    <span class="attr">html:</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/weibo.css&quot;&gt;&lt;div</span> <span class="string">id=&quot;weiboContent&quot;&gt;&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建weibo-css">创建weibo.css</h3>
-<p>创建<code>themes/butterfly/source/css/weibo.css</code></p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 设置从左到右的渐变背景色 */</span></span><br><span class="line"><span class="selector-id">#weibo</span><span class="selector-class">.card-widget</span>&#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(to right, <span class="number">#4B0082</span>, <span class="number">#000000</span>) <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">color</span>: white;</span><br><span class="line">    <span class="attribute">border-width</span>: <span class="number">10px</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*热度标签背景颜色*/</span></span><br><span class="line"><span class="selector-class">.weibo-new</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff3852</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-hot</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff9406</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-jyzy</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ffc000</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-recommend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#00b7ee</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-adrecommend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#febd22</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-friend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#8fc21e</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-boom</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#bd0000</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-topic</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff6f49</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-topic-ad</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#4dadff</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-boil</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#f86400</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo</span> <span class="selector-class">.item-content</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo-container</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">250px</span>; <span class="comment">/* 容器高度固定为250px */</span></span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">95%</span>;</span><br><span class="line">    <span class="attribute">overflow-y</span>: auto;</span><br><span class="line">    -ms-<span class="attribute">overflow</span>-style: none;</span><br><span class="line">    <span class="attribute">scrollbar-width</span>: none</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-list-item</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">flex-direction</span>: row;</span><br><span class="line">    <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: nowrap</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-title</span> &#123;</span><br><span class="line">    <span class="attribute">max-width</span>: auto; <span class="comment">/* 最大宽度 */</span></span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">    <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">    <span class="attribute">margin-right</span>: auto</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-num</span> &#123;</span><br><span class="line">    <span class="attribute">float</span>: right;</span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-hotness</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">6px</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">scale</span>(.<span class="number">8</span>) <span class="built_in">translateX</span>(-<span class="number">3px</span>);</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">8px</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo-container</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>; <span class="comment">/* 链接文字颜色 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-attr">[data-theme=<span class="string">&#x27;dark&#x27;</span>]</span> <span class="selector-id">#weibo-container</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 隐藏滚动条 */</span></span><br><span class="line"><span class="selector-id">#weibo-container</span>::-webkit-scrollbar&#123;</span><br><span class="line">    <span class="attribute">display</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="创建weibo-js文件">创建weibo.js文件</h3>
-<p>创建<code>themes/butterfly/source/js/weibo.js</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 如果你开启了在手机端显示侧边栏，可以将下面这行代码注释，开启下面的weibo();</span></span><br><span class="line"><span class="keyword">try</span> &#123; <span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;weibo&#x27;</span>).<span class="property">clientWidth</span>) <span class="title function_">weibo</span>(); &#125; <span class="keyword">catch</span> (error) &#123;&#125;</span><br><span class="line"><span class="comment">// weibo();</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">weibo</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> hotness = &#123;</span><br><span class="line">        <span class="string">&#x27;1&#x27;</span>: <span class="string">&#x27;weibo-boom&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;2&#x27;</span>: <span class="string">&#x27;weibo-hot&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;3&#x27;</span>: <span class="string">&#x27;weibo-boil&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;4&#x27;</span>: <span class="string">&#x27;weibo-new&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;5&#x27;</span>: <span class="string">&#x27;weibo-recommend&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;6&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;7&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;8&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> html = <span class="string">&#x27;&lt;div id=&quot;weibo-container&quot;&gt;&#x27;</span></span><br><span class="line">    <span class="keyword">let</span> data = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&#x27;weibo&#x27;</span>));</span><br><span class="line">    <span class="keyword">let</span> nowTime = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">    <span class="keyword">let</span> ls;</span><br><span class="line">    <span class="keyword">if</span> (data == <span class="literal">null</span> || nowTime - data.<span class="property">time</span> &gt; <span class="number">600000</span>) &#123; <span class="comment">// 600000为缓存时间，即10分钟，避免频繁请求，加快本地访问速度。</span></span><br><span class="line">        <span class="title function_">getData</span>();</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        ls = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(data.<span class="property">ls</span>)</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> ls) &#123;</span><br><span class="line">        html += <span class="string">&#x27;&lt;div class=&quot;weibo-list-item&quot;&gt;&lt;div class=&quot;weibo-hotness &#x27;</span> + hotness[item.<span class="property">index</span>] + <span class="string">&#x27;&quot;&gt;&#x27;</span> + item.<span class="property">index</span> + <span class="string">&#x27;&lt;/div&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;span class=&quot;weibo-title&quot;&gt;&lt;a title=&quot;&#x27;</span> + item.<span class="property">title</span> + <span class="string">&#x27;&quot; href=&quot;&#x27;</span> + item.<span class="property">url</span> + <span class="string">&#x27;&quot; target=&quot;_blank&quot; rel=&quot;external nofollow noreferrer&quot;&gt;&#x27;</span> + item.<span class="property">title</span> + <span class="string">&#x27;&lt;/a&gt;&lt;/span&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;div class=&quot;weibo-num&quot;&gt;&lt;span&gt;&#x27;</span> + item.<span class="property">hot</span> + <span class="string">&#x27;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    html += <span class="string">&#x27;&lt;/div&gt;&#x27;</span>;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;weiboContent&#x27;</span>).<span class="property">innerHTML</span> = html;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getData</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 这里采用新的api，如果炸了，可以换其他的，但注意api接收的json样式</span></span><br><span class="line">    <span class="title function_">fetch</span>(<span class="string">&#x27;https://v2.api-m.com/api/weibohot&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> data.<span class="title function_">json</span>()).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (data.<span class="property">code</span> === <span class="number">200</span>) &#123;</span><br><span class="line">            data = &#123; <span class="attr">time</span>: <span class="title class_">Date</span>.<span class="title function_">now</span>(), <span class="attr">ls</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data.<span class="property">data</span>) &#125;</span><br><span class="line">            <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&#x27;weibo&#x27;</span>, <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data))</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;获取数据失败&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).<span class="title function_">then</span>(weibo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#bber-talk&#x27;</span>)) &#123;</span><br><span class="line">    <span class="keyword">var</span> swiper = <span class="keyword">new</span> <span class="title function_">swiper</span>(<span class="string">&#x27;.swiper-container&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">direction</span>: <span class="string">&#x27;vertical&#x27;</span>, </span><br><span class="line">      <span class="attr">loop</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">autoplay</span>: &#123;</span><br><span class="line">      <span class="attr">delay</span>: <span class="number">3000</span>,</span><br><span class="line">      <span class="attr">pauseOnMouseEnter</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="引入weibo-css与weibo-js">引入weibo.css与weibo.js</h3>
-<p>和前面一图流方式一样，在<code>themes/butterfly/_config.yml</code>中添加</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">inject:</span></span><br><span class="line">  <span class="attr">head:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/custom.css&quot;&gt;</span></span><br><span class="line">    <span class="comment"># weibo</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/weibo.css&quot;&gt;</span></span><br><span class="line">  <span class="attr">bottom:</span></span><br><span class="line">    <span class="comment"># weibo</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&lt;script</span> <span class="string">src=&quot;/js/weibo.js&quot;&gt;&lt;/script&gt;</span></span><br><span class="line">    <span class="comment"># - &lt;script src=&quot;xxxx&quot;&gt;&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="加入卡片">加入卡片</h3>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">aside:</span></span><br><span class="line"><span class="string">..........</span></span><br><span class="line">    <span class="attr">card_webinfo:</span></span><br><span class="line">        <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">post_count:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h2 id="调整侧边栏顺序">调整侧边栏顺序</h2>
-<p>调整<code>sort_order</code>大小即可，数字越大越前，要把公告后的卡片都加上数字（有的资料说是越小越前，但是我测试不是，反正能用就行）</p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo博客安装方法</title>
-    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="termux">termux</h2>
-<h3 id="termux安装准备">termux安装准备</h3>
-<p>pkg换源</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@&#x27; $PREFIX/etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">pkg update</span><br><span class="line"></span><br><span class="line">pkg install nodejs-lts</span><br><span class="line">pkg install git</span><br><span class="line">pkg install vim</span><br></pre></td></tr></table></figure>
-<p>需要在目录下运行安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir hexo</span><br><span class="line">chmod 777 hexo</span><br><span class="line">cd hexo</span><br></pre></td></tr></table></figure>
-<h3 id="hexo">hexo</h3>
-<p>npm换源（淘宝）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm config set registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
-<p>安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-<p>启动命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<h3 id="主题">主题</h3>
-<p>下载主题</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
-<p>vim编辑根目录下_config.yml中的theme：butterfly<br>
-vim themes/butterfly/_config.yml</p>
-<p>安装插件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
-<h3 id="自定义样式">自定义样式</h3>
-<p>都通过修改文件themes/butterfly/_config.yml中的模块，根据相关备注修改模块。</p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hoic高射炮工具</title>
-    <url>/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<h2 id="安装">安装</h2>
-<p>下载地址：</p>
-<blockquote>
-<p><a href="https://sourceforge.net/projects/high-orbit-ion-cannon/">https://sourceforge.net/projects/high-orbit-ion-cannon/</a><br>
-官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载</p>
-</blockquote>
-<h2 id="使用">使用</h2>
-<ol>
-<li>解压后运行exe</li>
-<li>选择<code>+号</code>添加url</li>
-<li>可选择脚本第一个为伪造来源，后面的可以试试</li>
-</ol>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-        <tag>网络安全</tag>
-        <tag>hoic</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hydra命令</title>
     <url>/2024/08/01/hydra%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="参数详解">参数详解</h2>
@@ -2190,6 +2119,77 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
+    <title>hexo-微博热搜侧边栏</title>
+    <url>/2025/02/20/hexo-%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E4%BE%A7%E8%BE%B9%E6%A0%8F/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>学习来自<code>Ldyer</code>，原文链接：</p>
+<blockquote>
+<p><a href="https://blog.ldyer.top/2024/04/24/%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E6%9D%BF%E5%9D%97/index.html">https://blog.ldyer.top/2024/04/24/微博热搜板块/index.html</a></p>
+</blockquote>
+<p>有部分有问题的做了修改，也有部分不太符合主题的做了颜色修改。</p>
+<h2 id="效果图">效果图</h2>
+<p><img src="/images/pasted-85.png" alt="效果"></p>
+<h2 id="配置方法">配置方法</h2>
+<h3 id="创建widget-yml文件">创建widget.yml文件</h3>
+<p>如果没有这个目录需要创建，<code>source/_data/widget.yml</code></p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这里填top表示所有地方都显示，bottom表示只在非文章页面显示，如主页等等</span></span><br><span class="line"><span class="attr">bottom:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">class_name:</span></span><br><span class="line">    <span class="attr">id_name:</span> <span class="string">weibo</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">微博热搜</span></span><br><span class="line">    <span class="attr">icon:</span> <span class="string">fa-brands</span> <span class="string">fa-weibo</span></span><br><span class="line">    <span class="attr">html:</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/weibo.css&quot;&gt;&lt;div</span> <span class="string">id=&quot;weiboContent&quot;&gt;&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建weibo-css">创建weibo.css</h3>
+<p>创建<code>themes/butterfly/source/css/weibo.css</code></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 设置从左到右的渐变背景色 */</span></span><br><span class="line"><span class="selector-id">#weibo</span><span class="selector-class">.card-widget</span>&#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(to right, <span class="number">#4B0082</span>, <span class="number">#000000</span>) <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">color</span>: white;</span><br><span class="line">    <span class="attribute">border-width</span>: <span class="number">10px</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*热度标签背景颜色*/</span></span><br><span class="line"><span class="selector-class">.weibo-new</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff3852</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-hot</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff9406</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-jyzy</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ffc000</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-recommend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#00b7ee</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-adrecommend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#febd22</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-friend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#8fc21e</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-boom</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#bd0000</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-topic</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff6f49</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-topic-ad</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#4dadff</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-boil</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#f86400</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo</span> <span class="selector-class">.item-content</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo-container</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">250px</span>; <span class="comment">/* 容器高度固定为250px */</span></span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">95%</span>;</span><br><span class="line">    <span class="attribute">overflow-y</span>: auto;</span><br><span class="line">    -ms-<span class="attribute">overflow</span>-style: none;</span><br><span class="line">    <span class="attribute">scrollbar-width</span>: none</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-list-item</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">flex-direction</span>: row;</span><br><span class="line">    <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: nowrap</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-title</span> &#123;</span><br><span class="line">    <span class="attribute">max-width</span>: auto; <span class="comment">/* 最大宽度 */</span></span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">    <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">    <span class="attribute">margin-right</span>: auto</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-num</span> &#123;</span><br><span class="line">    <span class="attribute">float</span>: right;</span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-hotness</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">6px</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">scale</span>(.<span class="number">8</span>) <span class="built_in">translateX</span>(-<span class="number">3px</span>);</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">8px</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo-container</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>; <span class="comment">/* 链接文字颜色 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-attr">[data-theme=<span class="string">&#x27;dark&#x27;</span>]</span> <span class="selector-id">#weibo-container</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 隐藏滚动条 */</span></span><br><span class="line"><span class="selector-id">#weibo-container</span>::-webkit-scrollbar&#123;</span><br><span class="line">    <span class="attribute">display</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建weibo-js文件">创建weibo.js文件</h3>
+<p>创建<code>themes/butterfly/source/js/weibo.js</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 如果你开启了在手机端显示侧边栏，可以将下面这行代码注释，开启下面的weibo();</span></span><br><span class="line"><span class="keyword">try</span> &#123; <span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;weibo&#x27;</span>).<span class="property">clientWidth</span>) <span class="title function_">weibo</span>(); &#125; <span class="keyword">catch</span> (error) &#123;&#125;</span><br><span class="line"><span class="comment">// weibo();</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">weibo</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> hotness = &#123;</span><br><span class="line">        <span class="string">&#x27;1&#x27;</span>: <span class="string">&#x27;weibo-boom&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;2&#x27;</span>: <span class="string">&#x27;weibo-hot&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;3&#x27;</span>: <span class="string">&#x27;weibo-boil&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;4&#x27;</span>: <span class="string">&#x27;weibo-new&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;5&#x27;</span>: <span class="string">&#x27;weibo-recommend&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;6&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;7&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;8&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> html = <span class="string">&#x27;&lt;div id=&quot;weibo-container&quot;&gt;&#x27;</span></span><br><span class="line">    <span class="keyword">let</span> data = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&#x27;weibo&#x27;</span>));</span><br><span class="line">    <span class="keyword">let</span> nowTime = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">    <span class="keyword">let</span> ls;</span><br><span class="line">    <span class="keyword">if</span> (data == <span class="literal">null</span> || nowTime - data.<span class="property">time</span> &gt; <span class="number">600000</span>) &#123; <span class="comment">// 600000为缓存时间，即10分钟，避免频繁请求，加快本地访问速度。</span></span><br><span class="line">        <span class="title function_">getData</span>();</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        ls = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(data.<span class="property">ls</span>)</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> ls) &#123;</span><br><span class="line">        html += <span class="string">&#x27;&lt;div class=&quot;weibo-list-item&quot;&gt;&lt;div class=&quot;weibo-hotness &#x27;</span> + hotness[item.<span class="property">index</span>] + <span class="string">&#x27;&quot;&gt;&#x27;</span> + item.<span class="property">index</span> + <span class="string">&#x27;&lt;/div&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;span class=&quot;weibo-title&quot;&gt;&lt;a title=&quot;&#x27;</span> + item.<span class="property">title</span> + <span class="string">&#x27;&quot; href=&quot;&#x27;</span> + item.<span class="property">url</span> + <span class="string">&#x27;&quot; target=&quot;_blank&quot; rel=&quot;external nofollow noreferrer&quot;&gt;&#x27;</span> + item.<span class="property">title</span> + <span class="string">&#x27;&lt;/a&gt;&lt;/span&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;div class=&quot;weibo-num&quot;&gt;&lt;span&gt;&#x27;</span> + item.<span class="property">hot</span> + <span class="string">&#x27;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    html += <span class="string">&#x27;&lt;/div&gt;&#x27;</span>;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;weiboContent&#x27;</span>).<span class="property">innerHTML</span> = html;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getData</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 这里采用新的api，如果炸了，可以换其他的，但注意api接收的json样式</span></span><br><span class="line">    <span class="title function_">fetch</span>(<span class="string">&#x27;https://v2.api-m.com/api/weibohot&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> data.<span class="title function_">json</span>()).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (data.<span class="property">code</span> === <span class="number">200</span>) &#123;</span><br><span class="line">            data = &#123; <span class="attr">time</span>: <span class="title class_">Date</span>.<span class="title function_">now</span>(), <span class="attr">ls</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data.<span class="property">data</span>) &#125;</span><br><span class="line">            <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&#x27;weibo&#x27;</span>, <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data))</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;获取数据失败&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).<span class="title function_">then</span>(weibo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#bber-talk&#x27;</span>)) &#123;</span><br><span class="line">    <span class="keyword">var</span> swiper = <span class="keyword">new</span> <span class="title function_">swiper</span>(<span class="string">&#x27;.swiper-container&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">direction</span>: <span class="string">&#x27;vertical&#x27;</span>, </span><br><span class="line">      <span class="attr">loop</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">autoplay</span>: &#123;</span><br><span class="line">      <span class="attr">delay</span>: <span class="number">3000</span>,</span><br><span class="line">      <span class="attr">pauseOnMouseEnter</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="引入weibo-css与weibo-js">引入weibo.css与weibo.js</h3>
+<p>和前面一图流方式一样，在<code>themes/butterfly/_config.yml</code>中添加</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">inject:</span></span><br><span class="line">  <span class="attr">head:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/custom.css&quot;&gt;</span></span><br><span class="line">    <span class="comment"># weibo</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/weibo.css&quot;&gt;</span></span><br><span class="line">  <span class="attr">bottom:</span></span><br><span class="line">    <span class="comment"># weibo</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&lt;script</span> <span class="string">src=&quot;/js/weibo.js&quot;&gt;&lt;/script&gt;</span></span><br><span class="line">    <span class="comment"># - &lt;script src=&quot;xxxx&quot;&gt;&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="加入卡片">加入卡片</h3>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">aside:</span></span><br><span class="line"><span class="string">..........</span></span><br><span class="line">    <span class="attr">card_webinfo:</span></span><br><span class="line">        <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">post_count:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="调整侧边栏顺序">调整侧边栏顺序</h2>
+<p>调整<code>sort_order</code>大小即可，数字越大越前，要把公告后的卡片都加上数字（有的资料说是越小越前，但是我测试不是，反正能用就行）</p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客安装方法</title>
+    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="termux">termux</h2>
+<h3 id="termux安装准备">termux安装准备</h3>
+<p>pkg换源</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@&#x27; $PREFIX/etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">pkg update</span><br><span class="line"></span><br><span class="line">pkg install nodejs-lts</span><br><span class="line">pkg install git</span><br><span class="line">pkg install vim</span><br></pre></td></tr></table></figure>
+<p>需要在目录下运行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir hexo</span><br><span class="line">chmod 777 hexo</span><br><span class="line">cd hexo</span><br></pre></td></tr></table></figure>
+<h3 id="hexo">hexo</h3>
+<p>npm换源（淘宝）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm config set registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
+<p>安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+<p>启动命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<h3 id="主题">主题</h3>
+<p>下载主题</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
+<p>vim编辑根目录下_config.yml中的theme：butterfly<br>
+vim themes/butterfly/_config.yml</p>
+<p>安装插件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
+<h3 id="自定义样式">自定义样式</h3>
+<p>都通过修改文件themes/butterfly/_config.yml中的模块，根据相关备注修改模块。</p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>java-linux安装卸载</title>
     <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
     <content><![CDATA[<h2 id="下载jdk">下载jdk</h2>
@@ -2236,39 +2236,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       <tags>
         <tag>linux命令</tag>
         <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>kali移动端（root安装，不改内核）</title>
-    <url>/2024/10/15/kali/</url>
-    <content><![CDATA[<h2 id="简介">简介</h2>
-<p>把kali安在移动端，不论部署了什么工具和环境，可以随处携带，操作不方便可以局域网电脑远程使用、vnc等等。以上是我的使用场景也是折腾的原因。</p>
-<p>其实只有root的部分是最麻烦的，这个已经有很多教程了，可以慢慢看，建议先看手机的系统架构再看具体操作方法，不然在做什么都不知道。</p>
-<p>原理这块极客湾Geekerwan我感觉是说的很好的一个老师，视频链接放下面了<br>
-【玩机必看！带你入坑安卓刷机，小白也能看懂的ROOT基础指南来啦！】 <a href="https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404">https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404</a></p>
-<h2 id="前提">前提</h2>
-<p>肯定是需要现有一部root的手机，这个可以看我oppo root的帖子或者网上找相应方法去操作。<br>
-然后能科学上网，这个其实没有也没关系，但是会比较方便。<br>
-使用的是面具安装。</p>
-<h2 id="下载镜像">下载镜像</h2>
-<p>bing搜索kali，点击下载</p>
-<p><img src="/images/pasted-64.png" alt="upload successful"></p>
-<p>点击移动端，mobile</p>
-<p><img src="/images/pasted-65.png" alt="upload successful"></p>
-<p>点击full的版本，因为我这个没有对应的手机，所以下载的是图中位置的镜像</p>
-<p><img src="/images/pasted-67.png" alt="upload successful"></p>
-<h2 id="安装">安装</h2>
-<p>在面具里面点击图中的本地安装，找到下载的镜像包，安装就是了<br>
-<img src="/images/pasted-70.png" alt="upload successful"></p>
-<p>安装之后其实一切都安装好了，据说官方支持的root机会自动下载好关键的三个软件，但是我这个瞎搞的root机，没有下载，后来发现官网下载镜像那里有个软件商店可以下载。<br>
-<img src="/images/pasted-72.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>手机搞机</category>
-      </categories>
-      <tags>
-        <tag>kali</tag>
-        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -2319,6 +2286,39 @@ t 替换为 7<br>
       </tags>
   </entry>
   <entry>
+    <title>kali移动端（root安装，不改内核）</title>
+    <url>/2024/10/15/kali/</url>
+    <content><![CDATA[<h2 id="简介">简介</h2>
+<p>把kali安在移动端，不论部署了什么工具和环境，可以随处携带，操作不方便可以局域网电脑远程使用、vnc等等。以上是我的使用场景也是折腾的原因。</p>
+<p>其实只有root的部分是最麻烦的，这个已经有很多教程了，可以慢慢看，建议先看手机的系统架构再看具体操作方法，不然在做什么都不知道。</p>
+<p>原理这块极客湾Geekerwan我感觉是说的很好的一个老师，视频链接放下面了<br>
+【玩机必看！带你入坑安卓刷机，小白也能看懂的ROOT基础指南来啦！】 <a href="https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404">https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404</a></p>
+<h2 id="前提">前提</h2>
+<p>肯定是需要现有一部root的手机，这个可以看我oppo root的帖子或者网上找相应方法去操作。<br>
+然后能科学上网，这个其实没有也没关系，但是会比较方便。<br>
+使用的是面具安装。</p>
+<h2 id="下载镜像">下载镜像</h2>
+<p>bing搜索kali，点击下载</p>
+<p><img src="/images/pasted-64.png" alt="upload successful"></p>
+<p>点击移动端，mobile</p>
+<p><img src="/images/pasted-65.png" alt="upload successful"></p>
+<p>点击full的版本，因为我这个没有对应的手机，所以下载的是图中位置的镜像</p>
+<p><img src="/images/pasted-67.png" alt="upload successful"></p>
+<h2 id="安装">安装</h2>
+<p>在面具里面点击图中的本地安装，找到下载的镜像包，安装就是了<br>
+<img src="/images/pasted-70.png" alt="upload successful"></p>
+<p>安装之后其实一切都安装好了，据说官方支持的root机会自动下载好关键的三个软件，但是我这个瞎搞的root机，没有下载，后来发现官网下载镜像那里有个软件商店可以下载。<br>
+<img src="/images/pasted-72.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>手机搞机</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+        <tag>手机root</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux-代理设置方法</title>
     <url>/2025/02/08/linux-%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h2 id="centos">centos</h2>
@@ -2346,26 +2346,6 @@ t 替换为 7<br>
       <tags>
         <tag>kali</tag>
         <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux下载离线安装包</title>
-    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
-    <content><![CDATA[<h2 id="centos">centos</h2>
-<p>以wget为例，需要先下载yum-utils，再下载安装包</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
-<p>选择保存位置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
-<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>
-yum install --downloadonly --downloaddir=/root wget</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
@@ -2853,6 +2833,26 @@ yum install --downloadonly --downloaddir=/root wget</p>
       </tags>
   </entry>
   <entry>
+    <title>linux下载离线安装包</title>
+    <url>/2025/01/13/linux%E4%B8%8B%E8%BD%BD%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85/</url>
+    <content><![CDATA[<h2 id="centos">centos</h2>
+<p>以wget为例，需要先下载yum-utils，再下载安装包</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install yum-utils</span><br><span class="line">yumdownloader wget</span><br></pre></td></tr></table></figure>
+<p>选择保存位置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yumdownloader --destdir=/root wget</span><br></pre></td></tr></table></figure>
+<p>该命令网上说也能下载，查了下说是本机如果安装了该软件则不会下载<br>
+yum install --downloadonly --downloaddir=/root wget</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux硬盘分区挂载和扩容</title>
     <url>/2025/01/15/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98/</url>
     <content><![CDATA[<h2 id="分区和挂载">分区和挂载</h2>
@@ -2914,57 +2914,6 @@ yum install --downloadonly --downloaddir=/root wget</p>
       <tags>
         <tag>硬盘分区</tag>
         <tag>分区扩容</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux服务管理入门</title>
-    <url>/2025/06/24/linux%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<h2 id="基本操作">基本操作</h2>
-<h3 id="查看服务">查看服务</h3>
-<ul>
-<li>列出所有服务</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-units --type=service</span><br></pre></td></tr></table></figure>
-<ul>
-<li>列出所有已启用的服务</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-unit-files --state=enabled</span><br></pre></td></tr></table></figure>
-<h3 id="查看日志">查看日志</h3>
-<ol>
-<li>journalctl -u <service> — 查看指定服务日志</li>
-<li>journalctl -xe — 检查最新日志，排查错误</li>
-</ol>
-<hr>
-<h2 id="额外技能">额外技能</h2>
-<h3 id="检查依赖">检查依赖</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl list-dependencies &lt;service&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="修改配置">修改配置</h3>
-<ol>
-<li>配置文件位置通常是：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/etc/systemd/system/</span><br><span class="line">/lib/systemd/system/</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>修改后：</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>重启服务使修改生效</li>
-</ol>
-<hr>
-<h2 id="其他管理器概览">其他管理器概览</h2>
-<p>虽说 systemd 完全是主流，但是还有其他管理器的使用：</p>
-<h3 id="SysV-管理器：">SysV 管理器：</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service &lt;service&gt; start|stop|restart|status</span><br><span class="line">chkconfig &lt;service&gt; on|off</span><br></pre></td></tr></table></figure>
-<h3 id="Upstart-管理器：">Upstart 管理器：</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">initctl list</span><br><span class="line">initctl start|stop|restart &lt;service&gt;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>基础学习篇</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>系统运维</tag>
-        <tag>linux服务</tag>
       </tags>
   </entry>
   <entry>
@@ -3155,6 +3104,57 @@ yum install --downloadonly --downloaddir=/root wget</p>
       <tags>
         <tag>linux</tag>
         <tag>系统运维</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux服务管理入门</title>
+    <url>/2025/06/24/linux%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h2 id="基本操作">基本操作</h2>
+<h3 id="查看服务">查看服务</h3>
+<ul>
+<li>列出所有服务</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-units --type=service</span><br></pre></td></tr></table></figure>
+<ul>
+<li>列出所有已启用的服务</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-unit-files --state=enabled</span><br></pre></td></tr></table></figure>
+<h3 id="查看日志">查看日志</h3>
+<ol>
+<li>journalctl -u <service> — 查看指定服务日志</li>
+<li>journalctl -xe — 检查最新日志，排查错误</li>
+</ol>
+<hr>
+<h2 id="额外技能">额外技能</h2>
+<h3 id="检查依赖">检查依赖</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl list-dependencies &lt;service&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="修改配置">修改配置</h3>
+<ol>
+<li>配置文件位置通常是：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/etc/systemd/system/</span><br><span class="line">/lib/systemd/system/</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>修改后：</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>重启服务使修改生效</li>
+</ol>
+<hr>
+<h2 id="其他管理器概览">其他管理器概览</h2>
+<p>虽说 systemd 完全是主流，但是还有其他管理器的使用：</p>
+<h3 id="SysV-管理器：">SysV 管理器：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service &lt;service&gt; start|stop|restart|status</span><br><span class="line">chkconfig &lt;service&gt; on|off</span><br></pre></td></tr></table></figure>
+<h3 id="Upstart-管理器：">Upstart 管理器：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">initctl list</span><br><span class="line">initctl start|stop|restart &lt;service&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>基础学习篇</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>系统运维</tag>
+        <tag>linux服务</tag>
       </tags>
   </entry>
   <entry>
@@ -3722,37 +3722,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>pycharm激活</title>
-    <url>/2024/08/10/pycharm%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h2 id="检查链接">检查链接</h2>
-<p>网址：<a href="https://3.jetbra.in/">https://3.jetbra.in/</a></p>
-<p>带小地图和*的标志，我们点进去<br>
-<img src="/images/pasted-27.png" alt="upload successful"></p>
-<h2 id="下载工具软件">下载工具软件</h2>
-<p>下载图中jetbra.zip<br>
-<img src="/images/pasted-28.png" alt="upload successful"></p>
-<p>解压，打开文件，进入scripts，双击图中文件<br>
-<img src="/images/pasted-30.png" alt="upload successful"></p>
-<p>等待10~20秒，会出现一个弹窗done，一般这个时候重启pycharm就已经激活，没有激活可以继续下面步骤。<br>
-<img src="/images/pasted-31.png" alt="upload successful"></p>
-<h2 id="激活码激活">激活码激活</h2>
-<p>点击图中pycharm复制<br>
-<img src="/images/pasted-32.png" alt="upload successful"></p>
-<p>复制激活<br>
-<img src="/images/pasted-34.png" alt="upload successful"></p>
-<p><img src="/images/pasted-33.png" alt="upload successful"></p>
-<h1>下载的工具软件不能删除，删除失效！！</h1>
-]]></content>
-      <categories>
-        <category>代码</category>
-        <category>工具安装</category>
-      </categories>
-      <tags>
-        <tag>工具安装</tag>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>playwright-基础使用</title>
     <url>/2025/07/15/playwright-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="官网">官网</h2>
@@ -3953,6 +3922,37 @@ run
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>pycharm激活</title>
+    <url>/2024/08/10/pycharm%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h2 id="检查链接">检查链接</h2>
+<p>网址：<a href="https://3.jetbra.in/">https://3.jetbra.in/</a></p>
+<p>带小地图和*的标志，我们点进去<br>
+<img src="/images/pasted-27.png" alt="upload successful"></p>
+<h2 id="下载工具软件">下载工具软件</h2>
+<p>下载图中jetbra.zip<br>
+<img src="/images/pasted-28.png" alt="upload successful"></p>
+<p>解压，打开文件，进入scripts，双击图中文件<br>
+<img src="/images/pasted-30.png" alt="upload successful"></p>
+<p>等待10~20秒，会出现一个弹窗done，一般这个时候重启pycharm就已经激活，没有激活可以继续下面步骤。<br>
+<img src="/images/pasted-31.png" alt="upload successful"></p>
+<h2 id="激活码激活">激活码激活</h2>
+<p>点击图中pycharm复制<br>
+<img src="/images/pasted-32.png" alt="upload successful"></p>
+<p>复制激活<br>
+<img src="/images/pasted-34.png" alt="upload successful"></p>
+<p><img src="/images/pasted-33.png" alt="upload successful"></p>
+<h1>下载的工具软件不能删除，删除失效！！</h1>
+]]></content>
+      <categories>
+        <category>代码</category>
+        <category>工具安装</category>
+      </categories>
+      <tags>
+        <tag>工具安装</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -4240,93 +4240,6 @@ run
       </categories>
       <tags>
         <tag>switch大气层</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>termux安装mariadb</title>
-    <url>/2025/09/08/termux%E5%AE%89%E8%A3%85mariadb/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
-<p>在 Termux 里其实装不了“官方”MySQL，但官方仓库里直接提供了 MariaDB（MySQL 的完全兼容分支），对移动端更轻量，也足够学习/调试使用。<br>
-这种部署方式不会影响学习:</p>
-<ol>
-<li><strong>SQL 语法 100% 通用</strong><br>
-MariaDB 完全兼容 MySQL 5.7/8.x 的主流语法（SELECT、JOIN、窗口函数、事务、索引、MVCC）。</li>
-<li><strong>引擎层体验无差异</strong><br>
-默认都是 InnoDB，ACID、锁等待、行版本、redo/undo log 机制一样；EXPLAIN 计划格式略有输出顺序差异，不影响调优思路。</li>
-<li><strong>不足的部分</strong>
-<ul>
-<li>MySQL 8 的 CTE/窗口函数 MariaDB 10.6+ 也有；</li>
-<li>没有 JSON 数据类型（MariaDB 用 LONGTEXT + 检查约束模拟），但语法 JSON_EXTRACT 兼容；</li>
-<li>没有 roles、resource group、clone plugin 等 DBA 高级特性——这些对“开发+调优”阶段学习占比 &lt;5%。</li>
-<li>等以后到公司用云数据库，再花 1-2 小时就能补齐。</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h2 id="安装步骤">安装步骤</h2>
-<h3 id="环境准备">环境准备</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更新源</span></span><br><span class="line">pkg update &amp;&amp; pkg upgrade -y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一次性补全常用工具</span></span><br><span class="line">pkg install -y mariadb termux-services curl</span><br></pre></td></tr></table></figure>
-<h3 id="安装并初始化-MariaDB">安装并初始化 MariaDB</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pkg install -y mariadb        <span class="comment"># 约 80 M，Wi-Fi 下很快</span></span><br><span class="line">mysql_install_db              <span class="comment"># 生成系统库，仅需执行一次</span></span><br></pre></td></tr></table></figure>
-<h3 id="首次启动-root-密码设置">首次启动 + root 密码设置</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ① 先手动起服务（确认无报错）</span></span><br><span class="line">mysqld_safe &amp;                 <span class="comment"># 默认监听 127.0.0.1:3306</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ② 无密登录</span></span><br><span class="line">mysql -u root</span><br><span class="line"></span><br><span class="line"><span class="comment"># ③ 在 MariaDB 提示符里改密、删匿名用户</span></span><br><span class="line">ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="string">&#x27;你的新密码&#x27;</span>;</span><br><span class="line">DELETE FROM mysql.user WHERE User=<span class="string">&#x27;&#x27;</span>;</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">EXIT;</span><br></pre></td></tr></table></figure>
-<h3 id="后台托管（Termux-原生）">后台托管（Termux 原生）</h3>
-<blockquote>
-<p><s>这步其实没什么必要</s></p>
-</blockquote>
-<p>装 termux-services 后可以把 MariaDB 当成系统服务启停，比 nohup 更稳：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建服务目录</span></span><br><span class="line"><span class="built_in">mkdir</span> -p <span class="variable">$PREFIX</span>/var/service/mysqld</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$PREFIX</span>/var/service/mysqld</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入启动脚本</span></span><br><span class="line"><span class="built_in">cat</span> &gt; run &lt;&lt;<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line"><span class="comment">#!/data/data/com.termux/files/usr/bin/sh</span></span><br><span class="line"><span class="built_in">exec</span> mysqld_safe 2&gt;&amp;1</span><br><span class="line">EOF</span><br><span class="line"><span class="built_in">chmod</span> +x run</span><br><span class="line"></span><br><span class="line"><span class="comment"># 立即拉起 &amp; 开机自启</span></span><br><span class="line">sv up mysqld          <span class="comment"># 启动</span></span><br><span class="line">sv-enable mysqld      <span class="comment"># 设为自启</span></span><br><span class="line">sv status mysqld      <span class="comment"># 查看状态</span></span><br></pre></td></tr></table></figure>
-<p>以后关机再进 Termux 会自动带起，无需手动 mysqld_safe &amp;</p>
-<h3 id="关闭数据库">关闭数据库</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysqladmin -u root -p shutdown</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>数据库</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>termux</tag>
-        <tag>mariadb</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu-网卡配置文件</title>
-    <url>/2025/07/09/ubuntu-%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="dhcp">dhcp</h2>
-<ol>
-<li>打开网卡配置文件<code>/etc/netplan下的类似50-cloud-init.yaml写法的yaml文件</code>:</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/netplan/50-cloud-init.yaml</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>开启dhcp自动获取地址</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: true</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>应用配置</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="静态地址">静态地址</h2>
-<p>打开配置文件后，修改内容格式为：</p>
-<ol>
-<li>老版本</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: no</span><br><span class="line">    addresses: [192.168.11.10/24]</span><br><span class="line">    gateway4: 192.168.11.1</span><br><span class="line">    nameservers:</span><br><span class="line">      addresses: [223.5.5.5]</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>新版本写法</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: no</span><br><span class="line">    addresses: [192.168.11.10/24]</span><br><span class="line">    routes:</span><br><span class="line">      - to: 0.0.0.0/0</span><br><span class="line">        via: 192.168.11.2</span><br><span class="line">    nameservers:</span><br><span class="line">      addresses: [223.5.5.5]</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>应用配置</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-        <tag>linux网卡配置</tag>
       </tags>
   </entry>
   <entry>
@@ -4801,6 +4714,93 @@ steam搜索 <strong>Wallpaper Engine</strong></p>
       </tags>
   </entry>
   <entry>
+    <title>ubuntu-网卡配置文件</title>
+    <url>/2025/07/09/ubuntu-%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="dhcp">dhcp</h2>
+<ol>
+<li>打开网卡配置文件<code>/etc/netplan下的类似50-cloud-init.yaml写法的yaml文件</code>:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/netplan/50-cloud-init.yaml</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>开启dhcp自动获取地址</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: true</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>应用配置</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="静态地址">静态地址</h2>
+<p>打开配置文件后，修改内容格式为：</p>
+<ol>
+<li>老版本</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: no</span><br><span class="line">    addresses: [192.168.11.10/24]</span><br><span class="line">    gateway4: 192.168.11.1</span><br><span class="line">    nameservers:</span><br><span class="line">      addresses: [223.5.5.5]</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>新版本写法</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: no</span><br><span class="line">    addresses: [192.168.11.10/24]</span><br><span class="line">    routes:</span><br><span class="line">      - to: 0.0.0.0/0</span><br><span class="line">        via: 192.168.11.2</span><br><span class="line">    nameservers:</span><br><span class="line">      addresses: [223.5.5.5]</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>应用配置</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>linux网卡配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>termux安装mariadb</title>
+    <url>/2025/09/08/termux%E5%AE%89%E8%A3%85mariadb/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>在 Termux 里其实装不了“官方”MySQL，但官方仓库里直接提供了 MariaDB（MySQL 的完全兼容分支），对移动端更轻量，也足够学习/调试使用。<br>
+这种部署方式不会影响学习:</p>
+<ol>
+<li><strong>SQL 语法 100% 通用</strong><br>
+MariaDB 完全兼容 MySQL 5.7/8.x 的主流语法（SELECT、JOIN、窗口函数、事务、索引、MVCC）。</li>
+<li><strong>引擎层体验无差异</strong><br>
+默认都是 InnoDB，ACID、锁等待、行版本、redo/undo log 机制一样；EXPLAIN 计划格式略有输出顺序差异，不影响调优思路。</li>
+<li><strong>不足的部分</strong>
+<ul>
+<li>MySQL 8 的 CTE/窗口函数 MariaDB 10.6+ 也有；</li>
+<li>没有 JSON 数据类型（MariaDB 用 LONGTEXT + 检查约束模拟），但语法 JSON_EXTRACT 兼容；</li>
+<li>没有 roles、resource group、clone plugin 等 DBA 高级特性——这些对“开发+调优”阶段学习占比 &lt;5%。</li>
+<li>等以后到公司用云数据库，再花 1-2 小时就能补齐。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="安装步骤">安装步骤</h2>
+<h3 id="环境准备">环境准备</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更新源</span></span><br><span class="line">pkg update &amp;&amp; pkg upgrade -y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一次性补全常用工具</span></span><br><span class="line">pkg install -y mariadb termux-services curl</span><br></pre></td></tr></table></figure>
+<h3 id="安装并初始化-MariaDB">安装并初始化 MariaDB</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pkg install -y mariadb        <span class="comment"># 约 80 M，Wi-Fi 下很快</span></span><br><span class="line">mysql_install_db              <span class="comment"># 生成系统库，仅需执行一次</span></span><br></pre></td></tr></table></figure>
+<h3 id="首次启动-root-密码设置">首次启动 + root 密码设置</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ① 先手动起服务（确认无报错）</span></span><br><span class="line">mysqld_safe &amp;                 <span class="comment"># 默认监听 127.0.0.1:3306</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ② 无密登录</span></span><br><span class="line">mysql -u root</span><br><span class="line"></span><br><span class="line"><span class="comment"># ③ 在 MariaDB 提示符里改密、删匿名用户</span></span><br><span class="line">ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="string">&#x27;你的新密码&#x27;</span>;</span><br><span class="line">DELETE FROM mysql.user WHERE User=<span class="string">&#x27;&#x27;</span>;</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">EXIT;</span><br></pre></td></tr></table></figure>
+<h3 id="后台托管（Termux-原生）">后台托管（Termux 原生）</h3>
+<blockquote>
+<p><s>这步其实没什么必要</s></p>
+</blockquote>
+<p>装 termux-services 后可以把 MariaDB 当成系统服务启停，比 nohup 更稳：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建服务目录</span></span><br><span class="line"><span class="built_in">mkdir</span> -p <span class="variable">$PREFIX</span>/var/service/mysqld</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$PREFIX</span>/var/service/mysqld</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入启动脚本</span></span><br><span class="line"><span class="built_in">cat</span> &gt; run &lt;&lt;<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line"><span class="comment">#!/data/data/com.termux/files/usr/bin/sh</span></span><br><span class="line"><span class="built_in">exec</span> mysqld_safe 2&gt;&amp;1</span><br><span class="line">EOF</span><br><span class="line"><span class="built_in">chmod</span> +x run</span><br><span class="line"></span><br><span class="line"><span class="comment"># 立即拉起 &amp; 开机自启</span></span><br><span class="line">sv up mysqld          <span class="comment"># 启动</span></span><br><span class="line">sv-enable mysqld      <span class="comment"># 设为自启</span></span><br><span class="line">sv status mysqld      <span class="comment"># 查看状态</span></span><br></pre></td></tr></table></figure>
+<p>以后关机再进 Termux 会自动带起，无需手动 mysqld_safe &amp;</p>
+<h3 id="关闭数据库">关闭数据库</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysqladmin -u root -p shutdown</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>termux</tag>
+        <tag>mariadb</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>windows域部署及管理</title>
     <url>/2025/04/26/windows%E5%9F%9F%E9%83%A8%E7%BD%B2%E5%8F%8A%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h2 id="windows域">windows域</h2>
@@ -4851,6 +4851,33 @@ dns和全局编录GC勾选，设置密码<br>
       <tags>
         <tag>windows域</tag>
         <tag>AD DC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows没有图形化页面</title>
+    <url>/2025/04/26/windows%E6%B2%A1%E6%9C%89%E5%9B%BE%E5%BD%A2%E5%8C%96%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>如果安装windows时候选择了没有带gui的选项，仅核心，则会出现没有图形化的问题。</p>
+<blockquote>
+<p>以下的方法其实没什么用，不如重装，下面是我网上搜集来的方法，都没成功</p>
+</blockquote>
+<h2 id="检查图形化程序">检查图形化程序</h2>
+<p>查找位置</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dir</span> /s explorer.exe</span><br></pre></td></tr></table></figure>
+<p>找到可以运行试试</p>
+<h2 id="安装图形化">安装图形化</h2>
+<h3 id="安装gui">安装gui</h3>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">powershell</span><br><span class="line">Install-WindowsFeature Server-Gui-Shell, Server-Gui-Mgmt-Infra</span><br></pre></td></tr></table></figure>
+<h3 id="通过映像文件安装">通过映像文件安装</h3>
+<p>d:对应的是d盘，如果iso文件是其他盘时改为对应盘符</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">dism /get-wiminfo /wimfile:d:\sources\install.wim</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows图形化</tag>
+        <tag>cmd</tag>
       </tags>
   </entry>
   <entry>
@@ -5002,33 +5029,6 @@ dns和全局编录GC勾选，设置密码<br>
       </tags>
   </entry>
   <entry>
-    <title>windows没有图形化页面</title>
-    <url>/2025/04/26/windows%E6%B2%A1%E6%9C%89%E5%9B%BE%E5%BD%A2%E5%8C%96%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
-<p>如果安装windows时候选择了没有带gui的选项，仅核心，则会出现没有图形化的问题。</p>
-<blockquote>
-<p>以下的方法其实没什么用，不如重装，下面是我网上搜集来的方法，都没成功</p>
-</blockquote>
-<h2 id="检查图形化程序">检查图形化程序</h2>
-<p>查找位置</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dir</span> /s explorer.exe</span><br></pre></td></tr></table></figure>
-<p>找到可以运行试试</p>
-<h2 id="安装图形化">安装图形化</h2>
-<h3 id="安装gui">安装gui</h3>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">powershell</span><br><span class="line">Install-WindowsFeature Server-Gui-Shell, Server-Gui-Mgmt-Infra</span><br></pre></td></tr></table></figure>
-<h3 id="通过映像文件安装">通过映像文件安装</h3>
-<p>d:对应的是d盘，如果iso文件是其他盘时改为对应盘符</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">dism /get-wiminfo /wimfile:d:\sources\install.wim</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>windows图形化</tag>
-        <tag>cmd</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>压缩包密码爆破</title>
     <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="使用zip2john-hash值破解">使用zip2john hash值破解</h2>
@@ -5044,32 +5044,6 @@ dns和全局编录GC勾选，设置密码<br>
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>hashcat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>奇异人生-【汉化包】</title>
-    <url>/2025/06/22/%E5%A5%87%E5%BC%82%E4%BA%BA%E7%94%9F-%E3%80%90%E6%B1%89%E5%8C%96%E5%8C%85%E3%80%91/</url>
-    <content><![CDATA[<h2 id="下载地址">下载地址</h2>
-<p>汉化组：</p>
-<blockquote>
-<p><a href="https://hutoulang.com/into/33.html">https://hutoulang.com/into/33.html</a></p>
-</blockquote>
-<blockquote>
-<p>下载地址：<br>
-蓝奏云：<a href="https://wwf.lanzouj.com/iOJBJ1wt604d">https://wwf.lanzouj.com/iOJBJ1wt604d</a><br>
-密码:2bjy</p>
-</blockquote>
-<h2 id="安装">安装</h2>
-<p>解压后放到<code>游戏根目录</code>双击即可</p>
-<p>如果游戏中没有开启字幕，需要手动开启一下</p>
-]]></content>
-      <categories>
-        <category>游戏</category>
-        <category>汉化</category>
-      </categories>
-      <tags>
-        <tag>奇异人生</tag>
-        <tag>游戏汉化</tag>
       </tags>
   </entry>
   <entry>
@@ -5108,6 +5082,32 @@ dns和全局编录GC勾选，设置密码<br>
         <tag>html</tag>
         <tag>图片</tag>
         <tag>svg</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>奇异人生-【汉化包】</title>
+    <url>/2025/06/22/%E5%A5%87%E5%BC%82%E4%BA%BA%E7%94%9F-%E3%80%90%E6%B1%89%E5%8C%96%E5%8C%85%E3%80%91/</url>
+    <content><![CDATA[<h2 id="下载地址">下载地址</h2>
+<p>汉化组：</p>
+<blockquote>
+<p><a href="https://hutoulang.com/into/33.html">https://hutoulang.com/into/33.html</a></p>
+</blockquote>
+<blockquote>
+<p>下载地址：<br>
+蓝奏云：<a href="https://wwf.lanzouj.com/iOJBJ1wt604d">https://wwf.lanzouj.com/iOJBJ1wt604d</a><br>
+密码:2bjy</p>
+</blockquote>
+<h2 id="安装">安装</h2>
+<p>解压后放到<code>游戏根目录</code>双击即可</p>
+<p>如果游戏中没有开启字幕，需要手动开启一下</p>
+]]></content>
+      <categories>
+        <category>游戏</category>
+        <category>汉化</category>
+      </categories>
+      <tags>
+        <tag>奇异人生</tag>
+        <tag>游戏汉化</tag>
       </tags>
   </entry>
   <entry>
@@ -6174,120 +6174,6 @@ width: 20%;
       </tags>
   </entry>
   <entry>
-    <title>自启动和计划任务查询</title>
-    <url>/2025/07/24/%E8%87%AA%E5%90%AF%E5%8A%A8%E5%92%8C%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E6%9F%A5%E8%AF%A2/</url>
-    <content><![CDATA[<h2 id="速查表（一句话版）">速查表（一句话版）</h2>
-<table>
-<thead>
-<tr>
-<th>系统</th>
-<th>自启</th>
-<th>计划任务</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Ubuntu</strong></td>
-<td><code>systemctl list-unit-files --state=enabled</code></td>
-<td><code>crontab -l &amp;&amp; systemctl list-timers</code></td>
-</tr>
-<tr>
-<td><strong>CentOS/RHEL</strong></td>
-<td><code>systemctl list-unit-files --state=enabled</code></td>
-<td><code>crontab -l &amp;&amp; systemctl list-timers</code></td>
-</tr>
-<tr>
-<td><strong>Windows</strong></td>
-<td><code>reg query &quot;HKLM\...\Run&quot;</code></td>
-<td><code>schtasks /query</code></td>
-</tr>
-<tr>
-<td><strong>macOS</strong></td>
-<td><code>ls ~/Library/LaunchAgents/</code></td>
-<td><code>launchctl list &amp;&amp; crontab -l</code></td>
-</tr>
-<tr>
-<td><strong>FreeBSD</strong></td>
-<td><code>service -e</code></td>
-<td><code>crontab -l &amp;&amp; ls /etc/periodic/</code></td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="Ubuntu-Debian-Linux-Mint">Ubuntu / Debian / Linux Mint</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 系统级 systemd 自启服务</span></span><br><span class="line">systemctl list-unit-files --<span class="built_in">type</span>=service --state=enabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户级 systemd 自启服务</span></span><br><span class="line">systemctl --user list-unit-files --state=enabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 传统 SysV 自启脚本</span></span><br><span class="line"><span class="built_in">ls</span> /etc/init.d/                          <span class="comment"># 查看所有脚本</span></span><br><span class="line">grep -Rl <span class="string">&quot;Default-Start.*2&quot;</span> /etc/init.d/ <span class="comment"># 筛选 2 级别自启</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 桌面环境自启项（当前用户）</span></span><br><span class="line"><span class="built_in">ls</span> ~/.config/autostart/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 桌面环境自启项（全局）</span></span><br><span class="line"><span class="built_in">ls</span> /etc/xdg/autostart/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前用户计划任务</span></span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统级计划任务</span></span><br><span class="line"><span class="built_in">cat</span> /etc/crontab</span><br><span class="line"><span class="built_in">ls</span> /etc/cron.&#123;d,daily,hourly,weekly,monthly&#125;/</span><br><span class="line"></span><br><span class="line"><span class="comment"># systemd 定时器（现代 cron 替代）</span></span><br><span class="line">systemctl list-timers --all</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="CentOS-RHEL-Rocky-Alma-Fedora">CentOS / RHEL / Rocky / Alma / Fedora</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 系统级 systemd 自启服务</span></span><br><span class="line">systemctl list-unit-files --<span class="built_in">type</span>=service --state=enabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户级 systemd 自启服务</span></span><br><span class="line">systemctl --user list-unit-files --state=enabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 兼容旧版 chkconfig 查看 SysV 自启</span></span><br><span class="line">chkconfig --list 2&gt;/dev/null || <span class="built_in">echo</span> <span class="string">&quot;无 chkconfig&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 桌面环境自启项（当前用户）</span></span><br><span class="line"><span class="built_in">ls</span> ~/.config/autostart/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 桌面环境自启项（全局）</span></span><br><span class="line"><span class="built_in">ls</span> /etc/xdg/autostart/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前用户计划任务</span></span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统级计划任务</span></span><br><span class="line"><span class="built_in">cat</span> /etc/crontab</span><br><span class="line"><span class="built_in">ls</span> /etc/cron.d/</span><br><span class="line"></span><br><span class="line"><span class="comment"># systemd 定时器</span></span><br><span class="line">systemctl list-timers --all</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="Arch-Linux-Manjaro-EndeavourOS">Arch Linux / Manjaro / EndeavourOS</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 系统级 systemd 自启服务</span></span><br><span class="line">systemctl list-unit-files --<span class="built_in">type</span>=service --state=enabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户级 systemd 自启服务</span></span><br><span class="line">systemctl --user list-unit-files --state=enabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 桌面环境自启项（当前用户）</span></span><br><span class="line"><span class="built_in">ls</span> ~/.config/autostart/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 桌面环境自启项（全局）</span></span><br><span class="line"><span class="built_in">ls</span> /etc/xdg/autostart/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前用户计划任务</span></span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统级计划任务</span></span><br><span class="line"><span class="built_in">cat</span> /etc/crontab</span><br><span class="line"><span class="built_in">ls</span> /etc/cron.d/</span><br><span class="line"></span><br><span class="line"><span class="comment"># systemd 定时器</span></span><br><span class="line">systemctl list-timers --all</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="Windows-10-11-Server">Windows 10 / 11 / Server</h2>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">:: 系统级注册表自启</span><br><span class="line">reg query &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run&quot;</span><br><span class="line"></span><br><span class="line">:: 当前用户注册表自启</span><br><span class="line">reg query &quot;HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run&quot;</span><br><span class="line"></span><br><span class="line">:: 图形化启动项（任务管理器）</span><br><span class="line">taskmgr  :: 切换到“启动”标签页</span><br><span class="line"></span><br><span class="line">:: 当前运行的服务</span><br><span class="line">sc query <span class="built_in">type</span>=service state=active</span><br><span class="line"></span><br><span class="line">:: 计划任务（命令行）</span><br><span class="line">schtasks /query /fo table /v</span><br><span class="line"></span><br><span class="line">:: 计划任务（图形化）</span><br><span class="line">taskschd.msc</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="macOS-OS-X">macOS / OS X</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 系统级守护进程（root）</span></span><br><span class="line"><span class="built_in">ls</span> /Library/LaunchDaemons/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前用户代理</span></span><br><span class="line"><span class="built_in">ls</span> ~/Library/LaunchAgents/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统级代理</span></span><br><span class="line"><span class="built_in">ls</span> /System/Library/LaunchAgents/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图形化登录项</span></span><br><span class="line"><span class="comment"># 系统设置 → 用户与群组 → 登录项</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出所有已加载的 launchd 任务</span></span><br><span class="line">launchctl list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 传统 cron 任务</span></span><br><span class="line">crontab -l</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="FreeBSD">FreeBSD</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># rc.conf 中启用的服务</span></span><br><span class="line">sysrc -a | grep -E <span class="string">&#x27;_enable=&quot;YES&quot;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前已启用服务列表</span></span><br><span class="line">service -e</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前用户计划任务</span></span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统级计划任务</span></span><br><span class="line"><span class="built_in">cat</span> /etc/crontab</span><br><span class="line"><span class="built_in">ls</span> /etc/cron.d/</span><br><span class="line"></span><br><span class="line"><span class="comment"># periodic 定时脚本</span></span><br><span class="line"><span class="built_in">ls</span> /etc/periodic/&#123;daily,hourly,weekly,monthly&#125;/</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-      </categories>
-      <tags>
-        <tag>系统运维</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>过防火墙业务端口畅通但业务异常-云虚拟网络</title>
-    <url>/2025/01/19/%E8%BF%87%E9%98%B2%E7%81%AB%E5%A2%99%E4%B8%9A%E5%8A%A1%E7%AB%AF%E5%8F%A3%E7%95%85%E9%80%9A%E4%BD%86%E4%B8%9A%E5%8A%A1%E5%BC%82%E5%B8%B8-%E4%BA%91%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C/</url>
-    <content><![CDATA[<h2 id="通话语音服务过防火墙异常">通话语音服务过防火墙异常</h2>
-<h3 id="现象">现象</h3>
-<p>网络双向畅通；<br>
-业务服务为语音服务时，仅能单向沟通，也就是只能听到声音但是无法输出；<br>
-通过抓包检查，输出的数据包未能到达服务器。</p>
-<h3 id="解决方法">解决方法</h3>
-<p><code>检查防火墙的应用层网关ALG功能，该部分会有部分协议不转发，而语音服务使用的时SIP，开启即可</code></p>
-<ul>
-<li>而且防火墙未开启sip转发也是很正常的，所以当有语音服务过墙时，如果异常最好也同样检查一下是否有开启SIP。</li>
-<li>语音服务的厂家也反馈，该问题常常出现。</li>
-</ul>
-<hr>
-<h2 id="端口畅通但部分业务无法使用">端口畅通但部分业务无法使用</h2>
-<h3 id="现象-2">现象</h3>
-<blockquote>
-<p>以下场景均可能为相同问题：</p>
-</blockquote>
-<ol>
-<li>堡垒机登录web正常，但无法远程主机;</li>
-<li>端口访问正常，业务部分正常，部分异常。</li>
-</ol>
-<h3 id="解决方法-2">解决方法</h3>
-<p><code>检查路由发现，堡垒机到远程主机之间为不同子网，主机路由下一跳网关为防火墙，堡垒机则不是，导致防火墙上只有半个会话，来回路径不一致</code></p>
-<ol>
-<li>添加明细路由内网流量不经过防火墙；</li>
-<li>不建议选择这个方法，修改路由让防火墙会话完整，来回一致。</li>
-</ol>
-<hr>
-<h2 id="传输大文件时失败">传输大文件时失败</h2>
-<h3 id="现象-3">现象</h3>
-<p>经过防火墙时，传输稍微大一点的文件发现无法传输；</p>
-<p>其他如果是因为工具限制或者协议限制的情况不考虑，这些比较好判断。</p>
-<h3 id="解决方法-3">解决方法</h3>
-<p><code>可能是因为MTU设置太小导致的，数据帧大于MTU被丢弃</code></p>
-<ul>
-<li>调整MTU大小即可</li>
-</ul>
-]]></content>
-      <categories>
-        <category>防火墙排障经验</category>
-      </categories>
-      <tags>
-        <tag>防火墙</tag>
-        <tag>排障</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>莴笋炒腊肠</title>
     <url>/2025/02/10/%E8%8E%B4%E7%AC%8B%E7%82%92%E8%85%8A%E8%82%A0/</url>
     <content><![CDATA[<h2 id="配料">配料</h2>
@@ -6364,6 +6250,71 @@ width: 20%;
       </categories>
       <tags>
         <tag>菜谱</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>自启动和计划任务查询</title>
+    <url>/2025/07/24/%E8%87%AA%E5%90%AF%E5%8A%A8%E5%92%8C%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E6%9F%A5%E8%AF%A2/</url>
+    <content><![CDATA[<h2 id="速查表（一句话版）">速查表（一句话版）</h2>
+<table>
+<thead>
+<tr>
+<th>系统</th>
+<th>自启</th>
+<th>计划任务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td><code>systemctl list-unit-files --state=enabled</code></td>
+<td><code>crontab -l &amp;&amp; systemctl list-timers</code></td>
+</tr>
+<tr>
+<td><strong>CentOS/RHEL</strong></td>
+<td><code>systemctl list-unit-files --state=enabled</code></td>
+<td><code>crontab -l &amp;&amp; systemctl list-timers</code></td>
+</tr>
+<tr>
+<td><strong>Windows</strong></td>
+<td><code>reg query &quot;HKLM\...\Run&quot;</code></td>
+<td><code>schtasks /query</code></td>
+</tr>
+<tr>
+<td><strong>macOS</strong></td>
+<td><code>ls ~/Library/LaunchAgents/</code></td>
+<td><code>launchctl list &amp;&amp; crontab -l</code></td>
+</tr>
+<tr>
+<td><strong>FreeBSD</strong></td>
+<td><code>service -e</code></td>
+<td><code>crontab -l &amp;&amp; ls /etc/periodic/</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="Ubuntu-Debian-Linux-Mint">Ubuntu / Debian / Linux Mint</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 系统级 systemd 自启服务</span></span><br><span class="line">systemctl list-unit-files --<span class="built_in">type</span>=service --state=enabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户级 systemd 自启服务</span></span><br><span class="line">systemctl --user list-unit-files --state=enabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 传统 SysV 自启脚本</span></span><br><span class="line"><span class="built_in">ls</span> /etc/init.d/                          <span class="comment"># 查看所有脚本</span></span><br><span class="line">grep -Rl <span class="string">&quot;Default-Start.*2&quot;</span> /etc/init.d/ <span class="comment"># 筛选 2 级别自启</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 桌面环境自启项（当前用户）</span></span><br><span class="line"><span class="built_in">ls</span> ~/.config/autostart/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 桌面环境自启项（全局）</span></span><br><span class="line"><span class="built_in">ls</span> /etc/xdg/autostart/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前用户计划任务</span></span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统级计划任务</span></span><br><span class="line"><span class="built_in">cat</span> /etc/crontab</span><br><span class="line"><span class="built_in">ls</span> /etc/cron.&#123;d,daily,hourly,weekly,monthly&#125;/</span><br><span class="line"></span><br><span class="line"><span class="comment"># systemd 定时器（现代 cron 替代）</span></span><br><span class="line">systemctl list-timers --all</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="CentOS-RHEL-Rocky-Alma-Fedora">CentOS / RHEL / Rocky / Alma / Fedora</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 系统级 systemd 自启服务</span></span><br><span class="line">systemctl list-unit-files --<span class="built_in">type</span>=service --state=enabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户级 systemd 自启服务</span></span><br><span class="line">systemctl --user list-unit-files --state=enabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 兼容旧版 chkconfig 查看 SysV 自启</span></span><br><span class="line">chkconfig --list 2&gt;/dev/null || <span class="built_in">echo</span> <span class="string">&quot;无 chkconfig&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 桌面环境自启项（当前用户）</span></span><br><span class="line"><span class="built_in">ls</span> ~/.config/autostart/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 桌面环境自启项（全局）</span></span><br><span class="line"><span class="built_in">ls</span> /etc/xdg/autostart/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前用户计划任务</span></span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统级计划任务</span></span><br><span class="line"><span class="built_in">cat</span> /etc/crontab</span><br><span class="line"><span class="built_in">ls</span> /etc/cron.d/</span><br><span class="line"></span><br><span class="line"><span class="comment"># systemd 定时器</span></span><br><span class="line">systemctl list-timers --all</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Arch-Linux-Manjaro-EndeavourOS">Arch Linux / Manjaro / EndeavourOS</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 系统级 systemd 自启服务</span></span><br><span class="line">systemctl list-unit-files --<span class="built_in">type</span>=service --state=enabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户级 systemd 自启服务</span></span><br><span class="line">systemctl --user list-unit-files --state=enabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 桌面环境自启项（当前用户）</span></span><br><span class="line"><span class="built_in">ls</span> ~/.config/autostart/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 桌面环境自启项（全局）</span></span><br><span class="line"><span class="built_in">ls</span> /etc/xdg/autostart/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前用户计划任务</span></span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统级计划任务</span></span><br><span class="line"><span class="built_in">cat</span> /etc/crontab</span><br><span class="line"><span class="built_in">ls</span> /etc/cron.d/</span><br><span class="line"></span><br><span class="line"><span class="comment"># systemd 定时器</span></span><br><span class="line">systemctl list-timers --all</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Windows-10-11-Server">Windows 10 / 11 / Server</h2>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">:: 系统级注册表自启</span><br><span class="line">reg query &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run&quot;</span><br><span class="line"></span><br><span class="line">:: 当前用户注册表自启</span><br><span class="line">reg query &quot;HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run&quot;</span><br><span class="line"></span><br><span class="line">:: 图形化启动项（任务管理器）</span><br><span class="line">taskmgr  :: 切换到“启动”标签页</span><br><span class="line"></span><br><span class="line">:: 当前运行的服务</span><br><span class="line">sc query <span class="built_in">type</span>=service state=active</span><br><span class="line"></span><br><span class="line">:: 计划任务（命令行）</span><br><span class="line">schtasks /query /fo table /v</span><br><span class="line"></span><br><span class="line">:: 计划任务（图形化）</span><br><span class="line">taskschd.msc</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="macOS-OS-X">macOS / OS X</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 系统级守护进程（root）</span></span><br><span class="line"><span class="built_in">ls</span> /Library/LaunchDaemons/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前用户代理</span></span><br><span class="line"><span class="built_in">ls</span> ~/Library/LaunchAgents/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统级代理</span></span><br><span class="line"><span class="built_in">ls</span> /System/Library/LaunchAgents/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图形化登录项</span></span><br><span class="line"><span class="comment"># 系统设置 → 用户与群组 → 登录项</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出所有已加载的 launchd 任务</span></span><br><span class="line">launchctl list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 传统 cron 任务</span></span><br><span class="line">crontab -l</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="FreeBSD">FreeBSD</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># rc.conf 中启用的服务</span></span><br><span class="line">sysrc -a | grep -E <span class="string">&#x27;_enable=&quot;YES&quot;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前已启用服务列表</span></span><br><span class="line">service -e</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前用户计划任务</span></span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统级计划任务</span></span><br><span class="line"><span class="built_in">cat</span> /etc/crontab</span><br><span class="line"><span class="built_in">ls</span> /etc/cron.d/</span><br><span class="line"></span><br><span class="line"><span class="comment"># periodic 定时脚本</span></span><br><span class="line"><span class="built_in">ls</span> /etc/periodic/&#123;daily,hourly,weekly,monthly&#125;/</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+      </categories>
+      <tags>
+        <tag>系统运维</tag>
       </tags>
   </entry>
   <entry>
@@ -6700,6 +6651,55 @@ width: 20%;
       <tags>
         <tag>系统运维</tag>
         <tag>日志文件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>过防火墙业务端口畅通但业务异常-云虚拟网络</title>
+    <url>/2025/01/19/%E8%BF%87%E9%98%B2%E7%81%AB%E5%A2%99%E4%B8%9A%E5%8A%A1%E7%AB%AF%E5%8F%A3%E7%95%85%E9%80%9A%E4%BD%86%E4%B8%9A%E5%8A%A1%E5%BC%82%E5%B8%B8-%E4%BA%91%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<h2 id="通话语音服务过防火墙异常">通话语音服务过防火墙异常</h2>
+<h3 id="现象">现象</h3>
+<p>网络双向畅通；<br>
+业务服务为语音服务时，仅能单向沟通，也就是只能听到声音但是无法输出；<br>
+通过抓包检查，输出的数据包未能到达服务器。</p>
+<h3 id="解决方法">解决方法</h3>
+<p><code>检查防火墙的应用层网关ALG功能，该部分会有部分协议不转发，而语音服务使用的时SIP，开启即可</code></p>
+<ul>
+<li>而且防火墙未开启sip转发也是很正常的，所以当有语音服务过墙时，如果异常最好也同样检查一下是否有开启SIP。</li>
+<li>语音服务的厂家也反馈，该问题常常出现。</li>
+</ul>
+<hr>
+<h2 id="端口畅通但部分业务无法使用">端口畅通但部分业务无法使用</h2>
+<h3 id="现象-2">现象</h3>
+<blockquote>
+<p>以下场景均可能为相同问题：</p>
+</blockquote>
+<ol>
+<li>堡垒机登录web正常，但无法远程主机;</li>
+<li>端口访问正常，业务部分正常，部分异常。</li>
+</ol>
+<h3 id="解决方法-2">解决方法</h3>
+<p><code>检查路由发现，堡垒机到远程主机之间为不同子网，主机路由下一跳网关为防火墙，堡垒机则不是，导致防火墙上只有半个会话，来回路径不一致</code></p>
+<ol>
+<li>添加明细路由内网流量不经过防火墙；</li>
+<li>不建议选择这个方法，修改路由让防火墙会话完整，来回一致。</li>
+</ol>
+<hr>
+<h2 id="传输大文件时失败">传输大文件时失败</h2>
+<h3 id="现象-3">现象</h3>
+<p>经过防火墙时，传输稍微大一点的文件发现无法传输；</p>
+<p>其他如果是因为工具限制或者协议限制的情况不考虑，这些比较好判断。</p>
+<h3 id="解决方法-3">解决方法</h3>
+<p><code>可能是因为MTU设置太小导致的，数据帧大于MTU被丢弃</code></p>
+<ul>
+<li>调整MTU大小即可</li>
+</ul>
+]]></content>
+      <categories>
+        <category>防火墙排障经验</category>
+      </categories>
+      <tags>
+        <tag>防火墙</tag>
+        <tag>排障</tag>
       </tags>
   </entry>
   <entry>
