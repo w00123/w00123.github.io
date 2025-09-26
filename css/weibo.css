@@ -48,12 +48,12 @@
 
 #weibo .item-content {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 15px;
 }
 
 #weibo-container {
     width: 100%;
-    height: 250px;
+    height: 270px;
     font-size: 95%;
     overflow-y: auto;
     -ms-overflow-style: none;

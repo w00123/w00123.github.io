@@ -5,13 +5,15 @@ try { if (document.getElementById('weibo').clientWidth) weibo(); } catch (error)
 function weibo() {
     let hotness = {
         '1': 'weibo-boom',
-        '2': 'weibo-hot',
+        '2': 'weibo-new',
         '3': 'weibo-boil',
-        '4': 'weibo-new',
-        '5': 'weibo-recommend',
-        '6': 'weibo-jyzy',
+        '4': 'weibo-topic',
+        '5': 'weibo-hot',
+        '6': 'weibo-adrecommend',
         '7': 'weibo-jyzy',
-        '8': 'weibo-jyzy'
+        '8': 'weibo-topic-ad',
+        '9': 'weibo-recommend',
+        '10': 'weibo-friend'
     }
     let html = '<div id="weibo-container">'
     let data = JSON.parse(localStorage.getItem('weibo'));
