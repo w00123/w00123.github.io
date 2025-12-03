@@ -1,6 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Browser-use 安装</title>
+    <url>/2025/07/07/Browser-use-%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h2 id="简介">简介</h2>
+<p>这次安装是通过windows安装</p>
+<blockquote>
+<p>官网</p>
+<blockquote>
+<p><a href="https://browser-use.com/">https://browser-use.com/</a></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>github</p>
+<blockquote>
+<p><a href="https://github.com/browser-use/browser-use">https://github.com/browser-use/browser-use</a></p>
+</blockquote>
+</blockquote>
+<hr>
+<h2 id="安装步骤">安装步骤</h2>
+<blockquote>
+<p>官方安装方法：</p>
+<blockquote>
+<p><a href="https://github.com/browser-use/web-ui">https://github.com/browser-use/web-ui</a></p>
+</blockquote>
+</blockquote>
+<p><code>可以先安装uv，uv比较好用：</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install uv</span><br></pre></td></tr></table></figure>
+<ol>
+<li>创建python虚拟环境</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python -m venv venv</span><br><span class="line">venv\Scripts\activate</span><br></pre></td></tr></table></figure>
+<ul>
+<li>退出虚拟环境</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>git Browser-use的web ui项目</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/browser-use/web-ui.git</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>安装依赖项</li>
+</ol>
+<ul>
+<li>安装 Python 包：</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">uv pip install -r requirements.txt</span><br><span class="line"># 新版本要安装setuptools</span><br><span class="line">uv pip install setuptools</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 playwright 中安装浏览器</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">playwright install --with-deps</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>配置环境<br>
+api配置文件</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">copy .env.example .env</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>运行webUI</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python webui.py --ip 127.0.0.1 --port 7788</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>代码</category>
+        <category>工具安装</category>
+      </categories>
+      <tags>
+        <tag>browser-use</tag>
+        <tag>浏览器ai代理</tag>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Dockerfile命令</title>
     <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<table>
@@ -366,164 +435,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Browser-use 安装</title>
-    <url>/2025/07/07/Browser-use-%E5%AE%89%E8%A3%85/</url>
-    <content><![CDATA[<h2 id="简介">简介</h2>
-<p>这次安装是通过windows安装</p>
-<blockquote>
-<p>官网</p>
-<blockquote>
-<p><a href="https://browser-use.com/">https://browser-use.com/</a></p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>github</p>
-<blockquote>
-<p><a href="https://github.com/browser-use/browser-use">https://github.com/browser-use/browser-use</a></p>
-</blockquote>
-</blockquote>
-<hr>
-<h2 id="安装步骤">安装步骤</h2>
-<blockquote>
-<p>官方安装方法：</p>
-<blockquote>
-<p><a href="https://github.com/browser-use/web-ui">https://github.com/browser-use/web-ui</a></p>
-</blockquote>
-</blockquote>
-<p><code>可以先安装uv，uv比较好用：</code></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install uv</span><br></pre></td></tr></table></figure>
-<ol>
-<li>创建python虚拟环境</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python -m venv venv</span><br><span class="line">venv\Scripts\activate</span><br></pre></td></tr></table></figure>
-<ul>
-<li>退出虚拟环境</li>
-</ul>
-  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>git Browser-use的web ui项目</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/browser-use/web-ui.git</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>安装依赖项</li>
-</ol>
-<ul>
-<li>安装 Python 包：</li>
-</ul>
-  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">uv pip install -r requirements.txt</span><br><span class="line"># 新版本要安装setuptools</span><br><span class="line">uv pip install setuptools</span><br></pre></td></tr></table></figure>
-<ul>
-<li>在 playwright 中安装浏览器</li>
-</ul>
-  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">playwright install --with-deps</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>配置环境<br>
-api配置文件</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">copy .env.example .env</span><br></pre></td></tr></table></figure>
-<ol start="5">
-<li>运行webUI</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python webui.py --ip 127.0.0.1 --port 7788</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>代码</category>
-        <category>工具安装</category>
-      </categories>
-      <tags>
-        <tag>browser-use</tag>
-        <tag>浏览器ai代理</tag>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>apt源</title>
-    <url>/2025/07/13/apt%E6%BA%90/</url>
-    <content><![CDATA[<h2 id="修改-APT-源">修改 APT 源</h2>
-<h3 id="手动修改-sources-list">手动修改 <code>sources.list</code></h3>
-<ol>
-<li>
-<p><strong>备份原文件</strong>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /etc/apt/sources.list /etc/apt/sources.list.bak</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p><strong>编辑源文件</strong>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p><strong>替换为官方源（以 Ubuntu 22.04 为例）</strong>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">deb http://archive.ubuntu.com/ubuntu jammy main restricted universe multiverse</span><br><span class="line">deb http://archive.ubuntu.com/ubuntu jammy-updates main restricted universe multiverse</span><br><span class="line">deb http://archive.ubuntu.com/ubuntu jammy-security main restricted universe multiverse</span><br><span class="line">deb http://archive.ubuntu.com/ubuntu jammy-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
-<p>如需国内镜像，可替换为：</p>
-<ul>
-<li><strong>清华源</strong>：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
-</li>
-<li><strong>阿里云源</strong>：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">deb http://mirrors.aliyun.com/ubuntu/ jammy main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ jammy-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ jammy-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ol>
-<blockquote>
-<p>替换完成后可以将<code>/etc/apt/sources.list.d</code>内的文件注释，可能会有其他源</p>
-</blockquote>
-<ol start="4">
-<li><strong>更新软件列表</strong>：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt clean</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure></li>
-</ol>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-        <tag>apt源</tag>
-        <tag>apt</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ansible命令</title>
-    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
-<h2 id="安装软件">安装软件</h2>
-<p>安装 EPEL 仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install epel-release -y</span><br></pre></td></tr></table></figure>
-<p>安装 Ansible</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install ansible -y</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="使用">使用</h2>
-<ul>
-<li>使用前需要定义两个文件：<br>
-一个指定需要批量执行的主机<code>hosts.ini</code>，可以随意指定名称；一个指定需要运行的命令和动作<code>command.yml</code>，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</li>
-</ul>
-<ol>
-<li>hosts.ini：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[hostst_g]</span><br><span class="line">此处填写ip</span><br><span class="line">[hosts_g:vars]</span><br><span class="line">ansible_ssh_user=root ##账号</span><br><span class="line">ansible_ssh_pass=123456 ##密码</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>command.yml：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: 在远程主机上执行任意命令  </span><br><span class="line">  hosts: all</span><br><span class="line">  gather_facts: no</span><br><span class="line">  tasks:</span><br><span class="line">      - name: 执行一个特定命令</span><br><span class="line">        command: echo &quot;你好，世界！&quot;</span><br><span class="line">        # 使用  command  模块执行简单命令，不支持管道和重定向</span><br><span class="line">      - name:  列出目录中的文件</span><br><span class="line">        command: ls /path/to/directory</span><br><span class="line">        # 列出指定目录中的所有文件</span><br><span class="line">      - name:  使用 shell 运行包含管道的命令</span><br><span class="line">        shell: echo &quot;你好，世界！&quot; | grep 你好</span><br><span class="line">        # 使用 shell 模块支持管道、变量和重定向等 shell 特性</span><br><span class="line">      - name: 使用  hell  特性运行命令</span><br><span class="line">        shell: cat /etc/passwd | grep root</span><br><span class="line">        # 通过管道过滤包含 &quot;root&quot; 的行</span><br></pre></td></tr></table></figure>
-<p>可使用shell：模拟终端上所有执行的命令。</p>
-<ul>
-<li>使用命令</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ansible-playbook -i hosts.ini command.yml</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="安装ansible示例">安装ansible示例</h2>
-<h3 id="文件结构">文件结构</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">project_dir/</span><br><span class="line">├── install_tomcat.yml        # Ansible 剧本</span><br><span class="line">├── hosts.ini                 # 主机信息</span><br><span class="line">└── html/                     # 本地网页目录（你已经准备好了）</span><br><span class="line">    ├── index.html</span><br><span class="line">    └── images/</span><br><span class="line">        └── logo.png</span><br></pre></td></tr></table></figure>
-<h3 id="hosts-ini-文件内容：">hosts.ini 文件内容：</h3>
-<p>目标主机信息</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[test]</span><br><span class="line">192.168.1.101</span><br><span class="line">192.168.1.102</span><br><span class="line"></span><br><span class="line">[test:vars]</span><br><span class="line">ansible_user=root</span><br><span class="line">ansible_ssh_pass=你的密码</span><br><span class="line">ansible_python_interpreter=/usr/bin/python3</span><br></pre></td></tr></table></figure>
-<h3 id="install-tomcat-yml-内容">install_tomcat.yml 内容</h3>
-<p>执行的任务</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- name: 在所有 test 主机上安装并配置 Tomcat</span><br><span class="line">  hosts: test</span><br><span class="line">  become: yes</span><br><span class="line">  tasks:</span><br><span class="line"></span><br><span class="line">    - name: 安装 Java（Tomcat 依赖）</span><br><span class="line">      package:</span><br><span class="line">        name: java-1.8.0-openjdk</span><br><span class="line">        state: present</span><br><span class="line"></span><br><span class="line">    - name: 创建 tomcat 用户</span><br><span class="line">      user:</span><br><span class="line">        name: tomcat</span><br><span class="line">        shell: /bin/false</span><br><span class="line">        system: yes</span><br><span class="line">        create_home: no</span><br><span class="line"></span><br><span class="line">    - name: 下载 Tomcat 安装包</span><br><span class="line">      get_url:</span><br><span class="line">        url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.89/bin/apache-tomcat-9.0.89.tar.gz</span><br><span class="line">        dest: /tmp/tomcat.tar.gz</span><br><span class="line"></span><br><span class="line">    - name: 创建 Tomcat 安装目录</span><br><span class="line">      file:</span><br><span class="line">        path: /opt/tomcat</span><br><span class="line">        state: directory</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0755&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 解压 Tomcat 安装包</span><br><span class="line">      unarchive:</span><br><span class="line">        src: /tmp/tomcat.tar.gz</span><br><span class="line">        dest: /opt/tomcat</span><br><span class="line">        remote_src: yes</span><br><span class="line">        creates: /opt/tomcat/apache-tomcat-9.0.89</span><br><span class="line"></span><br><span class="line">    - name: 配置 Tomcat 环境变量（可选）</span><br><span class="line">      copy:</span><br><span class="line">        dest: /etc/profile.d/tomcat.sh</span><br><span class="line">        content: |</span><br><span class="line">          export CATALINA_HOME=/opt/tomcat/apache-tomcat-9.0.89</span><br><span class="line"></span><br><span class="line">    - name: 备份默认 webapps 目录</span><br><span class="line">      command: mv /opt/tomcat/apache-tomcat-9.0.89/webapps /opt/tomcat/apache-tomcat-9.0.89/webapps.bak</span><br><span class="line">      args:</span><br><span class="line">        creates: /opt/tomcat/apache-tomcat-9.0.89/webapps.bak</span><br><span class="line"></span><br><span class="line">    - name: 创建网页目录 /var/www/html</span><br><span class="line">      file:</span><br><span class="line">        path: /var/www/html</span><br><span class="line">        state: directory</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0755&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 上传本地 html 文件到远程 /var/www/html</span><br><span class="line">      copy:</span><br><span class="line">        src: html/</span><br><span class="line">        dest: /var/www/html/</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0644&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 创建 /var/www/html 到 Tomcat webapps 的符号链接</span><br><span class="line">      file:</span><br><span class="line">        src: /var/www/html</span><br><span class="line">        dest: /opt/tomcat/apache-tomcat-9.0.89/webapps</span><br><span class="line">        state: link</span><br><span class="line">        force: yes</span><br><span class="line"></span><br><span class="line">    - name: 启动 Tomcat 服务</span><br><span class="line">      shell: nohup /opt/tomcat/apache-tomcat-9.0.89/bin/startup.sh &amp;</span><br><span class="line">      args:</span><br><span class="line">        chdir: /opt/tomcat/apache-tomcat-9.0.89/bin</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Magentic-UI 安装</title>
     <url>/2025/07/06/Magentic-UI-%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<h2 id="简介">简介</h2>
@@ -622,6 +533,95 @@ deadsnakes PPA 是由 Python 社区维护的一个软件源，专门用于提供
       </tags>
   </entry>
   <entry>
+    <title>ansible命令</title>
+    <url>/2024/08/01/ansible%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>ansible是一个批量执行命令的工具</p>
+<h2 id="安装软件">安装软件</h2>
+<p>安装 EPEL 仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install epel-release -y</span><br></pre></td></tr></table></figure>
+<p>安装 Ansible</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install ansible -y</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="使用">使用</h2>
+<ul>
+<li>使用前需要定义两个文件：<br>
+一个指定需要批量执行的主机<code>hosts.ini</code>，可以随意指定名称；一个指定需要运行的命令和动作<code>command.yml</code>，虽然可以直接指定需要运行的命令，但通过该文件可以回显执行成功或失败的主机和成功或失败的动作。</li>
+</ul>
+<ol>
+<li>hosts.ini：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[hostst_g]</span><br><span class="line">此处填写ip</span><br><span class="line">[hosts_g:vars]</span><br><span class="line">ansible_ssh_user=root ##账号</span><br><span class="line">ansible_ssh_pass=123456 ##密码</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>command.yml：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- name: 在远程主机上执行任意命令  </span><br><span class="line">  hosts: all</span><br><span class="line">  gather_facts: no</span><br><span class="line">  tasks:</span><br><span class="line">      - name: 执行一个特定命令</span><br><span class="line">        command: echo &quot;你好，世界！&quot;</span><br><span class="line">        # 使用  command  模块执行简单命令，不支持管道和重定向</span><br><span class="line">      - name:  列出目录中的文件</span><br><span class="line">        command: ls /path/to/directory</span><br><span class="line">        # 列出指定目录中的所有文件</span><br><span class="line">      - name:  使用 shell 运行包含管道的命令</span><br><span class="line">        shell: echo &quot;你好，世界！&quot; | grep 你好</span><br><span class="line">        # 使用 shell 模块支持管道、变量和重定向等 shell 特性</span><br><span class="line">      - name: 使用  hell  特性运行命令</span><br><span class="line">        shell: cat /etc/passwd | grep root</span><br><span class="line">        # 通过管道过滤包含 &quot;root&quot; 的行</span><br></pre></td></tr></table></figure>
+<p>可使用shell：模拟终端上所有执行的命令。</p>
+<ul>
+<li>使用命令</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ansible-playbook -i hosts.ini command.yml</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="安装ansible示例">安装ansible示例</h2>
+<h3 id="文件结构">文件结构</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">project_dir/</span><br><span class="line">├── install_tomcat.yml        # Ansible 剧本</span><br><span class="line">├── hosts.ini                 # 主机信息</span><br><span class="line">└── html/                     # 本地网页目录（你已经准备好了）</span><br><span class="line">    ├── index.html</span><br><span class="line">    └── images/</span><br><span class="line">        └── logo.png</span><br></pre></td></tr></table></figure>
+<h3 id="hosts-ini-文件内容：">hosts.ini 文件内容：</h3>
+<p>目标主机信息</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[test]</span><br><span class="line">192.168.1.101</span><br><span class="line">192.168.1.102</span><br><span class="line"></span><br><span class="line">[test:vars]</span><br><span class="line">ansible_user=root</span><br><span class="line">ansible_ssh_pass=你的密码</span><br><span class="line">ansible_python_interpreter=/usr/bin/python3</span><br></pre></td></tr></table></figure>
+<h3 id="install-tomcat-yml-内容">install_tomcat.yml 内容</h3>
+<p>执行的任务</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">- name: 在所有 test 主机上安装并配置 Tomcat</span><br><span class="line">  hosts: test</span><br><span class="line">  become: yes</span><br><span class="line">  tasks:</span><br><span class="line"></span><br><span class="line">    - name: 安装 Java（Tomcat 依赖）</span><br><span class="line">      package:</span><br><span class="line">        name: java-1.8.0-openjdk</span><br><span class="line">        state: present</span><br><span class="line"></span><br><span class="line">    - name: 创建 tomcat 用户</span><br><span class="line">      user:</span><br><span class="line">        name: tomcat</span><br><span class="line">        shell: /bin/false</span><br><span class="line">        system: yes</span><br><span class="line">        create_home: no</span><br><span class="line"></span><br><span class="line">    - name: 下载 Tomcat 安装包</span><br><span class="line">      get_url:</span><br><span class="line">        url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.89/bin/apache-tomcat-9.0.89.tar.gz</span><br><span class="line">        dest: /tmp/tomcat.tar.gz</span><br><span class="line"></span><br><span class="line">    - name: 创建 Tomcat 安装目录</span><br><span class="line">      file:</span><br><span class="line">        path: /opt/tomcat</span><br><span class="line">        state: directory</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0755&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 解压 Tomcat 安装包</span><br><span class="line">      unarchive:</span><br><span class="line">        src: /tmp/tomcat.tar.gz</span><br><span class="line">        dest: /opt/tomcat</span><br><span class="line">        remote_src: yes</span><br><span class="line">        creates: /opt/tomcat/apache-tomcat-9.0.89</span><br><span class="line"></span><br><span class="line">    - name: 配置 Tomcat 环境变量（可选）</span><br><span class="line">      copy:</span><br><span class="line">        dest: /etc/profile.d/tomcat.sh</span><br><span class="line">        content: |</span><br><span class="line">          export CATALINA_HOME=/opt/tomcat/apache-tomcat-9.0.89</span><br><span class="line"></span><br><span class="line">    - name: 备份默认 webapps 目录</span><br><span class="line">      command: mv /opt/tomcat/apache-tomcat-9.0.89/webapps /opt/tomcat/apache-tomcat-9.0.89/webapps.bak</span><br><span class="line">      args:</span><br><span class="line">        creates: /opt/tomcat/apache-tomcat-9.0.89/webapps.bak</span><br><span class="line"></span><br><span class="line">    - name: 创建网页目录 /var/www/html</span><br><span class="line">      file:</span><br><span class="line">        path: /var/www/html</span><br><span class="line">        state: directory</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0755&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 上传本地 html 文件到远程 /var/www/html</span><br><span class="line">      copy:</span><br><span class="line">        src: html/</span><br><span class="line">        dest: /var/www/html/</span><br><span class="line">        owner: tomcat</span><br><span class="line">        group: tomcat</span><br><span class="line">        mode: &#x27;0644&#x27;</span><br><span class="line"></span><br><span class="line">    - name: 创建 /var/www/html 到 Tomcat webapps 的符号链接</span><br><span class="line">      file:</span><br><span class="line">        src: /var/www/html</span><br><span class="line">        dest: /opt/tomcat/apache-tomcat-9.0.89/webapps</span><br><span class="line">        state: link</span><br><span class="line">        force: yes</span><br><span class="line"></span><br><span class="line">    - name: 启动 Tomcat 服务</span><br><span class="line">      shell: nohup /opt/tomcat/apache-tomcat-9.0.89/bin/startup.sh &amp;</span><br><span class="line">      args:</span><br><span class="line">        chdir: /opt/tomcat/apache-tomcat-9.0.89/bin</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>apt源</title>
+    <url>/2025/07/13/apt%E6%BA%90/</url>
+    <content><![CDATA[<h2 id="修改-APT-源">修改 APT 源</h2>
+<h3 id="手动修改-sources-list">手动修改 <code>sources.list</code></h3>
+<ol>
+<li>
+<p><strong>备份原文件</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /etc/apt/sources.list /etc/apt/sources.list.bak</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>编辑源文件</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>替换为官方源（以 Ubuntu 22.04 为例）</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">deb http://archive.ubuntu.com/ubuntu jammy main restricted universe multiverse</span><br><span class="line">deb http://archive.ubuntu.com/ubuntu jammy-updates main restricted universe multiverse</span><br><span class="line">deb http://archive.ubuntu.com/ubuntu jammy-security main restricted universe multiverse</span><br><span class="line">deb http://archive.ubuntu.com/ubuntu jammy-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<p>如需国内镜像，可替换为：</p>
+<ul>
+<li><strong>清华源</strong>：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+</li>
+<li><strong>阿里云源</strong>：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">deb http://mirrors.aliyun.com/ubuntu/ jammy main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ jammy-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ jammy-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>替换完成后可以将<code>/etc/apt/sources.list.d</code>内的文件注释，可能会有其他源</p>
+</blockquote>
+<ol start="4">
+<li><strong>更新软件列表</strong>：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt clean</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>apt源</tag>
+        <tag>apt</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>arp欺骗</title>
     <url>/2024/08/01/arpspoof/</url>
     <content><![CDATA[<h2 id="使用arpspoof命令：">使用arpspoof命令：</h2>
@@ -715,100 +715,6 @@ host               指定您希望抓取数据包的host（通常是本地网关
         <tag>astrbot</tag>
         <tag>napcat</tag>
         <tag>Gewechat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>centos-release-scl安装换源</title>
-    <url>/2025/03/23/centos-release-scl%E6%8A%A5%E9%94%99/</url>
-    <content><![CDATA[<h2 id="安装">安装</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum -y install centos-release-scl</span><br></pre></td></tr></table></figure>
-<p>centos7.9安装后遇到无法使用yum的问题，报错无法访问 <a href="http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo">http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo</a> ，换国内源即可解决</p>
-<h2 id="换源">换源</h2>
-<p>修改两个文件内容</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl.repo /etc/yum.repos.d/CentOS-SCLo-scl.repo.bak</span><br><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo.bak</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl.repo</span><br><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo</span><br></pre></td></tr></table></figure>
-<p>更换为</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[centos-sclo-rh]</span><br><span class="line">name=CentOS-7 - SCLo rh</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/rh/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br><span class="line"></span><br><span class="line">[centos-sclo-sclo]</span><br><span class="line">name=CentOS-7 - SCLo sclo</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/sclo/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br></pre></td></tr></table></figure>
-<p>清理缓存并生成新缓存</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo yum clean all</span><br><span class="line">sudo yum makecache</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>centos</tag>
-        <tag>centos-release-scl</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>burpsuite工具学习版方法</title>
-    <url>/2025/02/21/burpsuite%E5%B7%A5%E5%85%B7%E5%AD%A6%E4%B9%A0%E7%89%88%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
-<blockquote>
-<p>来自<code>Datch</code>的使用方法<br>
-<a href="https://www.52pojie.cn/thread-1544866-1-1.html">https://www.52pojie.cn/thread-1544866-1-1.html</a></p>
-</blockquote>
-<p>下载地址也在上面大佬教程；</p>
-<p>这里简单记录下工具的使用方法。</p>
-<h2 id="kali激活burpsuite">kali激活burpsuite</h2>
-<h3 id="jdk切换">jdk切换</h3>
-<p>如果后续运行脚本报错，大概率是java的版本问题，21的版本可以使用，可以通过下面这个文章切换版本</p>
-<p><a href="/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/">java安装和版本切换方法</a></p>
-<h3 id="上传解压包">上传解压包</h3>
-<p>上传<code>BurpSuite V2025.1.zip</code>到自定义目录运行命令解压</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">unzip BurpSuite\ V2025.1.zip </span><br></pre></td></tr></table></figure>
-<h3 id="执行激活程序">执行激活程序</h3>
-<p>首页的<code>Start.VBS</code>是windows的执行程序，此处不同系统使用不同后缀程序，后面激活步骤相同</p>
-<ol>
-<li>找到linux执行程序目录</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd BurpSuite\ V2025.1/Linux/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>赋予执行权限</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chmod +x Start.sh</span><br><span class="line">chmod +x CN_Burp.sh</span><br><span class="line">chmod +x EN_Burp.sh</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>执行程序<br>
-执行完成后等待页面</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./Start.sh  </span><br></pre></td></tr></table></figure>
-<h3 id="激活配置">激活配置</h3>
-<ol>
-<li>
-<p>勾选<code>loader</code>和<code>汉化</code>，点击<code>run</code>，软件就会启动<br>
-<img src="/images/pasted-86.png" alt="upload successful"></p>
-</li>
-<li>
-<p><code>取消提交</code>有关bug，接受<br>
-<img src="/images/pasted-87.png" alt="upload successful"></p>
-</li>
-<li>
-<p>第一个步骤的<code>license</code>信息，点击copy，粘贴为密钥，下一步<br>
-<img src="/images/pasted-88.png" alt="upload successful"></p>
-</li>
-<li>
-<p>选择手动激活</p>
-</li>
-<li>
-<p>复制请求到<code>activation request</code>，然后<code>copy</code>最后的<code>activation response</code>的信息<br>
-<img src="/images/pasted-89.png" alt="upload successful"></p>
-</li>
-<li>
-<p><code>copy</code>后<code>粘贴请求</code>点下一步，完成即可。<br>
-<img src="/images/pasted-90.png" alt="upload successful"></p>
-</li>
-</ol>
-<h2 id="后续使用">后续使用</h2>
-<p>激活后使用该程序可以直接运行<code>BurpSuite\ V2025.1/Linux/</code>下的<code>CN_Burp.sh</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./CN_Burp.sh</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-        <category>工具升级</category>
-      </categories>
-      <tags>
-        <tag>kali</tag>
-        <tag>burpsuite</tag>
       </tags>
   </entry>
   <entry>
@@ -1079,6 +985,100 @@ host               指定您希望抓取数据包的host（通常是本地网关
       </tags>
   </entry>
   <entry>
+    <title>burpsuite工具学习版方法</title>
+    <url>/2025/02/21/burpsuite%E5%B7%A5%E5%85%B7%E5%AD%A6%E4%B9%A0%E7%89%88%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<blockquote>
+<p>来自<code>Datch</code>的使用方法<br>
+<a href="https://www.52pojie.cn/thread-1544866-1-1.html">https://www.52pojie.cn/thread-1544866-1-1.html</a></p>
+</blockquote>
+<p>下载地址也在上面大佬教程；</p>
+<p>这里简单记录下工具的使用方法。</p>
+<h2 id="kali激活burpsuite">kali激活burpsuite</h2>
+<h3 id="jdk切换">jdk切换</h3>
+<p>如果后续运行脚本报错，大概率是java的版本问题，21的版本可以使用，可以通过下面这个文章切换版本</p>
+<p><a href="/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/">java安装和版本切换方法</a></p>
+<h3 id="上传解压包">上传解压包</h3>
+<p>上传<code>BurpSuite V2025.1.zip</code>到自定义目录运行命令解压</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">unzip BurpSuite\ V2025.1.zip </span><br></pre></td></tr></table></figure>
+<h3 id="执行激活程序">执行激活程序</h3>
+<p>首页的<code>Start.VBS</code>是windows的执行程序，此处不同系统使用不同后缀程序，后面激活步骤相同</p>
+<ol>
+<li>找到linux执行程序目录</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd BurpSuite\ V2025.1/Linux/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>赋予执行权限</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chmod +x Start.sh</span><br><span class="line">chmod +x CN_Burp.sh</span><br><span class="line">chmod +x EN_Burp.sh</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>执行程序<br>
+执行完成后等待页面</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./Start.sh  </span><br></pre></td></tr></table></figure>
+<h3 id="激活配置">激活配置</h3>
+<ol>
+<li>
+<p>勾选<code>loader</code>和<code>汉化</code>，点击<code>run</code>，软件就会启动<br>
+<img src="/images/pasted-86.png" alt="upload successful"></p>
+</li>
+<li>
+<p><code>取消提交</code>有关bug，接受<br>
+<img src="/images/pasted-87.png" alt="upload successful"></p>
+</li>
+<li>
+<p>第一个步骤的<code>license</code>信息，点击copy，粘贴为密钥，下一步<br>
+<img src="/images/pasted-88.png" alt="upload successful"></p>
+</li>
+<li>
+<p>选择手动激活</p>
+</li>
+<li>
+<p>复制请求到<code>activation request</code>，然后<code>copy</code>最后的<code>activation response</code>的信息<br>
+<img src="/images/pasted-89.png" alt="upload successful"></p>
+</li>
+<li>
+<p><code>copy</code>后<code>粘贴请求</code>点下一步，完成即可。<br>
+<img src="/images/pasted-90.png" alt="upload successful"></p>
+</li>
+</ol>
+<h2 id="后续使用">后续使用</h2>
+<p>激活后使用该程序可以直接运行<code>BurpSuite\ V2025.1/Linux/</code>下的<code>CN_Burp.sh</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./CN_Burp.sh</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+        <category>工具升级</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+        <tag>burpsuite</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos-release-scl安装换源</title>
+    <url>/2025/03/23/centos-release-scl%E6%8A%A5%E9%94%99/</url>
+    <content><![CDATA[<h2 id="安装">安装</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum -y install centos-release-scl</span><br></pre></td></tr></table></figure>
+<p>centos7.9安装后遇到无法使用yum的问题，报错无法访问 <a href="http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo">http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-sclo</a> ，换国内源即可解决</p>
+<h2 id="换源">换源</h2>
+<p>修改两个文件内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl.repo /etc/yum.repos.d/CentOS-SCLo-scl.repo.bak</span><br><span class="line">mv /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo.bak</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl.repo</span><br><span class="line">vim /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo</span><br></pre></td></tr></table></figure>
+<p>更换为</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[centos-sclo-rh]</span><br><span class="line">name=CentOS-7 - SCLo rh</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/rh/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br><span class="line"></span><br><span class="line">[centos-sclo-sclo]</span><br><span class="line">name=CentOS-7 - SCLo sclo</span><br><span class="line">baseurl=http://vault.centos.org/centos/7/sclo/x86_64/sclo/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo</span><br></pre></td></tr></table></figure>
+<p>清理缓存并生成新缓存</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo yum clean all</span><br><span class="line">sudo yum makecache</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>centos</tag>
+        <tag>centos-release-scl</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>deepseek-r1本地部署方法</title>
     <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h2 id="安装ollama">安装ollama</h2>
@@ -1192,25 +1192,6 @@ Digest: sha256:xxx…<br>
 ]]></content>
   </entry>
   <entry>
-    <title>docker 卸载</title>
-    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
-    <content><![CDATA[<h4 id="卸载命令">卸载命令</h4>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker pull 镜像失败问题解决方法（镜像多）</title>
     <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
     <content><![CDATA[<h2 id="问题现象">问题现象</h2>
@@ -1225,6 +1206,25 @@ Digest: sha256:xxx…<br>
 <h3 id="开始下载">开始下载</h3>
 <p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
 ]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker 卸载</title>
+    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
+    <content><![CDATA[<h4 id="卸载命令">卸载命令</h4>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
@@ -1475,77 +1475,6 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       </tags>
   </entry>
   <entry>
-    <title>ettercap arp欺骗+dns劫持+钓鱼网站</title>
-    <url>/2024/10/15/ettercap-arp%E6%AC%BA%E9%AA%97-dns%E5%8A%AB%E6%8C%81-%E9%92%93%E9%B1%BC%E7%BD%91%E7%AB%99/</url>
-    <content><![CDATA[<h2 id="简介">简介</h2>
-<p>这次主要是使用ettercap在局域网中发现主机并欺骗其arp表，让其mac地址与攻击主机mac一致，使用dns污染其dns解析，将其访问的域名解析到本机的钓鱼网站中。</p>
-<p>注意！<br>
-ettercap使用要一次完成，在多次测试中发现，重新arp欺骗会无法生效，原因不知。</p>
-<h2 id="步骤">步骤</h2>
-<h3 id="发现局域网主机">发现局域网主机</h3>
-<p>在kali中打开ettercap</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ettercap -G</span><br></pre></td></tr></table></figure>
-<p><img src="/images/pasted-46.png" alt="upload successful"></p>
-<p>选择对应的接口，点击√号，再点击放大镜，再点击服务器<br>
-<img src="/images/pasted-47.png" alt="upload successful"></p>
-<p>192.168.0.1:网关<br>
-192.168.0.197:靶机</p>
-<h3 id="arp欺骗">arp欺骗</h3>
-<p>点击靶机，再点击add to target1<br>
-点击网关，再点击add to target2<br>
-<img src="/images/pasted-48.png" alt="upload successful"></p>
-<p>点击地球图标，点击arp poisoning，点击ok<br>
-<img src="/images/pasted-49.png" alt="upload successful"><br>
-<img src="/images/pasted-50.png" alt="upload successful"></p>
-<p>可在靶机上查看arp表，发现网关mac和本机mac一致，欺骗成功；但是访问正常，可能会短暂无法访问互联网。</p>
-<h3 id="制作钓鱼网站">制作钓鱼网站</h3>
-<p>使用setoolkit社工软件制作</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">setoolkit</span><br></pre></td></tr></table></figure>
-<p>来个好看的封面<br>
-<img src="/images/pasted-51.png" alt="upload successful"></p>
-<p>选择1<br>
-<img src="/images/pasted-52.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Social-Engineering Attacks：社会工程学攻击</span><br><span class="line">2）Penetration Testing(Fast-Track)：渗透测试（快速通道）</span><br><span class="line">3）Third Party Modules：第三模块</span><br><span class="line">4）Update the Social-Engineer Toolkit：更新社会工程学工具包</span><br><span class="line">5）Update SET configuration：更新SET配置</span><br><span class="line">6）Help, Credits, and About：帮助、致谢和关于</span><br><span class="line"></span><br><span class="line">99）Exit the Social-Engineer Toolkit：退出</span><br></pre></td></tr></table></figure>
-<p>选择2<br>
-<img src="/images/pasted-53.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）鱼叉式网络钓鱼攻击向量</span><br><span class="line">2）网站攻击向量</span><br><span class="line">3）感染性媒体生成器</span><br><span class="line">4）创建载荷和监听器</span><br><span class="line">5）批量邮件攻击</span><br><span class="line">6）基于Arduino的攻击向量</span><br><span class="line">7）无线接入点攻击向量</span><br><span class="line">8）QR码生成器攻击向量</span><br><span class="line">9）PowerShell攻击向量</span><br><span class="line">10）第三方模块</span><br><span class="line"></span><br><span class="line">99）返回主菜单。</span><br></pre></td></tr></table></figure>
-<p>选择3<br>
-<img src="/images/pasted-54.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Java小程序攻击方法</span><br><span class="line">2）Metasploit浏览器漏洞利用方法</span><br><span class="line">3）凭证收集攻击方法</span><br><span class="line">4）Tabnabbing攻击方法</span><br><span class="line">5）Web劫持攻击方法</span><br><span class="line">6）多攻击网络方法</span><br><span class="line">7）HTA攻击方法</span><br><span class="line"></span><br><span class="line">99）返回主菜单</span><br></pre></td></tr></table></figure>
-<p>随意，我这里选择1，比较方便<br>
-<img src="/images/pasted-55.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）网络模板</span><br><span class="line">2）网站克隆器</span><br><span class="line">3）自定义导入</span><br><span class="line"></span><br><span class="line">99）返回网络攻击菜单</span><br></pre></td></tr></table></figure>
-<p>然后输入要被访问的ip，选择谷歌模板，网站制作完成。<br>
-<img src="/images/pasted-56.png" alt="upload successful"></p>
-<h3 id="dns劫持">dns劫持</h3>
-<p>配置ettercap的dns劫持配置文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/ettercap/etter.dns</span><br></pre></td></tr></table></figure>
-<p>末尾添加以下内容</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*	A	192.168.0.194</span><br></pre></td></tr></table></figure>
-<p>意思是所有域名均解析成后面的ip<br>
-<img src="/images/pasted-57.png" alt="upload successful"></p>
-<p>点击软件三个点，然后选择plugins，再选择manage plugins<br>
-<img src="/images/pasted-59.png" alt="upload successful"></p>
-<p>双击dns_spoof即可<br>
-<img src="/images/pasted-60.png" alt="upload successful"></p>
-<h2 id="验证">验证</h2>
-<h3 id="因为创建的是80端口的页面，靶机要输入http-域名">因为创建的是80端口的页面，靶机要输入<a href="http://xn--+-j68a70j">http://+域名</a></h3>
-<p><img src="/images/pasted-63.png" alt="upload successful"></p>
-<h3 id="工具会有劫持成功的返回">工具会有劫持成功的返回</h3>
-<p><img src="/images/pasted-62.png" alt="upload successful"></p>
-<h3 id="拿到密码">拿到密码</h3>
-<p><img src="/images/pasted-61.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>娱乐</category>
-      </categories>
-      <tags>
-        <tag>kali</tag>
-        <tag>ettercap</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dvwa-命令执行</title>
     <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
     <content><![CDATA[<h2 id="Low等级">Low等级</h2>
@@ -1615,6 +1544,77 @@ admin/password
       <tags>
         <tag>docker</tag>
         <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ettercap arp欺骗+dns劫持+钓鱼网站</title>
+    <url>/2024/10/15/ettercap-arp%E6%AC%BA%E9%AA%97-dns%E5%8A%AB%E6%8C%81-%E9%92%93%E9%B1%BC%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<h2 id="简介">简介</h2>
+<p>这次主要是使用ettercap在局域网中发现主机并欺骗其arp表，让其mac地址与攻击主机mac一致，使用dns污染其dns解析，将其访问的域名解析到本机的钓鱼网站中。</p>
+<p>注意！<br>
+ettercap使用要一次完成，在多次测试中发现，重新arp欺骗会无法生效，原因不知。</p>
+<h2 id="步骤">步骤</h2>
+<h3 id="发现局域网主机">发现局域网主机</h3>
+<p>在kali中打开ettercap</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ettercap -G</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-46.png" alt="upload successful"></p>
+<p>选择对应的接口，点击√号，再点击放大镜，再点击服务器<br>
+<img src="/images/pasted-47.png" alt="upload successful"></p>
+<p>192.168.0.1:网关<br>
+192.168.0.197:靶机</p>
+<h3 id="arp欺骗">arp欺骗</h3>
+<p>点击靶机，再点击add to target1<br>
+点击网关，再点击add to target2<br>
+<img src="/images/pasted-48.png" alt="upload successful"></p>
+<p>点击地球图标，点击arp poisoning，点击ok<br>
+<img src="/images/pasted-49.png" alt="upload successful"><br>
+<img src="/images/pasted-50.png" alt="upload successful"></p>
+<p>可在靶机上查看arp表，发现网关mac和本机mac一致，欺骗成功；但是访问正常，可能会短暂无法访问互联网。</p>
+<h3 id="制作钓鱼网站">制作钓鱼网站</h3>
+<p>使用setoolkit社工软件制作</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">setoolkit</span><br></pre></td></tr></table></figure>
+<p>来个好看的封面<br>
+<img src="/images/pasted-51.png" alt="upload successful"></p>
+<p>选择1<br>
+<img src="/images/pasted-52.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Social-Engineering Attacks：社会工程学攻击</span><br><span class="line">2）Penetration Testing(Fast-Track)：渗透测试（快速通道）</span><br><span class="line">3）Third Party Modules：第三模块</span><br><span class="line">4）Update the Social-Engineer Toolkit：更新社会工程学工具包</span><br><span class="line">5）Update SET configuration：更新SET配置</span><br><span class="line">6）Help, Credits, and About：帮助、致谢和关于</span><br><span class="line"></span><br><span class="line">99）Exit the Social-Engineer Toolkit：退出</span><br></pre></td></tr></table></figure>
+<p>选择2<br>
+<img src="/images/pasted-53.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）鱼叉式网络钓鱼攻击向量</span><br><span class="line">2）网站攻击向量</span><br><span class="line">3）感染性媒体生成器</span><br><span class="line">4）创建载荷和监听器</span><br><span class="line">5）批量邮件攻击</span><br><span class="line">6）基于Arduino的攻击向量</span><br><span class="line">7）无线接入点攻击向量</span><br><span class="line">8）QR码生成器攻击向量</span><br><span class="line">9）PowerShell攻击向量</span><br><span class="line">10）第三方模块</span><br><span class="line"></span><br><span class="line">99）返回主菜单。</span><br></pre></td></tr></table></figure>
+<p>选择3<br>
+<img src="/images/pasted-54.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）Java小程序攻击方法</span><br><span class="line">2）Metasploit浏览器漏洞利用方法</span><br><span class="line">3）凭证收集攻击方法</span><br><span class="line">4）Tabnabbing攻击方法</span><br><span class="line">5）Web劫持攻击方法</span><br><span class="line">6）多攻击网络方法</span><br><span class="line">7）HTA攻击方法</span><br><span class="line"></span><br><span class="line">99）返回主菜单</span><br></pre></td></tr></table></figure>
+<p>随意，我这里选择1，比较方便<br>
+<img src="/images/pasted-55.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1）网络模板</span><br><span class="line">2）网站克隆器</span><br><span class="line">3）自定义导入</span><br><span class="line"></span><br><span class="line">99）返回网络攻击菜单</span><br></pre></td></tr></table></figure>
+<p>然后输入要被访问的ip，选择谷歌模板，网站制作完成。<br>
+<img src="/images/pasted-56.png" alt="upload successful"></p>
+<h3 id="dns劫持">dns劫持</h3>
+<p>配置ettercap的dns劫持配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/ettercap/etter.dns</span><br></pre></td></tr></table></figure>
+<p>末尾添加以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*	A	192.168.0.194</span><br></pre></td></tr></table></figure>
+<p>意思是所有域名均解析成后面的ip<br>
+<img src="/images/pasted-57.png" alt="upload successful"></p>
+<p>点击软件三个点，然后选择plugins，再选择manage plugins<br>
+<img src="/images/pasted-59.png" alt="upload successful"></p>
+<p>双击dns_spoof即可<br>
+<img src="/images/pasted-60.png" alt="upload successful"></p>
+<h2 id="验证">验证</h2>
+<h3 id="因为创建的是80端口的页面，靶机要输入http-域名">因为创建的是80端口的页面，靶机要输入<a href="http://xn--+-j68a70j">http://+域名</a></h3>
+<p><img src="/images/pasted-63.png" alt="upload successful"></p>
+<h3 id="工具会有劫持成功的返回">工具会有劫持成功的返回</h3>
+<p><img src="/images/pasted-62.png" alt="upload successful"></p>
+<h3 id="拿到密码">拿到密码</h3>
+<p><img src="/images/pasted-61.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+        <tag>ettercap</tag>
       </tags>
   </entry>
   <entry>
@@ -1726,6 +1726,61 @@ Repository name <a href="http://xn--fiq51fkycnswykwlh0b.github.io">中输入用�
       </tags>
   </entry>
   <entry>
+    <title>hashcat爆破压缩包</title>
+    <url>/2025/02/26/hashcat%E7%88%86%E7%A0%B4%E5%8E%8B%E7%BC%A9%E5%8C%85/</url>
+    <content><![CDATA[<h2 id="hashcat下载">hashcat下载</h2>
+<p>windows需要下载两个工具，一个<code>hashcat</code>，一个<code>John the Ripper</code>，下面是下载地址：</p>
+<blockquote>
+<p>hashcat<br>
+<a href="https://hashcat.net/hashcat/">https://hashcat.net/hashcat/</a></p>
+</blockquote>
+<blockquote>
+<p>John the Ripper<br>
+<a href="https://www.openwall.com/john/">https://www.openwall.com/john/</a></p>
+</blockquote>
+<h2 id="hashcat使用">hashcat使用</h2>
+<h3 id="获取hash值">获取hash值</h3>
+<ol>
+<li>通过John the Ripper工具获取hash</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rar2john.exe &lt;文件名&gt;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>通过windows命令获取md5值</li>
+</ol>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">certutil -hashfile &lt;文件&gt; MD5</span><br></pre></td></tr></table></figure>
+<h3 id="参数">参数</h3>
+<ol>
+<li>-m<br>
+选择hash模式，通过hash值计算，可以通过命令自动运算</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hashcat &lt;hash值&gt;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>-a<br>
+选择攻击模式<br>
+|参数|含义|<br>
+|:-:|:—|<br>
+|-a 0|字典破解|<br>
+|-a 1|多字典组合破解|<br>
+|-a 3|掩码破解|<br>
+|-a 6|字典+掩码破解|<br>
+|-a 7|掩码+字典破解|</li>
+</ol>
+<h3 id="限制密码长度范围爆破">限制密码长度范围爆破</h3>
+<p>rar hash值爆破</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hashcat -m 13000 -a 3 &lt;hash值&gt; ?a?a?a?a?a?a --increment --increment-min 4 --increment-max 6</span><br></pre></td></tr></table></figure>
+<h3 id="MD5未知密码爆破">MD5未知密码爆破</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hash -m 0 -a 3 &lt;MD5值&gt; -O</span><br></pre></td></tr></table></figure>
+<h3 id="上次中断处开始">上次中断处开始</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hashcat -m 13000 -a 3 --restore</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>hashcat</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo-butterfly美化</title>
     <url>/2024/08/03/hexo-butterfly%E7%BE%8E%E5%8C%96/</url>
     <content><![CDATA[<h2 id="hexo博客一图流">hexo博客一图流</h2>
@@ -1811,61 +1866,6 @@ vim custom.css</p>
       </tags>
   </entry>
   <entry>
-    <title>hashcat爆破压缩包</title>
-    <url>/2025/02/26/hashcat%E7%88%86%E7%A0%B4%E5%8E%8B%E7%BC%A9%E5%8C%85/</url>
-    <content><![CDATA[<h2 id="hashcat下载">hashcat下载</h2>
-<p>windows需要下载两个工具，一个<code>hashcat</code>，一个<code>John the Ripper</code>，下面是下载地址：</p>
-<blockquote>
-<p>hashcat<br>
-<a href="https://hashcat.net/hashcat/">https://hashcat.net/hashcat/</a></p>
-</blockquote>
-<blockquote>
-<p>John the Ripper<br>
-<a href="https://www.openwall.com/john/">https://www.openwall.com/john/</a></p>
-</blockquote>
-<h2 id="hashcat使用">hashcat使用</h2>
-<h3 id="获取hash值">获取hash值</h3>
-<ol>
-<li>通过John the Ripper工具获取hash</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rar2john.exe &lt;文件名&gt;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>通过windows命令获取md5值</li>
-</ol>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">certutil -hashfile &lt;文件&gt; MD5</span><br></pre></td></tr></table></figure>
-<h3 id="参数">参数</h3>
-<ol>
-<li>-m<br>
-选择hash模式，通过hash值计算，可以通过命令自动运算</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hashcat &lt;hash值&gt;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>-a<br>
-选择攻击模式<br>
-|参数|含义|<br>
-|:-:|:—|<br>
-|-a 0|字典破解|<br>
-|-a 1|多字典组合破解|<br>
-|-a 3|掩码破解|<br>
-|-a 6|字典+掩码破解|<br>
-|-a 7|掩码+字典破解|</li>
-</ol>
-<h3 id="限制密码长度范围爆破">限制密码长度范围爆破</h3>
-<p>rar hash值爆破</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hashcat -m 13000 -a 3 &lt;hash值&gt; ?a?a?a?a?a?a --increment --increment-min 4 --increment-max 6</span><br></pre></td></tr></table></figure>
-<h3 id="MD5未知密码爆破">MD5未知密码爆破</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hash -m 0 -a 3 &lt;MD5值&gt; -O</span><br></pre></td></tr></table></figure>
-<h3 id="上次中断处开始">上次中断处开始</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hashcat -m 13000 -a 3 --restore</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>hashcat</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo-gitee部署</title>
     <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
     <content><![CDATA[<h2 id="导语">导语</h2>
@@ -1905,6 +1905,59 @@ vim custom.css</p>
       <tags>
         <tag>hexo</tag>
         <tag>gitee</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo-github贡献日历</title>
+    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
+    <content><![CDATA[<h2 id="预览">预览</h2>
+<p><img src="/images/pasted-84.png" alt="upload successful"></p>
+<h2 id="安装依赖">安装依赖</h2>
+<p>执行命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
+<h2 id="添加配置">添加配置</h2>
+<p>要放到hexo根目录下_config.yml文件，非主题:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="源代码的不足">源代码的不足</h2>
+<p>我本地测试部署的窗口有的时候会闪过去一些窗口，直到我缩放浏览器后发现原来是浏览器分辨率不一样，每天更新次数的显示数据会飘的很远，以下方式可以修复这个问题</p>
+<blockquote>
+<p>但是这么解决之后，又会有新的bug，所以我决定就这样吧，但是记录一下</p>
+</blockquote>
+<h3 id="修改信息窗口位置">修改信息窗口位置</h3>
+<p>把 tooltip 直接插到 <body> 下，而不是插到 #git_tooltip_container 里，这样它一定相对于视口定位：<br>
+<code>修改这一行：</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title function_">append_div_gitcalendar</span>(git_tooltip_container, html)</span><br></pre></td></tr></table></figure>
+<p><code>替换为：</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title function_">append_div_gitcalendar</span>(<span class="variable language_">document</span>.<span class="property">body</span>, html)</span><br></pre></td></tr></table></figure>
+<h3 id="再让窗口自动消失">再让窗口自动消失</h3>
+<p><code>替换这段if里面的内容：</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.gitmessage&#x27;</span>)) &#123;</span><br><span class="line">  git_tooltip_container.<span class="property">innerHTML</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"># 也就是</span><br><span class="line">git_tooltip_container.<span class="property">innerHTML</span> = <span class="string">&quot;&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p><code>为这段：</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> old = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.gitmessage&#x27;</span>);</span><br><span class="line"><span class="keyword">if</span> (old) old.<span class="title function_">remove</span>();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意有两个if，都要替换</p>
+</blockquote>
+<h2 id="自建api">自建api</h2>
+<blockquote>
+<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>
+测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
+</blockquote>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
+</div>
+<h3 id="记录500错误处理方法">记录500错误处理方法</h3>
+<h4 id="进入项目选择setting">进入项目选择setting</h4>
+<p>下拉找到<code>Node.js Version</code>修改版本为18.0<br>
+<img src="/images/pasted-82.png" alt="upload successful"></p>
+<h4 id="重新部署">重新部署</h4>
+<p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br>
+<img src="/images/pasted-83.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1998,59 +2051,6 @@ vim custom.css</p>
       </tags>
   </entry>
   <entry>
-    <title>hexo-github贡献日历</title>
-    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
-    <content><![CDATA[<h2 id="预览">预览</h2>
-<p><img src="/images/pasted-84.png" alt="upload successful"></p>
-<h2 id="安装依赖">安装依赖</h2>
-<p>执行命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
-<h2 id="添加配置">添加配置</h2>
-<p>要放到hexo根目录下_config.yml文件，非主题:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="源代码的不足">源代码的不足</h2>
-<p>我本地测试部署的窗口有的时候会闪过去一些窗口，直到我缩放浏览器后发现原来是浏览器分辨率不一样，每天更新次数的显示数据会飘的很远，以下方式可以修复这个问题</p>
-<blockquote>
-<p>但是这么解决之后，又会有新的bug，所以我决定就这样吧，但是记录一下</p>
-</blockquote>
-<h3 id="修改信息窗口位置">修改信息窗口位置</h3>
-<p>把 tooltip 直接插到 <body> 下，而不是插到 #git_tooltip_container 里，这样它一定相对于视口定位：<br>
-<code>修改这一行：</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title function_">append_div_gitcalendar</span>(git_tooltip_container, html)</span><br></pre></td></tr></table></figure>
-<p><code>替换为：</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title function_">append_div_gitcalendar</span>(<span class="variable language_">document</span>.<span class="property">body</span>, html)</span><br></pre></td></tr></table></figure>
-<h3 id="再让窗口自动消失">再让窗口自动消失</h3>
-<p><code>替换这段if里面的内容：</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.gitmessage&#x27;</span>)) &#123;</span><br><span class="line">  git_tooltip_container.<span class="property">innerHTML</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"># 也就是</span><br><span class="line">git_tooltip_container.<span class="property">innerHTML</span> = <span class="string">&quot;&quot;</span>;</span><br></pre></td></tr></table></figure>
-<p><code>为这段：</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> old = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.gitmessage&#x27;</span>);</span><br><span class="line"><span class="keyword">if</span> (old) old.<span class="title function_">remove</span>();</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意有两个if，都要替换</p>
-</blockquote>
-<h2 id="自建api">自建api</h2>
-<blockquote>
-<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>
-测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
-</blockquote>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
-</div>
-<h3 id="记录500错误处理方法">记录500错误处理方法</h3>
-<h4 id="进入项目选择setting">进入项目选择setting</h4>
-<p>下拉找到<code>Node.js Version</code>修改版本为18.0<br>
-<img src="/images/pasted-82.png" alt="upload successful"></p>
-<h4 id="重新部署">重新部署</h4>
-<p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br>
-<img src="/images/pasted-83.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo-微博热搜侧边栏</title>
     <url>/2025/02/20/hexo-%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E4%BE%A7%E8%BE%B9%E6%A0%8F/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -2085,114 +2085,6 @@ vim custom.css</p>
       <tags>
         <tag>博客</tag>
         <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo博客安装方法</title>
-    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="termux">termux</h2>
-<h3 id="termux安装准备">termux安装准备</h3>
-<p>pkg换源</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@&#x27; $PREFIX/etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">pkg update</span><br><span class="line"></span><br><span class="line">pkg install nodejs-lts</span><br><span class="line">pkg install git</span><br><span class="line">pkg install vim</span><br></pre></td></tr></table></figure>
-<p>需要在目录下运行安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir hexo</span><br><span class="line">chmod 777 hexo</span><br><span class="line">cd hexo</span><br></pre></td></tr></table></figure>
-<h3 id="hexo">hexo</h3>
-<p>npm换源（淘宝）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm config set registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
-<p>安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-<p>启动命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<h3 id="主题">主题</h3>
-<p>下载主题</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
-<p>vim编辑根目录下_config.yml中的theme：butterfly<br>
-vim themes/butterfly/_config.yml</p>
-<p>安装插件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
-<h3 id="自定义样式">自定义样式</h3>
-<p>都通过修改文件themes/butterfly/_config.yml中的模块，根据相关备注修改模块。</p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>java-linux安装卸载</title>
-    <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
-    <content><![CDATA[<h2 id="下载jdk">下载jdk</h2>
-<ol>
-<li>更新</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>下载<br>
-默认jdk</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure>
-<p>指定版本</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure>
-<h2 id="切换版本">切换版本</h2>
-<ol>
-<li>如果安装了多个java版本，查看的命令是</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --list java</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>切换的命令是</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>根据需要填写编号即可。</p>
-</blockquote>
-<h2 id="卸载">卸载</h2>
-<h3 id="查看已有版本">查看已有版本</h3>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep -i &quot;jdk\|jre\|java&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="卸载命令">卸载命令</h3>
-<ol>
-<li>卸载</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt purge openjdk-11-jdk openjdk-11-jre</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>删除多余残余设置</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt clean</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>环境</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hoic高射炮工具</title>
-    <url>/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<h2 id="安装">安装</h2>
-<p>下载地址：</p>
-<blockquote>
-<p><a href="https://sourceforge.net/projects/high-orbit-ion-cannon/">https://sourceforge.net/projects/high-orbit-ion-cannon/</a><br>
-官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载</p>
-</blockquote>
-<h2 id="使用">使用</h2>
-<ol>
-<li>解压后运行exe</li>
-<li>选择<code>+号</code>添加url</li>
-<li>可选择脚本第一个为伪造来源，后面的可以试试</li>
-</ol>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-        <tag>网络安全</tag>
-        <tag>hoic</tag>
       </tags>
   </entry>
   <entry>
@@ -2267,6 +2159,114 @@ hydra -m cloud -P 密码字典 IP cisco-enable
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>渗透命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hoic高射炮工具</title>
+    <url>/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="安装">安装</h2>
+<p>下载地址：</p>
+<blockquote>
+<p><a href="https://sourceforge.net/projects/high-orbit-ion-cannon/">https://sourceforge.net/projects/high-orbit-ion-cannon/</a><br>
+官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载</p>
+</blockquote>
+<h2 id="使用">使用</h2>
+<ol>
+<li>解压后运行exe</li>
+<li>选择<code>+号</code>添加url</li>
+<li>可选择脚本第一个为伪造来源，后面的可以试试</li>
+</ol>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>网络安全</tag>
+        <tag>hoic</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>java-linux安装卸载</title>
+    <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
+    <content><![CDATA[<h2 id="下载jdk">下载jdk</h2>
+<ol>
+<li>更新</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>下载<br>
+默认jdk</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure>
+<p>指定版本</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure>
+<h2 id="切换版本">切换版本</h2>
+<ol>
+<li>如果安装了多个java版本，查看的命令是</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --list java</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>切换的命令是</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>根据需要填写编号即可。</p>
+</blockquote>
+<h2 id="卸载">卸载</h2>
+<h3 id="查看已有版本">查看已有版本</h3>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep -i &quot;jdk\|jre\|java&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="卸载命令">卸载命令</h3>
+<ol>
+<li>卸载</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt purge openjdk-11-jdk openjdk-11-jre</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>删除多余残余设置</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt clean</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>环境</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客安装方法</title>
+    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="termux">termux</h2>
+<h3 id="termux安装准备">termux安装准备</h3>
+<p>pkg换源</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@&#x27; $PREFIX/etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">pkg update</span><br><span class="line"></span><br><span class="line">pkg install nodejs-lts</span><br><span class="line">pkg install git</span><br><span class="line">pkg install vim</span><br></pre></td></tr></table></figure>
+<p>需要在目录下运行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir hexo</span><br><span class="line">chmod 777 hexo</span><br><span class="line">cd hexo</span><br></pre></td></tr></table></figure>
+<h3 id="hexo">hexo</h3>
+<p>npm换源（淘宝）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm config set registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
+<p>安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+<p>启动命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<h3 id="主题">主题</h3>
+<p>下载主题</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
+<p>vim编辑根目录下_config.yml中的theme：butterfly<br>
+vim themes/butterfly/_config.yml</p>
+<p>安装插件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
+<h3 id="自定义样式">自定义样式</h3>
+<p>都通过修改文件themes/butterfly/_config.yml中的模块，根据相关备注修改模块。</p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -2448,57 +2448,6 @@ yum install --downloadonly --downloaddir=/root wget</p>
       <tags>
         <tag>linux</tag>
         <tag>系统运维</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux服务管理入门</title>
-    <url>/2025/06/24/linux%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<h2 id="基本操作">基本操作</h2>
-<h3 id="查看服务">查看服务</h3>
-<ul>
-<li>列出所有服务</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-units --type=service</span><br></pre></td></tr></table></figure>
-<ul>
-<li>列出所有已启用的服务</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-unit-files --state=enabled</span><br></pre></td></tr></table></figure>
-<h3 id="查看日志">查看日志</h3>
-<ol>
-<li>journalctl -u <service> — 查看指定服务日志</li>
-<li>journalctl -xe — 检查最新日志，排查错误</li>
-</ol>
-<hr>
-<h2 id="额外技能">额外技能</h2>
-<h3 id="检查依赖">检查依赖</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl list-dependencies &lt;service&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="修改配置">修改配置</h3>
-<ol>
-<li>配置文件位置通常是：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/etc/systemd/system/</span><br><span class="line">/lib/systemd/system/</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>修改后：</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>重启服务使修改生效</li>
-</ol>
-<hr>
-<h2 id="其他管理器概览">其他管理器概览</h2>
-<p>虽说 systemd 完全是主流，但是还有其他管理器的使用：</p>
-<h3 id="SysV-管理器：">SysV 管理器：</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service &lt;service&gt; start|stop|restart|status</span><br><span class="line">chkconfig &lt;service&gt; on|off</span><br></pre></td></tr></table></figure>
-<h3 id="Upstart-管理器：">Upstart 管理器：</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">initctl list</span><br><span class="line">initctl start|stop|restart &lt;service&gt;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>运维基础</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>系统运维</tag>
-        <tag>linux服务</tag>
       </tags>
   </entry>
   <entry>
@@ -3006,6 +2955,57 @@ yum install --downloadonly --downloaddir=/root wget</p>
       </tags>
   </entry>
   <entry>
+    <title>linux服务管理入门</title>
+    <url>/2025/06/24/linux%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h2 id="基本操作">基本操作</h2>
+<h3 id="查看服务">查看服务</h3>
+<ul>
+<li>列出所有服务</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-units --type=service</span><br></pre></td></tr></table></figure>
+<ul>
+<li>列出所有已启用的服务</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl list-unit-files --state=enabled</span><br></pre></td></tr></table></figure>
+<h3 id="查看日志">查看日志</h3>
+<ol>
+<li>journalctl -u <service> — 查看指定服务日志</li>
+<li>journalctl -xe — 检查最新日志，排查错误</li>
+</ol>
+<hr>
+<h2 id="额外技能">额外技能</h2>
+<h3 id="检查依赖">检查依赖</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl list-dependencies &lt;service&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="修改配置">修改配置</h3>
+<ol>
+<li>配置文件位置通常是：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/etc/systemd/system/</span><br><span class="line">/lib/systemd/system/</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>修改后：</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>重启服务使修改生效</li>
+</ol>
+<hr>
+<h2 id="其他管理器概览">其他管理器概览</h2>
+<p>虽说 systemd 完全是主流，但是还有其他管理器的使用：</p>
+<h3 id="SysV-管理器：">SysV 管理器：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service &lt;service&gt; start|stop|restart|status</span><br><span class="line">chkconfig &lt;service&gt; on|off</span><br></pre></td></tr></table></figure>
+<h3 id="Upstart-管理器：">Upstart 管理器：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">initctl list</span><br><span class="line">initctl start|stop|restart &lt;service&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>运维基础</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>系统运维</tag>
+        <tag>linux服务</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux系统的基础操作</title>
     <url>/2025/06/22/linux%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h2 id="文件管理">文件管理</h2>
@@ -3432,6 +3432,112 @@ run
       </tags>
   </entry>
   <entry>
+    <title>nginx和apache-简单配置</title>
+    <url>/2025/06/23/nginx%E5%92%8Capache/</url>
+    <content><![CDATA[<h2 id="Apache-配置">Apache 配置</h2>
+<blockquote>
+<p>一般配置文件位置：</p>
+<ul>
+<li>Debian/Ubuntu: <code>/etc/apache2/sites-available/000-default.conf</code></li>
+<li>CentOS/RHEL: <code>/etc/httpd/conf.d/</code></li>
+</ul>
+<p>启动/重启命令：</p>
+<ul>
+<li>Debian/Ubuntu: <code>sudo systemctl restart apache2</code></li>
+<li>CentOS/RHEL: <code>sudo systemctl restart httpd</code></li>
+</ul>
+</blockquote>
+<h3 id="示例配置">示例配置</h3>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"></span><br><span class="line">    <span class="section">&lt;Directory /var/www/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> Indexes FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> None</span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> /var/log/httpd/html_error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> /var/log/httpd/html_access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li><code>ServerName</code>：指定主机名。</li>
+<li><code>DocumentRoot</code>：指定网站根目录。</li>
+<li><code>&lt;Directory&gt;</code>：设置对该目录的访问规则。</li>
+</ul>
+<h3 id="其他">其他</h3>
+<h4 id="禁用默认欢迎页面">禁用默认欢迎页面</h4>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment"># CentOS手动禁用默认配置文件或者删除欢迎页面配置</span></span><br><span class="line"><span class="attribute">sudo</span> mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.conf.disabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ubuntu禁用默认站点</span></span><br><span class="line"><span class="attribute">sudo</span> a2dissite <span class="number">000</span>-default.conf</span><br></pre></td></tr></table></figure>
+<h4 id="防止泄漏Apache版本信息">防止泄漏Apache版本信息</h4>
+<p>新增一个安全配置文件security.conf</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">ServerTokens</span> Prod</span><br><span class="line"><span class="attribute">ServerSignature</span> <span class="literal">Off</span></span><br></pre></td></tr></table></figure>
+<h3 id="检查配置情况">检查配置情况</h3>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">apachectl</span> configtest</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Nginx-配置">Nginx 配置</h2>
+<blockquote>
+<p>配置文件位置：</p>
+<ul>
+<li>Debian/Ubuntu: <code>/etc/nginx/sites-available/default</code></li>
+<li>CentOS/RHEL: <code>/etc/nginx/nginx.conf</code></li>
+</ul>
+<p>启动/重启命令：</p>
+<ul>
+<li>Debian/Ubuntu/CentOS/RHEL 通用：<code>sudo systemctl restart nginx</code></li>
+</ul>
+</blockquote>
+<h3 id="示例配置-2">示例配置</h3>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html index.php;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_log</span> /var/log/nginx/<span class="literal">error</span>.log;</span><br><span class="line">    <span class="attribute">access_log</span> /var/log/nginx/access.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li><code>listen 80</code>：监听80端口。</li>
+<li><code>server_name</code>：指定主机名。</li>
+<li><code>root</code>：指定网站根目录。</li>
+<li><code>try_files</code>：检查请求是否为实际存在的文件，否则显示404。</li>
+</ul>
+<h3 id="仅允许域名访问">仅允许域名访问</h3>
+<h4 id="nginx">nginx</h4>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先处理非法 Host</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只允许指定的域名</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ol>
+<li>第一个 server_name _ 区块匹配所有没有匹配到指定 server_name 的请求，直接 404</li>
+<li>第二个只允许 <a href="http://www.example.com">www.example.com</a></li>
+</ol>
+<h4 id="apache">apache</h4>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 拒绝其他请求</span></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> _</span><br><span class="line">    <span class="section">&lt;Location /&gt;</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> denied</span><br><span class="line">    <span class="section">&lt;/Location&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ol>
+<li>第一个配置只允许指定的 <a href="http://www.example.com">www.example.com</a></li>
+<li>第二个默认匹配其他 Host 请求，并 Require all denied</li>
+</ol>
+<h2 id="仅允许域名访问-2">仅允许域名访问</h2>
+<h3 id="nginx-2">nginx</h3>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认 Server：处理非法请求</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对没有匹配到的 Host 返回 404</span></span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正确的域名配置</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ol>
+<li>非法处理请求
+<ul>
+<li>不通过域名访问的处置方式</li>
+</ul>
+</li>
+<li>正确的域名配置
+<ul>
+<li>设置可访问的域名</li>
+</ul>
+</li>
+</ol>
+<h3 id="apache-2">apache</h3>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认虚拟主机配置</span></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> _default_</span><br><span class="line">    </span><br><span class="line">	  <span class="comment"># 返回403禁止访问</span></span><br><span class="line">    <span class="section">&lt;Location /&gt;</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> denied</span><br><span class="line">    <span class="section">&lt;/Location&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.local.com</span><br><span class="line">    <span class="attribute">ServerAlias</span> www.local.com</span><br><span class="line"></span><br><span class="line">    <span class="attribute">DocumentRoot</span> /usr/share/nginx/html</span><br><span class="line">    <span class="section">&lt;Directory /usr/share/nginx/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> -Indexes +FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> <span class="literal">All</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> /var/log/httpd/html_error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> /var/log/httpd/html_access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>除了拒绝访问，还可以重定向到你的网页</p>
+</blockquote>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;Location /&gt;</span></span><br><span class="line">    <span class="attribute">Redirect</span> permanent / http://www.example.com/</span><br><span class="line"><span class="section">&lt;/Location&gt;</span></span><br></pre></td></tr></table></figure>
+<p>说明：（和nginx相似）</p>
+<ol>
+<li>默认虚拟主机放在第一个加载的配置文件中，匹配未指定域名的请求，比如直接访问IP</li>
+<li>正确的域名配置</li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>运维基础</category>
+      </categories>
+      <tags>
+        <tag>apache</tag>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>nmap命令</title>
     <url>/2024/08/01/nmap%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="常用命令总结">常用命令总结</h2>
@@ -3554,112 +3660,6 @@ run
         <tag>网络安全</tag>
         <tag>kali</tag>
         <tag>渗透命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nginx和apache-简单配置</title>
-    <url>/2025/06/23/nginx%E5%92%8Capache/</url>
-    <content><![CDATA[<h2 id="Apache-配置">Apache 配置</h2>
-<blockquote>
-<p>一般配置文件位置：</p>
-<ul>
-<li>Debian/Ubuntu: <code>/etc/apache2/sites-available/000-default.conf</code></li>
-<li>CentOS/RHEL: <code>/etc/httpd/conf.d/</code></li>
-</ul>
-<p>启动/重启命令：</p>
-<ul>
-<li>Debian/Ubuntu: <code>sudo systemctl restart apache2</code></li>
-<li>CentOS/RHEL: <code>sudo systemctl restart httpd</code></li>
-</ul>
-</blockquote>
-<h3 id="示例配置">示例配置</h3>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"></span><br><span class="line">    <span class="section">&lt;Directory /var/www/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> Indexes FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> None</span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> /var/log/httpd/html_error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> /var/log/httpd/html_access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ul>
-<li><code>ServerName</code>：指定主机名。</li>
-<li><code>DocumentRoot</code>：指定网站根目录。</li>
-<li><code>&lt;Directory&gt;</code>：设置对该目录的访问规则。</li>
-</ul>
-<h3 id="其他">其他</h3>
-<h4 id="禁用默认欢迎页面">禁用默认欢迎页面</h4>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment"># CentOS手动禁用默认配置文件或者删除欢迎页面配置</span></span><br><span class="line"><span class="attribute">sudo</span> mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.conf.disabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ubuntu禁用默认站点</span></span><br><span class="line"><span class="attribute">sudo</span> a2dissite <span class="number">000</span>-default.conf</span><br></pre></td></tr></table></figure>
-<h4 id="防止泄漏Apache版本信息">防止泄漏Apache版本信息</h4>
-<p>新增一个安全配置文件security.conf</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">ServerTokens</span> Prod</span><br><span class="line"><span class="attribute">ServerSignature</span> <span class="literal">Off</span></span><br></pre></td></tr></table></figure>
-<h3 id="检查配置情况">检查配置情况</h3>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">apachectl</span> configtest</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="Nginx-配置">Nginx 配置</h2>
-<blockquote>
-<p>配置文件位置：</p>
-<ul>
-<li>Debian/Ubuntu: <code>/etc/nginx/sites-available/default</code></li>
-<li>CentOS/RHEL: <code>/etc/nginx/nginx.conf</code></li>
-</ul>
-<p>启动/重启命令：</p>
-<ul>
-<li>Debian/Ubuntu/CentOS/RHEL 通用：<code>sudo systemctl restart nginx</code></li>
-</ul>
-</blockquote>
-<h3 id="示例配置-2">示例配置</h3>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html index.php;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_log</span> /var/log/nginx/<span class="literal">error</span>.log;</span><br><span class="line">    <span class="attribute">access_log</span> /var/log/nginx/access.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ul>
-<li><code>listen 80</code>：监听80端口。</li>
-<li><code>server_name</code>：指定主机名。</li>
-<li><code>root</code>：指定网站根目录。</li>
-<li><code>try_files</code>：检查请求是否为实际存在的文件，否则显示404。</li>
-</ul>
-<h3 id="仅允许域名访问">仅允许域名访问</h3>
-<h4 id="nginx">nginx</h4>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先处理非法 Host</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只允许指定的域名</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ol>
-<li>第一个 server_name _ 区块匹配所有没有匹配到指定 server_name 的请求，直接 404</li>
-<li>第二个只允许 <a href="http://www.example.com">www.example.com</a></li>
-</ol>
-<h4 id="apache">apache</h4>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.example.com</span><br><span class="line">    <span class="attribute">DocumentRoot</span> /var/www/html</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 拒绝其他请求</span></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> _</span><br><span class="line">    <span class="section">&lt;Location /&gt;</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> denied</span><br><span class="line">    <span class="section">&lt;/Location&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ol>
-<li>第一个配置只允许指定的 <a href="http://www.example.com">www.example.com</a></li>
-<li>第二个默认匹配其他 Host 请求，并 Require all denied</li>
-</ol>
-<h2 id="仅允许域名访问-2">仅允许域名访问</h2>
-<h3 id="nginx-2">nginx</h3>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认 Server：处理非法请求</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> _;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对没有匹配到的 Host 返回 404</span></span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正确的域名配置</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> www.example.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">root</span> /var/www/html;</span><br><span class="line">    <span class="attribute">index</span> index.html;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ol>
-<li>非法处理请求
-<ul>
-<li>不通过域名访问的处置方式</li>
-</ul>
-</li>
-<li>正确的域名配置
-<ul>
-<li>设置可访问的域名</li>
-</ul>
-</li>
-</ol>
-<h3 id="apache-2">apache</h3>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认虚拟主机配置</span></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> _default_</span><br><span class="line">    </span><br><span class="line">	  <span class="comment"># 返回403禁止访问</span></span><br><span class="line">    <span class="section">&lt;Location /&gt;</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> denied</span><br><span class="line">    <span class="section">&lt;/Location&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="section">&lt;VirtualHost *<span class="number">:80</span>&gt;</span></span><br><span class="line">    <span class="attribute">ServerName</span> www.local.com</span><br><span class="line">    <span class="attribute">ServerAlias</span> www.local.com</span><br><span class="line"></span><br><span class="line">    <span class="attribute">DocumentRoot</span> /usr/share/nginx/html</span><br><span class="line">    <span class="section">&lt;Directory /usr/share/nginx/html&gt;</span></span><br><span class="line">        <span class="attribute">Options</span> -Indexes +FollowSymLinks</span><br><span class="line">        <span class="attribute">AllowOverride</span> <span class="literal">All</span></span><br><span class="line">        <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line">    <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">ErrorLog</span> /var/log/httpd/html_error.log</span><br><span class="line">    <span class="attribute">CustomLog</span> /var/log/httpd/html_access.log combined</span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>除了拒绝访问，还可以重定向到你的网页</p>
-</blockquote>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;Location /&gt;</span></span><br><span class="line">    <span class="attribute">Redirect</span> permanent / http://www.example.com/</span><br><span class="line"><span class="section">&lt;/Location&gt;</span></span><br></pre></td></tr></table></figure>
-<p>说明：（和nginx相似）</p>
-<ol>
-<li>默认虚拟主机放在第一个加载的配置文件中，匹配未指定域名的请求，比如直接访问IP</li>
-<li>正确的域名配置</li>
-</ol>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>运维基础</category>
-      </categories>
-      <tags>
-        <tag>apache</tag>
-        <tag>nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -3872,35 +3872,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>portainer docker的web管理页面</title>
-    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="portainer">portainer</h2>
-<p>一个web可视化的docker管理页面</p>
-<h2 id="拉取镜像">拉取镜像</h2>
-<p>先搜索镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
-<p>一般我下载最多下载的那几个</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
-<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
-<p>接下来就可以登录管理了</p>
-<h2 id="初始化配置">初始化配置</h2>
-<p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
-<p>也可通过上传配置文件创建</p>
-<p>选其中一个即可</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>playwright-基础使用</title>
     <url>/2025/07/15/playwright-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="官网">官网</h2>
@@ -4106,6 +4077,35 @@ run
       </tags>
   </entry>
   <entry>
+    <title>portainer docker的web管理页面</title>
+    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="portainer">portainer</h2>
+<p>一个web可视化的docker管理页面</p>
+<h2 id="拉取镜像">拉取镜像</h2>
+<p>先搜索镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
+<p>一般我下载最多下载的那几个</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
+<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
+<p>接下来就可以登录管理了</p>
+<h2 id="初始化配置">初始化配置</h2>
+<p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
+<p>也可通过上传配置文件创建</p>
+<p>选其中一个即可</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sqlmap</title>
     <url>/2025/03/05/sqlmap/</url>
     <content><![CDATA[<h2 id="应用场景">应用场景</h2>
@@ -4292,6 +4292,29 @@ run
 ]]></content>
   </entry>
   <entry>
+    <title>switch-大气层与模拟器局域网联机</title>
+    <url>/2025/05/01/switch-%E5%A4%A7%E6%B0%94%E5%B1%82%E4%B8%8E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%B1%80%E5%9F%9F%E7%BD%91%E8%81%94%E6%9C%BA/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>大气层与大气层，模拟器与模拟器都有了联机方法，但是大气层与模拟器不能直接联机</p>
+<h2 id="安装ldn-mitm">安装ldn_mitm</h2>
+<p>是一个用于 Nintendo Switch 的中间人（MITM）系统模块，它通过替换系统中的 ldn 服务来实现局域网（LAN）连接。原本是可以实现互联网连接的插件，龙神模拟器中网络设置支持ldn_mitm，所以无需中间服务器就能让大气层和模拟器连接。</p>
+<blockquote>
+<p>项目地址：<br>
+<a href="https://github.com/spacemeowx2/ldn_mitm">https://github.com/spacemeowx2/ldn_mitm</a></p>
+</blockquote>
+<blockquote>
+<p>下载安装后，就能局域网搜索到了</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>switch</category>
+      </categories>
+      <tags>
+        <tag>switch</tag>
+        <tag>大气层</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sql注入-pikachu</title>
     <url>/2025/02/27/sql%E6%B3%A8%E5%85%A5/</url>
     <content><![CDATA[<h2 id="数字型注入">数字型注入</h2>
@@ -4349,29 +4372,6 @@ run
         <tag>网络安全</tag>
         <tag>sql注入</tag>
         <tag>pikachu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>switch-大气层与模拟器局域网联机</title>
-    <url>/2025/05/01/switch-%E5%A4%A7%E6%B0%94%E5%B1%82%E4%B8%8E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%B1%80%E5%9F%9F%E7%BD%91%E8%81%94%E6%9C%BA/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
-<p>大气层与大气层，模拟器与模拟器都有了联机方法，但是大气层与模拟器不能直接联机</p>
-<h2 id="安装ldn-mitm">安装ldn_mitm</h2>
-<p>是一个用于 Nintendo Switch 的中间人（MITM）系统模块，它通过替换系统中的 ldn 服务来实现局域网（LAN）连接。原本是可以实现互联网连接的插件，龙神模拟器中网络设置支持ldn_mitm，所以无需中间服务器就能让大气层和模拟器连接。</p>
-<blockquote>
-<p>项目地址：<br>
-<a href="https://github.com/spacemeowx2/ldn_mitm">https://github.com/spacemeowx2/ldn_mitm</a></p>
-</blockquote>
-<blockquote>
-<p>下载安装后，就能局域网搜索到了</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>switch</category>
-      </categories>
-      <tags>
-        <tag>switch</tag>
-        <tag>大气层</tag>
       </tags>
   </entry>
   <entry>
@@ -4975,54 +4975,6 @@ steam搜索 <strong>Wallpaper Engine</strong></p>
       </tags>
   </entry>
   <entry>
-    <title>windhawk-windows美化</title>
-    <url>/2025/10/08/windhawk-windows%E7%BE%8E%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="来自">来自</h2>
-<blockquote>
-<p><a href="https://www.bilibili.com/video/BV1vhpxzqEAQ/?spm_id_from=333.337.search-card.all.click&amp;vd_source=096d3980aee6e59a0f794011bf77ca27">点击跳转b站”麦嘎噔Linux“的视频</a></p>
-</blockquote>
-<p>效果：<br>
-<img src="/images/windhawk-windows%E7%BE%8E%E5%8C%96-%E6%95%88%E6%9E%9C.png" alt=""></p>
-<hr>
-<h2 id="需要下载的软件和插件">需要下载的软件和插件</h2>
-<ol>
-<li>
-<p>先软件下载：windhawk<br>
-官网：<a href="https://windhawk.net/">https://windhawk.net/</a></p>
-</li>
-<li>
-<p>然后在windhawk中下载插件<code>Taskbar height and icon size</code>、<code>Windows 11 Start Menu Styler</code>、<code>Windows 11 Taskbar Styler</code><br>
-<img src="/images/windhawk-windows%E7%BE%8E%E5%8C%96-%E6%8F%92%E4%BB%B6%E4%B8%8B%E8%BD%BD.png" alt="windhawk-windows美化-插件下载"></p>
-</li>
-</ol>
-<hr>
-<h2 id="插件配置">插件配置</h2>
-<h3 id="Taskbar-height-and-icon-size">Taskbar height and icon size</h3>
-<p>仅参考，可以自定义合适的大小</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Taskbar height:</span><br><span class="line">55</span><br><span class="line"></span><br><span class="line">Icon size:</span><br><span class="line">26</span><br><span class="line"></span><br><span class="line">Taskbar button width:</span><br><span class="line">40</span><br><span class="line"></span><br><span class="line">Small icon size:</span><br><span class="line">20</span><br><span class="line"></span><br><span class="line">Small taskbar button width:</span><br><span class="line">32</span><br></pre></td></tr></table></figure>
-<h3 id="Windows-11-Start-Menu-Styler">Windows 11 Start Menu Styler</h3>
-<p>修改高级设置中的Mod设置</p>
-<ul>
-<li>Mod设置：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&quot;controlStyles[0].target&quot;:&quot;StartDocked.StartSizingFrame&quot;,&quot;controlStyles[0].styles[0]&quot;:&quot;MaxHeight=520&quot;,&quot;controlStyles[1].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#TopLevelSuggestionsListHeader&quot;,&quot;controlStyles[1].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[2].target&quot;:&quot;StartMenu.PinnedList&quot;,&quot;controlStyles[2].styles[0]&quot;:&quot;Height=340&quot;,&quot;controlStyles[3].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ShowMoreSuggestions&quot;,&quot;controlStyles[3].styles[0]&quot;:&quot;RenderTransform:=&lt;TranslateTransform Y=\&quot;-408\&quot; /&gt;&quot;,&quot;controlStyles[4].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#NoTopLevelSuggestionsText&quot;,&quot;controlStyles[4].styles[0]&quot;:&quot;Height=0&quot;,&quot;controlStyles[5].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ShowMoreSuggestions &gt; Windows.UI.Xaml.Controls.Button &gt; Windows.UI.Xaml.Controls.ContentPresenter &gt; Windows.UI.Xaml.Controls.StackPanel &gt; Windows.UI.Xaml.Controls.TextBlock&quot;,&quot;controlStyles[5].styles[0]&quot;:&quot;Text=Recommended&quot;,&quot;controlStyles[6].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#DropShadow&quot;,&quot;controlStyles[6].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[7].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#StartDropShadow&quot;,&quot;controlStyles[7].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[8].target&quot;:&quot;StartDocked.LauncherFrame &gt; Grid#RootGrid &gt; Grid#RootContent &gt; Grid#MainContent &gt; Grid#InnerContent &gt; Rectangle&quot;,&quot;controlStyles[8].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[9].target&quot;:&quot;StartDocked.SearchBoxToggleButton&quot;,&quot;controlStyles[9].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[10].target&quot;:&quot;Border#AcrylicBorder&quot;,&quot;controlStyles[10].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[10].styles[1]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.3\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[11].target&quot;:&quot;Border#AcrylicOverlay&quot;,&quot;controlStyles[11].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[11].styles[1]&quot;:&quot;Margin=0,0,0,20&quot;,&quot;controlStyles[11].styles[2]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.2\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[12].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#AllAppsRoot&quot;,&quot;controlStyles[12].styles[0]&quot;:&quot;Margin=0,0,0,40&quot;,&quot;controlStyles[13].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#UndockedRoot&quot;,&quot;controlStyles[13].styles[0]&quot;:&quot;Margin=0,0,0,40&quot;,&quot;controlStyles[14].target&quot;:&quot;StartDocked.NavigationPaneView#NavigationPane &gt; Windows.UI.Xaml.Controls.Grid#RootPanel&quot;,&quot;controlStyles[14].styles[0]&quot;:&quot;Margin=0,-10,0,10&quot;,&quot;controlStyles[15].target&quot;:&quot;StartDocked.AppListView#NavigationPanePlacesListView &gt; Windows.UI.Xaml.Controls.Border&quot;,&quot;controlStyles[15].styles[0]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.5\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[15].styles[1]&quot;:&quot;CornerRadius=18&quot;,&quot;controlStyles[15].styles[2]&quot;:&quot;Margin=0,0,15,0&quot;,&quot;controlStyles[16].target&quot;:&quot;StartDocked.NavigationPaneButton#PowerButton &gt; Windows.UI.Xaml.Controls.Grid@CommonStates &gt; Windows.UI.Xaml.Controls.Border#BackgroundBorder&quot;,&quot;controlStyles[16].styles[0]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;1\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[16].styles[1]&quot;:&quot;BorderBrush@Normal:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource SurfaceStrokeColorDefault&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource SurfaceStrokeColorDefault&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.1\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[16].styles[2]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[16].styles[3]&quot;:&quot;BorderThickness=5&quot;,&quot;controlStyles[16].styles[4]&quot;:&quot;Margin=-7&quot;,&quot;controlStyles[16].styles[5]&quot;:&quot;BorderBrush@PointerOver:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource SystemAccentColor&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource SystemAccentColor&#125;\&quot; TintOpacity=\&quot;.8\&quot; TintLuminosityOpacity=\&quot;.5\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[17].target&quot;:&quot;StartDocked.NavigationPaneButton#UserTileButton &gt; Grid &gt; Border#BackgroundBorder&quot;,&quot;controlStyles[17].styles[0]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.5\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[17].styles[1]&quot;:&quot;CornerRadius=18&quot;,&quot;controlStyles[18].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#ShowAllAppsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter@CommonStates&quot;,&quot;controlStyles[18].styles[0]&quot;:&quot;Background@Normal:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; Opacity=\&quot;.8\&quot;/&gt;&quot;,&quot;controlStyles[18].styles[1]&quot;:&quot;Background@PointerOver:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemBaseLowColor&#125;\&quot; Opacity=\&quot;1\&quot; /&gt;&quot;,&quot;controlStyles[18].styles[2]&quot;:&quot;Padding=10,7&quot;,&quot;controlStyles[18].styles[3]&quot;:&quot;Margin=0,0,-35,0&quot;,&quot;controlStyles[18].styles[4]&quot;:&quot;CornerRadius=0,15,15,0&quot;,&quot;controlStyles[18].styles[5]&quot;:&quot;BorderThickness=0&quot;,&quot;controlStyles[19].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#ShowMoreSuggestionsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter@CommonStates&quot;,&quot;controlStyles[19].styles[0]&quot;:&quot;Background@Normal:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemAltMediumLowColor&#125;\&quot; Opacity=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[19].styles[1]&quot;:&quot;BorderBrush@Normal:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; Opacity=\&quot;.8\&quot;/&gt;&quot;,&quot;controlStyles[19].styles[2]&quot;:&quot;Padding=10,5&quot;,&quot;controlStyles[19].styles[3]&quot;:&quot;Margin=0,0,19,0&quot;,&quot;controlStyles[19].styles[4]&quot;:&quot;CornerRadius=15,0,0,15&quot;,&quot;controlStyles[19].styles[5]&quot;:&quot;BorderThickness=2,2,0,2&quot;,&quot;controlStyles[19].styles[6]&quot;:&quot;Background@PointerOver:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemBaseLowColor&#125;\&quot; Opacity=\&quot;.7\&quot; /&gt;&quot;,&quot;controlStyles[19].styles[7]&quot;:&quot;BorderBrush@PointerOver:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemBaseLowColor&#125;\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[20].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#HideMoreSuggestionsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter&quot;,&quot;controlStyles[20].styles[0]&quot;:&quot;Background:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeMediumLowColor&#125;\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[20].styles[1]&quot;:&quot;Padding=10,6&quot;,&quot;controlStyles[20].styles[2]&quot;:&quot;Margin=0,0,-35,0&quot;,&quot;controlStyles[20].styles[3]&quot;:&quot;CornerRadius=15&quot;,&quot;controlStyles[21].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#CloseAllAppsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter&quot;,&quot;controlStyles[21].styles[0]&quot;:&quot;Background:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeMediumLowColor&#125;\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[21].styles[1]&quot;:&quot;Padding=10,6&quot;,&quot;controlStyles[21].styles[2]&quot;:&quot;Margin=0,0,-35,0&quot;,&quot;controlStyles[21].styles[3]&quot;:&quot;CornerRadius=15&quot;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Windows-11-Taskbar-Styler">Windows 11 Taskbar Styler</h3>
-<p>修改高级设置中的Mod设置</p>
-<ul>
-<li>Mod设置：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&quot;controlStyles[0].target&quot;:&quot;Taskbar.TaskbarFrame#TaskbarFrame&quot;,&quot;controlStyles[0].styles[1]&quot;:&quot;HorizontalAlignment=Auto&quot;,&quot;controlStyles[0].styles[2]&quot;:&quot;Width=Auto&quot;,&quot;controlStyles[0].styles[0]&quot;:&quot;MaxWidth:=1200&quot;,&quot;controlStyles[0].styles[3]&quot;:&quot;MinWidth:=800&quot;,&quot;controlStyles[1].target&quot;:&quot;Taskbar.TaskbarFrame#TaskbarFrame &gt; Grid#RootGrid&quot;,&quot;controlStyles[1].styles[0]&quot;:&quot;Margin=30,0,30,5&quot;,&quot;controlStyles[1].styles[1]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[1].styles[2]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[1].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[1].styles[4]&quot;:&quot;Background:=Transparent&quot;,&quot;controlStyles[2].target&quot;:&quot;Rectangle#BackgroundFill&quot;,&quot;controlStyles[2].styles[0]&quot;:&quot;Visibility=Visible&quot;,&quot;controlStyles[2].styles[1]&quot;:&quot;Fill:=$Background&quot;,&quot;controlStyles[3].target&quot;:&quot;Rectangle#BackgroundStroke&quot;,&quot;controlStyles[3].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[4].target&quot;:&quot;Taskbar.AugmentedEntryPointButton#AugmentedEntryPointButton &gt; Taskbar.TaskListButtonPanel#ExperienceToggleButtonRootPanel&quot;,&quot;controlStyles[4].styles[0]&quot;:&quot;Margin=4&quot;,&quot;controlStyles[4].styles[1]&quot;:&quot;Background:=$ElementBG&quot;,&quot;controlStyles[4].styles[2]&quot;:&quot;CornerRadius=12&quot;,&quot;controlStyles[5].target&quot;:&quot;Grid#SystemTrayFrameGrid&quot;,&quot;controlStyles[5].styles[0]&quot;:&quot;Margin=0,7,-250,7&quot;,&quot;controlStyles[5].styles[1]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;-645\&quot; Y=\&quot;-2\&quot;/&gt;&quot;,&quot;controlStyles[5].styles[2]&quot;:&quot;Padding=10&quot;,&quot;controlStyles[5].styles[3]&quot;:&quot;Background:=$ElementBG&quot;,&quot;controlStyles[5].styles[4]&quot;:&quot;CornerRadius=12&quot;,&quot;controlStyles[6].target&quot;:&quot;SystemTray.ChevronIconView&quot;,&quot;controlStyles[6].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[6].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[7].target&quot;:&quot;SystemTray.NotifyIconView#NotifyItemIcon&quot;,&quot;controlStyles[7].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[7].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[8].target&quot;:&quot;SystemTray.OmniButton&quot;,&quot;controlStyles[8].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[8].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[9].target&quot;:&quot;SystemTray.CopilotIcon&quot;,&quot;controlStyles[9].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[10].target&quot;:&quot;SystemTray.OmniButton#NotificationCenterButton &gt; Grid &gt; ContentPresenter &gt; ItemsPresenter &gt; StackPanel &gt; ContentPresenter &gt; systemtray:IconView#SystemTrayIcon &gt; Grid&quot;,&quot;controlStyles[10].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[11].target&quot;:&quot;SystemTray.IconView#SystemTrayIcon &gt; Grid#ContainerGrid &gt; ContentPresenter#ContentPresenter &gt; Grid#ContentGrid &gt; SystemTray.TextIconContent &gt; Grid#ContainerGrid&quot;,&quot;controlStyles[11].styles[0]&quot;:&quot;Padding=0&quot;,&quot;controlStyles[11].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[12].target&quot;:&quot;SystemTray.StackListView#IconStack &gt; ItemsPresenter &gt; StackPanel &gt; ContentPresenter &gt; SystemTray.IconView#SystemTrayIcon&quot;,&quot;controlStyles[12].styles[0]&quot;:&quot;Padding=0&quot;,&quot;controlStyles[13].target&quot;:&quot;SystemTray.Stack#ShowDesktopStack&quot;,&quot;controlStyles[13].styles[0]&quot;:&quot;Visibility=Visible&quot;,&quot;controlStyles[14].target&quot;:&quot;Taskbar.Gripper#GripperControl&quot;,&quot;controlStyles[14].styles[0]&quot;:&quot;Width=Auto&quot;,&quot;controlStyles[14].styles[1]&quot;:&quot;MinWidth=24&quot;,&quot;controlStyles[15].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#AugmentedEntryPointContentGrid&quot;,&quot;controlStyles[15].styles[0]&quot;:&quot;Margin=4,0,0,0&quot;,&quot;controlStyles[15].styles[1]&quot;:&quot;HorizontalAlignment=Left&quot;,&quot;controlStyles[16].target&quot;:&quot;TextBlock#TimeInnerTextBlock&quot;,&quot;controlStyles[16].styles[0]&quot;:&quot;FontSize=13&quot;,&quot;controlStyles[16].styles[1]&quot;:&quot;FontFamily=vivo Sans EN VF&quot;,&quot;controlStyles[16].styles[2]&quot;:&quot;Margin=0&quot;,&quot;controlStyles[16].styles[3]&quot;:&quot;Padding=0&quot;,&quot;controlStyles[16].styles[4]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[17].target&quot;:&quot;TextBlock#DateInnerTextBlock&quot;,&quot;controlStyles[17].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[17].styles[1]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;-9\&quot; /&gt;&quot;,&quot;controlStyles[17].styles[2]&quot;:&quot;FontSize=11&quot;,&quot;controlStyles[17].styles[3]&quot;:&quot;FontFamily=vivo Sans EN VF&quot;,&quot;controlStyles[18].target&quot;:&quot;TextBlock#InnerTextBlock[Text=]&quot;,&quot;controlStyles[18].styles[0]&quot;:&quot;Text=&quot;,&quot;controlStyles[19].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ConfirmatorMainGrid&quot;,&quot;controlStyles[19].styles[0]&quot;:&quot;CornerRadius=22&quot;,&quot;controlStyles[19].styles[1]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[19].styles[2]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[19].styles[3]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[20].target&quot;:&quot;TextBlock#SearchBoxTextBlock&quot;,&quot;controlStyles[20].styles[0]&quot;:&quot;Text=Search This Precision&quot;,&quot;controlStyles[20].styles[1]&quot;:&quot;FontSize=10&quot;,&quot;controlStyles[20].styles[2]&quot;:&quot;FontFamily=vivo Sans EN VF&quot;,&quot;controlStyles[21].target&quot;:&quot;SystemTray.OmniButton#NotificationCenterButton &gt; Grid &gt; ContentPresenter &gt; ItemsPresenter &gt; StackPanel &gt; ContentPresenter &gt; SystemTray.IconView#SystemTrayIcon &gt; Grid &gt; Grid &gt; SystemTray.TextIconContent&quot;,&quot;controlStyles[21].styles[0]&quot;:&quot;Visibility=Visible&quot;,&quot;controlStyles[22].target&quot;:&quot;Windows.UI.Xaml.Controls.Button&quot;,&quot;controlStyles[22].styles[0]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[23].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#OverflowFlyoutBackgroundBorder&quot;,&quot;controlStyles[23].styles[0]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[23].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[23].styles[2]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[23].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[24].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ModalRootGrid &gt; Windows.UI.Xaml.Controls.Border#BackgroundElement&quot;,&quot;controlStyles[24].styles[0]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[24].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[24].styles[2]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[24].styles[3]&quot;:&quot;CornerRadius=20&quot;,&quot;controlStyles[25].target&quot;:&quot;WindowsInternal.ComposableShell.Experiences.Switcher.VirtualDesktopBarElement#VirtualDesktopBar&quot;,&quot;controlStyles[25].styles[0]&quot;:&quot;Width=1000&quot;,&quot;controlStyles[25].styles[1]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[25].styles[2]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;60\&quot; /&gt;&quot;,&quot;controlStyles[25].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[26].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#BackgroundDimmingLayer&quot;,&quot;controlStyles[26].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[27].target&quot;:&quot;Taskbar.TaskListButtonPanel#ExperienceToggleButtonRootPanel &gt; Windows.UI.Xaml.Controls.Border#BackgroundElement&quot;,&quot;controlStyles[27].styles[0]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[28].target&quot;:&quot;Taskbar.TaskListButton#TaskListButton&quot;,&quot;controlStyles[28].styles[0]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[29].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#SnapBarBorder&quot;,&quot;controlStyles[29].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[29].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[29].styles[2]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[29].styles[3]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[29].styles[4]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;10\&quot; /&gt;&quot;,&quot;controlStyles[29].styles[5]&quot;:&quot;Margin=0,0,0,-10&quot;,&quot;controlStyles[30].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#SnapPickerBorder&quot;,&quot;controlStyles[30].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[30].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[30].styles[2]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[30].styles[3]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[31].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#SearchPillBackgroundElement&quot;,&quot;controlStyles[31].styles[0]&quot;:&quot;BorderBrush:=$ElementBorderBrush&quot;,&quot;controlStyles[31].styles[1]&quot;:&quot;CornerRadius=$ElementCornerRadius&quot;,&quot;controlStyles[31].styles[2]&quot;:&quot;BorderThickness=$ElementBorderThickness&quot;,&quot;controlStyles[31].styles[3]&quot;:&quot;Margin=0&quot;,&quot;controlStyles[32].target&quot;:&quot;Taskbar.TaskbarExtensionElement&quot;,&quot;controlStyles[32].styles[0]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[33].target&quot;:&quot;Taskbar.TaskListButtonPanel#ExperienceToggleButtonRootPanel&quot;,&quot;controlStyles[33].styles[0]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[34].target&quot;:&quot;Windows.UI.Xaml.Controls.ToolTip &gt; Windows.UI.Xaml.Controls.ContentPresenter#LayoutRoot&quot;,&quot;controlStyles[34].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[34].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[34].styles[2]&quot;:&quot;BorderThickness:=$BorderThickness&quot;,&quot;controlStyles[34].styles[3]&quot;:&quot;CornerRadius=12&quot;,&quot;controlStyles[35].target&quot;:&quot;SearchUx.SearchUI.SearchButtonControl&quot;,&quot;controlStyles[35].styles[0]&quot;:&quot;Width=130&quot;,&quot;controlStyles[35].styles[1]&quot;:&quot;Margin=-1,7,-1,7&quot;,&quot;controlStyles[36].target&quot;:&quot;WindowsInternal.ComposableShell.Experiences.Switcher.VirtualDesktopBarElement &gt; Windows.UI.Xaml.Controls.Grid#GridElement &gt; Windows.UI.Xaml.Controls.Border#VirtualDesktopSwitcherBackground&quot;,&quot;controlStyles[36].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[36].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[36].styles[2]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[36].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;styleConstants[0]&quot;:&quot;Background=&lt;WindhawkBlur BlurAmount=\&quot;15\&quot; TintColor=\&quot;#10808080\&quot;/&gt;&quot;,&quot;styleConstants[1]&quot;:&quot;BorderBrush2=&lt;LinearGradientBrush StartPoint=\&quot;0,0\&quot; EndPoint=\&quot;0,1\&quot;&gt;&lt;GradientStop Color=\&quot;&#123;ThemeResource SystemChromeHighColor&#125;\&quot; Offset=\&quot;0.0\&quot; /&gt;&lt;GradientStop Color=\&quot;&#123;ThemeResource SystemChromeLowColor&#125;\&quot; Offset=\&quot;0.25\&quot; /&gt;&lt;GradientStop Color=\&quot;&#123;ThemeResource SystemChromeHighColor&#125;\&quot; Offset=\&quot;1\&quot; /&gt;&lt;/LinearGradientBrush&gt;&quot;,&quot;styleConstants[2]&quot;:&quot;BorderThickness=0.3,1,0.3,0.3&quot;,&quot;styleConstants[3]&quot;:&quot;CornerRadius=15&quot;,&quot;styleConstants[4]&quot;:&quot;BorderBrush=&lt;LinearGradientBrush StartPoint=\&quot;0,0\&quot; EndPoint=\&quot;0,1\&quot;&gt;&lt;GradientStop Color=\&quot;#50808080\&quot; Offset=\&quot;0.0\&quot; /&gt;&lt;GradientStop Color=\&quot;#50404040\&quot; Offset=\&quot;0.25\&quot; /&gt;&lt;GradientStop Color=\&quot;#50808080\&quot; Offset=\&quot;1\&quot; /&gt;&lt;/LinearGradientBrush&gt;&quot;,&quot;styleConstants[5]&quot;:&quot;Background2=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; TintOpacity=\&quot;0.3\&quot; FallbackColor=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; /&gt;&quot;,&quot;styleConstants[6]&quot;:&quot;TrayPadding=2&quot;,&quot;styleConstants[7]&quot;:&quot;ElementBG=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; Opacity=\&quot;0.3\&quot; /&gt;&quot;,&quot;styleConstants[8]&quot;:&quot;ElementBorderThickness=0.3,0.3,0.3,1&quot;,&quot;styleConstants[9]&quot;:&quot;ElementBorderBrush=&lt;LinearGradientBrush StartPoint=\&quot;0,0\&quot; EndPoint=\&quot;0,1\&quot;&gt;&lt;GradientStop Color=\&quot;#50808080\&quot; Offset=\&quot;1\&quot; /&gt;&lt;GradientStop Color=\&quot;#50606060\&quot; Offset=\&quot;0.15\&quot; /&gt;&lt;/LinearGradientBrush&gt;&quot;,&quot;styleConstants[10]&quot;:&quot;ElementCornerRadius=12&quot;,&quot;resourceVariables[0].variableKey&quot;:&quot;&quot;,&quot;resourceVariables[0].value&quot;:&quot;&quot;,&quot;controlStyles[4].styles[3]&quot;:&quot;HorizontalAlignment=Left&quot;,&quot;controlStyles[5].styles[5]&quot;:&quot;VerticalAlignment=Left&quot;&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>资源</tag>
-        <tag>windows美化</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>windows域部署及管理</title>
     <url>/2025/04/26/windows%E5%9F%9F%E9%83%A8%E7%BD%B2%E5%8F%8A%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h2 id="windows域">windows域</h2>
@@ -5073,6 +5025,54 @@ dns和全局编录GC勾选，设置密码<br>
       <tags>
         <tag>windows域</tag>
         <tag>AD DC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windhawk-windows美化</title>
+    <url>/2025/10/08/windhawk-windows%E7%BE%8E%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="来自">来自</h2>
+<blockquote>
+<p><a href="https://www.bilibili.com/video/BV1vhpxzqEAQ/?spm_id_from=333.337.search-card.all.click&amp;vd_source=096d3980aee6e59a0f794011bf77ca27">点击跳转b站”麦嘎噔Linux“的视频</a></p>
+</blockquote>
+<p>效果：<br>
+<img src="/images/windhawk-windows%E7%BE%8E%E5%8C%96-%E6%95%88%E6%9E%9C.png" alt=""></p>
+<hr>
+<h2 id="需要下载的软件和插件">需要下载的软件和插件</h2>
+<ol>
+<li>
+<p>先软件下载：windhawk<br>
+官网：<a href="https://windhawk.net/">https://windhawk.net/</a></p>
+</li>
+<li>
+<p>然后在windhawk中下载插件<code>Taskbar height and icon size</code>、<code>Windows 11 Start Menu Styler</code>、<code>Windows 11 Taskbar Styler</code><br>
+<img src="/images/windhawk-windows%E7%BE%8E%E5%8C%96-%E6%8F%92%E4%BB%B6%E4%B8%8B%E8%BD%BD.png" alt="windhawk-windows美化-插件下载"></p>
+</li>
+</ol>
+<hr>
+<h2 id="插件配置">插件配置</h2>
+<h3 id="Taskbar-height-and-icon-size">Taskbar height and icon size</h3>
+<p>仅参考，可以自定义合适的大小</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Taskbar height:</span><br><span class="line">55</span><br><span class="line"></span><br><span class="line">Icon size:</span><br><span class="line">26</span><br><span class="line"></span><br><span class="line">Taskbar button width:</span><br><span class="line">40</span><br><span class="line"></span><br><span class="line">Small icon size:</span><br><span class="line">20</span><br><span class="line"></span><br><span class="line">Small taskbar button width:</span><br><span class="line">32</span><br></pre></td></tr></table></figure>
+<h3 id="Windows-11-Start-Menu-Styler">Windows 11 Start Menu Styler</h3>
+<p>修改高级设置中的Mod设置</p>
+<ul>
+<li>Mod设置：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&quot;controlStyles[0].target&quot;:&quot;StartDocked.StartSizingFrame&quot;,&quot;controlStyles[0].styles[0]&quot;:&quot;MaxHeight=520&quot;,&quot;controlStyles[1].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#TopLevelSuggestionsListHeader&quot;,&quot;controlStyles[1].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[2].target&quot;:&quot;StartMenu.PinnedList&quot;,&quot;controlStyles[2].styles[0]&quot;:&quot;Height=340&quot;,&quot;controlStyles[3].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ShowMoreSuggestions&quot;,&quot;controlStyles[3].styles[0]&quot;:&quot;RenderTransform:=&lt;TranslateTransform Y=\&quot;-408\&quot; /&gt;&quot;,&quot;controlStyles[4].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#NoTopLevelSuggestionsText&quot;,&quot;controlStyles[4].styles[0]&quot;:&quot;Height=0&quot;,&quot;controlStyles[5].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ShowMoreSuggestions &gt; Windows.UI.Xaml.Controls.Button &gt; Windows.UI.Xaml.Controls.ContentPresenter &gt; Windows.UI.Xaml.Controls.StackPanel &gt; Windows.UI.Xaml.Controls.TextBlock&quot;,&quot;controlStyles[5].styles[0]&quot;:&quot;Text=Recommended&quot;,&quot;controlStyles[6].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#DropShadow&quot;,&quot;controlStyles[6].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[7].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#StartDropShadow&quot;,&quot;controlStyles[7].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[8].target&quot;:&quot;StartDocked.LauncherFrame &gt; Grid#RootGrid &gt; Grid#RootContent &gt; Grid#MainContent &gt; Grid#InnerContent &gt; Rectangle&quot;,&quot;controlStyles[8].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[9].target&quot;:&quot;StartDocked.SearchBoxToggleButton&quot;,&quot;controlStyles[9].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[10].target&quot;:&quot;Border#AcrylicBorder&quot;,&quot;controlStyles[10].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[10].styles[1]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.3\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[11].target&quot;:&quot;Border#AcrylicOverlay&quot;,&quot;controlStyles[11].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[11].styles[1]&quot;:&quot;Margin=0,0,0,20&quot;,&quot;controlStyles[11].styles[2]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.2\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[12].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#AllAppsRoot&quot;,&quot;controlStyles[12].styles[0]&quot;:&quot;Margin=0,0,0,40&quot;,&quot;controlStyles[13].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#UndockedRoot&quot;,&quot;controlStyles[13].styles[0]&quot;:&quot;Margin=0,0,0,40&quot;,&quot;controlStyles[14].target&quot;:&quot;StartDocked.NavigationPaneView#NavigationPane &gt; Windows.UI.Xaml.Controls.Grid#RootPanel&quot;,&quot;controlStyles[14].styles[0]&quot;:&quot;Margin=0,-10,0,10&quot;,&quot;controlStyles[15].target&quot;:&quot;StartDocked.AppListView#NavigationPanePlacesListView &gt; Windows.UI.Xaml.Controls.Border&quot;,&quot;controlStyles[15].styles[0]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.5\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[15].styles[1]&quot;:&quot;CornerRadius=18&quot;,&quot;controlStyles[15].styles[2]&quot;:&quot;Margin=0,0,15,0&quot;,&quot;controlStyles[16].target&quot;:&quot;StartDocked.NavigationPaneButton#PowerButton &gt; Windows.UI.Xaml.Controls.Grid@CommonStates &gt; Windows.UI.Xaml.Controls.Border#BackgroundBorder&quot;,&quot;controlStyles[16].styles[0]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;1\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[16].styles[1]&quot;:&quot;BorderBrush@Normal:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource SurfaceStrokeColorDefault&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource SurfaceStrokeColorDefault&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.1\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[16].styles[2]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[16].styles[3]&quot;:&quot;BorderThickness=5&quot;,&quot;controlStyles[16].styles[4]&quot;:&quot;Margin=-7&quot;,&quot;controlStyles[16].styles[5]&quot;:&quot;BorderBrush@PointerOver:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource SystemAccentColor&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource SystemAccentColor&#125;\&quot; TintOpacity=\&quot;.8\&quot; TintLuminosityOpacity=\&quot;.5\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[17].target&quot;:&quot;StartDocked.NavigationPaneButton#UserTileButton &gt; Grid &gt; Border#BackgroundBorder&quot;,&quot;controlStyles[17].styles[0]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.5\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[17].styles[1]&quot;:&quot;CornerRadius=18&quot;,&quot;controlStyles[18].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#ShowAllAppsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter@CommonStates&quot;,&quot;controlStyles[18].styles[0]&quot;:&quot;Background@Normal:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; Opacity=\&quot;.8\&quot;/&gt;&quot;,&quot;controlStyles[18].styles[1]&quot;:&quot;Background@PointerOver:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemBaseLowColor&#125;\&quot; Opacity=\&quot;1\&quot; /&gt;&quot;,&quot;controlStyles[18].styles[2]&quot;:&quot;Padding=10,7&quot;,&quot;controlStyles[18].styles[3]&quot;:&quot;Margin=0,0,-35,0&quot;,&quot;controlStyles[18].styles[4]&quot;:&quot;CornerRadius=0,15,15,0&quot;,&quot;controlStyles[18].styles[5]&quot;:&quot;BorderThickness=0&quot;,&quot;controlStyles[19].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#ShowMoreSuggestionsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter@CommonStates&quot;,&quot;controlStyles[19].styles[0]&quot;:&quot;Background@Normal:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemAltMediumLowColor&#125;\&quot; Opacity=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[19].styles[1]&quot;:&quot;BorderBrush@Normal:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; Opacity=\&quot;.8\&quot;/&gt;&quot;,&quot;controlStyles[19].styles[2]&quot;:&quot;Padding=10,5&quot;,&quot;controlStyles[19].styles[3]&quot;:&quot;Margin=0,0,19,0&quot;,&quot;controlStyles[19].styles[4]&quot;:&quot;CornerRadius=15,0,0,15&quot;,&quot;controlStyles[19].styles[5]&quot;:&quot;BorderThickness=2,2,0,2&quot;,&quot;controlStyles[19].styles[6]&quot;:&quot;Background@PointerOver:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemBaseLowColor&#125;\&quot; Opacity=\&quot;.7\&quot; /&gt;&quot;,&quot;controlStyles[19].styles[7]&quot;:&quot;BorderBrush@PointerOver:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemBaseLowColor&#125;\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[20].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#HideMoreSuggestionsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter&quot;,&quot;controlStyles[20].styles[0]&quot;:&quot;Background:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeMediumLowColor&#125;\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[20].styles[1]&quot;:&quot;Padding=10,6&quot;,&quot;controlStyles[20].styles[2]&quot;:&quot;Margin=0,0,-35,0&quot;,&quot;controlStyles[20].styles[3]&quot;:&quot;CornerRadius=15&quot;,&quot;controlStyles[21].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#CloseAllAppsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter&quot;,&quot;controlStyles[21].styles[0]&quot;:&quot;Background:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeMediumLowColor&#125;\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[21].styles[1]&quot;:&quot;Padding=10,6&quot;,&quot;controlStyles[21].styles[2]&quot;:&quot;Margin=0,0,-35,0&quot;,&quot;controlStyles[21].styles[3]&quot;:&quot;CornerRadius=15&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Windows-11-Taskbar-Styler">Windows 11 Taskbar Styler</h3>
+<p>修改高级设置中的Mod设置</p>
+<ul>
+<li>Mod设置：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&quot;controlStyles[0].target&quot;:&quot;Taskbar.TaskbarFrame#TaskbarFrame&quot;,&quot;controlStyles[0].styles[1]&quot;:&quot;HorizontalAlignment=Auto&quot;,&quot;controlStyles[0].styles[2]&quot;:&quot;Width=Auto&quot;,&quot;controlStyles[0].styles[0]&quot;:&quot;MaxWidth:=1200&quot;,&quot;controlStyles[0].styles[3]&quot;:&quot;MinWidth:=800&quot;,&quot;controlStyles[1].target&quot;:&quot;Taskbar.TaskbarFrame#TaskbarFrame &gt; Grid#RootGrid&quot;,&quot;controlStyles[1].styles[0]&quot;:&quot;Margin=30,0,30,5&quot;,&quot;controlStyles[1].styles[1]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[1].styles[2]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[1].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[1].styles[4]&quot;:&quot;Background:=Transparent&quot;,&quot;controlStyles[2].target&quot;:&quot;Rectangle#BackgroundFill&quot;,&quot;controlStyles[2].styles[0]&quot;:&quot;Visibility=Visible&quot;,&quot;controlStyles[2].styles[1]&quot;:&quot;Fill:=$Background&quot;,&quot;controlStyles[3].target&quot;:&quot;Rectangle#BackgroundStroke&quot;,&quot;controlStyles[3].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[4].target&quot;:&quot;Taskbar.AugmentedEntryPointButton#AugmentedEntryPointButton &gt; Taskbar.TaskListButtonPanel#ExperienceToggleButtonRootPanel&quot;,&quot;controlStyles[4].styles[0]&quot;:&quot;Margin=4&quot;,&quot;controlStyles[4].styles[1]&quot;:&quot;Background:=$ElementBG&quot;,&quot;controlStyles[4].styles[2]&quot;:&quot;CornerRadius=12&quot;,&quot;controlStyles[5].target&quot;:&quot;Grid#SystemTrayFrameGrid&quot;,&quot;controlStyles[5].styles[0]&quot;:&quot;Margin=0,7,-250,7&quot;,&quot;controlStyles[5].styles[1]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;-645\&quot; Y=\&quot;-2\&quot;/&gt;&quot;,&quot;controlStyles[5].styles[2]&quot;:&quot;Padding=10&quot;,&quot;controlStyles[5].styles[3]&quot;:&quot;Background:=$ElementBG&quot;,&quot;controlStyles[5].styles[4]&quot;:&quot;CornerRadius=12&quot;,&quot;controlStyles[6].target&quot;:&quot;SystemTray.ChevronIconView&quot;,&quot;controlStyles[6].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[6].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[7].target&quot;:&quot;SystemTray.NotifyIconView#NotifyItemIcon&quot;,&quot;controlStyles[7].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[7].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[8].target&quot;:&quot;SystemTray.OmniButton&quot;,&quot;controlStyles[8].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[8].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[9].target&quot;:&quot;SystemTray.CopilotIcon&quot;,&quot;controlStyles[9].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[10].target&quot;:&quot;SystemTray.OmniButton#NotificationCenterButton &gt; Grid &gt; ContentPresenter &gt; ItemsPresenter &gt; StackPanel &gt; ContentPresenter &gt; systemtray:IconView#SystemTrayIcon &gt; Grid&quot;,&quot;controlStyles[10].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[11].target&quot;:&quot;SystemTray.IconView#SystemTrayIcon &gt; Grid#ContainerGrid &gt; ContentPresenter#ContentPresenter &gt; Grid#ContentGrid &gt; SystemTray.TextIconContent &gt; Grid#ContainerGrid&quot;,&quot;controlStyles[11].styles[0]&quot;:&quot;Padding=0&quot;,&quot;controlStyles[11].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[12].target&quot;:&quot;SystemTray.StackListView#IconStack &gt; ItemsPresenter &gt; StackPanel &gt; ContentPresenter &gt; SystemTray.IconView#SystemTrayIcon&quot;,&quot;controlStyles[12].styles[0]&quot;:&quot;Padding=0&quot;,&quot;controlStyles[13].target&quot;:&quot;SystemTray.Stack#ShowDesktopStack&quot;,&quot;controlStyles[13].styles[0]&quot;:&quot;Visibility=Visible&quot;,&quot;controlStyles[14].target&quot;:&quot;Taskbar.Gripper#GripperControl&quot;,&quot;controlStyles[14].styles[0]&quot;:&quot;Width=Auto&quot;,&quot;controlStyles[14].styles[1]&quot;:&quot;MinWidth=24&quot;,&quot;controlStyles[15].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#AugmentedEntryPointContentGrid&quot;,&quot;controlStyles[15].styles[0]&quot;:&quot;Margin=4,0,0,0&quot;,&quot;controlStyles[15].styles[1]&quot;:&quot;HorizontalAlignment=Left&quot;,&quot;controlStyles[16].target&quot;:&quot;TextBlock#TimeInnerTextBlock&quot;,&quot;controlStyles[16].styles[0]&quot;:&quot;FontSize=13&quot;,&quot;controlStyles[16].styles[1]&quot;:&quot;FontFamily=vivo Sans EN VF&quot;,&quot;controlStyles[16].styles[2]&quot;:&quot;Margin=0&quot;,&quot;controlStyles[16].styles[3]&quot;:&quot;Padding=0&quot;,&quot;controlStyles[16].styles[4]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[17].target&quot;:&quot;TextBlock#DateInnerTextBlock&quot;,&quot;controlStyles[17].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[17].styles[1]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;-9\&quot; /&gt;&quot;,&quot;controlStyles[17].styles[2]&quot;:&quot;FontSize=11&quot;,&quot;controlStyles[17].styles[3]&quot;:&quot;FontFamily=vivo Sans EN VF&quot;,&quot;controlStyles[18].target&quot;:&quot;TextBlock#InnerTextBlock[Text=]&quot;,&quot;controlStyles[18].styles[0]&quot;:&quot;Text=&quot;,&quot;controlStyles[19].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ConfirmatorMainGrid&quot;,&quot;controlStyles[19].styles[0]&quot;:&quot;CornerRadius=22&quot;,&quot;controlStyles[19].styles[1]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[19].styles[2]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[19].styles[3]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[20].target&quot;:&quot;TextBlock#SearchBoxTextBlock&quot;,&quot;controlStyles[20].styles[0]&quot;:&quot;Text=Search This Precision&quot;,&quot;controlStyles[20].styles[1]&quot;:&quot;FontSize=10&quot;,&quot;controlStyles[20].styles[2]&quot;:&quot;FontFamily=vivo Sans EN VF&quot;,&quot;controlStyles[21].target&quot;:&quot;SystemTray.OmniButton#NotificationCenterButton &gt; Grid &gt; ContentPresenter &gt; ItemsPresenter &gt; StackPanel &gt; ContentPresenter &gt; SystemTray.IconView#SystemTrayIcon &gt; Grid &gt; Grid &gt; SystemTray.TextIconContent&quot;,&quot;controlStyles[21].styles[0]&quot;:&quot;Visibility=Visible&quot;,&quot;controlStyles[22].target&quot;:&quot;Windows.UI.Xaml.Controls.Button&quot;,&quot;controlStyles[22].styles[0]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[23].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#OverflowFlyoutBackgroundBorder&quot;,&quot;controlStyles[23].styles[0]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[23].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[23].styles[2]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[23].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[24].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ModalRootGrid &gt; Windows.UI.Xaml.Controls.Border#BackgroundElement&quot;,&quot;controlStyles[24].styles[0]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[24].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[24].styles[2]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[24].styles[3]&quot;:&quot;CornerRadius=20&quot;,&quot;controlStyles[25].target&quot;:&quot;WindowsInternal.ComposableShell.Experiences.Switcher.VirtualDesktopBarElement#VirtualDesktopBar&quot;,&quot;controlStyles[25].styles[0]&quot;:&quot;Width=1000&quot;,&quot;controlStyles[25].styles[1]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[25].styles[2]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;60\&quot; /&gt;&quot;,&quot;controlStyles[25].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[26].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#BackgroundDimmingLayer&quot;,&quot;controlStyles[26].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[27].target&quot;:&quot;Taskbar.TaskListButtonPanel#ExperienceToggleButtonRootPanel &gt; Windows.UI.Xaml.Controls.Border#BackgroundElement&quot;,&quot;controlStyles[27].styles[0]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[28].target&quot;:&quot;Taskbar.TaskListButton#TaskListButton&quot;,&quot;controlStyles[28].styles[0]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[29].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#SnapBarBorder&quot;,&quot;controlStyles[29].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[29].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[29].styles[2]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[29].styles[3]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[29].styles[4]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;10\&quot; /&gt;&quot;,&quot;controlStyles[29].styles[5]&quot;:&quot;Margin=0,0,0,-10&quot;,&quot;controlStyles[30].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#SnapPickerBorder&quot;,&quot;controlStyles[30].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[30].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[30].styles[2]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[30].styles[3]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[31].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#SearchPillBackgroundElement&quot;,&quot;controlStyles[31].styles[0]&quot;:&quot;BorderBrush:=$ElementBorderBrush&quot;,&quot;controlStyles[31].styles[1]&quot;:&quot;CornerRadius=$ElementCornerRadius&quot;,&quot;controlStyles[31].styles[2]&quot;:&quot;BorderThickness=$ElementBorderThickness&quot;,&quot;controlStyles[31].styles[3]&quot;:&quot;Margin=0&quot;,&quot;controlStyles[32].target&quot;:&quot;Taskbar.TaskbarExtensionElement&quot;,&quot;controlStyles[32].styles[0]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[33].target&quot;:&quot;Taskbar.TaskListButtonPanel#ExperienceToggleButtonRootPanel&quot;,&quot;controlStyles[33].styles[0]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[34].target&quot;:&quot;Windows.UI.Xaml.Controls.ToolTip &gt; Windows.UI.Xaml.Controls.ContentPresenter#LayoutRoot&quot;,&quot;controlStyles[34].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[34].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[34].styles[2]&quot;:&quot;BorderThickness:=$BorderThickness&quot;,&quot;controlStyles[34].styles[3]&quot;:&quot;CornerRadius=12&quot;,&quot;controlStyles[35].target&quot;:&quot;SearchUx.SearchUI.SearchButtonControl&quot;,&quot;controlStyles[35].styles[0]&quot;:&quot;Width=130&quot;,&quot;controlStyles[35].styles[1]&quot;:&quot;Margin=-1,7,-1,7&quot;,&quot;controlStyles[36].target&quot;:&quot;WindowsInternal.ComposableShell.Experiences.Switcher.VirtualDesktopBarElement &gt; Windows.UI.Xaml.Controls.Grid#GridElement &gt; Windows.UI.Xaml.Controls.Border#VirtualDesktopSwitcherBackground&quot;,&quot;controlStyles[36].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[36].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[36].styles[2]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[36].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;styleConstants[0]&quot;:&quot;Background=&lt;WindhawkBlur BlurAmount=\&quot;15\&quot; TintColor=\&quot;#10808080\&quot;/&gt;&quot;,&quot;styleConstants[1]&quot;:&quot;BorderBrush2=&lt;LinearGradientBrush StartPoint=\&quot;0,0\&quot; EndPoint=\&quot;0,1\&quot;&gt;&lt;GradientStop Color=\&quot;&#123;ThemeResource SystemChromeHighColor&#125;\&quot; Offset=\&quot;0.0\&quot; /&gt;&lt;GradientStop Color=\&quot;&#123;ThemeResource SystemChromeLowColor&#125;\&quot; Offset=\&quot;0.25\&quot; /&gt;&lt;GradientStop Color=\&quot;&#123;ThemeResource SystemChromeHighColor&#125;\&quot; Offset=\&quot;1\&quot; /&gt;&lt;/LinearGradientBrush&gt;&quot;,&quot;styleConstants[2]&quot;:&quot;BorderThickness=0.3,1,0.3,0.3&quot;,&quot;styleConstants[3]&quot;:&quot;CornerRadius=15&quot;,&quot;styleConstants[4]&quot;:&quot;BorderBrush=&lt;LinearGradientBrush StartPoint=\&quot;0,0\&quot; EndPoint=\&quot;0,1\&quot;&gt;&lt;GradientStop Color=\&quot;#50808080\&quot; Offset=\&quot;0.0\&quot; /&gt;&lt;GradientStop Color=\&quot;#50404040\&quot; Offset=\&quot;0.25\&quot; /&gt;&lt;GradientStop Color=\&quot;#50808080\&quot; Offset=\&quot;1\&quot; /&gt;&lt;/LinearGradientBrush&gt;&quot;,&quot;styleConstants[5]&quot;:&quot;Background2=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; TintOpacity=\&quot;0.3\&quot; FallbackColor=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; /&gt;&quot;,&quot;styleConstants[6]&quot;:&quot;TrayPadding=2&quot;,&quot;styleConstants[7]&quot;:&quot;ElementBG=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; Opacity=\&quot;0.3\&quot; /&gt;&quot;,&quot;styleConstants[8]&quot;:&quot;ElementBorderThickness=0.3,0.3,0.3,1&quot;,&quot;styleConstants[9]&quot;:&quot;ElementBorderBrush=&lt;LinearGradientBrush StartPoint=\&quot;0,0\&quot; EndPoint=\&quot;0,1\&quot;&gt;&lt;GradientStop Color=\&quot;#50808080\&quot; Offset=\&quot;1\&quot; /&gt;&lt;GradientStop Color=\&quot;#50606060\&quot; Offset=\&quot;0.15\&quot; /&gt;&lt;/LinearGradientBrush&gt;&quot;,&quot;styleConstants[10]&quot;:&quot;ElementCornerRadius=12&quot;,&quot;resourceVariables[0].variableKey&quot;:&quot;&quot;,&quot;resourceVariables[0].value&quot;:&quot;&quot;,&quot;controlStyles[4].styles[3]&quot;:&quot;HorizontalAlignment=Left&quot;,&quot;controlStyles[5].styles[5]&quot;:&quot;VerticalAlignment=Left&quot;&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>资源</tag>
+        <tag>windows美化</tag>
       </tags>
   </entry>
   <entry>
@@ -5305,6 +5305,24 @@ dns和全局编录GC勾选，设置密码<br>
       </tags>
   </entry>
   <entry>
+    <title>压缩包密码爆破</title>
+    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="使用zip2john-hash值破解">使用zip2john hash值破解</h2>
+<p>生成压缩包hash值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip2john filename.zip &gt; hash.txt</span><br></pre></td></tr></table></figure>
+<p>开始破解</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">john hash.txt</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>hashcat</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>华硕笔记本更换内存通病</title>
     <url>/2025/10/14/%E5%8D%8E%E7%A1%95%E7%AC%94%E8%AE%B0%E6%9C%AC%E6%9B%B4%E6%8D%A2%E5%86%85%E5%AD%98%E9%80%9A%E7%97%85/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -5329,24 +5347,6 @@ dns和全局编录GC勾选，设置密码<br>
       </categories>
       <tags>
         <tag>华硕笔记本</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>压缩包密码爆破</title>
-    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="使用zip2john-hash值破解">使用zip2john hash值破解</h2>
-<p>生成压缩包hash值</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip2john filename.zip &gt; hash.txt</span><br></pre></td></tr></table></figure>
-<p>开始破解</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">john hash.txt</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>hashcat</tag>
       </tags>
   </entry>
   <entry>
@@ -5722,21 +5722,6 @@ S/N=10时，信噪比为10dB</li>
       </tags>
   </entry>
   <entry>
-    <title>沉迷游戏有感</title>
-    <url>/2025/09/26/%E6%B2%89%E8%BF%B7%E6%B8%B8%E6%88%8F%E6%9C%89%E6%84%9F/</url>
-    <content><![CDATA[<p>  原本以为我不会再对游戏有什么太大的热情了，上次这么疯狂的玩，已经不知道是什么时候了，所以这次也没给自己施加太多想法和压力，一直玩到这股劲消失为止，不去克制，这感觉还真不错。</p>
-<p>  这次给我带来这么多快乐的游戏是《泰拉瑞亚》。 说实话，我是讨厌这种游戏的， 感觉没什么意思，一个2D的冒险游戏，而且还称不太上是冒险的游戏，因为他的“boss”是需要玩家主动去召唤的，或者纯纯碰概率，大多都不是因为事件触发的，剧情相当于没有，我玩到现在，其实也不太确定我是因为什么迷恋上它的。 是因为角色的稳步成长让我感受到快速的进步？还是因为一个一个新物品给我带来的新鲜感？ 我觉得，是什么原因并不重要。</p>
-<p>  一开始，好像是因为值班需要接受没法躲掉的压力，而刻意找来玩的，不过毕竟已经过去三周了，现在也记不清楚当时真正的感受了，但至少这个释压的目的圆满完成了。</p>
-<p>  这个游戏上手对我来说并不简单，我本就不喜欢有操作门槛的游戏，频繁的死亡让我去了一个特别的地方拿了一个特别的代步工具，从这个时候开始，我慢慢体会到了它的乐趣， 人物在我手里一点一点变强，慢慢的这个人物在游戏里变越来越势不可挡，直到再也没有能够阻止我脚步的事物存在时，我回归了现实生活。 一共游玩时长155个小时，不到两周，可以说是睁开眼就是游戏了，这也是我最顺利的一次值班，心态好的不得了。</p>
-<p>  回到现实，又是一种说不出来的感觉，极其丰富的游戏内容和游戏过后的空虚感让我产生了这种非常矛盾的感受，但我不会后悔这次的选择，这种快乐，错过了可能就不再会有了吧。</p>
-<p>  那么，现在开始回归正常生活吧！</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>随笔日志</category>
-      </categories>
-  </entry>
-  <entry>
     <title>正则表达式符号大全</title>
     <url>/2025/07/07/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%A6%E5%8F%B7%E5%A4%A7%E5%85%A8/</url>
     <content><![CDATA[<h2 id="普通字符（最基础）">普通字符（最基础）</h2>
@@ -6032,63 +6017,19 @@ S/N=10时，信噪比为10dB</li>
       </tags>
   </entry>
   <entry>
-    <title>滑蛋饭</title>
-    <url>/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/</url>
-    <content><![CDATA[<h2 id="调料">调料</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:left">量</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">蚝油</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">糖</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">胡椒粉</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">香油</td>
-<td style="text-align:left">极少量</td>
-</tr>
-<tr>
-<td style="text-align:center">酱油</td>
-<td style="text-align:left">少量</td>
-</tr>
-<tr>
-<td style="text-align:center">鸡精</td>
-<td style="text-align:left">少量</td>
-</tr>
-<tr>
-<td style="text-align:center">生粉</td>
-<td style="text-align:left">适量</td>
-</tr>
-</tbody>
-</table>
-<h2 id="酱汁">酱汁</h2>
-<ol>
-<li>半碗水，加入耗油，糖，喜欢甜可以多一点糖，白胡椒，搅在一起</li>
-<li>差不多出锅的时候放一点酱油，香油</li>
-<li>最后用生粉调一个芡，冒泡即可</li>
-</ol>
-<h2 id="滑蛋">滑蛋</h2>
-<p>小火煎蛋即可，腊肠韭黄，都可以，按喜欢的放。</p>
+    <title>沉迷游戏有感</title>
+    <url>/2025/09/26/%E6%B2%89%E8%BF%B7%E6%B8%B8%E6%88%8F%E6%9C%89%E6%84%9F/</url>
+    <content><![CDATA[<p>  原本以为我不会再对游戏有什么太大的热情了，上次这么疯狂的玩，已经不知道是什么时候了，所以这次也没给自己施加太多想法和压力，一直玩到这股劲消失为止，不去克制，这感觉还真不错。</p>
+<p>  这次给我带来这么多快乐的游戏是《泰拉瑞亚》。 说实话，我是讨厌这种游戏的， 感觉没什么意思，一个2D的冒险游戏，而且还称不太上是冒险的游戏，因为他的“boss”是需要玩家主动去召唤的，或者纯纯碰概率，大多都不是因为事件触发的，剧情相当于没有，我玩到现在，其实也不太确定我是因为什么迷恋上它的。 是因为角色的稳步成长让我感受到快速的进步？还是因为一个一个新物品给我带来的新鲜感？ 我觉得，是什么原因并不重要。</p>
+<p>  一开始，好像是因为值班需要接受没法躲掉的压力，而刻意找来玩的，不过毕竟已经过去三周了，现在也记不清楚当时真正的感受了，但至少这个释压的目的圆满完成了。</p>
+<p>  这个游戏上手对我来说并不简单，我本就不喜欢有操作门槛的游戏，频繁的死亡让我去了一个特别的地方拿了一个特别的代步工具，从这个时候开始，我慢慢体会到了它的乐趣， 人物在我手里一点一点变强，慢慢的这个人物在游戏里变越来越势不可挡，直到再也没有能够阻止我脚步的事物存在时，我回归了现实生活。 一共游玩时长155个小时，不到两周，可以说是睁开眼就是游戏了，这也是我最顺利的一次值班，心态好的不得了。</p>
+<p>  回到现实，又是一种说不出来的感觉，极其丰富的游戏内容和游戏过后的空虚感让我产生了这种非常矛盾的感受，但我不会后悔这次的选择，这种快乐，错过了可能就不再会有了吧。</p>
+<p>  那么，现在开始回归正常生活吧！</p>
 ]]></content>
       <categories>
         <category>生活</category>
-        <category>菜谱</category>
+        <category>随笔日志</category>
       </categories>
-      <tags>
-        <tag>菜谱</tag>
-      </tags>
   </entry>
   <entry>
     <title>生成密钥 ssh-keygen命令</title>
@@ -6160,6 +6101,65 @@ S/N=10时，信噪比为10dB</li>
       </categories>
       <tags>
         <tag>linux命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>滑蛋饭</title>
+    <url>/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/</url>
+    <content><![CDATA[<h2 id="调料">调料</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:left">量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">蚝油</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">糖</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">胡椒粉</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">香油</td>
+<td style="text-align:left">极少量</td>
+</tr>
+<tr>
+<td style="text-align:center">酱油</td>
+<td style="text-align:left">少量</td>
+</tr>
+<tr>
+<td style="text-align:center">鸡精</td>
+<td style="text-align:left">少量</td>
+</tr>
+<tr>
+<td style="text-align:center">生粉</td>
+<td style="text-align:left">适量</td>
+</tr>
+</tbody>
+</table>
+<h2 id="酱汁">酱汁</h2>
+<ol>
+<li>半碗水，加入耗油，糖，喜欢甜可以多一点糖，白胡椒，搅在一起</li>
+<li>差不多出锅的时候放一点酱油，香油</li>
+<li>最后用生粉调一个芡，冒泡即可</li>
+</ol>
+<h2 id="滑蛋">滑蛋</h2>
+<p>小火煎蛋即可，腊肠韭黄，都可以，按喜欢的放。</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>菜谱</category>
+      </categories>
+      <tags>
+        <tag>菜谱</tag>
       </tags>
   </entry>
   <entry>
