@@ -70,98 +70,115 @@ api配置文件</li>
       </tags>
   </entry>
   <entry>
-    <title>Dockerfile命令</title>
-    <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<table>
-<thead>
-<tr>
-<th style="text-align:center">Dockerfile</th>
-<th style="text-align:left">指令	说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">FROM</td>
-<td style="text-align:left">指定基础镜像，用于后续的指令构建。</td>
-</tr>
-<tr>
-<td style="text-align:center">MAINTAINER</td>
-<td style="text-align:left">指定Dockerfile的作者/维护者。（已弃用，推荐使用LABEL指令）</td>
-</tr>
-<tr>
-<td style="text-align:center">LABEL</td>
-<td style="text-align:left">添加镜像的元数据，使用键值对的形式。</td>
-</tr>
-<tr>
-<td style="text-align:center">RUN</td>
-<td style="text-align:left">在构建过程中在镜像中执行命令。</td>
-</tr>
-<tr>
-<td style="text-align:center">CMD</td>
-<td style="text-align:left">指定容器创建时的默认命令。（可以被覆盖）</td>
-</tr>
-<tr>
-<td style="text-align:center">ENTRYPOINT</td>
-<td style="text-align:left">设置容器创建时的主要命令。（不可被覆盖）</td>
-</tr>
-<tr>
-<td style="text-align:center">EXPOSE</td>
-<td style="text-align:left">声明容器运行时监听的特定网络端口。</td>
-</tr>
-<tr>
-<td style="text-align:center">ENV</td>
-<td style="text-align:left">在容器内部设置环境变量。</td>
-</tr>
-<tr>
-<td style="text-align:center">ADD</td>
-<td style="text-align:left">将文件、目录或远程URL复制到镜像中。</td>
-</tr>
-<tr>
-<td style="text-align:center">COPY</td>
-<td style="text-align:left">将文件或目录复制到镜像中。</td>
-</tr>
-<tr>
-<td style="text-align:center">VOLUME</td>
-<td style="text-align:left">为容器创建挂载点或声明卷。</td>
-</tr>
-<tr>
-<td style="text-align:center">WORKDIR</td>
-<td style="text-align:left">设置后续指令的工作目录。</td>
-</tr>
-<tr>
-<td style="text-align:center">USER</td>
-<td style="text-align:left">指定后续指令的用户上下文。</td>
-</tr>
-<tr>
-<td style="text-align:center">ARG</td>
-<td style="text-align:left">定义在构建过程中传递给构建器的变量，可使用 “docker build” 命令设置。</td>
-</tr>
-<tr>
-<td style="text-align:center">ONBUILD</td>
-<td style="text-align:left">当该镜像被用作另一个构建过程的基础时，添加触发器。</td>
-</tr>
-<tr>
-<td style="text-align:center">STOPSIGNAL</td>
-<td style="text-align:left">设置发送给容器以退出的系统调用信号。</td>
-</tr>
-<tr>
-<td style="text-align:center">HEALTHCHECK</td>
-<td style="text-align:left">定义周期性检查容器健康状态的命令。</td>
-</tr>
-<tr>
-<td style="text-align:center">SHELL</td>
-<td style="text-align:left">覆盖Docker中默认的shell，用于RUN、CMD和ENTRYPOINT指令。</td>
-</tr>
-</tbody>
-</table>
+    <title>Kubernetes集群部署</title>
+    <url>/2025/07/11/Kubernetes%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h2 id="准备工作">准备工作</h2>
+<p>（所有节点执行）</p>
+<ul>
+<li>三台ubuntu
+<ul>
+<li>master：192.168.11.100</li>
+<li>node1：192.168.11.11</li>
+<li>node2：192.168.11.22</li>
+</ul>
+</li>
+</ul>
+<h3 id="设置主机名">设置主机名</h3>
+<p>（各自设置）</p>
+<ol>
+<li>master 节点</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname master</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>node1 节点</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname node1</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>node2 节点</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname node2</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
+<h3 id="添加-hosts-解析">添加 hosts 解析</h3>
+<p>（所有节点执行）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/hosts &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">192.168.11.100 master</span></span><br><span class="line"><span class="string">192.168.11.11 node1</span></span><br><span class="line"><span class="string">192.168.11.22 node2</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+<h3 id="禁用-swap">禁用 swap</h3>
+<p>（所有节点）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> swapoff -a</span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;/ swap / s/^/#/&#x27;</span> /etc/fstab</span><br></pre></td></tr></table></figure>
+<h3 id="配置内核参数">配置内核参数</h3>
+<p>（所有节点）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/modules-load.d/k8s.conf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">br_netfilter</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> modprobe br_netfilter</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/sysctl.d/k8s.conf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-iptables = 1</span></span><br><span class="line"><span class="string">net.ipv4.ip_forward = 1</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-ip6tables = 1</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> sysctl --system</span><br></pre></td></tr></table></figure>
+<h3 id="安装-containerd">安装 containerd</h3>
+<p>（所有节点）</p>
+<ol>
+<li>更新 apt 源</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>安装 containerd</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y containerd</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>创建配置目录（如果不存在）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/containerd</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>生成默认配置文件</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> containerd config default | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/containerd/config.toml</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>关键：国内镜像 + systemd cgroup</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s|sandbox_image = &quot;registry.k8s.io/pause:.*&quot;|sandbox_image = &quot;registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.9&quot;|g&#x27;</span> /etc/containerd/config.toml</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s/SystemdCgroup = false/SystemdCgroup = true/g&#x27;</span> /etc/containerd/config.toml</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>重启并开启 containerd 服务</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart containerd</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> containerd</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>查看 containerd 状态确认运行中</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status containerd</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="安装-Kubernetes">安装 Kubernetes</h2>
+<h3 id="添加-Kubernetes-源">添加 Kubernetes 源</h3>
+<p>（所有节点）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 添加 Kubernetes 国内 apt 源（阿里云）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /&#x27;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 添加 GPG 公钥</span></span><br><span class="line">curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | \</span><br><span class="line">  <span class="built_in">sudo</span> gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 更新源</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br></pre></td></tr></table></figure>
+<h3 id="安装-kubelet、kubeadm、kubectl">安装 kubelet、kubeadm、kubectl</h3>
+<p>（kubectl 可只在 master 装）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 安装</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y kubelet kubeadm kubectl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 锁定版本，避免系统升级时自动升级</span></span><br><span class="line"><span class="built_in">sudo</span> apt-mark hold kubelet kubeadm kubectl</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now kubelet</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="初始化-master-节点">初始化 master 节点</h2>
+<p>（只在 master 执行）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 初始化 master 节点</span></span><br><span class="line"><span class="built_in">sudo</span> kubeadm init \</span><br><span class="line">  --apiserver-advertise-address=192.168.11.100 \</span><br><span class="line">  --control-plane-endpoint=master \</span><br><span class="line">  --pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">  --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers</span><br></pre></td></tr></table></figure>
+<p>如果安装中断，有残留文件，先执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo kubeadm reset -f</span><br><span class="line">sudo systemctl restart containerd</span><br><span class="line">sudo rm -rf ~/.kube /etc/kubernetes/pki /etc/kubernetes/manifests</span><br></pre></td></tr></table></figure>
+<h3 id="初始化成功后，执行提示中的命令以配置-kubectl：">初始化成功后，执行提示中的命令以配置 kubectl：</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p <span class="variable">$HOME</span>/.kube</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chown</span> $(<span class="built_in">id</span> -u):$(<span class="built_in">id</span> -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="安装网络插件">安装网络插件</h2>
+<p>（只在 master 执行）<br>
+以 calico 为例：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载yaml</span></span><br><span class="line">curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/calico.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换为 DaoCloud 镜像</span></span><br><span class="line">sed -i <span class="string">&#x27;s|docker.io/calico/|docker.m.daocloud.io/calico/|g&#x27;</span> calico.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署</span></span><br><span class="line">kubectl apply -f calico.yaml</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="加入节点">加入节点</h2>
+<p>（在 node1 和 node2 执行）<br>
+初始化 master 成功后会输出一个 <code>kubeadm join</code> 命令，形如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm <span class="built_in">join</span> 192.168.11.100:6443 --token &lt;token&gt; --discovery-token-ca-cert-hash sha256:&lt;<span class="built_in">hash</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>在 node1 和 node2 上运行这个命令即可加入集群。</p>
+<p>如果没保存，可以在 master 上用下面命令重新获取：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm token create --print-join-command</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="验证集群状态">验证集群状态</h2>
+<p>（master 上）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+<p>看到三台机器 <code>STATUS</code> 是 <code>Ready</code> 就说明集群搭建成功。</p>
 ]]></content>
       <categories>
         <category>系统运维</category>
-        <category>docker</category>
+        <category>k8s</category>
       </categories>
       <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
+        <tag>k8s</tag>
+        <tag>kubernetes</tag>
+        <tag>k8s部署</tag>
       </tags>
   </entry>
   <entry>
@@ -318,120 +335,103 @@ api配置文件</li>
         <category>k8s</category>
       </categories>
       <tags>
-        <tag>Kubernetes</tag>
         <tag>k8s</tag>
+        <tag>Kubernetes</tag>
       </tags>
   </entry>
   <entry>
-    <title>Kubernetes集群部署</title>
-    <url>/2025/07/11/Kubernetes%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<h2 id="准备工作">准备工作</h2>
-<p>（所有节点执行）</p>
-<ul>
-<li>三台ubuntu
-<ul>
-<li>master：192.168.11.100</li>
-<li>node1：192.168.11.11</li>
-<li>node2：192.168.11.22</li>
-</ul>
-</li>
-</ul>
-<h3 id="设置主机名">设置主机名</h3>
-<p>（各自设置）</p>
-<ol>
-<li>master 节点</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname master</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>node1 节点</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname node1</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>node2 节点</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname node2</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
-<h3 id="添加-hosts-解析">添加 hosts 解析</h3>
-<p>（所有节点执行）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/hosts &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">192.168.11.100 master</span></span><br><span class="line"><span class="string">192.168.11.11 node1</span></span><br><span class="line"><span class="string">192.168.11.22 node2</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
-<h3 id="禁用-swap">禁用 swap</h3>
-<p>（所有节点）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> swapoff -a</span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;/ swap / s/^/#/&#x27;</span> /etc/fstab</span><br></pre></td></tr></table></figure>
-<h3 id="配置内核参数">配置内核参数</h3>
-<p>（所有节点）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/modules-load.d/k8s.conf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">br_netfilter</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> modprobe br_netfilter</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/sysctl.d/k8s.conf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-iptables = 1</span></span><br><span class="line"><span class="string">net.ipv4.ip_forward = 1</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-ip6tables = 1</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> sysctl --system</span><br></pre></td></tr></table></figure>
-<h3 id="安装-containerd">安装 containerd</h3>
-<p>（所有节点）</p>
-<ol>
-<li>更新 apt 源</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>安装 containerd</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y containerd</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>创建配置目录（如果不存在）</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/containerd</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>生成默认配置文件</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> containerd config default | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/containerd/config.toml</span><br></pre></td></tr></table></figure>
-<ol start="5">
-<li>关键：国内镜像 + systemd cgroup</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s|sandbox_image = &quot;registry.k8s.io/pause:.*&quot;|sandbox_image = &quot;registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.9&quot;|g&#x27;</span> /etc/containerd/config.toml</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s/SystemdCgroup = false/SystemdCgroup = true/g&#x27;</span> /etc/containerd/config.toml</span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li>重启并开启 containerd 服务</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart containerd</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> containerd</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>查看 containerd 状态确认运行中</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status containerd</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="安装-Kubernetes">安装 Kubernetes</h2>
-<h3 id="添加-Kubernetes-源">添加 Kubernetes 源</h3>
-<p>（所有节点）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 添加 Kubernetes 国内 apt 源（阿里云）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /&#x27;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 添加 GPG 公钥</span></span><br><span class="line">curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | \</span><br><span class="line">  <span class="built_in">sudo</span> gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 更新源</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br></pre></td></tr></table></figure>
-<h3 id="安装-kubelet、kubeadm、kubectl">安装 kubelet、kubeadm、kubectl</h3>
-<p>（kubectl 可只在 master 装）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 安装</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y kubelet kubeadm kubectl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 锁定版本，避免系统升级时自动升级</span></span><br><span class="line"><span class="built_in">sudo</span> apt-mark hold kubelet kubeadm kubectl</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now kubelet</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="初始化-master-节点">初始化 master 节点</h2>
-<p>（只在 master 执行）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 初始化 master 节点</span></span><br><span class="line"><span class="built_in">sudo</span> kubeadm init \</span><br><span class="line">  --apiserver-advertise-address=192.168.11.100 \</span><br><span class="line">  --control-plane-endpoint=master \</span><br><span class="line">  --pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">  --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers</span><br></pre></td></tr></table></figure>
-<p>如果安装中断，有残留文件，先执行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo kubeadm reset -f</span><br><span class="line">sudo systemctl restart containerd</span><br><span class="line">sudo rm -rf ~/.kube /etc/kubernetes/pki /etc/kubernetes/manifests</span><br></pre></td></tr></table></figure>
-<h3 id="初始化成功后，执行提示中的命令以配置-kubectl：">初始化成功后，执行提示中的命令以配置 kubectl：</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p <span class="variable">$HOME</span>/.kube</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chown</span> $(<span class="built_in">id</span> -u):$(<span class="built_in">id</span> -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="安装网络插件">安装网络插件</h2>
-<p>（只在 master 执行）<br>
-以 calico 为例：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载yaml</span></span><br><span class="line">curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/calico.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换为 DaoCloud 镜像</span></span><br><span class="line">sed -i <span class="string">&#x27;s|docker.io/calico/|docker.m.daocloud.io/calico/|g&#x27;</span> calico.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署</span></span><br><span class="line">kubectl apply -f calico.yaml</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="加入节点">加入节点</h2>
-<p>（在 node1 和 node2 执行）<br>
-初始化 master 成功后会输出一个 <code>kubeadm join</code> 命令，形如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm <span class="built_in">join</span> 192.168.11.100:6443 --token &lt;token&gt; --discovery-token-ca-cert-hash sha256:&lt;<span class="built_in">hash</span>&gt;</span><br></pre></td></tr></table></figure>
-<p>在 node1 和 node2 上运行这个命令即可加入集群。</p>
-<p>如果没保存，可以在 master 上用下面命令重新获取：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm token create --print-join-command</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="验证集群状态">验证集群状态</h2>
-<p>（master 上）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
-<p>看到三台机器 <code>STATUS</code> 是 <code>Ready</code> 就说明集群搭建成功。</p>
+    <title>Dockerfile命令</title>
+    <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<table>
+<thead>
+<tr>
+<th style="text-align:center">Dockerfile</th>
+<th style="text-align:left">指令	说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FROM</td>
+<td style="text-align:left">指定基础镜像，用于后续的指令构建。</td>
+</tr>
+<tr>
+<td style="text-align:center">MAINTAINER</td>
+<td style="text-align:left">指定Dockerfile的作者/维护者。（已弃用，推荐使用LABEL指令）</td>
+</tr>
+<tr>
+<td style="text-align:center">LABEL</td>
+<td style="text-align:left">添加镜像的元数据，使用键值对的形式。</td>
+</tr>
+<tr>
+<td style="text-align:center">RUN</td>
+<td style="text-align:left">在构建过程中在镜像中执行命令。</td>
+</tr>
+<tr>
+<td style="text-align:center">CMD</td>
+<td style="text-align:left">指定容器创建时的默认命令。（可以被覆盖）</td>
+</tr>
+<tr>
+<td style="text-align:center">ENTRYPOINT</td>
+<td style="text-align:left">设置容器创建时的主要命令。（不可被覆盖）</td>
+</tr>
+<tr>
+<td style="text-align:center">EXPOSE</td>
+<td style="text-align:left">声明容器运行时监听的特定网络端口。</td>
+</tr>
+<tr>
+<td style="text-align:center">ENV</td>
+<td style="text-align:left">在容器内部设置环境变量。</td>
+</tr>
+<tr>
+<td style="text-align:center">ADD</td>
+<td style="text-align:left">将文件、目录或远程URL复制到镜像中。</td>
+</tr>
+<tr>
+<td style="text-align:center">COPY</td>
+<td style="text-align:left">将文件或目录复制到镜像中。</td>
+</tr>
+<tr>
+<td style="text-align:center">VOLUME</td>
+<td style="text-align:left">为容器创建挂载点或声明卷。</td>
+</tr>
+<tr>
+<td style="text-align:center">WORKDIR</td>
+<td style="text-align:left">设置后续指令的工作目录。</td>
+</tr>
+<tr>
+<td style="text-align:center">USER</td>
+<td style="text-align:left">指定后续指令的用户上下文。</td>
+</tr>
+<tr>
+<td style="text-align:center">ARG</td>
+<td style="text-align:left">定义在构建过程中传递给构建器的变量，可使用 “docker build” 命令设置。</td>
+</tr>
+<tr>
+<td style="text-align:center">ONBUILD</td>
+<td style="text-align:left">当该镜像被用作另一个构建过程的基础时，添加触发器。</td>
+</tr>
+<tr>
+<td style="text-align:center">STOPSIGNAL</td>
+<td style="text-align:left">设置发送给容器以退出的系统调用信号。</td>
+</tr>
+<tr>
+<td style="text-align:center">HEALTHCHECK</td>
+<td style="text-align:left">定义周期性检查容器健康状态的命令。</td>
+</tr>
+<tr>
+<td style="text-align:center">SHELL</td>
+<td style="text-align:left">覆盖Docker中默认的shell，用于RUN、CMD和ENTRYPOINT指令。</td>
+</tr>
+</tbody>
+</table>
 ]]></content>
       <categories>
         <category>系统运维</category>
-        <category>k8s</category>
+        <category>docker</category>
       </categories>
       <tags>
-        <tag>k8s</tag>
-        <tag>kubernetes</tag>
-        <tag>k8s部署</tag>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -1110,88 +1110,6 @@ host               指定您希望抓取数据包的host（通常是本地网关
       </tags>
   </entry>
   <entry>
-    <title>docker pull 镜像ai的理解</title>
-    <url>/2025/05/27/docker-pull-%E9%95%9C%E5%83%8Fai%E7%9A%84%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="🧪-场景">🧪 场景</h2>
-<p>你执行 docker pull nginx:latest 时，Docker 是怎么一步步“下载镜像”的？<br>
-我们来把这个过程分解为实际步骤，同时继续用“汉堡 🍔”比喻帮助理解每一层。</p>
-<h3 id="✅-第-1-步：解析镜像名">✅ 第 1 步：解析镜像名</h3>
-<p>你输入的命令：<br>
-docker pull nginx:latest</p>
-<p>Docker 其实会自动转换为：<br>
-<a href="http://registry-1.docker.io/library/nginx:latest">registry-1.docker.io/library/nginx:latest</a></p>
-<p>这个地址指的是：</p>
-<ol>
-<li>官方 Docker Hub（<a href="http://registry-1.docker.io">registry-1.docker.io</a>）</li>
-<li>官方镜像库（library）</li>
-<li>镜像名：nginx</li>
-<li>标签：latest</li>
-</ol>
-<h3 id="✅-第-2-步：联系-Docker-Hub">✅ 第 2 步：联系 Docker Hub</h3>
-<p>Docker 客户端向 Docker Hub 发出请求：<br>
-GET /v2/library/nginx/manifests/latest</p>
-<p>这一步是拿到清单（manifest），这个清单里记录了：</p>
-<ol>
-<li>这个镜像由哪些层组成</li>
-<li>每一层的校验和（sha256）</li>
-<li>每层的大小</li>
-<li>支持的平台（比如 amd64、arm64）</li>
-</ol>
-<blockquote>
-<p>📦 比喻：这就像餐厅菜单告诉你：这个汉堡由 5 层组成，分别是面包、生菜、牛肉、奶酪、酱料。</p>
-</blockquote>
-<h3 id="✅-第-3-步：依次下载每一层（layer）">✅ 第 3 步：依次下载每一层（layer）</h3>
-<p>Docker 开始一个个去下载镜像层（也叫“blob”），请求长这样：<br>
-GET /v2/library/nginx/blobs/sha256:xxxxxxxxx</p>
-<ul>
-<li>每一层都是一个压缩包（通常是 tar.gz 文件），里面包含一部分文件系统的变更（新增/修改/删除文件）。</li>
-</ul>
-<blockquote>
-<p>💡 这些“层”可以是：<br>
-层编号内容类比<br>
-Layer 1 Ubuntu OS 的基础文件系统 汉堡面包底<br>
-Layer 2 安装了一些库 加了生菜<br>
-Layer 3 加入了 Nginx 服务器 加了牛肉<br>
-Layer 4 默认配置文件等 加了酱<br>
-Layer 5 启动命令 插了一根旗子（告诉吃法）</p>
-</blockquote>
-<h3 id="✅-第-4-步：校验层的完整性">✅ 第 4 步：校验层的完整性</h3>
-<ul>
-<li>每层下载后，Docker 会对文件做 SHA256 校验，确保没有被篡改、损坏。</li>
-</ul>
-<h3 id="✅-第-5-步：将层缓存到本地">✅ 第 5 步：将层缓存到本地</h3>
-<p>层保存到你的本地磁盘：<br>
-Linux 路径通常是 /var/lib/docker/overlay2/（默认）</p>
-<ul>
-<li>每一层是增量的，可复用（比如多个镜像用的是同一个 ubuntu 基础层）</li>
-</ul>
-<blockquote>
-<p>🧠 你下过 nginx 后再下 redis，可能会发现部分层都已经存在，不需要重新下载。</p>
-</blockquote>
-<h3 id="✅-第-6-步：镜像构建完成，可以运行了">✅ 第 6 步：镜像构建完成，可以运行了</h3>
-<p>所有层都下载完之后，Docker 会将它们组合起来，做出一个“可以运行的汉堡”。<br>
-你可以用这个命令运行容器：<br>
-docker run -d nginx</p>
-<ul>
-<li>此时容器运行的文件系统，其实是多个只读层 + 一个可写层叠加起来的视图。</li>
-</ul>
-<blockquote>
-<p>🧭 下载时你看到的输出，其实就是每一层：<br>
-比如执行时会看到这样的输出：<br>
-docker pull nginx:latest<br>
-latest: Pulling from library/nginx<br>
-ab5ef0e58194: Pull complete     ← 第1层<br>
-9d6b7f3f1b66: Pull complete     ← 第2层<br>
-e379e8d9f7cd: Pull complete     ← 第3层<br>
-…<br>
-Digest: sha256:xxx…<br>
-每一条 Pull complete 就是一层成功下载并校验完成了。</p>
-</blockquote>
-<h2 id="✅-小结一句话：">✅ 小结一句话：</h2>
-<p>Docker 下载镜像时，不是一次性拿一个“压缩包”，而是像“叠汉堡”一样，一个个去下载构成镜像的文件系统层（layers），最后组合成可运行的镜像。</p>
-]]></content>
-  </entry>
-  <entry>
     <title>docker pull 镜像失败问题解决方法（镜像多）</title>
     <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
     <content><![CDATA[<h2 id="问题现象">问题现象</h2>
@@ -1206,25 +1124,6 @@ Digest: sha256:xxx…<br>
 <h3 id="开始下载">开始下载</h3>
 <p>运行后，不要按ctrl+c停止，因为停掉之后就等于docker停了，所以要在新的窗口中运行docker pull下载镜像，就能看到下载时一次只下载一个layer了</p>
 ]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker 卸载</title>
-    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
-    <content><![CDATA[<h4 id="卸载命令">卸载命令</h4>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
@@ -1325,57 +1224,22 @@ mysql:5.7
       </tags>
   </entry>
   <entry>
-    <title>docker安装awvs并激活</title>
-    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h2 id="安装awvs">安装awvs</h2>
-<h4 id="拉取镜像">拉取镜像</h4>
-<p>搜索</p>
-<pre><code>docker search awvs
-</code></pre>
-<p>选择一个awvs镜像下载<br>
-<img src="/images/pasted-35.png" alt="upload successful"></p>
-<p>选择secfa/awvs的镜像</p>
-<pre><code>docker pull secfa/awvs
-docker images -a
-</code></pre>
-<h4 id="创建并启动容器">创建并启动容器</h4>
-<p>运行命令</p>
-<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
-</code></pre>
-<p>如果报错！（提示crack失败）<br>
-添加参数–cap-add LINUX_IMMUTABLE</p>
-<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
-</code></pre>
-<h2 id="访问">访问</h2>
-<p>账号密码：</p>
-<pre><code>awvs username: admin@admin.com
-awvs password: Admin123
-</code></pre>
-<h2 id="激活">激活</h2>
-<p>需要下载破解版的两个文件替换，分别是：</p>
-<pre><code>license_info.json
-wa_data.dat
-</code></pre>
-<p>windows和linux文件通用<br>
-替换目录为容器内目录：</p>
-<pre><code>/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>文件传输进入容器命令为：</p>
-<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
-docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
-</code></pre>
-<p>重启容器</p>
-<pre><code>docker restart 容器id
-</code></pre>
-]]></content>
+    <title>docker 卸载</title>
+    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
+    <content><![CDATA[<h4 id="卸载命令">卸载命令</h4>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>系统运维</category>
         <category>docker</category>
       </categories>
       <tags>
         <tag>docker</tag>
-        <tag>awvs安装</tag>
-        <tag>awvs</tag>
+        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -1445,24 +1309,47 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       </tags>
   </entry>
   <entry>
-    <title>docker目录挂载</title>
-    <url>/2024/08/11/docker%E7%9B%AE%E5%BD%95%E6%8C%82%E8%BD%BD/</url>
-    <content><![CDATA[<h2 id="简介">简介</h2>
-<p>docker目录的挂载有三种方式，分别试用于不同的场景：<br>
-1、Bind Mount将宿主机上的一个文件或目录挂载到容器内。<br>
-适用于修改配置文件或者代码文件的目录，容器会和宿主机同步更新。</p>
-<p>2、Volume由Docker创建和管理的目录，用于持久化和共享数据，与上述类似，区别在于是使用一个新的，由容器创建的目录</p>
-<p>3、tmpfs mount 存储临时文件，存储于主机内存中，不能多容器共享（使用场景少）</p>
-<h2 id="Bind-Mount">Bind Mount</h2>
-<p>常用命令</p>
-<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;绝对路径&gt;:&lt;容器目录&gt; &lt;镜像&gt;
+    <title>docker安装awvs并激活</title>
+    <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h2 id="安装awvs">安装awvs</h2>
+<h4 id="拉取镜像">拉取镜像</h4>
+<p>搜索</p>
+<pre><code>docker search awvs
 </code></pre>
-<p>使用 --mount 指令进行绑定挂载</p>
-<pre><code>docker run -d --name &lt;容器名&gt; --mount type=bind,source=&lt;宿主机目录&gt;,target=&lt;容器目录&gt; &lt;镜像&gt;
+<p>选择一个awvs镜像下载<br>
+<img src="/images/pasted-35.png" alt="upload successful"></p>
+<p>选择secfa/awvs的镜像</p>
+<pre><code>docker pull secfa/awvs
+docker images -a
 </code></pre>
-<h2 id="Volume">Volume</h2>
-<p>常用命令&lt;数据卷名称&gt;直接写名字则是在当前目录创建目录</p>
-<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;数据卷名称&gt;:&lt;容器目录&gt; &lt;镜像&gt;
+<h4 id="创建并启动容器">创建并启动容器</h4>
+<p>运行命令</p>
+<pre><code>docker run -it -d -p 3443:3443 secfa/docker-awvs
+</code></pre>
+<p>如果报错！（提示crack失败）<br>
+添加参数–cap-add LINUX_IMMUTABLE</p>
+<pre><code>docker run -itd -p 3443:3443 --cap-add LINUX_IMMUTABLE --name awvs secfa/docker-awvs
+</code></pre>
+<h2 id="访问">访问</h2>
+<p>账号密码：</p>
+<pre><code>awvs username: admin@admin.com
+awvs password: Admin123
+</code></pre>
+<h2 id="激活">激活</h2>
+<p>需要下载破解版的两个文件替换，分别是：</p>
+<pre><code>license_info.json
+wa_data.dat
+</code></pre>
+<p>windows和linux文件通用<br>
+替换目录为容器内目录：</p>
+<pre><code>/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>文件传输进入容器命令为：</p>
+<pre><code>docker cp license_info.json 容器的id:/home/acunetix/.acunetix/data/license
+docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
+</code></pre>
+<p>重启容器</p>
+<pre><code>docker restart 容器id
 </code></pre>
 ]]></content>
       <categories>
@@ -1471,48 +1358,8 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       </categories>
       <tags>
         <tag>docker</tag>
-        <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dvwa-命令执行</title>
-    <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
-    <content><![CDATA[<h2 id="Low等级">Low等级</h2>
-<p>命令执行漏洞主要是针对有网络测试的页面，如网络设备的web管理页面等等，利用其执行命令的输入窗口执行其他命令。</p>
-<p>简单演示一下正常使用，输入127.0.0.1，执行：<br>
-<img src="/images/pasted-36.png" alt="upload successful"></p>
-<h3 id="在DVWA靶场点击command-injection设置等级为low">在DVWA靶场点击command injection设置等级为low</h3>
-<p><img src="/images/pasted-37.png" alt="upload successful"></p>
-<h3 id="使用命令连接符如-、-、-、-来执行命令">使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令</h3>
-<p>相当于与或非，判断前面命令是否成功执行之后的自定义命令<br>
-<img src="/images/pasted-38.png" alt="upload successful"><br>
-<img src="/images/pasted-39.png" alt="upload successful"></p>
-<h2 id="Medium等级">Medium等级</h2>
-<p>做了一点防护措施，相当于没有。<br>
-将这些连接符做了个判断转为空，详情如下：<br>
-<img src="/images/pasted-40.png" alt="upload successful"></p>
-<h3 id="解决方法">解决方法</h3>
-<p>测试发现使用命令连接符&amp;&amp;和;都不执行。<br>
-<img src="/images/pasted-41.png" alt="upload successful"></p>
-<p>但是可以使用其他没有被处理的连接符<br>
-<img src="/images/pasted-42.png" alt="upload successful"></p>
-<h2 id="High等级">High等级</h2>
-<p>连接符连接都不执行,已处理所有连接符<br>
-<img src="/images/pasted-43.png" alt="upload successful"></p>
-<h3 id="解决方法-2">解决方法</h3>
-<p>其实|是没处理的，加了空格，所以还是能够执行的<br>
-<img src="/images/pasted-44.png" alt="upload successful"></p>
-<p>执行结果：<br>
-<img src="/images/pasted-45.png" alt="upload successful"></p>
-<h2 id="Impossible等级">Impossible等级</h2>
-<p>是不可能等级，这个采用的是白名单的方式防护，只允许已知的命令执行。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Check Anti-CSRF token</span><br><span class="line">    checkToken( $_REQUEST[ &#x27;user_token&#x27; ], $_SESSION[ &#x27;session_token&#x27; ], &#x27;index.php&#x27; );</span><br><span class="line"></span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line">    $target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">    // Split the IP into 4 octects</span><br><span class="line">    $octet = explode( &quot;.&quot;, $target );</span><br><span class="line"></span><br><span class="line">    // Check IF each octet is an integer</span><br><span class="line">    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet ) == 4 ) ) &#123;</span><br><span class="line">        // If all 4 octets are int&#x27;s put the IP back together.</span><br><span class="line">        $target = $octet[0] . &#x27;.&#x27; . $octet[1] . &#x27;.&#x27; . $octet[2] . &#x27;.&#x27; . $octet[3];</span><br><span class="line"></span><br><span class="line">        // Determine OS and execute the ping command.</span><br><span class="line">        if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">            // Windows</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            // *nix</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Feedback for the end user</span><br><span class="line">        echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // Ops. Let the user name theres a mistake</span><br><span class="line">        echo &#x27;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Generate Anti-CSRF token</span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>dvwa</category>
-      </categories>
-      <tags>
-        <tag>dvwa</tag>
+        <tag>awvs安装</tag>
+        <tag>awvs</tag>
       </tags>
   </entry>
   <entry>
@@ -1545,6 +1392,118 @@ admin/password
         <tag>docker</tag>
         <tag>dvwa</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>docker目录挂载</title>
+    <url>/2024/08/11/docker%E7%9B%AE%E5%BD%95%E6%8C%82%E8%BD%BD/</url>
+    <content><![CDATA[<h2 id="简介">简介</h2>
+<p>docker目录的挂载有三种方式，分别试用于不同的场景：<br>
+1、Bind Mount将宿主机上的一个文件或目录挂载到容器内。<br>
+适用于修改配置文件或者代码文件的目录，容器会和宿主机同步更新。</p>
+<p>2、Volume由Docker创建和管理的目录，用于持久化和共享数据，与上述类似，区别在于是使用一个新的，由容器创建的目录</p>
+<p>3、tmpfs mount 存储临时文件，存储于主机内存中，不能多容器共享（使用场景少）</p>
+<h2 id="Bind-Mount">Bind Mount</h2>
+<p>常用命令</p>
+<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;绝对路径&gt;:&lt;容器目录&gt; &lt;镜像&gt;
+</code></pre>
+<p>使用 --mount 指令进行绑定挂载</p>
+<pre><code>docker run -d --name &lt;容器名&gt; --mount type=bind,source=&lt;宿主机目录&gt;,target=&lt;容器目录&gt; &lt;镜像&gt;
+</code></pre>
+<h2 id="Volume">Volume</h2>
+<p>常用命令&lt;数据卷名称&gt;直接写名字则是在当前目录创建目录</p>
+<pre><code>docker run -d --name &lt;容器名&gt; -v &lt;数据卷名称&gt;:&lt;容器目录&gt; &lt;镜像&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker pull 镜像ai的理解</title>
+    <url>/2025/05/27/docker-pull-%E9%95%9C%E5%83%8Fai%E7%9A%84%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="🧪-场景">🧪 场景</h2>
+<p>你执行 docker pull nginx:latest 时，Docker 是怎么一步步“下载镜像”的？<br>
+我们来把这个过程分解为实际步骤，同时继续用“汉堡 🍔”比喻帮助理解每一层。</p>
+<h3 id="✅-第-1-步：解析镜像名">✅ 第 1 步：解析镜像名</h3>
+<p>你输入的命令：<br>
+docker pull nginx:latest</p>
+<p>Docker 其实会自动转换为：<br>
+<a href="http://registry-1.docker.io/library/nginx:latest">registry-1.docker.io/library/nginx:latest</a></p>
+<p>这个地址指的是：</p>
+<ol>
+<li>官方 Docker Hub（<a href="http://registry-1.docker.io">registry-1.docker.io</a>）</li>
+<li>官方镜像库（library）</li>
+<li>镜像名：nginx</li>
+<li>标签：latest</li>
+</ol>
+<h3 id="✅-第-2-步：联系-Docker-Hub">✅ 第 2 步：联系 Docker Hub</h3>
+<p>Docker 客户端向 Docker Hub 发出请求：<br>
+GET /v2/library/nginx/manifests/latest</p>
+<p>这一步是拿到清单（manifest），这个清单里记录了：</p>
+<ol>
+<li>这个镜像由哪些层组成</li>
+<li>每一层的校验和（sha256）</li>
+<li>每层的大小</li>
+<li>支持的平台（比如 amd64、arm64）</li>
+</ol>
+<blockquote>
+<p>📦 比喻：这就像餐厅菜单告诉你：这个汉堡由 5 层组成，分别是面包、生菜、牛肉、奶酪、酱料。</p>
+</blockquote>
+<h3 id="✅-第-3-步：依次下载每一层（layer）">✅ 第 3 步：依次下载每一层（layer）</h3>
+<p>Docker 开始一个个去下载镜像层（也叫“blob”），请求长这样：<br>
+GET /v2/library/nginx/blobs/sha256:xxxxxxxxx</p>
+<ul>
+<li>每一层都是一个压缩包（通常是 tar.gz 文件），里面包含一部分文件系统的变更（新增/修改/删除文件）。</li>
+</ul>
+<blockquote>
+<p>💡 这些“层”可以是：<br>
+层编号内容类比<br>
+Layer 1 Ubuntu OS 的基础文件系统 汉堡面包底<br>
+Layer 2 安装了一些库 加了生菜<br>
+Layer 3 加入了 Nginx 服务器 加了牛肉<br>
+Layer 4 默认配置文件等 加了酱<br>
+Layer 5 启动命令 插了一根旗子（告诉吃法）</p>
+</blockquote>
+<h3 id="✅-第-4-步：校验层的完整性">✅ 第 4 步：校验层的完整性</h3>
+<ul>
+<li>每层下载后，Docker 会对文件做 SHA256 校验，确保没有被篡改、损坏。</li>
+</ul>
+<h3 id="✅-第-5-步：将层缓存到本地">✅ 第 5 步：将层缓存到本地</h3>
+<p>层保存到你的本地磁盘：<br>
+Linux 路径通常是 /var/lib/docker/overlay2/（默认）</p>
+<ul>
+<li>每一层是增量的，可复用（比如多个镜像用的是同一个 ubuntu 基础层）</li>
+</ul>
+<blockquote>
+<p>🧠 你下过 nginx 后再下 redis，可能会发现部分层都已经存在，不需要重新下载。</p>
+</blockquote>
+<h3 id="✅-第-6-步：镜像构建完成，可以运行了">✅ 第 6 步：镜像构建完成，可以运行了</h3>
+<p>所有层都下载完之后，Docker 会将它们组合起来，做出一个“可以运行的汉堡”。<br>
+你可以用这个命令运行容器：<br>
+docker run -d nginx</p>
+<ul>
+<li>此时容器运行的文件系统，其实是多个只读层 + 一个可写层叠加起来的视图。</li>
+</ul>
+<blockquote>
+<p>🧭 下载时你看到的输出，其实就是每一层：<br>
+比如执行时会看到这样的输出：<br>
+docker pull nginx:latest<br>
+latest: Pulling from library/nginx<br>
+ab5ef0e58194: Pull complete     ← 第1层<br>
+9d6b7f3f1b66: Pull complete     ← 第2层<br>
+e379e8d9f7cd: Pull complete     ← 第3层<br>
+…<br>
+Digest: sha256:xxx…<br>
+每一条 Pull complete 就是一层成功下载并校验完成了。</p>
+</blockquote>
+<h2 id="✅-小结一句话：">✅ 小结一句话：</h2>
+<p>Docker 下载镜像时，不是一次性拿一个“压缩包”，而是像“叠汉堡”一样，一个个去下载构成镜像的文件系统层（layers），最后组合成可运行的镜像。</p>
+]]></content>
   </entry>
   <entry>
     <title>ettercap arp欺骗+dns劫持+钓鱼网站</title>
@@ -1618,114 +1577,6 @@ ettercap使用要一次完成，在多次测试中发现，重新arp欺骗会无
       </tags>
   </entry>
   <entry>
-    <title>分区命令</title>
-    <url>/2025/01/15/fdisk/</url>
-    <content><![CDATA[<h2 id="fdisk">fdisk</h2>
-<h3 id="命令格式">命令格式</h3>
-<p>fdisk 路径 参数</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
-<p>一般配合使用的有<br>
-df -h<br>
-lsblk<br>
-mkfs.ext4<br>
-…</p>
-<h3 id="帮助">帮助</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
-<h2 id="逻辑卷">逻辑卷</h2>
-<p>创建常用命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br><span class="line"></span><br><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
-<p>删除常用命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
-<h2 id="常见错误">常见错误</h2>
-<h3 id="设备或资源忙">设备或资源忙</h3>
-<p>如果有返回：</p>
-<pre><code>The partition table has been altered!
-
-Calling ioctl() to re-read partition table.
-
-WARNING: Re-reading the partition table failed with error 16: 设备或资源忙.
-The kernel still uses the old table. The new table will be used at
-the next reboot or after you run partprobe(8) or kpartx(8)
-</code></pre>
-<p>重新识别磁盘即可</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">partprobe /dev/sdb</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>命令</category>
-      </categories>
-      <tags>
-        <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>github部署hexo</title>
-    <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
-    <content><![CDATA[<h2 id="本地ssh连接-GitHub">本地ssh连接 GitHub</h2>
-<h3 id="创建密钥">创建密钥</h3>
-<p>确保下载了git后输入命令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 GitHub 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>用户名执行命令：</li>
-</ol>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">git config --global --add safe.directory D:/hexo/.deploy_git</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>指定密钥文件，在保存密钥文件的目录中创建文件：config</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  User git</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa</span><br><span class="line">  IdentitiesOnly yes</span><br></pre></td></tr></table></figure>
-<p>创建 SSH 密匙（可以-f指定输出目录）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
-<p>什么都不用管，一路回车就行，创建好之后可以在.ssh看到有id_rsa.pub(.pub是公钥，id_rsa是私钥)。<br>
-打开 id_rsa.pub 并复制里面的内容。</p>
-<h3 id="在-GitHub-中添加-SSH-密钥">在 GitHub 中添加 SSH 密钥</h3>
-<p>回到 GitHub，进入 Settings：<br>
-<img src="/images/pasted-11.png" alt="upload successful"></p>
-<p>选择左边栏的 SSH and GPG keys，点击 New SSH key：<br>
-<img src="/images/pasted-12.png" alt="upload successful"></p>
-<p>Title 随便取，然后把 id_rsa.pub 里面的内容到复制到 Key 中，点击 Add SSH key：<br>
-<img src="/images/pasted-13.png" alt="upload successful"></p>
-<p>保存完毕本地验证一下连接</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-<p>出现 “Are you sure……”，输入 yes 回车确认，若出现下图的提示即连接成功：<br>
-<img src="/images/pasted-14.png" alt="upload successful"></p>
-<h2 id="创建-GitHub-仓库">创建 GitHub 仓库</h2>
-<p>GitHub 的主页 repository 中点击右上角的 New：<br>
-<img src="/images/pasted-15.png" alt="upload successful"></p>
-<p>填写基本信息:<br>
-Repository name <a href="http://xn--fiq51fkycnswykwlh0b.github.io">中输入用户名.github.io</a>，一定要是这个名字！<br>
-勾选 Add a README file<br>
-<img src="/images/pasted-16.png" alt="upload successful"></p>
-<p>填好后点击 Create repository 创建仓库</p>
-<h2 id="上传-hexo-程序到-GitHub">上传 hexo 程序到 GitHub</h2>
-<p>需要先安装 hexo-deployer-git：</p>
-<pre><code>npm install hexo-deployer-git --save
-</code></pre>
-<p>修改_config.yml 文件末尾的 Deployment 部分：<br>
-<img src="/images/pasted-17.png" alt="upload successful"></p>
-<p>修改成如下（修改为你的用户名与仓库名）<br>
-<img src="/images/pasted-18.png" alt="upload successful"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">   type: git</span><br><span class="line">   repo: git@github.com:w00123/w00123.github.io.git</span><br><span class="line">   branch: gh-pages</span><br></pre></td></tr></table></figure>
-<p>修改完成保存后运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo c</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-<p>出现下面的提示说明已经把网站上传到 GitHub 了：<br>
-<img src="/images/pasted-19.png" alt="upload successful"></p>
-<p>然后我们需要在库设置（Repository Settings）中将默认分支设置为_config.yml 配置中的分支名称。<br>
-<img src="/images/pasted-20.png" alt="upload successful"></p>
-<p>然后在 pages 页面调整源分支：<br>
-<img src="/images/pasted-21.png" alt="upload successful"></p>
-<p>访问用户名.github.io就可以看到默认 hexo 了。</p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>github</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hashcat爆破压缩包</title>
     <url>/2025/02/26/hashcat%E7%88%86%E7%A0%B4%E5%8E%8B%E7%BC%A9%E5%8C%85/</url>
     <content><![CDATA[<h2 id="hashcat下载">hashcat下载</h2>
@@ -1778,6 +1629,131 @@ Repository name <a href="http://xn--fiq51fkycnswykwlh0b.github.io">中输入用�
       <tags>
         <tag>网络安全</tag>
         <tag>hashcat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dvwa-命令执行</title>
+    <url>/2024/10/14/dvwa-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</url>
+    <content><![CDATA[<h2 id="Low等级">Low等级</h2>
+<p>命令执行漏洞主要是针对有网络测试的页面，如网络设备的web管理页面等等，利用其执行命令的输入窗口执行其他命令。</p>
+<p>简单演示一下正常使用，输入127.0.0.1，执行：<br>
+<img src="/images/pasted-36.png" alt="upload successful"></p>
+<h3 id="在DVWA靶场点击command-injection设置等级为low">在DVWA靶场点击command injection设置等级为low</h3>
+<p><img src="/images/pasted-37.png" alt="upload successful"></p>
+<h3 id="使用命令连接符如-、-、-、-来执行命令">使用命令连接符如&amp;、&amp;&amp;、|、||来执行命令</h3>
+<p>相当于与或非，判断前面命令是否成功执行之后的自定义命令<br>
+<img src="/images/pasted-38.png" alt="upload successful"><br>
+<img src="/images/pasted-39.png" alt="upload successful"></p>
+<h2 id="Medium等级">Medium等级</h2>
+<p>做了一点防护措施，相当于没有。<br>
+将这些连接符做了个判断转为空，详情如下：<br>
+<img src="/images/pasted-40.png" alt="upload successful"></p>
+<h3 id="解决方法">解决方法</h3>
+<p>测试发现使用命令连接符&amp;&amp;和;都不执行。<br>
+<img src="/images/pasted-41.png" alt="upload successful"></p>
+<p>但是可以使用其他没有被处理的连接符<br>
+<img src="/images/pasted-42.png" alt="upload successful"></p>
+<h2 id="High等级">High等级</h2>
+<p>连接符连接都不执行,已处理所有连接符<br>
+<img src="/images/pasted-43.png" alt="upload successful"></p>
+<h3 id="解决方法-2">解决方法</h3>
+<p>其实|是没处理的，加了空格，所以还是能够执行的<br>
+<img src="/images/pasted-44.png" alt="upload successful"></p>
+<p>执行结果：<br>
+<img src="/images/pasted-45.png" alt="upload successful"></p>
+<h2 id="Impossible等级">Impossible等级</h2>
+<p>是不可能等级，这个采用的是白名单的方式防护，只允许已知的命令执行。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;</span><br><span class="line">    // Check Anti-CSRF token</span><br><span class="line">    checkToken( $_REQUEST[ &#x27;user_token&#x27; ], $_SESSION[ &#x27;session_token&#x27; ], &#x27;index.php&#x27; );</span><br><span class="line"></span><br><span class="line">    // Get input</span><br><span class="line">    $target = $_REQUEST[ &#x27;ip&#x27; ];</span><br><span class="line">    $target = stripslashes( $target );</span><br><span class="line"></span><br><span class="line">    // Split the IP into 4 octects</span><br><span class="line">    $octet = explode( &quot;.&quot;, $target );</span><br><span class="line"></span><br><span class="line">    // Check IF each octet is an integer</span><br><span class="line">    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet ) == 4 ) ) &#123;</span><br><span class="line">        // If all 4 octets are int&#x27;s put the IP back together.</span><br><span class="line">        $target = $octet[0] . &#x27;.&#x27; . $octet[1] . &#x27;.&#x27; . $octet[2] . &#x27;.&#x27; . $octet[3];</span><br><span class="line"></span><br><span class="line">        // Determine OS and execute the ping command.</span><br><span class="line">        if( stristr( php_uname( &#x27;s&#x27; ), &#x27;Windows NT&#x27; ) ) &#123;</span><br><span class="line">            // Windows</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            // *nix</span><br><span class="line">            $cmd = shell_exec( &#x27;ping  -c 4 &#x27; . $target );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Feedback for the end user</span><br><span class="line">        echo &quot;&lt;pre&gt;&#123;$cmd&#125;&lt;/pre&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // Ops. Let the user name theres a mistake</span><br><span class="line">        echo &#x27;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Generate Anti-CSRF token</span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>dvwa</category>
+      </categories>
+      <tags>
+        <tag>dvwa</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo-gitee部署</title>
+    <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h2 id="导语">导语</h2>
+<p>与github的部署方式一样，仅是代码仓库的设置有些许不同，并且gitee上需要单独开启gitee pages，并且要实名认证，目前<code>pages服务暂停了</code>。</p>
+<blockquote>
+<p>gitee pages已暂停服务，无法通过其访问</p>
+<blockquote>
+<p>参考文章：<a href="https://cloud.tencent.com/developer/article/2495238">https://cloud.tencent.com/developer/article/2495238</a></p>
+</blockquote>
+</blockquote>
+<hr>
+<h2 id="配置方法">配置方法</h2>
+<p>hexo的创建和deploy的配置和github一样，可以参考<a href="/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/">github部署hexo</a></p>
+<ul>
+<li>注意git name和email</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 gitee 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 gitee 邮箱&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="创建仓库">创建仓库</h3>
+<p>创建gitee仓库，需要注意一点不一样的是，仓库名称不需要和github一样格式<br>
+我起的名称是haha_w</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Github:	&#123;username&#125;.github.io</span><br><span class="line">gitee:	&#123;username&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="修改yml">修改yml</h3>
+<p>根目录中<code>_config.yml</code>的deploy的配置需要修改一下，这样可以同时更新两个仓库</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span></span><br><span class="line">    <span class="attr">gitee:</span> <span class="string">https://gitee.com/haha_w/haha_w.git,master</span></span><br><span class="line">    <span class="attr">github:</span> <span class="string">git@github.com:w00123/w00123.github.io.git,master</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建SSH-key">创建SSH key</h3>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;<span class="number">15967126</span>+haha_w@user.noreply.gitee.com&quot;</span><br></pre></td></tr></table></figure>
+<p>上传公钥到gitee，测试可以用以下命令测试：</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>完成配置</p>
+</div>
+<hr>
+<h2 id="上传代码仓库">上传代码仓库</h2>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo cl</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>gitee</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分区命令</title>
+    <url>/2025/01/15/fdisk/</url>
+    <content><![CDATA[<h2 id="fdisk">fdisk</h2>
+<h3 id="命令格式">命令格式</h3>
+<p>fdisk 路径 参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
+<p>一般配合使用的有<br>
+df -h<br>
+lsblk<br>
+mkfs.ext4<br>
+…</p>
+<h3 id="帮助">帮助</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">分区操作类</span><br><span class="line">a：切换分区的启动标志。当需要设置某个分区为可启动分区时使用，比如在多系统安装时指定引导系统所在的分区。</span><br><span class="line">d：删除一个分区。当分区不再需要或需要重新划分磁盘空间时，可用来删除现有分区，但此操作会丢失该分区上的数据。</span><br><span class="line">n：添加一个新的分区。可用于在磁盘上创建新的存储空间区域，需指定分区类型（主分区、扩展分区或逻辑分区等）、起始扇区和结束扇区等信息。</span><br><span class="line">t：改变分区的系统标识（系统ID）。不同的系统ID代表不同的文件系统类型或分区用途，如 Linux、Windows、交换分区等，通过修改系统ID可让操作系统正确识别分区类型。</span><br><span class="line"></span><br><span class="line">分区表操作类</span><br><span class="line">g：创建一个新的空的 GPT（GUID Partition Table）分区表。GPT 是一种较新的分区表格式，支持大于 2TB 的分区，适用于大容量磁盘。</span><br><span class="line">G：创建一个 IRIX（SGI）分区表。IRIX 是一种 Unix 操作系统，该命令用于创建适用于该系统的特殊分区表。</span><br><span class="line">o：创建一个新的空的 DOS 分区表。DOS 分区表是传统的分区表格式，广泛应用于早期的 Windows 系统等，最多支持 4 个主分区或 3 个主分区加 1 个扩展分区。</span><br><span class="line"></span><br><span class="line">显示与验证类</span><br><span class="line">l：列出已知的分区类型。可帮助用户了解各种系统ID对应的分区类型，以便在修改分区系统ID时进行参考。</span><br><span class="line">p：打印分区表。显示磁盘上当前的分区信息，包括分区编号、起始扇区、结束扇区、分区大小、系统ID等，方便用户查看磁盘分区布局。</span><br><span class="line">v：验证分区表。检查分区表的完整性和正确性，如分区是否有重叠、分区表格式是否正确等，确保磁盘分区结构的稳定性。</span><br><span class="line"></span><br><span class="line">其他操作类</span><br><span class="line">b：编辑 BSD disklabel。BSD 是一种 Unix 类操作系统，该命令用于编辑其特有的磁盘标签，进行更细致的分区管理。</span><br><span class="line">c：切换 DOS 兼容性标志。在某些情况下，可能需要调整分区表的兼容性设置，以确保在不同系统或工具下能正确识别磁盘分区。</span><br><span class="line">q：退出而不保存更改。当用户在操作过程中发现错误或不想修改分区信息时，可选择此命令退出工具，之前所做的更改不会被写入磁盘。</span><br><span class="line">s：创建一个新的空的 Sun disklabel。Sun 是一种 Unix 工作站，该命令用于创建其特有的磁盘标签。</span><br><span class="line">u：改变显示/输入单位。可切换单位如扇区、KB、MB、GB 等，方便用户根据需要更直观地查看和设置分区大小等信息。</span><br><span class="line">w：将分区表写入磁盘并退出。当完成所有分区操作且确认无误后，使用此命令将更改保存到磁盘，使新的分区布局生效。</span><br><span class="line">x：额外功能（仅限专家使用）。包含一些高级的、不常用的分区操作选项，普通用户一般不建议使用，除非对分区操作非常熟悉。</span><br></pre></td></tr></table></figure>
+<h2 id="逻辑卷">逻辑卷</h2>
+<p>创建常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvs</span><br><span class="line"></span><br><span class="line">vgcreate vgtest /dev/sdb1</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line">lvcreate -L 4G -n lvtest01 vgtest</span><br><span class="line">lvcreate -l 100%FREE -n lvtest02 vgtest</span><br><span class="line">lvs</span><br></pre></td></tr></table></figure>
+<p>删除常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lvremove /dev/vgtest/lvtest01</span><br><span class="line">vgremove  vgtest</span><br><span class="line">pvremove /dev/sdb1</span><br></pre></td></tr></table></figure>
+<h2 id="常见错误">常见错误</h2>
+<h3 id="设备或资源忙">设备或资源忙</h3>
+<p>如果有返回：</p>
+<pre><code>The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 16: 设备或资源忙.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+</code></pre>
+<p>重新识别磁盘即可</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">partprobe /dev/sdb</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>命令</category>
+      </categories>
+      <tags>
+        <tag>linux命令</tag>
       </tags>
   </entry>
   <entry>
@@ -1861,103 +1837,74 @@ vim custom.css</p>
         <category>hexo博客</category>
       </categories>
       <tags>
+        <tag>hexo</tag>
         <tag>博客</tag>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
-    <title>hexo-gitee部署</title>
-    <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<h2 id="导语">导语</h2>
-<p>与github的部署方式一样，仅是代码仓库的设置有些许不同，并且gitee上需要单独开启gitee pages，并且要实名认证，目前<code>pages服务暂停了</code>。</p>
-<blockquote>
-<p>gitee pages已暂停服务，无法通过其访问</p>
-<blockquote>
-<p>参考文章：<a href="https://cloud.tencent.com/developer/article/2495238">https://cloud.tencent.com/developer/article/2495238</a></p>
-</blockquote>
-</blockquote>
-<hr>
-<h2 id="配置方法">配置方法</h2>
-<p>hexo的创建和deploy的配置和github一样，可以参考<a href="/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/">github部署hexo</a></p>
-<ul>
-<li>注意git name和email</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 gitee 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 gitee 邮箱&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="创建仓库">创建仓库</h3>
-<p>创建gitee仓库，需要注意一点不一样的是，仓库名称不需要和github一样格式<br>
-我起的名称是haha_w</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Github:	&#123;username&#125;.github.io</span><br><span class="line">gitee:	&#123;username&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="修改yml">修改yml</h3>
-<p>根目录中<code>_config.yml</code>的deploy的配置需要修改一下，这样可以同时更新两个仓库</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span></span><br><span class="line">    <span class="attr">gitee:</span> <span class="string">https://gitee.com/haha_w/haha_w.git,master</span></span><br><span class="line">    <span class="attr">github:</span> <span class="string">git@github.com:w00123/w00123.github.io.git,master</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建SSH-key">创建SSH key</h3>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;<span class="number">15967126</span>+haha_w@user.noreply.gitee.com&quot;</span><br></pre></td></tr></table></figure>
-<p>上传公钥到gitee，测试可以用以下命令测试：</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>完成配置</p>
-</div>
-<hr>
-<h2 id="上传代码仓库">上传代码仓库</h2>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo cl</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>gitee</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo-github贡献日历</title>
-    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
-    <content><![CDATA[<h2 id="预览">预览</h2>
-<p><img src="/images/pasted-84.png" alt="upload successful"></p>
-<h2 id="安装依赖">安装依赖</h2>
-<p>执行命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
-<h2 id="添加配置">添加配置</h2>
-<p>要放到hexo根目录下_config.yml文件，非主题:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="源代码的不足">源代码的不足</h2>
-<p>我本地测试部署的窗口有的时候会闪过去一些窗口，直到我缩放浏览器后发现原来是浏览器分辨率不一样，每天更新次数的显示数据会飘的很远，以下方式可以修复这个问题</p>
-<blockquote>
-<p>但是这么解决之后，又会有新的bug，所以我决定就这样吧，但是记录一下</p>
-</blockquote>
-<h3 id="修改信息窗口位置">修改信息窗口位置</h3>
-<p>把 tooltip 直接插到 <body> 下，而不是插到 #git_tooltip_container 里，这样它一定相对于视口定位：<br>
-<code>修改这一行：</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title function_">append_div_gitcalendar</span>(git_tooltip_container, html)</span><br></pre></td></tr></table></figure>
-<p><code>替换为：</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title function_">append_div_gitcalendar</span>(<span class="variable language_">document</span>.<span class="property">body</span>, html)</span><br></pre></td></tr></table></figure>
-<h3 id="再让窗口自动消失">再让窗口自动消失</h3>
-<p><code>替换这段if里面的内容：</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.gitmessage&#x27;</span>)) &#123;</span><br><span class="line">  git_tooltip_container.<span class="property">innerHTML</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"># 也就是</span><br><span class="line">git_tooltip_container.<span class="property">innerHTML</span> = <span class="string">&quot;&quot;</span>;</span><br></pre></td></tr></table></figure>
-<p><code>为这段：</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> old = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.gitmessage&#x27;</span>);</span><br><span class="line"><span class="keyword">if</span> (old) old.<span class="title function_">remove</span>();</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意有两个if，都要替换</p>
-</blockquote>
-<h2 id="自建api">自建api</h2>
-<blockquote>
-<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>
-测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
-</blockquote>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
-</div>
-<h3 id="记录500错误处理方法">记录500错误处理方法</h3>
-<h4 id="进入项目选择setting">进入项目选择setting</h4>
-<p>下拉找到<code>Node.js Version</code>修改版本为18.0<br>
-<img src="/images/pasted-82.png" alt="upload successful"></p>
-<h4 id="重新部署">重新部署</h4>
-<p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br>
-<img src="/images/pasted-83.png" alt="upload successful"></p>
+    <title>github部署hexo</title>
+    <url>/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/</url>
+    <content><![CDATA[<h2 id="本地ssh连接-GitHub">本地ssh连接 GitHub</h2>
+<h3 id="创建密钥">创建密钥</h3>
+<p>确保下载了git后输入命令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 GitHub 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>用户名执行命令：</li>
+</ol>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">git config --global --add safe.directory D:/hexo/.deploy_git</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>指定密钥文件，在保存密钥文件的目录中创建文件：config</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  User git</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa</span><br><span class="line">  IdentitiesOnly yes</span><br></pre></td></tr></table></figure>
+<p>创建 SSH 密匙（可以-f指定输出目录）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;你的 GitHub 邮箱&quot;</span><br></pre></td></tr></table></figure>
+<p>什么都不用管，一路回车就行，创建好之后可以在.ssh看到有id_rsa.pub(.pub是公钥，id_rsa是私钥)。<br>
+打开 id_rsa.pub 并复制里面的内容。</p>
+<h3 id="在-GitHub-中添加-SSH-密钥">在 GitHub 中添加 SSH 密钥</h3>
+<p>回到 GitHub，进入 Settings：<br>
+<img src="/images/pasted-11.png" alt="upload successful"></p>
+<p>选择左边栏的 SSH and GPG keys，点击 New SSH key：<br>
+<img src="/images/pasted-12.png" alt="upload successful"></p>
+<p>Title 随便取，然后把 id_rsa.pub 里面的内容到复制到 Key 中，点击 Add SSH key：<br>
+<img src="/images/pasted-13.png" alt="upload successful"></p>
+<p>保存完毕本地验证一下连接</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>出现 “Are you sure……”，输入 yes 回车确认，若出现下图的提示即连接成功：<br>
+<img src="/images/pasted-14.png" alt="upload successful"></p>
+<h2 id="创建-GitHub-仓库">创建 GitHub 仓库</h2>
+<p>GitHub 的主页 repository 中点击右上角的 New：<br>
+<img src="/images/pasted-15.png" alt="upload successful"></p>
+<p>填写基本信息:<br>
+Repository name <a href="http://xn--fiq51fkycnswykwlh0b.github.io">中输入用户名.github.io</a>，一定要是这个名字！<br>
+勾选 Add a README file<br>
+<img src="/images/pasted-16.png" alt="upload successful"></p>
+<p>填好后点击 Create repository 创建仓库</p>
+<h2 id="上传-hexo-程序到-GitHub">上传 hexo 程序到 GitHub</h2>
+<p>需要先安装 hexo-deployer-git：</p>
+<pre><code>npm install hexo-deployer-git --save
+</code></pre>
+<p>修改_config.yml 文件末尾的 Deployment 部分：<br>
+<img src="/images/pasted-17.png" alt="upload successful"></p>
+<p>修改成如下（修改为你的用户名与仓库名）<br>
+<img src="/images/pasted-18.png" alt="upload successful"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">   type: git</span><br><span class="line">   repo: git@github.com:w00123/w00123.github.io.git</span><br><span class="line">   branch: gh-pages</span><br></pre></td></tr></table></figure>
+<p>修改完成保存后运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo c</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>出现下面的提示说明已经把网站上传到 GitHub 了：<br>
+<img src="/images/pasted-19.png" alt="upload successful"></p>
+<p>然后我们需要在库设置（Repository Settings）中将默认分支设置为_config.yml 配置中的分支名称。<br>
+<img src="/images/pasted-20.png" alt="upload successful"></p>
+<p>然后在 pages 页面调整源分支：<br>
+<img src="/images/pasted-21.png" alt="upload successful"></p>
+<p>访问用户名.github.io就可以看到默认 hexo 了。</p>
 ]]></content>
       <categories>
         <category>hexo博客</category>
       </categories>
       <tags>
-        <tag>博客</tag>
         <tag>hexo</tag>
+        <tag>博客</tag>
+        <tag>github</tag>
       </tags>
   </entry>
   <entry>
@@ -2046,8 +1993,61 @@ vim custom.css</p>
         <category>hexo博客</category>
       </categories>
       <tags>
-        <tag>博客</tag>
         <tag>hexo</tag>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo-github贡献日历</title>
+    <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
+    <content><![CDATA[<h2 id="预览">预览</h2>
+<p><img src="/images/pasted-84.png" alt="upload successful"></p>
+<h2 id="安装依赖">安装依赖</h2>
+<p>执行命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i hexo-githubcalendar --save</span><br></pre></td></tr></table></figure>
+<h2 id="添加配置">添加配置</h2>
+<p>要放到hexo根目录下_config.yml文件，非主题:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">githubcalendar:</span><br><span class="line">  enable: true        # 是否启用本插件</span><br><span class="line">  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等</span><br><span class="line">  user: w00123   # GitHub 用户名</span><br><span class="line">  layout:</span><br><span class="line">    type: id</span><br><span class="line">    name: recent-posts</span><br><span class="line">    index: 0</span><br><span class="line">  githubcalendar_html: &#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br><span class="line">  pc_minheight: 280px</span><br><span class="line">  mobile_minheight: 0px</span><br><span class="line">  # 贡献统计的梯度色卡值，可自行调整</span><br><span class="line">  color: &quot;[&#x27;rgba(255, 255, 255, 0.3)&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot; </span><br><span class="line">  # 推荐填写你自建的API接口，公用api随时可能会失效</span><br><span class="line">  # api: https://github-calendar-api.meta-code.top/api</span><br><span class="line">  api: https://githubcalendarapi.shiguang666.eu.org/api</span><br><span class="line">  # 推荐下载后使用本地文件</span><br><span class="line">  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败</span><br><span class="line">  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下</span><br><span class="line">  plus_style: &quot;&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="源代码的不足">源代码的不足</h2>
+<p>我本地测试部署的窗口有的时候会闪过去一些窗口，直到我缩放浏览器后发现原来是浏览器分辨率不一样，每天更新次数的显示数据会飘的很远，以下方式可以修复这个问题</p>
+<blockquote>
+<p>但是这么解决之后，又会有新的bug，所以我决定就这样吧，但是记录一下</p>
+</blockquote>
+<h3 id="修改信息窗口位置">修改信息窗口位置</h3>
+<p>把 tooltip 直接插到 <body> 下，而不是插到 #git_tooltip_container 里，这样它一定相对于视口定位：<br>
+<code>修改这一行：</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title function_">append_div_gitcalendar</span>(git_tooltip_container, html)</span><br></pre></td></tr></table></figure>
+<p><code>替换为：</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title function_">append_div_gitcalendar</span>(<span class="variable language_">document</span>.<span class="property">body</span>, html)</span><br></pre></td></tr></table></figure>
+<h3 id="再让窗口自动消失">再让窗口自动消失</h3>
+<p><code>替换这段if里面的内容：</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.gitmessage&#x27;</span>)) &#123;</span><br><span class="line">  git_tooltip_container.<span class="property">innerHTML</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"># 也就是</span><br><span class="line">git_tooltip_container.<span class="property">innerHTML</span> = <span class="string">&quot;&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p><code>为这段：</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> old = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.gitmessage&#x27;</span>);</span><br><span class="line"><span class="keyword">if</span> (old) old.<span class="title function_">remove</span>();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意有两个if，都要替换</p>
+</blockquote>
+<h2 id="自建api">自建api</h2>
+<blockquote>
+<p>github作者：<a href="https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file">https://github.com/Zfour/python_github_calendar_api?tab=readme-ov-file</a><br>
+测试方法未根据作者提供的url，在建好的url后加上<code>/api?user=</code></p>
+</blockquote>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>如果报错500，可根据这位时光大佬的操作修改：<a href="https://www.cnblogs.com/an-shiguang/p/18269053">https://www.cnblogs.com/an-shiguang/p/18269053</a></p>
+</div>
+<h3 id="记录500错误处理方法">记录500错误处理方法</h3>
+<h4 id="进入项目选择setting">进入项目选择setting</h4>
+<p>下拉找到<code>Node.js Version</code>修改版本为18.0<br>
+<img src="/images/pasted-82.png" alt="upload successful"></p>
+<h4 id="重新部署">重新部署</h4>
+<p>项目中选择<code>Deployments</code>点击<code>Redeploy</code>即可<br>
+<img src="/images/pasted-83.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
@@ -2083,8 +2083,42 @@ vim custom.css</p>
         <category>hexo博客</category>
       </categories>
       <tags>
-        <tag>博客</tag>
         <tag>hexo</tag>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客安装方法</title>
+    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="termux">termux</h2>
+<h3 id="termux安装准备">termux安装准备</h3>
+<p>pkg换源</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@&#x27; $PREFIX/etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">pkg update</span><br><span class="line"></span><br><span class="line">pkg install nodejs-lts</span><br><span class="line">pkg install git</span><br><span class="line">pkg install vim</span><br></pre></td></tr></table></figure>
+<p>需要在目录下运行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir hexo</span><br><span class="line">chmod 777 hexo</span><br><span class="line">cd hexo</span><br></pre></td></tr></table></figure>
+<h3 id="hexo">hexo</h3>
+<p>npm换源（淘宝）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm config set registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
+<p>安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+<p>启动命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<h3 id="主题">主题</h3>
+<p>下载主题</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
+<p>vim编辑根目录下_config.yml中的theme：butterfly<br>
+vim themes/butterfly/_config.yml</p>
+<p>安装插件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
+<h3 id="自定义样式">自定义样式</h3>
+<p>都通过修改文件themes/butterfly/_config.yml中的模块，根据相关备注修改模块。</p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
@@ -2236,40 +2270,6 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>hexo博客安装方法</title>
-    <url>/2024/07/31/hexo%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="termux">termux</h2>
-<h3 id="termux安装准备">termux安装准备</h3>
-<p>pkg换源</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@&#x27; $PREFIX/etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">pkg update</span><br><span class="line"></span><br><span class="line">pkg install nodejs-lts</span><br><span class="line">pkg install git</span><br><span class="line">pkg install vim</span><br></pre></td></tr></table></figure>
-<p>需要在目录下运行安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir hexo</span><br><span class="line">chmod 777 hexo</span><br><span class="line">cd hexo</span><br></pre></td></tr></table></figure>
-<h3 id="hexo">hexo</h3>
-<p>npm换源（淘宝）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm config set registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
-<p>安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-<p>启动命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<h3 id="主题">主题</h3>
-<p>下载主题</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
-<p>vim编辑根目录下_config.yml中的theme：butterfly<br>
-vim themes/butterfly/_config.yml</p>
-<p>安装插件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
-<h3 id="自定义样式">自定义样式</h3>
-<p>都通过修改文件themes/butterfly/_config.yml中的模块，根据相关备注修改模块。</p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>字典生成工具</title>
     <url>/2025/02/21/kali-cupp%E5%AD%97%E5%85%B8%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -2370,42 +2370,6 @@ yum install --downloadonly --downloaddir=/root wget</p>
       </tags>
   </entry>
   <entry>
-    <title>linux-代理设置方法</title>
-    <url>/2025/02/08/linux-%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="centos">centos</h2>
-<h3 id="临时">临时</h3>
-<p>通过以下命令实现临时使用代理服务器：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export http_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export https_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export ftp_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export no_proxy=&quot;localhost, 127.0.0.1, ::1&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="永久">永久</h3>
-<p>通过修改profile文件实现：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/profile</span><br></pre></td></tr></table></figure>
-<p>末尾添加以下内容</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export http_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export https_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export ftp_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export no_proxy=&quot;localhost, 127.0.0.1, ::1&quot;</span><br></pre></td></tr></table></figure>
-<p>执行生效命令即可</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="kali">kali</h2>
-<p>使用proxychains4代理，与上述类似，安装：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install proxychains4</span><br></pre></td></tr></table></figure>
-<p>修改末尾的代理服务器端口即可</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/proxychains.conf</span><br></pre></td></tr></table></figure>
-<p>使用方法是命令前加上proxychains4即可</p>
-<hr>
-<h2 id="git">git</h2>
-<h3 id="设置代理">设置代理</h3>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"># 全局生效</span><br><span class="line">git config --global http.proxy  http://<span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">7890</span></span><br><span class="line">git config --global https.proxy https://<span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">7890</span></span><br></pre></td></tr></table></figure>
-<h3 id="取消代理">取消代理</h3>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>kali</tag>
-        <tag>网络代理</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>linux多网卡修改网关</title>
     <url>/2025/09/07/linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E4%BF%AE%E6%94%B9%E7%BD%91%E5%85%B3/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -2448,6 +2412,42 @@ yum install --downloadonly --downloaddir=/root wget</p>
       <tags>
         <tag>linux</tag>
         <tag>系统运维</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux-代理设置方法</title>
+    <url>/2025/02/08/linux-%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="centos">centos</h2>
+<h3 id="临时">临时</h3>
+<p>通过以下命令实现临时使用代理服务器：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export http_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export https_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export ftp_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export no_proxy=&quot;localhost, 127.0.0.1, ::1&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="永久">永久</h3>
+<p>通过修改profile文件实现：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/profile</span><br></pre></td></tr></table></figure>
+<p>末尾添加以下内容</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export http_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export https_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export ftp_proxy=&quot;http://proxy_ip:port&quot;</span><br><span class="line">export no_proxy=&quot;localhost, 127.0.0.1, ::1&quot;</span><br></pre></td></tr></table></figure>
+<p>执行生效命令即可</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="kali">kali</h2>
+<p>使用proxychains4代理，与上述类似，安装：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install proxychains4</span><br></pre></td></tr></table></figure>
+<p>修改末尾的代理服务器端口即可</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/proxychains.conf</span><br></pre></td></tr></table></figure>
+<p>使用方法是命令前加上proxychains4即可</p>
+<hr>
+<h2 id="git">git</h2>
+<h3 id="设置代理">设置代理</h3>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"># 全局生效</span><br><span class="line">git config --global http.proxy  http://<span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">7890</span></span><br><span class="line">git config --global https.proxy https://<span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">7890</span></span><br></pre></td></tr></table></figure>
+<h3 id="取消代理">取消代理</h3>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+        <tag>网络代理</tag>
       </tags>
   </entry>
   <entry>
@@ -3273,28 +3273,6 @@ yum install --downloadonly --downloaddir=/root wget</p>
       </tags>
   </entry>
   <entry>
-    <title>oppoA9 mtk手机root</title>
-    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
-    <content><![CDATA[<h2 id="mtk手机root">mtk手机root</h2>
-<p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
-<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
-<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
-</code></pre>
-<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量±键，插入数据线，等待软件连接<br>
-2、连接后通过读分区导出boot文件，不带后缀<br>
-3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
-<p><img src="/images/pasted-2.png" alt="upload successful"></p>
-<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
-<p><img src="/images/pasted-3.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>手机搞机</category>
-      </categories>
-      <tags>
-        <tag>手机root</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>msfconsole命令</title>
     <url>/2024/08/01/msfconsole%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="攻击模块">攻击模块</h2>
@@ -3361,74 +3339,25 @@ run
       </tags>
   </entry>
   <entry>
-    <title>mysql数据库的使用</title>
-    <url>/2025/09/08/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="sql权限">sql权限</h2>
-<h3 id="MySQL-MariaDB">MySQL / MariaDB</h3>
-<ul>
-<li>创建账号</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE USER &#x27;username&#x27;@&#x27;host&#x27; IDENTIFIED BY &#x27;password&#x27;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>授权</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GRANT ALL PRIVILEGES ON mydb.* TO &#x27;alice&#x27;@&#x27;localhost&#x27;;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
-<p><u><code>mydb.*</code>为数据库名称，授权整个数据库</u></p>
-<h3 id="PostgreSQL">PostgreSQL</h3>
-<ul>
-<li>创建账号</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE USER username WITH PASSWORD &#x27;password&#x27;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>授权</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GRANT ALL PRIVILEGES ON DATABASE mydb TO alice;</span><br></pre></td></tr></table></figure>
-<h3 id="SQL-Server">SQL Server</h3>
-<ul>
-<li>创建账号</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE LOGIN username WITH PASSWORD = &#x27;password&#x27;;</span><br><span class="line">CREATE USER username FOR LOGIN username;</span><br></pre></td></tr></table></figure>
-<h3 id="Oracle">Oracle</h3>
-<ul>
-<li>创建账号</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE USER username IDENTIFIED BY password;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>授权</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GRANT CONNECT, RESOURCE TO alice;</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="数据库的导入导出">数据库的导入导出</h2>
-<h3 id="sql逻辑备份文件">.sql逻辑备份文件</h3>
-<h4 id="整库（含建表语句-数据）导出">整库（含建表语句+数据）导出</h4>
-<p>直接导出（mariadb使用mariadb-dump）</p>
-<blockquote>
-<p><code>记得如果-p后没有加密码，是隐藏输入的，第一行输入密码回显会污染文件，删除.sql文件中第一行即可</code></p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysqldump -u 用户 -p --single-transaction --routines --triggers --events --hex-blob 库名 &gt; bak.sql</span><br></pre></td></tr></table></figure>
-<ul>
-<li>–single-transaction 保证 InnoDB 一致性且不锁表（生产必备）</li>
-<li>–routines 导出存储过程/函数</li>
-<li>–hex-blob 防止二进制乱码</li>
-</ul>
-<p>压缩导出（mariadb使用mariadb-dump）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysqldump -u 用户 -p --single-transaction --routines --triggers --events --hex-blob 库名 | gzip &gt; bak.sql.gz</span><br></pre></td></tr></table></figure>
-<p>检查备份，看头 20 行确认有建表语句</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">head</span> -n 20 bak.sql</span><br></pre></td></tr></table></figure>
-<h4 id="sql逻辑备份文件导出导入">.sql逻辑备份文件导出导入</h4>
-<p>在需要导入的数据库中新建一个数据库,然后退出</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">create database 库名;</span><br><span class="line"><span class="built_in">exit</span>;</span><br></pre></td></tr></table></figure>
-<p>到备份文件目录下执行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql -u root -p 库名 &lt; bak.sql</span><br></pre></td></tr></table></figure>
-<p>题外话：如果是mariadb备份文件导入mysql是支持的，只是有可能版本的排序规则不支持，MariaDB 10.10+ 新增的 Unicode 14.0 排序规则给mysql8.0的修改方法如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -i <span class="string">&#x27;s/utf8mb4_uca1400_ai_ci/utf8mb4_0900_ai_ci/g&#x27;</span> bak.sql</span><br></pre></td></tr></table></figure>
+    <title>oppoA9 mtk手机root</title>
+    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
+    <content><![CDATA[<h2 id="mtk手机root">mtk手机root</h2>
+<p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
+<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
+<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
+</code></pre>
+<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量±键，插入数据线，等待软件连接<br>
+2、连接后通过读分区导出boot文件，不带后缀<br>
+3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"></p>
+<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
+<p><img src="/images/pasted-3.png" alt="upload successful"></p>
 ]]></content>
       <categories>
-        <category>系统运维</category>
-        <category>数据库</category>
+        <category>手机搞机</category>
       </categories>
       <tags>
-        <tag>mysql</tag>
+        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -3535,6 +3464,77 @@ run
       <tags>
         <tag>apache</tag>
         <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql数据库的使用</title>
+    <url>/2025/09/08/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="sql权限">sql权限</h2>
+<h3 id="MySQL-MariaDB">MySQL / MariaDB</h3>
+<ul>
+<li>创建账号</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE USER &#x27;username&#x27;@&#x27;host&#x27; IDENTIFIED BY &#x27;password&#x27;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>授权</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GRANT ALL PRIVILEGES ON mydb.* TO &#x27;alice&#x27;@&#x27;localhost&#x27;;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<p><u><code>mydb.*</code>为数据库名称，授权整个数据库</u></p>
+<h3 id="PostgreSQL">PostgreSQL</h3>
+<ul>
+<li>创建账号</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE USER username WITH PASSWORD &#x27;password&#x27;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>授权</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GRANT ALL PRIVILEGES ON DATABASE mydb TO alice;</span><br></pre></td></tr></table></figure>
+<h3 id="SQL-Server">SQL Server</h3>
+<ul>
+<li>创建账号</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE LOGIN username WITH PASSWORD = &#x27;password&#x27;;</span><br><span class="line">CREATE USER username FOR LOGIN username;</span><br></pre></td></tr></table></figure>
+<h3 id="Oracle">Oracle</h3>
+<ul>
+<li>创建账号</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE USER username IDENTIFIED BY password;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>授权</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GRANT CONNECT, RESOURCE TO alice;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="数据库的导入导出">数据库的导入导出</h2>
+<h3 id="sql逻辑备份文件">.sql逻辑备份文件</h3>
+<h4 id="整库（含建表语句-数据）导出">整库（含建表语句+数据）导出</h4>
+<p>直接导出（mariadb使用mariadb-dump）</p>
+<blockquote>
+<p><code>记得如果-p后没有加密码，是隐藏输入的，第一行输入密码回显会污染文件，删除.sql文件中第一行即可</code></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysqldump -u 用户 -p --single-transaction --routines --triggers --events --hex-blob 库名 &gt; bak.sql</span><br></pre></td></tr></table></figure>
+<ul>
+<li>–single-transaction 保证 InnoDB 一致性且不锁表（生产必备）</li>
+<li>–routines 导出存储过程/函数</li>
+<li>–hex-blob 防止二进制乱码</li>
+</ul>
+<p>压缩导出（mariadb使用mariadb-dump）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysqldump -u 用户 -p --single-transaction --routines --triggers --events --hex-blob 库名 | gzip &gt; bak.sql.gz</span><br></pre></td></tr></table></figure>
+<p>检查备份，看头 20 行确认有建表语句</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">head</span> -n 20 bak.sql</span><br></pre></td></tr></table></figure>
+<h4 id="sql逻辑备份文件导出导入">.sql逻辑备份文件导出导入</h4>
+<p>在需要导入的数据库中新建一个数据库,然后退出</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">create database 库名;</span><br><span class="line"><span class="built_in">exit</span>;</span><br></pre></td></tr></table></figure>
+<p>到备份文件目录下执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql -u root -p 库名 &lt; bak.sql</span><br></pre></td></tr></table></figure>
+<p>题外话：如果是mariadb备份文件导入mysql是支持的，只是有可能版本的排序规则不支持，MariaDB 10.10+ 新增的 Unicode 14.0 排序规则给mysql8.0的修改方法如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -i <span class="string">&#x27;s/utf8mb4_uca1400_ai_ci/utf8mb4_0900_ai_ci/g&#x27;</span> bak.sql</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -4046,6 +4046,35 @@ run
       </tags>
   </entry>
   <entry>
+    <title>portainer docker的web管理页面</title>
+    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="portainer">portainer</h2>
+<p>一个web可视化的docker管理页面</p>
+<h2 id="拉取镜像">拉取镜像</h2>
+<p>先搜索镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
+<p>一般我下载最多下载的那几个</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
+<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
+<p>接下来就可以登录管理了</p>
+<h2 id="初始化配置">初始化配置</h2>
+<p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
+<p>也可通过上传配置文件创建</p>
+<p>选其中一个即可</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pycharm激活</title>
     <url>/2024/08/10/pycharm%E6%BF%80%E6%B4%BB/</url>
     <content><![CDATA[<h2 id="检查链接">检查链接</h2>
@@ -4074,35 +4103,6 @@ run
       <tags>
         <tag>工具安装</tag>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>portainer docker的web管理页面</title>
-    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="portainer">portainer</h2>
-<p>一个web可视化的docker管理页面</p>
-<h2 id="拉取镜像">拉取镜像</h2>
-<p>先搜索镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
-<p>一般我下载最多下载的那几个</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
-<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
-<p>接下来就可以登录管理了</p>
-<h2 id="初始化配置">初始化配置</h2>
-<p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
-<p>也可通过上传配置文件创建</p>
-<p>选其中一个即可</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -4292,29 +4292,6 @@ run
 ]]></content>
   </entry>
   <entry>
-    <title>switch-大气层与模拟器局域网联机</title>
-    <url>/2025/05/01/switch-%E5%A4%A7%E6%B0%94%E5%B1%82%E4%B8%8E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%B1%80%E5%9F%9F%E7%BD%91%E8%81%94%E6%9C%BA/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
-<p>大气层与大气层，模拟器与模拟器都有了联机方法，但是大气层与模拟器不能直接联机</p>
-<h2 id="安装ldn-mitm">安装ldn_mitm</h2>
-<p>是一个用于 Nintendo Switch 的中间人（MITM）系统模块，它通过替换系统中的 ldn 服务来实现局域网（LAN）连接。原本是可以实现互联网连接的插件，龙神模拟器中网络设置支持ldn_mitm，所以无需中间服务器就能让大气层和模拟器连接。</p>
-<blockquote>
-<p>项目地址：<br>
-<a href="https://github.com/spacemeowx2/ldn_mitm">https://github.com/spacemeowx2/ldn_mitm</a></p>
-</blockquote>
-<blockquote>
-<p>下载安装后，就能局域网搜索到了</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>switch</category>
-      </categories>
-      <tags>
-        <tag>switch</tag>
-        <tag>大气层</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sql注入-pikachu</title>
     <url>/2025/02/27/sql%E6%B3%A8%E5%85%A5/</url>
     <content><![CDATA[<h2 id="数字型注入">数字型注入</h2>
@@ -4393,6 +4370,69 @@ run
       </tags>
   </entry>
   <entry>
+    <title>ubuntu-网卡配置文件</title>
+    <url>/2025/07/09/ubuntu-%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="dhcp">dhcp</h2>
+<ol>
+<li>打开网卡配置文件<code>/etc/netplan下的类似50-cloud-init.yaml写法的yaml文件</code>:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/netplan/50-cloud-init.yaml</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>开启dhcp自动获取地址</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: true</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>应用配置</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="静态地址">静态地址</h2>
+<p>打开配置文件后，修改内容格式为：</p>
+<ol>
+<li>老版本</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: no</span><br><span class="line">    addresses: [192.168.11.10/24]</span><br><span class="line">    gateway4: 192.168.11.1</span><br><span class="line">    nameservers:</span><br><span class="line">      addresses: [223.5.5.5]</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>新版本写法</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: no</span><br><span class="line">    addresses: [192.168.11.10/24]</span><br><span class="line">    routes:</span><br><span class="line">      - to: 0.0.0.0/0</span><br><span class="line">        via: 192.168.11.2</span><br><span class="line">    nameservers:</span><br><span class="line">      addresses: [223.5.5.5]</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>应用配置</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>linux网卡配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>switch-大气层与模拟器局域网联机</title>
+    <url>/2025/05/01/switch-%E5%A4%A7%E6%B0%94%E5%B1%82%E4%B8%8E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%B1%80%E5%9F%9F%E7%BD%91%E8%81%94%E6%9C%BA/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>大气层与大气层，模拟器与模拟器都有了联机方法，但是大气层与模拟器不能直接联机</p>
+<h2 id="安装ldn-mitm">安装ldn_mitm</h2>
+<p>是一个用于 Nintendo Switch 的中间人（MITM）系统模块，它通过替换系统中的 ldn 服务来实现局域网（LAN）连接。原本是可以实现互联网连接的插件，龙神模拟器中网络设置支持ldn_mitm，所以无需中间服务器就能让大气层和模拟器连接。</p>
+<blockquote>
+<p>项目地址：<br>
+<a href="https://github.com/spacemeowx2/ldn_mitm">https://github.com/spacemeowx2/ldn_mitm</a></p>
+</blockquote>
+<blockquote>
+<p>下载安装后，就能局域网搜索到了</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>switch</category>
+      </categories>
+      <tags>
+        <tag>switch</tag>
+        <tag>大气层</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>termux安装mariadb</title>
     <url>/2025/09/08/termux%E5%AE%89%E8%A3%85mariadb/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -4440,43 +4480,51 @@ MariaDB 完全兼容 MySQL 5.7/8.x 的主流语法（SELECT、JOIN、窗口函�
       </tags>
   </entry>
   <entry>
-    <title>ubuntu-网卡配置文件</title>
-    <url>/2025/07/09/ubuntu-%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="dhcp">dhcp</h2>
-<ol>
-<li>打开网卡配置文件<code>/etc/netplan下的类似50-cloud-init.yaml写法的yaml文件</code>:</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/netplan/50-cloud-init.yaml</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>开启dhcp自动获取地址</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: true</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>应用配置</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
+    <title>windhawk-windows美化</title>
+    <url>/2025/10/08/windhawk-windows%E7%BE%8E%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="来自">来自</h2>
+<blockquote>
+<p><a href="https://www.bilibili.com/video/BV1vhpxzqEAQ/?spm_id_from=333.337.search-card.all.click&amp;vd_source=096d3980aee6e59a0f794011bf77ca27">点击跳转b站”麦嘎噔Linux“的视频</a></p>
+</blockquote>
+<p>效果：<br>
+<img src="/images/windhawk-windows%E7%BE%8E%E5%8C%96-%E6%95%88%E6%9E%9C.png" alt=""></p>
 <hr>
-<h2 id="静态地址">静态地址</h2>
-<p>打开配置文件后，修改内容格式为：</p>
+<h2 id="需要下载的软件和插件">需要下载的软件和插件</h2>
 <ol>
-<li>老版本</li>
+<li>
+<p>先软件下载：windhawk<br>
+官网：<a href="https://windhawk.net/">https://windhawk.net/</a></p>
+</li>
+<li>
+<p>然后在windhawk中下载插件<code>Taskbar height and icon size</code>、<code>Windows 11 Start Menu Styler</code>、<code>Windows 11 Taskbar Styler</code><br>
+<img src="/images/windhawk-windows%E7%BE%8E%E5%8C%96-%E6%8F%92%E4%BB%B6%E4%B8%8B%E8%BD%BD.png" alt="windhawk-windows美化-插件下载"></p>
+</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: no</span><br><span class="line">    addresses: [192.168.11.10/24]</span><br><span class="line">    gateway4: 192.168.11.1</span><br><span class="line">    nameservers:</span><br><span class="line">      addresses: [223.5.5.5]</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>新版本写法</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ethernets:</span><br><span class="line">  ens33:</span><br><span class="line">    dhcp4: no</span><br><span class="line">    addresses: [192.168.11.10/24]</span><br><span class="line">    routes:</span><br><span class="line">      - to: 0.0.0.0/0</span><br><span class="line">        via: 192.168.11.2</span><br><span class="line">    nameservers:</span><br><span class="line">      addresses: [223.5.5.5]</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>应用配置</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>]]></content>
+<hr>
+<h2 id="插件配置">插件配置</h2>
+<h3 id="Taskbar-height-and-icon-size">Taskbar height and icon size</h3>
+<p>仅参考，可以自定义合适的大小</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Taskbar height:</span><br><span class="line">55</span><br><span class="line"></span><br><span class="line">Icon size:</span><br><span class="line">26</span><br><span class="line"></span><br><span class="line">Taskbar button width:</span><br><span class="line">40</span><br><span class="line"></span><br><span class="line">Small icon size:</span><br><span class="line">20</span><br><span class="line"></span><br><span class="line">Small taskbar button width:</span><br><span class="line">32</span><br></pre></td></tr></table></figure>
+<h3 id="Windows-11-Start-Menu-Styler">Windows 11 Start Menu Styler</h3>
+<p>修改高级设置中的Mod设置</p>
+<ul>
+<li>Mod设置：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&quot;controlStyles[0].target&quot;:&quot;StartDocked.StartSizingFrame&quot;,&quot;controlStyles[0].styles[0]&quot;:&quot;MaxHeight=520&quot;,&quot;controlStyles[1].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#TopLevelSuggestionsListHeader&quot;,&quot;controlStyles[1].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[2].target&quot;:&quot;StartMenu.PinnedList&quot;,&quot;controlStyles[2].styles[0]&quot;:&quot;Height=340&quot;,&quot;controlStyles[3].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ShowMoreSuggestions&quot;,&quot;controlStyles[3].styles[0]&quot;:&quot;RenderTransform:=&lt;TranslateTransform Y=\&quot;-408\&quot; /&gt;&quot;,&quot;controlStyles[4].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#NoTopLevelSuggestionsText&quot;,&quot;controlStyles[4].styles[0]&quot;:&quot;Height=0&quot;,&quot;controlStyles[5].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ShowMoreSuggestions &gt; Windows.UI.Xaml.Controls.Button &gt; Windows.UI.Xaml.Controls.ContentPresenter &gt; Windows.UI.Xaml.Controls.StackPanel &gt; Windows.UI.Xaml.Controls.TextBlock&quot;,&quot;controlStyles[5].styles[0]&quot;:&quot;Text=Recommended&quot;,&quot;controlStyles[6].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#DropShadow&quot;,&quot;controlStyles[6].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[7].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#StartDropShadow&quot;,&quot;controlStyles[7].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[8].target&quot;:&quot;StartDocked.LauncherFrame &gt; Grid#RootGrid &gt; Grid#RootContent &gt; Grid#MainContent &gt; Grid#InnerContent &gt; Rectangle&quot;,&quot;controlStyles[8].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[9].target&quot;:&quot;StartDocked.SearchBoxToggleButton&quot;,&quot;controlStyles[9].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[10].target&quot;:&quot;Border#AcrylicBorder&quot;,&quot;controlStyles[10].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[10].styles[1]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.3\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[11].target&quot;:&quot;Border#AcrylicOverlay&quot;,&quot;controlStyles[11].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[11].styles[1]&quot;:&quot;Margin=0,0,0,20&quot;,&quot;controlStyles[11].styles[2]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.2\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[12].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#AllAppsRoot&quot;,&quot;controlStyles[12].styles[0]&quot;:&quot;Margin=0,0,0,40&quot;,&quot;controlStyles[13].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#UndockedRoot&quot;,&quot;controlStyles[13].styles[0]&quot;:&quot;Margin=0,0,0,40&quot;,&quot;controlStyles[14].target&quot;:&quot;StartDocked.NavigationPaneView#NavigationPane &gt; Windows.UI.Xaml.Controls.Grid#RootPanel&quot;,&quot;controlStyles[14].styles[0]&quot;:&quot;Margin=0,-10,0,10&quot;,&quot;controlStyles[15].target&quot;:&quot;StartDocked.AppListView#NavigationPanePlacesListView &gt; Windows.UI.Xaml.Controls.Border&quot;,&quot;controlStyles[15].styles[0]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.5\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[15].styles[1]&quot;:&quot;CornerRadius=18&quot;,&quot;controlStyles[15].styles[2]&quot;:&quot;Margin=0,0,15,0&quot;,&quot;controlStyles[16].target&quot;:&quot;StartDocked.NavigationPaneButton#PowerButton &gt; Windows.UI.Xaml.Controls.Grid@CommonStates &gt; Windows.UI.Xaml.Controls.Border#BackgroundBorder&quot;,&quot;controlStyles[16].styles[0]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;1\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[16].styles[1]&quot;:&quot;BorderBrush@Normal:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource SurfaceStrokeColorDefault&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource SurfaceStrokeColorDefault&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.1\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[16].styles[2]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[16].styles[3]&quot;:&quot;BorderThickness=5&quot;,&quot;controlStyles[16].styles[4]&quot;:&quot;Margin=-7&quot;,&quot;controlStyles[16].styles[5]&quot;:&quot;BorderBrush@PointerOver:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource SystemAccentColor&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource SystemAccentColor&#125;\&quot; TintOpacity=\&quot;.8\&quot; TintLuminosityOpacity=\&quot;.5\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[17].target&quot;:&quot;StartDocked.NavigationPaneButton#UserTileButton &gt; Grid &gt; Border#BackgroundBorder&quot;,&quot;controlStyles[17].styles[0]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.5\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[17].styles[1]&quot;:&quot;CornerRadius=18&quot;,&quot;controlStyles[18].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#ShowAllAppsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter@CommonStates&quot;,&quot;controlStyles[18].styles[0]&quot;:&quot;Background@Normal:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; Opacity=\&quot;.8\&quot;/&gt;&quot;,&quot;controlStyles[18].styles[1]&quot;:&quot;Background@PointerOver:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemBaseLowColor&#125;\&quot; Opacity=\&quot;1\&quot; /&gt;&quot;,&quot;controlStyles[18].styles[2]&quot;:&quot;Padding=10,7&quot;,&quot;controlStyles[18].styles[3]&quot;:&quot;Margin=0,0,-35,0&quot;,&quot;controlStyles[18].styles[4]&quot;:&quot;CornerRadius=0,15,15,0&quot;,&quot;controlStyles[18].styles[5]&quot;:&quot;BorderThickness=0&quot;,&quot;controlStyles[19].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#ShowMoreSuggestionsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter@CommonStates&quot;,&quot;controlStyles[19].styles[0]&quot;:&quot;Background@Normal:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemAltMediumLowColor&#125;\&quot; Opacity=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[19].styles[1]&quot;:&quot;BorderBrush@Normal:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; Opacity=\&quot;.8\&quot;/&gt;&quot;,&quot;controlStyles[19].styles[2]&quot;:&quot;Padding=10,5&quot;,&quot;controlStyles[19].styles[3]&quot;:&quot;Margin=0,0,19,0&quot;,&quot;controlStyles[19].styles[4]&quot;:&quot;CornerRadius=15,0,0,15&quot;,&quot;controlStyles[19].styles[5]&quot;:&quot;BorderThickness=2,2,0,2&quot;,&quot;controlStyles[19].styles[6]&quot;:&quot;Background@PointerOver:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemBaseLowColor&#125;\&quot; Opacity=\&quot;.7\&quot; /&gt;&quot;,&quot;controlStyles[19].styles[7]&quot;:&quot;BorderBrush@PointerOver:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemBaseLowColor&#125;\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[20].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#HideMoreSuggestionsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter&quot;,&quot;controlStyles[20].styles[0]&quot;:&quot;Background:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeMediumLowColor&#125;\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[20].styles[1]&quot;:&quot;Padding=10,6&quot;,&quot;controlStyles[20].styles[2]&quot;:&quot;Margin=0,0,-35,0&quot;,&quot;controlStyles[20].styles[3]&quot;:&quot;CornerRadius=15&quot;,&quot;controlStyles[21].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#CloseAllAppsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter&quot;,&quot;controlStyles[21].styles[0]&quot;:&quot;Background:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeMediumLowColor&#125;\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[21].styles[1]&quot;:&quot;Padding=10,6&quot;,&quot;controlStyles[21].styles[2]&quot;:&quot;Margin=0,0,-35,0&quot;,&quot;controlStyles[21].styles[3]&quot;:&quot;CornerRadius=15&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Windows-11-Taskbar-Styler">Windows 11 Taskbar Styler</h3>
+<p>修改高级设置中的Mod设置</p>
+<ul>
+<li>Mod设置：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&quot;controlStyles[0].target&quot;:&quot;Taskbar.TaskbarFrame#TaskbarFrame&quot;,&quot;controlStyles[0].styles[1]&quot;:&quot;HorizontalAlignment=Auto&quot;,&quot;controlStyles[0].styles[2]&quot;:&quot;Width=Auto&quot;,&quot;controlStyles[0].styles[0]&quot;:&quot;MaxWidth:=1200&quot;,&quot;controlStyles[0].styles[3]&quot;:&quot;MinWidth:=800&quot;,&quot;controlStyles[1].target&quot;:&quot;Taskbar.TaskbarFrame#TaskbarFrame &gt; Grid#RootGrid&quot;,&quot;controlStyles[1].styles[0]&quot;:&quot;Margin=30,0,30,5&quot;,&quot;controlStyles[1].styles[1]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[1].styles[2]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[1].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[1].styles[4]&quot;:&quot;Background:=Transparent&quot;,&quot;controlStyles[2].target&quot;:&quot;Rectangle#BackgroundFill&quot;,&quot;controlStyles[2].styles[0]&quot;:&quot;Visibility=Visible&quot;,&quot;controlStyles[2].styles[1]&quot;:&quot;Fill:=$Background&quot;,&quot;controlStyles[3].target&quot;:&quot;Rectangle#BackgroundStroke&quot;,&quot;controlStyles[3].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[4].target&quot;:&quot;Taskbar.AugmentedEntryPointButton#AugmentedEntryPointButton &gt; Taskbar.TaskListButtonPanel#ExperienceToggleButtonRootPanel&quot;,&quot;controlStyles[4].styles[0]&quot;:&quot;Margin=4&quot;,&quot;controlStyles[4].styles[1]&quot;:&quot;Background:=$ElementBG&quot;,&quot;controlStyles[4].styles[2]&quot;:&quot;CornerRadius=12&quot;,&quot;controlStyles[5].target&quot;:&quot;Grid#SystemTrayFrameGrid&quot;,&quot;controlStyles[5].styles[0]&quot;:&quot;Margin=0,7,-250,7&quot;,&quot;controlStyles[5].styles[1]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;-645\&quot; Y=\&quot;-2\&quot;/&gt;&quot;,&quot;controlStyles[5].styles[2]&quot;:&quot;Padding=10&quot;,&quot;controlStyles[5].styles[3]&quot;:&quot;Background:=$ElementBG&quot;,&quot;controlStyles[5].styles[4]&quot;:&quot;CornerRadius=12&quot;,&quot;controlStyles[6].target&quot;:&quot;SystemTray.ChevronIconView&quot;,&quot;controlStyles[6].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[6].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[7].target&quot;:&quot;SystemTray.NotifyIconView#NotifyItemIcon&quot;,&quot;controlStyles[7].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[7].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[8].target&quot;:&quot;SystemTray.OmniButton&quot;,&quot;controlStyles[8].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[8].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[9].target&quot;:&quot;SystemTray.CopilotIcon&quot;,&quot;controlStyles[9].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[10].target&quot;:&quot;SystemTray.OmniButton#NotificationCenterButton &gt; Grid &gt; ContentPresenter &gt; ItemsPresenter &gt; StackPanel &gt; ContentPresenter &gt; systemtray:IconView#SystemTrayIcon &gt; Grid&quot;,&quot;controlStyles[10].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[11].target&quot;:&quot;SystemTray.IconView#SystemTrayIcon &gt; Grid#ContainerGrid &gt; ContentPresenter#ContentPresenter &gt; Grid#ContentGrid &gt; SystemTray.TextIconContent &gt; Grid#ContainerGrid&quot;,&quot;controlStyles[11].styles[0]&quot;:&quot;Padding=0&quot;,&quot;controlStyles[11].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[12].target&quot;:&quot;SystemTray.StackListView#IconStack &gt; ItemsPresenter &gt; StackPanel &gt; ContentPresenter &gt; SystemTray.IconView#SystemTrayIcon&quot;,&quot;controlStyles[12].styles[0]&quot;:&quot;Padding=0&quot;,&quot;controlStyles[13].target&quot;:&quot;SystemTray.Stack#ShowDesktopStack&quot;,&quot;controlStyles[13].styles[0]&quot;:&quot;Visibility=Visible&quot;,&quot;controlStyles[14].target&quot;:&quot;Taskbar.Gripper#GripperControl&quot;,&quot;controlStyles[14].styles[0]&quot;:&quot;Width=Auto&quot;,&quot;controlStyles[14].styles[1]&quot;:&quot;MinWidth=24&quot;,&quot;controlStyles[15].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#AugmentedEntryPointContentGrid&quot;,&quot;controlStyles[15].styles[0]&quot;:&quot;Margin=4,0,0,0&quot;,&quot;controlStyles[15].styles[1]&quot;:&quot;HorizontalAlignment=Left&quot;,&quot;controlStyles[16].target&quot;:&quot;TextBlock#TimeInnerTextBlock&quot;,&quot;controlStyles[16].styles[0]&quot;:&quot;FontSize=13&quot;,&quot;controlStyles[16].styles[1]&quot;:&quot;FontFamily=vivo Sans EN VF&quot;,&quot;controlStyles[16].styles[2]&quot;:&quot;Margin=0&quot;,&quot;controlStyles[16].styles[3]&quot;:&quot;Padding=0&quot;,&quot;controlStyles[16].styles[4]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[17].target&quot;:&quot;TextBlock#DateInnerTextBlock&quot;,&quot;controlStyles[17].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[17].styles[1]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;-9\&quot; /&gt;&quot;,&quot;controlStyles[17].styles[2]&quot;:&quot;FontSize=11&quot;,&quot;controlStyles[17].styles[3]&quot;:&quot;FontFamily=vivo Sans EN VF&quot;,&quot;controlStyles[18].target&quot;:&quot;TextBlock#InnerTextBlock[Text=]&quot;,&quot;controlStyles[18].styles[0]&quot;:&quot;Text=&quot;,&quot;controlStyles[19].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ConfirmatorMainGrid&quot;,&quot;controlStyles[19].styles[0]&quot;:&quot;CornerRadius=22&quot;,&quot;controlStyles[19].styles[1]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[19].styles[2]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[19].styles[3]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[20].target&quot;:&quot;TextBlock#SearchBoxTextBlock&quot;,&quot;controlStyles[20].styles[0]&quot;:&quot;Text=Search This Precision&quot;,&quot;controlStyles[20].styles[1]&quot;:&quot;FontSize=10&quot;,&quot;controlStyles[20].styles[2]&quot;:&quot;FontFamily=vivo Sans EN VF&quot;,&quot;controlStyles[21].target&quot;:&quot;SystemTray.OmniButton#NotificationCenterButton &gt; Grid &gt; ContentPresenter &gt; ItemsPresenter &gt; StackPanel &gt; ContentPresenter &gt; SystemTray.IconView#SystemTrayIcon &gt; Grid &gt; Grid &gt; SystemTray.TextIconContent&quot;,&quot;controlStyles[21].styles[0]&quot;:&quot;Visibility=Visible&quot;,&quot;controlStyles[22].target&quot;:&quot;Windows.UI.Xaml.Controls.Button&quot;,&quot;controlStyles[22].styles[0]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[23].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#OverflowFlyoutBackgroundBorder&quot;,&quot;controlStyles[23].styles[0]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[23].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[23].styles[2]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[23].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[24].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ModalRootGrid &gt; Windows.UI.Xaml.Controls.Border#BackgroundElement&quot;,&quot;controlStyles[24].styles[0]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[24].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[24].styles[2]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[24].styles[3]&quot;:&quot;CornerRadius=20&quot;,&quot;controlStyles[25].target&quot;:&quot;WindowsInternal.ComposableShell.Experiences.Switcher.VirtualDesktopBarElement#VirtualDesktopBar&quot;,&quot;controlStyles[25].styles[0]&quot;:&quot;Width=1000&quot;,&quot;controlStyles[25].styles[1]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[25].styles[2]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;60\&quot; /&gt;&quot;,&quot;controlStyles[25].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[26].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#BackgroundDimmingLayer&quot;,&quot;controlStyles[26].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[27].target&quot;:&quot;Taskbar.TaskListButtonPanel#ExperienceToggleButtonRootPanel &gt; Windows.UI.Xaml.Controls.Border#BackgroundElement&quot;,&quot;controlStyles[27].styles[0]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[28].target&quot;:&quot;Taskbar.TaskListButton#TaskListButton&quot;,&quot;controlStyles[28].styles[0]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[29].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#SnapBarBorder&quot;,&quot;controlStyles[29].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[29].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[29].styles[2]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[29].styles[3]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[29].styles[4]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;10\&quot; /&gt;&quot;,&quot;controlStyles[29].styles[5]&quot;:&quot;Margin=0,0,0,-10&quot;,&quot;controlStyles[30].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#SnapPickerBorder&quot;,&quot;controlStyles[30].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[30].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[30].styles[2]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[30].styles[3]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[31].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#SearchPillBackgroundElement&quot;,&quot;controlStyles[31].styles[0]&quot;:&quot;BorderBrush:=$ElementBorderBrush&quot;,&quot;controlStyles[31].styles[1]&quot;:&quot;CornerRadius=$ElementCornerRadius&quot;,&quot;controlStyles[31].styles[2]&quot;:&quot;BorderThickness=$ElementBorderThickness&quot;,&quot;controlStyles[31].styles[3]&quot;:&quot;Margin=0&quot;,&quot;controlStyles[32].target&quot;:&quot;Taskbar.TaskbarExtensionElement&quot;,&quot;controlStyles[32].styles[0]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[33].target&quot;:&quot;Taskbar.TaskListButtonPanel#ExperienceToggleButtonRootPanel&quot;,&quot;controlStyles[33].styles[0]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[34].target&quot;:&quot;Windows.UI.Xaml.Controls.ToolTip &gt; Windows.UI.Xaml.Controls.ContentPresenter#LayoutRoot&quot;,&quot;controlStyles[34].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[34].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[34].styles[2]&quot;:&quot;BorderThickness:=$BorderThickness&quot;,&quot;controlStyles[34].styles[3]&quot;:&quot;CornerRadius=12&quot;,&quot;controlStyles[35].target&quot;:&quot;SearchUx.SearchUI.SearchButtonControl&quot;,&quot;controlStyles[35].styles[0]&quot;:&quot;Width=130&quot;,&quot;controlStyles[35].styles[1]&quot;:&quot;Margin=-1,7,-1,7&quot;,&quot;controlStyles[36].target&quot;:&quot;WindowsInternal.ComposableShell.Experiences.Switcher.VirtualDesktopBarElement &gt; Windows.UI.Xaml.Controls.Grid#GridElement &gt; Windows.UI.Xaml.Controls.Border#VirtualDesktopSwitcherBackground&quot;,&quot;controlStyles[36].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[36].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[36].styles[2]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[36].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;styleConstants[0]&quot;:&quot;Background=&lt;WindhawkBlur BlurAmount=\&quot;15\&quot; TintColor=\&quot;#10808080\&quot;/&gt;&quot;,&quot;styleConstants[1]&quot;:&quot;BorderBrush2=&lt;LinearGradientBrush StartPoint=\&quot;0,0\&quot; EndPoint=\&quot;0,1\&quot;&gt;&lt;GradientStop Color=\&quot;&#123;ThemeResource SystemChromeHighColor&#125;\&quot; Offset=\&quot;0.0\&quot; /&gt;&lt;GradientStop Color=\&quot;&#123;ThemeResource SystemChromeLowColor&#125;\&quot; Offset=\&quot;0.25\&quot; /&gt;&lt;GradientStop Color=\&quot;&#123;ThemeResource SystemChromeHighColor&#125;\&quot; Offset=\&quot;1\&quot; /&gt;&lt;/LinearGradientBrush&gt;&quot;,&quot;styleConstants[2]&quot;:&quot;BorderThickness=0.3,1,0.3,0.3&quot;,&quot;styleConstants[3]&quot;:&quot;CornerRadius=15&quot;,&quot;styleConstants[4]&quot;:&quot;BorderBrush=&lt;LinearGradientBrush StartPoint=\&quot;0,0\&quot; EndPoint=\&quot;0,1\&quot;&gt;&lt;GradientStop Color=\&quot;#50808080\&quot; Offset=\&quot;0.0\&quot; /&gt;&lt;GradientStop Color=\&quot;#50404040\&quot; Offset=\&quot;0.25\&quot; /&gt;&lt;GradientStop Color=\&quot;#50808080\&quot; Offset=\&quot;1\&quot; /&gt;&lt;/LinearGradientBrush&gt;&quot;,&quot;styleConstants[5]&quot;:&quot;Background2=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; TintOpacity=\&quot;0.3\&quot; FallbackColor=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; /&gt;&quot;,&quot;styleConstants[6]&quot;:&quot;TrayPadding=2&quot;,&quot;styleConstants[7]&quot;:&quot;ElementBG=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; Opacity=\&quot;0.3\&quot; /&gt;&quot;,&quot;styleConstants[8]&quot;:&quot;ElementBorderThickness=0.3,0.3,0.3,1&quot;,&quot;styleConstants[9]&quot;:&quot;ElementBorderBrush=&lt;LinearGradientBrush StartPoint=\&quot;0,0\&quot; EndPoint=\&quot;0,1\&quot;&gt;&lt;GradientStop Color=\&quot;#50808080\&quot; Offset=\&quot;1\&quot; /&gt;&lt;GradientStop Color=\&quot;#50606060\&quot; Offset=\&quot;0.15\&quot; /&gt;&lt;/LinearGradientBrush&gt;&quot;,&quot;styleConstants[10]&quot;:&quot;ElementCornerRadius=12&quot;,&quot;resourceVariables[0].variableKey&quot;:&quot;&quot;,&quot;resourceVariables[0].value&quot;:&quot;&quot;,&quot;controlStyles[4].styles[3]&quot;:&quot;HorizontalAlignment=Left&quot;,&quot;controlStyles[5].styles[5]&quot;:&quot;VerticalAlignment=Left&quot;&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
       <categories>
-        <category>系统运维</category>
-        <category>linux</category>
+        <category>生活</category>
+        <category>windows</category>
       </categories>
       <tags>
-        <tag>ubuntu</tag>
-        <tag>linux网卡配置</tag>
+        <tag>资源</tag>
+        <tag>windows美化</tag>
       </tags>
   </entry>
   <entry>
@@ -5028,81 +5076,6 @@ dns和全局编录GC勾选，设置密码<br>
       </tags>
   </entry>
   <entry>
-    <title>windhawk-windows美化</title>
-    <url>/2025/10/08/windhawk-windows%E7%BE%8E%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="来自">来自</h2>
-<blockquote>
-<p><a href="https://www.bilibili.com/video/BV1vhpxzqEAQ/?spm_id_from=333.337.search-card.all.click&amp;vd_source=096d3980aee6e59a0f794011bf77ca27">点击跳转b站”麦嘎噔Linux“的视频</a></p>
-</blockquote>
-<p>效果：<br>
-<img src="/images/windhawk-windows%E7%BE%8E%E5%8C%96-%E6%95%88%E6%9E%9C.png" alt=""></p>
-<hr>
-<h2 id="需要下载的软件和插件">需要下载的软件和插件</h2>
-<ol>
-<li>
-<p>先软件下载：windhawk<br>
-官网：<a href="https://windhawk.net/">https://windhawk.net/</a></p>
-</li>
-<li>
-<p>然后在windhawk中下载插件<code>Taskbar height and icon size</code>、<code>Windows 11 Start Menu Styler</code>、<code>Windows 11 Taskbar Styler</code><br>
-<img src="/images/windhawk-windows%E7%BE%8E%E5%8C%96-%E6%8F%92%E4%BB%B6%E4%B8%8B%E8%BD%BD.png" alt="windhawk-windows美化-插件下载"></p>
-</li>
-</ol>
-<hr>
-<h2 id="插件配置">插件配置</h2>
-<h3 id="Taskbar-height-and-icon-size">Taskbar height and icon size</h3>
-<p>仅参考，可以自定义合适的大小</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Taskbar height:</span><br><span class="line">55</span><br><span class="line"></span><br><span class="line">Icon size:</span><br><span class="line">26</span><br><span class="line"></span><br><span class="line">Taskbar button width:</span><br><span class="line">40</span><br><span class="line"></span><br><span class="line">Small icon size:</span><br><span class="line">20</span><br><span class="line"></span><br><span class="line">Small taskbar button width:</span><br><span class="line">32</span><br></pre></td></tr></table></figure>
-<h3 id="Windows-11-Start-Menu-Styler">Windows 11 Start Menu Styler</h3>
-<p>修改高级设置中的Mod设置</p>
-<ul>
-<li>Mod设置：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&quot;controlStyles[0].target&quot;:&quot;StartDocked.StartSizingFrame&quot;,&quot;controlStyles[0].styles[0]&quot;:&quot;MaxHeight=520&quot;,&quot;controlStyles[1].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#TopLevelSuggestionsListHeader&quot;,&quot;controlStyles[1].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[2].target&quot;:&quot;StartMenu.PinnedList&quot;,&quot;controlStyles[2].styles[0]&quot;:&quot;Height=340&quot;,&quot;controlStyles[3].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ShowMoreSuggestions&quot;,&quot;controlStyles[3].styles[0]&quot;:&quot;RenderTransform:=&lt;TranslateTransform Y=\&quot;-408\&quot; /&gt;&quot;,&quot;controlStyles[4].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#NoTopLevelSuggestionsText&quot;,&quot;controlStyles[4].styles[0]&quot;:&quot;Height=0&quot;,&quot;controlStyles[5].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ShowMoreSuggestions &gt; Windows.UI.Xaml.Controls.Button &gt; Windows.UI.Xaml.Controls.ContentPresenter &gt; Windows.UI.Xaml.Controls.StackPanel &gt; Windows.UI.Xaml.Controls.TextBlock&quot;,&quot;controlStyles[5].styles[0]&quot;:&quot;Text=Recommended&quot;,&quot;controlStyles[6].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#DropShadow&quot;,&quot;controlStyles[6].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[7].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#StartDropShadow&quot;,&quot;controlStyles[7].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[8].target&quot;:&quot;StartDocked.LauncherFrame &gt; Grid#RootGrid &gt; Grid#RootContent &gt; Grid#MainContent &gt; Grid#InnerContent &gt; Rectangle&quot;,&quot;controlStyles[8].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[9].target&quot;:&quot;StartDocked.SearchBoxToggleButton&quot;,&quot;controlStyles[9].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[10].target&quot;:&quot;Border#AcrylicBorder&quot;,&quot;controlStyles[10].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[10].styles[1]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.3\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[11].target&quot;:&quot;Border#AcrylicOverlay&quot;,&quot;controlStyles[11].styles[0]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[11].styles[1]&quot;:&quot;Margin=0,0,0,20&quot;,&quot;controlStyles[11].styles[2]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.2\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[12].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#AllAppsRoot&quot;,&quot;controlStyles[12].styles[0]&quot;:&quot;Margin=0,0,0,40&quot;,&quot;controlStyles[13].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#UndockedRoot&quot;,&quot;controlStyles[13].styles[0]&quot;:&quot;Margin=0,0,0,40&quot;,&quot;controlStyles[14].target&quot;:&quot;StartDocked.NavigationPaneView#NavigationPane &gt; Windows.UI.Xaml.Controls.Grid#RootPanel&quot;,&quot;controlStyles[14].styles[0]&quot;:&quot;Margin=0,-10,0,10&quot;,&quot;controlStyles[15].target&quot;:&quot;StartDocked.AppListView#NavigationPanePlacesListView &gt; Windows.UI.Xaml.Controls.Border&quot;,&quot;controlStyles[15].styles[0]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.5\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[15].styles[1]&quot;:&quot;CornerRadius=18&quot;,&quot;controlStyles[15].styles[2]&quot;:&quot;Margin=0,0,15,0&quot;,&quot;controlStyles[16].target&quot;:&quot;StartDocked.NavigationPaneButton#PowerButton &gt; Windows.UI.Xaml.Controls.Grid@CommonStates &gt; Windows.UI.Xaml.Controls.Border#BackgroundBorder&quot;,&quot;controlStyles[16].styles[0]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;1\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[16].styles[1]&quot;:&quot;BorderBrush@Normal:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource SurfaceStrokeColorDefault&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource SurfaceStrokeColorDefault&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.1\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[16].styles[2]&quot;:&quot;CornerRadius=30&quot;,&quot;controlStyles[16].styles[3]&quot;:&quot;BorderThickness=5&quot;,&quot;controlStyles[16].styles[4]&quot;:&quot;Margin=-7&quot;,&quot;controlStyles[16].styles[5]&quot;:&quot;BorderBrush@PointerOver:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource SystemAccentColor&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource SystemAccentColor&#125;\&quot; TintOpacity=\&quot;.8\&quot; TintLuminosityOpacity=\&quot;.5\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[17].target&quot;:&quot;StartDocked.NavigationPaneButton#UserTileButton &gt; Grid &gt; Border#BackgroundBorder&quot;,&quot;controlStyles[17].styles[0]&quot;:&quot;Background:=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; FallbackColor=\&quot;&#123;ThemeResource CardStrokeColorDefaultSolid&#125;\&quot; TintOpacity=\&quot;0\&quot; TintLuminosityOpacity=\&quot;.5\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[17].styles[1]&quot;:&quot;CornerRadius=18&quot;,&quot;controlStyles[18].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#ShowAllAppsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter@CommonStates&quot;,&quot;controlStyles[18].styles[0]&quot;:&quot;Background@Normal:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; Opacity=\&quot;.8\&quot;/&gt;&quot;,&quot;controlStyles[18].styles[1]&quot;:&quot;Background@PointerOver:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemBaseLowColor&#125;\&quot; Opacity=\&quot;1\&quot; /&gt;&quot;,&quot;controlStyles[18].styles[2]&quot;:&quot;Padding=10,7&quot;,&quot;controlStyles[18].styles[3]&quot;:&quot;Margin=0,0,-35,0&quot;,&quot;controlStyles[18].styles[4]&quot;:&quot;CornerRadius=0,15,15,0&quot;,&quot;controlStyles[18].styles[5]&quot;:&quot;BorderThickness=0&quot;,&quot;controlStyles[19].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#ShowMoreSuggestionsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter@CommonStates&quot;,&quot;controlStyles[19].styles[0]&quot;:&quot;Background@Normal:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemAltMediumLowColor&#125;\&quot; Opacity=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[19].styles[1]&quot;:&quot;BorderBrush@Normal:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; Opacity=\&quot;.8\&quot;/&gt;&quot;,&quot;controlStyles[19].styles[2]&quot;:&quot;Padding=10,5&quot;,&quot;controlStyles[19].styles[3]&quot;:&quot;Margin=0,0,19,0&quot;,&quot;controlStyles[19].styles[4]&quot;:&quot;CornerRadius=15,0,0,15&quot;,&quot;controlStyles[19].styles[5]&quot;:&quot;BorderThickness=2,2,0,2&quot;,&quot;controlStyles[19].styles[6]&quot;:&quot;Background@PointerOver:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemBaseLowColor&#125;\&quot; Opacity=\&quot;.7\&quot; /&gt;&quot;,&quot;controlStyles[19].styles[7]&quot;:&quot;BorderBrush@PointerOver:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemBaseLowColor&#125;\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[20].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#HideMoreSuggestionsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter&quot;,&quot;controlStyles[20].styles[0]&quot;:&quot;Background:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeMediumLowColor&#125;\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[20].styles[1]&quot;:&quot;Padding=10,6&quot;,&quot;controlStyles[20].styles[2]&quot;:&quot;Margin=0,0,-35,0&quot;,&quot;controlStyles[20].styles[3]&quot;:&quot;CornerRadius=15&quot;,&quot;controlStyles[21].target&quot;:&quot;Windows.UI.Xaml.Controls.Button#CloseAllAppsButton &gt; Windows.UI.Xaml.Controls.ContentPresenter#ContentPresenter&quot;,&quot;controlStyles[21].styles[0]&quot;:&quot;Background:=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeMediumLowColor&#125;\&quot; Opacity=\&quot;1\&quot;/&gt;&quot;,&quot;controlStyles[21].styles[1]&quot;:&quot;Padding=10,6&quot;,&quot;controlStyles[21].styles[2]&quot;:&quot;Margin=0,0,-35,0&quot;,&quot;controlStyles[21].styles[3]&quot;:&quot;CornerRadius=15&quot;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Windows-11-Taskbar-Styler">Windows 11 Taskbar Styler</h3>
-<p>修改高级设置中的Mod设置</p>
-<ul>
-<li>Mod设置：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&quot;controlStyles[0].target&quot;:&quot;Taskbar.TaskbarFrame#TaskbarFrame&quot;,&quot;controlStyles[0].styles[1]&quot;:&quot;HorizontalAlignment=Auto&quot;,&quot;controlStyles[0].styles[2]&quot;:&quot;Width=Auto&quot;,&quot;controlStyles[0].styles[0]&quot;:&quot;MaxWidth:=1200&quot;,&quot;controlStyles[0].styles[3]&quot;:&quot;MinWidth:=800&quot;,&quot;controlStyles[1].target&quot;:&quot;Taskbar.TaskbarFrame#TaskbarFrame &gt; Grid#RootGrid&quot;,&quot;controlStyles[1].styles[0]&quot;:&quot;Margin=30,0,30,5&quot;,&quot;controlStyles[1].styles[1]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[1].styles[2]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[1].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[1].styles[4]&quot;:&quot;Background:=Transparent&quot;,&quot;controlStyles[2].target&quot;:&quot;Rectangle#BackgroundFill&quot;,&quot;controlStyles[2].styles[0]&quot;:&quot;Visibility=Visible&quot;,&quot;controlStyles[2].styles[1]&quot;:&quot;Fill:=$Background&quot;,&quot;controlStyles[3].target&quot;:&quot;Rectangle#BackgroundStroke&quot;,&quot;controlStyles[3].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[4].target&quot;:&quot;Taskbar.AugmentedEntryPointButton#AugmentedEntryPointButton &gt; Taskbar.TaskListButtonPanel#ExperienceToggleButtonRootPanel&quot;,&quot;controlStyles[4].styles[0]&quot;:&quot;Margin=4&quot;,&quot;controlStyles[4].styles[1]&quot;:&quot;Background:=$ElementBG&quot;,&quot;controlStyles[4].styles[2]&quot;:&quot;CornerRadius=12&quot;,&quot;controlStyles[5].target&quot;:&quot;Grid#SystemTrayFrameGrid&quot;,&quot;controlStyles[5].styles[0]&quot;:&quot;Margin=0,7,-250,7&quot;,&quot;controlStyles[5].styles[1]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;-645\&quot; Y=\&quot;-2\&quot;/&gt;&quot;,&quot;controlStyles[5].styles[2]&quot;:&quot;Padding=10&quot;,&quot;controlStyles[5].styles[3]&quot;:&quot;Background:=$ElementBG&quot;,&quot;controlStyles[5].styles[4]&quot;:&quot;CornerRadius=12&quot;,&quot;controlStyles[6].target&quot;:&quot;SystemTray.ChevronIconView&quot;,&quot;controlStyles[6].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[6].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[7].target&quot;:&quot;SystemTray.NotifyIconView#NotifyItemIcon&quot;,&quot;controlStyles[7].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[7].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[8].target&quot;:&quot;SystemTray.OmniButton&quot;,&quot;controlStyles[8].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[8].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[9].target&quot;:&quot;SystemTray.CopilotIcon&quot;,&quot;controlStyles[9].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[10].target&quot;:&quot;SystemTray.OmniButton#NotificationCenterButton &gt; Grid &gt; ContentPresenter &gt; ItemsPresenter &gt; StackPanel &gt; ContentPresenter &gt; systemtray:IconView#SystemTrayIcon &gt; Grid&quot;,&quot;controlStyles[10].styles[0]&quot;:&quot;Padding=$TrayPadding&quot;,&quot;controlStyles[11].target&quot;:&quot;SystemTray.IconView#SystemTrayIcon &gt; Grid#ContainerGrid &gt; ContentPresenter#ContentPresenter &gt; Grid#ContentGrid &gt; SystemTray.TextIconContent &gt; Grid#ContainerGrid&quot;,&quot;controlStyles[11].styles[0]&quot;:&quot;Padding=0&quot;,&quot;controlStyles[11].styles[1]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[12].target&quot;:&quot;SystemTray.StackListView#IconStack &gt; ItemsPresenter &gt; StackPanel &gt; ContentPresenter &gt; SystemTray.IconView#SystemTrayIcon&quot;,&quot;controlStyles[12].styles[0]&quot;:&quot;Padding=0&quot;,&quot;controlStyles[13].target&quot;:&quot;SystemTray.Stack#ShowDesktopStack&quot;,&quot;controlStyles[13].styles[0]&quot;:&quot;Visibility=Visible&quot;,&quot;controlStyles[14].target&quot;:&quot;Taskbar.Gripper#GripperControl&quot;,&quot;controlStyles[14].styles[0]&quot;:&quot;Width=Auto&quot;,&quot;controlStyles[14].styles[1]&quot;:&quot;MinWidth=24&quot;,&quot;controlStyles[15].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#AugmentedEntryPointContentGrid&quot;,&quot;controlStyles[15].styles[0]&quot;:&quot;Margin=4,0,0,0&quot;,&quot;controlStyles[15].styles[1]&quot;:&quot;HorizontalAlignment=Left&quot;,&quot;controlStyles[16].target&quot;:&quot;TextBlock#TimeInnerTextBlock&quot;,&quot;controlStyles[16].styles[0]&quot;:&quot;FontSize=13&quot;,&quot;controlStyles[16].styles[1]&quot;:&quot;FontFamily=vivo Sans EN VF&quot;,&quot;controlStyles[16].styles[2]&quot;:&quot;Margin=0&quot;,&quot;controlStyles[16].styles[3]&quot;:&quot;Padding=0&quot;,&quot;controlStyles[16].styles[4]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[17].target&quot;:&quot;TextBlock#DateInnerTextBlock&quot;,&quot;controlStyles[17].styles[0]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[17].styles[1]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;-9\&quot; /&gt;&quot;,&quot;controlStyles[17].styles[2]&quot;:&quot;FontSize=11&quot;,&quot;controlStyles[17].styles[3]&quot;:&quot;FontFamily=vivo Sans EN VF&quot;,&quot;controlStyles[18].target&quot;:&quot;TextBlock#InnerTextBlock[Text=]&quot;,&quot;controlStyles[18].styles[0]&quot;:&quot;Text=&quot;,&quot;controlStyles[19].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ConfirmatorMainGrid&quot;,&quot;controlStyles[19].styles[0]&quot;:&quot;CornerRadius=22&quot;,&quot;controlStyles[19].styles[1]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[19].styles[2]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[19].styles[3]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[20].target&quot;:&quot;TextBlock#SearchBoxTextBlock&quot;,&quot;controlStyles[20].styles[0]&quot;:&quot;Text=Search This Precision&quot;,&quot;controlStyles[20].styles[1]&quot;:&quot;FontSize=10&quot;,&quot;controlStyles[20].styles[2]&quot;:&quot;FontFamily=vivo Sans EN VF&quot;,&quot;controlStyles[21].target&quot;:&quot;SystemTray.OmniButton#NotificationCenterButton &gt; Grid &gt; ContentPresenter &gt; ItemsPresenter &gt; StackPanel &gt; ContentPresenter &gt; SystemTray.IconView#SystemTrayIcon &gt; Grid &gt; Grid &gt; SystemTray.TextIconContent&quot;,&quot;controlStyles[21].styles[0]&quot;:&quot;Visibility=Visible&quot;,&quot;controlStyles[22].target&quot;:&quot;Windows.UI.Xaml.Controls.Button&quot;,&quot;controlStyles[22].styles[0]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[23].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#OverflowFlyoutBackgroundBorder&quot;,&quot;controlStyles[23].styles[0]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[23].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[23].styles[2]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[23].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[24].target&quot;:&quot;Windows.UI.Xaml.Controls.Grid#ModalRootGrid &gt; Windows.UI.Xaml.Controls.Border#BackgroundElement&quot;,&quot;controlStyles[24].styles[0]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[24].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[24].styles[2]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[24].styles[3]&quot;:&quot;CornerRadius=20&quot;,&quot;controlStyles[25].target&quot;:&quot;WindowsInternal.ComposableShell.Experiences.Switcher.VirtualDesktopBarElement#VirtualDesktopBar&quot;,&quot;controlStyles[25].styles[0]&quot;:&quot;Width=1000&quot;,&quot;controlStyles[25].styles[1]&quot;:&quot;Visibility=Collapsed&quot;,&quot;controlStyles[25].styles[2]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;60\&quot; /&gt;&quot;,&quot;controlStyles[25].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[26].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#BackgroundDimmingLayer&quot;,&quot;controlStyles[26].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[27].target&quot;:&quot;Taskbar.TaskListButtonPanel#ExperienceToggleButtonRootPanel &gt; Windows.UI.Xaml.Controls.Border#BackgroundElement&quot;,&quot;controlStyles[27].styles[0]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[28].target&quot;:&quot;Taskbar.TaskListButton#TaskListButton&quot;,&quot;controlStyles[28].styles[0]&quot;:&quot;CornerRadius=10&quot;,&quot;controlStyles[29].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#SnapBarBorder&quot;,&quot;controlStyles[29].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[29].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[29].styles[2]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[29].styles[3]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[29].styles[4]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;10\&quot; /&gt;&quot;,&quot;controlStyles[29].styles[5]&quot;:&quot;Margin=0,0,0,-10&quot;,&quot;controlStyles[30].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#SnapPickerBorder&quot;,&quot;controlStyles[30].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[30].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[30].styles[2]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;controlStyles[30].styles[3]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[31].target&quot;:&quot;Windows.UI.Xaml.Controls.Border#SearchPillBackgroundElement&quot;,&quot;controlStyles[31].styles[0]&quot;:&quot;BorderBrush:=$ElementBorderBrush&quot;,&quot;controlStyles[31].styles[1]&quot;:&quot;CornerRadius=$ElementCornerRadius&quot;,&quot;controlStyles[31].styles[2]&quot;:&quot;BorderThickness=$ElementBorderThickness&quot;,&quot;controlStyles[31].styles[3]&quot;:&quot;Margin=0&quot;,&quot;controlStyles[32].target&quot;:&quot;Taskbar.TaskbarExtensionElement&quot;,&quot;controlStyles[32].styles[0]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[33].target&quot;:&quot;Taskbar.TaskListButtonPanel#ExperienceToggleButtonRootPanel&quot;,&quot;controlStyles[33].styles[0]&quot;:&quot;RenderTransform:=&lt;TranslateTransform X=\&quot;0\&quot; Y=\&quot;0\&quot; /&gt;&quot;,&quot;controlStyles[34].target&quot;:&quot;Windows.UI.Xaml.Controls.ToolTip &gt; Windows.UI.Xaml.Controls.ContentPresenter#LayoutRoot&quot;,&quot;controlStyles[34].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[34].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[34].styles[2]&quot;:&quot;BorderThickness:=$BorderThickness&quot;,&quot;controlStyles[34].styles[3]&quot;:&quot;CornerRadius=12&quot;,&quot;controlStyles[35].target&quot;:&quot;SearchUx.SearchUI.SearchButtonControl&quot;,&quot;controlStyles[35].styles[0]&quot;:&quot;Width=130&quot;,&quot;controlStyles[35].styles[1]&quot;:&quot;Margin=-1,7,-1,7&quot;,&quot;controlStyles[36].target&quot;:&quot;WindowsInternal.ComposableShell.Experiences.Switcher.VirtualDesktopBarElement &gt; Windows.UI.Xaml.Controls.Grid#GridElement &gt; Windows.UI.Xaml.Controls.Border#VirtualDesktopSwitcherBackground&quot;,&quot;controlStyles[36].styles[0]&quot;:&quot;Background:=$Background&quot;,&quot;controlStyles[36].styles[1]&quot;:&quot;BorderBrush:=$BorderBrush&quot;,&quot;controlStyles[36].styles[2]&quot;:&quot;BorderThickness=$BorderThickness&quot;,&quot;controlStyles[36].styles[3]&quot;:&quot;CornerRadius=$CornerRadius&quot;,&quot;styleConstants[0]&quot;:&quot;Background=&lt;WindhawkBlur BlurAmount=\&quot;15\&quot; TintColor=\&quot;#10808080\&quot;/&gt;&quot;,&quot;styleConstants[1]&quot;:&quot;BorderBrush2=&lt;LinearGradientBrush StartPoint=\&quot;0,0\&quot; EndPoint=\&quot;0,1\&quot;&gt;&lt;GradientStop Color=\&quot;&#123;ThemeResource SystemChromeHighColor&#125;\&quot; Offset=\&quot;0.0\&quot; /&gt;&lt;GradientStop Color=\&quot;&#123;ThemeResource SystemChromeLowColor&#125;\&quot; Offset=\&quot;0.25\&quot; /&gt;&lt;GradientStop Color=\&quot;&#123;ThemeResource SystemChromeHighColor&#125;\&quot; Offset=\&quot;1\&quot; /&gt;&lt;/LinearGradientBrush&gt;&quot;,&quot;styleConstants[2]&quot;:&quot;BorderThickness=0.3,1,0.3,0.3&quot;,&quot;styleConstants[3]&quot;:&quot;CornerRadius=15&quot;,&quot;styleConstants[4]&quot;:&quot;BorderBrush=&lt;LinearGradientBrush StartPoint=\&quot;0,0\&quot; EndPoint=\&quot;0,1\&quot;&gt;&lt;GradientStop Color=\&quot;#50808080\&quot; Offset=\&quot;0.0\&quot; /&gt;&lt;GradientStop Color=\&quot;#50404040\&quot; Offset=\&quot;0.25\&quot; /&gt;&lt;GradientStop Color=\&quot;#50808080\&quot; Offset=\&quot;1\&quot; /&gt;&lt;/LinearGradientBrush&gt;&quot;,&quot;styleConstants[5]&quot;:&quot;Background2=&lt;AcrylicBrush TintColor=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; TintOpacity=\&quot;0.3\&quot; FallbackColor=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; /&gt;&quot;,&quot;styleConstants[6]&quot;:&quot;TrayPadding=2&quot;,&quot;styleConstants[7]&quot;:&quot;ElementBG=&lt;SolidColorBrush Color=\&quot;&#123;ThemeResource SystemChromeAltHighColor&#125;\&quot; Opacity=\&quot;0.3\&quot; /&gt;&quot;,&quot;styleConstants[8]&quot;:&quot;ElementBorderThickness=0.3,0.3,0.3,1&quot;,&quot;styleConstants[9]&quot;:&quot;ElementBorderBrush=&lt;LinearGradientBrush StartPoint=\&quot;0,0\&quot; EndPoint=\&quot;0,1\&quot;&gt;&lt;GradientStop Color=\&quot;#50808080\&quot; Offset=\&quot;1\&quot; /&gt;&lt;GradientStop Color=\&quot;#50606060\&quot; Offset=\&quot;0.15\&quot; /&gt;&lt;/LinearGradientBrush&gt;&quot;,&quot;styleConstants[10]&quot;:&quot;ElementCornerRadius=12&quot;,&quot;resourceVariables[0].variableKey&quot;:&quot;&quot;,&quot;resourceVariables[0].value&quot;:&quot;&quot;,&quot;controlStyles[4].styles[3]&quot;:&quot;HorizontalAlignment=Left&quot;,&quot;controlStyles[5].styles[5]&quot;:&quot;VerticalAlignment=Left&quot;&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>资源</tag>
-        <tag>windows美化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>windows没有图形化页面</title>
-    <url>/2025/04/26/windows%E6%B2%A1%E6%9C%89%E5%9B%BE%E5%BD%A2%E5%8C%96%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
-<p>如果安装windows时候选择了没有带gui的选项，仅核心，则会出现没有图形化的问题。</p>
-<blockquote>
-<p>以下的方法其实没什么用，不如重装，下面是我网上搜集来的方法，都没成功</p>
-</blockquote>
-<h2 id="检查图形化程序">检查图形化程序</h2>
-<p>查找位置</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dir</span> /s explorer.exe</span><br></pre></td></tr></table></figure>
-<p>找到可以运行试试</p>
-<h2 id="安装图形化">安装图形化</h2>
-<h3 id="安装gui">安装gui</h3>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">powershell</span><br><span class="line">Install-WindowsFeature Server-Gui-Shell, Server-Gui-Mgmt-Infra</span><br></pre></td></tr></table></figure>
-<h3 id="通过映像文件安装">通过映像文件安装</h3>
-<p>d:对应的是d盘，如果iso文件是其他盘时改为对应盘符</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">dism /get-wiminfo /wimfile:d:\sources\install.wim</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>windows图形化</tag>
-        <tag>cmd</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>内存紧张导致磁盘占用排查笔记</title>
     <url>/2025/10/09/%E5%86%85%E5%AD%98%E7%B4%A7%E5%BC%A0%E5%AF%BC%E8%87%B4%E7%A3%81%E7%9B%98%E5%8D%A0%E7%94%A8%E6%8E%92%E6%9F%A5%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h2 id="内存紧张导致磁盘空间“消失”排查笔记">内存紧张导致磁盘空间“消失”排查笔记</h2>
@@ -5154,6 +5127,33 @@ dns和全局编录GC勾选，设置密码<br>
         <tag>系统运维</tag>
         <tag>windows</tag>
         <tag>内存</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows没有图形化页面</title>
+    <url>/2025/04/26/windows%E6%B2%A1%E6%9C%89%E5%9B%BE%E5%BD%A2%E5%8C%96%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>如果安装windows时候选择了没有带gui的选项，仅核心，则会出现没有图形化的问题。</p>
+<blockquote>
+<p>以下的方法其实没什么用，不如重装，下面是我网上搜集来的方法，都没成功</p>
+</blockquote>
+<h2 id="检查图形化程序">检查图形化程序</h2>
+<p>查找位置</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">dir</span> /s explorer.exe</span><br></pre></td></tr></table></figure>
+<p>找到可以运行试试</p>
+<h2 id="安装图形化">安装图形化</h2>
+<h3 id="安装gui">安装gui</h3>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">powershell</span><br><span class="line">Install-WindowsFeature Server-Gui-Shell, Server-Gui-Mgmt-Infra</span><br></pre></td></tr></table></figure>
+<h3 id="通过映像文件安装">通过映像文件安装</h3>
+<p>d:对应的是d盘，如果iso文件是其他盘时改为对应盘符</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">dism /get-wiminfo /wimfile:d:\sources\install.wim</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows图形化</tag>
+        <tag>cmd</tag>
       </tags>
   </entry>
   <entry>
@@ -5305,24 +5305,6 @@ dns和全局编录GC勾选，设置密码<br>
       </tags>
   </entry>
   <entry>
-    <title>压缩包密码爆破</title>
-    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="使用zip2john-hash值破解">使用zip2john hash值破解</h2>
-<p>生成压缩包hash值</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip2john filename.zip &gt; hash.txt</span><br></pre></td></tr></table></figure>
-<p>开始破解</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">john hash.txt</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>hashcat</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>华硕笔记本更换内存通病</title>
     <url>/2025/10/14/%E5%8D%8E%E7%A1%95%E7%AC%94%E8%AE%B0%E6%9C%AC%E6%9B%B4%E6%8D%A2%E5%86%85%E5%AD%98%E9%80%9A%E7%97%85/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -5347,6 +5329,24 @@ dns和全局编录GC勾选，设置密码<br>
       </categories>
       <tags>
         <tag>华硕笔记本</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>压缩包密码爆破</title>
+    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="使用zip2john-hash值破解">使用zip2john hash值破解</h2>
+<p>生成压缩包hash值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip2john filename.zip &gt; hash.txt</span><br></pre></td></tr></table></figure>
+<p>开始破解</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">john hash.txt</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>hashcat</tag>
       </tags>
   </entry>
   <entry>
@@ -5388,52 +5388,6 @@ dns和全局编录GC勾选，设置密码<br>
       </tags>
   </entry>
   <entry>
-    <title>安全-内网渗透</title>
-    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
-    <content><![CDATA[<h2 id="信息收集">信息收集</h2>
-<p>主机存活<br>
-ettercap -G 蜘蛛<br>
-nmap<br>
-nmap -sS 网段</p>
-<p>漏洞搜集<br>
-awvs			网站扫描<br>
-gvm(openvas)	系统扫描<br>
-nmap<br>
-nmap --script=vuln //常见漏洞<br>
-nmap --script-default //默认收集信息脚本</p>
-<h2 id="进入目标后">进入目标后</h2>
-<p>提权<br>
-创建高权限用户<br>
-windows<br>
-net use<br>
-linux<br>
-user add</p>
-<p>留后门<br>
-创建木马<br>
-木马(msfconsole)<br>
-上传木马<br>
-meterpreter<br>
-upload</p>
-<h2 id="攻击方式">攻击方式</h2>
-<p>改变流量走向<br>
-ettercap(arp欺骗、dns劫持等)<br>
-arpspoof<br>
-arpspoof -i 网卡名称 -t 目标IP 网关</p>
-<p>爆破密码<br>
-hydra（九头蛇）<br>
-msfconsole（爆破密码模块）</p>
-<p>漏洞攻击<br>
-msfconsole（漏洞攻击目录）</p>
-]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>奇异人生-【汉化包】</title>
     <url>/2025/06/22/%E5%A5%87%E5%BC%82%E4%BA%BA%E7%94%9F-%E3%80%90%E6%B1%89%E5%8C%96%E5%8C%85%E3%80%91/</url>
     <content><![CDATA[<h2 id="下载地址">下载地址</h2>
@@ -5457,6 +5411,72 @@ msfconsole（漏洞攻击目录）</p>
       <tags>
         <tag>奇异人生</tag>
         <tag>游戏汉化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据通信基础-公式</title>
+    <url>/2025/06/25/%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80-%E5%85%AC%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="信道带宽（W）">信道带宽（W）</h2>
+<p><code>信道带宽</code>为最高频率($f_2$)减最低频率($f_1$)<br>
+$$<br>
+W = f_2 - f_1<br>
+$$</p>
+<hr>
+<h2 id="奈奎斯特定理（B）">奈奎斯特定理（B）</h2>
+<ul>
+<li>
+<p>信号码元宽度为T秒，也相当于周期，则可以得出<code>码元速率</code>公式：<br>
+$$<br>
+B = \frac{1}{T}<br>
+$$</p>
+</li>
+<li>
+<p>奈奎斯特(Hany Nyquist)就推导出了有限带宽<code>无噪声信道</code>的最大码元速率(极限波特率)，称为奈奎斯特定理:<br>
+若信道带宽为W,则奈奎斯特定理指出<code>最大码元速率</code>为<br>
+$$<br>
+B = 2W<br>
+$$</p>
+</li>
+</ul>
+<hr>
+<h2 id="一个码元的信息量与种类（n、N）">一个码元的信息量与种类（n、N）</h2>
+<p>一个码元携带的<code>信息量n(位)</code>与<code>码元的种类数N</code>有如下关系<br>
+$$<br>
+n = \log_2 N<br>
+$$</p>
+<h2 id="香农定理（C）、数据速率（R）">香农定理（C）、数据速率（R）</h2>
+<p>单位时间内在信道上传送的信息量(位数)称为数据速率</p>
+<ul>
+<li>
+<p>无噪声环境数据速率：<br>
+$$<br>
+R = B \log_2 N = 2W \log_2 N<br>
+$$</p>
+</li>
+<li>
+<p>有噪声信道的<code>极限数据速率</code>(香农定理)：<br>
+$$<br>
+C = W \log_2 \left(1 + \frac{S}{N}\right)<br>
+$$</p>
+<ol>
+<li>S 为信号的平均功率，N 为噪声平均功率， \frac{S}{N}\right 叫作信噪比。由于在实际使用中S与N的比值太大，故常取其分贝数(dB)。分贝与信噪比的关系为：<br>
+$$<br>
+\text{dB} = 10 \log_{10} \frac{S}{N}<br>
+$$</li>
+<li>常见<br>
+S/N=1000时，信噪比为30dB<br>
+S/N=10时，信噪比为10dB</li>
+</ol>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>网络工程师</category>
+      </categories>
+      <tags>
+        <tag>网络工程师</tag>
+        <tag>软考</tag>
       </tags>
   </entry>
   <entry>
@@ -5607,118 +5627,49 @@ msfconsole（漏洞攻击目录）</p>
       </tags>
   </entry>
   <entry>
-    <title>数据通信基础-公式</title>
-    <url>/2025/06/25/%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80-%E5%85%AC%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="信道带宽（W）">信道带宽（W）</h2>
-<p><code>信道带宽</code>为最高频率($f_2$)减最低频率($f_1$)<br>
-$$<br>
-W = f_2 - f_1<br>
-$$</p>
-<hr>
-<h2 id="奈奎斯特定理（B）">奈奎斯特定理（B）</h2>
-<ul>
-<li>
-<p>信号码元宽度为T秒，也相当于周期，则可以得出<code>码元速率</code>公式：<br>
-$$<br>
-B = \frac{1}{T}<br>
-$$</p>
-</li>
-<li>
-<p>奈奎斯特(Hany Nyquist)就推导出了有限带宽<code>无噪声信道</code>的最大码元速率(极限波特率)，称为奈奎斯特定理:<br>
-若信道带宽为W,则奈奎斯特定理指出<code>最大码元速率</code>为<br>
-$$<br>
-B = 2W<br>
-$$</p>
-</li>
-</ul>
-<hr>
-<h2 id="一个码元的信息量与种类（n、N）">一个码元的信息量与种类（n、N）</h2>
-<p>一个码元携带的<code>信息量n(位)</code>与<code>码元的种类数N</code>有如下关系<br>
-$$<br>
-n = \log_2 N<br>
-$$</p>
-<h2 id="香农定理（C）、数据速率（R）">香农定理（C）、数据速率（R）</h2>
-<p>单位时间内在信道上传送的信息量(位数)称为数据速率</p>
-<ul>
-<li>
-<p>无噪声环境数据速率：<br>
-$$<br>
-R = B \log_2 N = 2W \log_2 N<br>
-$$</p>
-</li>
-<li>
-<p>有噪声信道的<code>极限数据速率</code>(香农定理)：<br>
-$$<br>
-C = W \log_2 \left(1 + \frac{S}{N}\right)<br>
-$$</p>
-<ol>
-<li>S 为信号的平均功率，N 为噪声平均功率， \frac{S}{N}\right 叫作信噪比。由于在实际使用中S与N的比值太大，故常取其分贝数(dB)。分贝与信噪比的关系为：<br>
-$$<br>
-\text{dB} = 10 \log_{10} \frac{S}{N}<br>
-$$</li>
-<li>常见<br>
-S/N=1000时，信噪比为30dB<br>
-S/N=10时，信噪比为10dB</li>
-</ol>
-</li>
-</ul>
+    <title>安全-内网渗透</title>
+    <url>/2024/08/01/%E5%AE%89%E5%85%A8-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</url>
+    <content><![CDATA[<h2 id="信息收集">信息收集</h2>
+<p>主机存活<br>
+ettercap -G 蜘蛛<br>
+nmap<br>
+nmap -sS 网段</p>
+<p>漏洞搜集<br>
+awvs			网站扫描<br>
+gvm(openvas)	系统扫描<br>
+nmap<br>
+nmap --script=vuln //常见漏洞<br>
+nmap --script-default //默认收集信息脚本</p>
+<h2 id="进入目标后">进入目标后</h2>
+<p>提权<br>
+创建高权限用户<br>
+windows<br>
+net use<br>
+linux<br>
+user add</p>
+<p>留后门<br>
+创建木马<br>
+木马(msfconsole)<br>
+上传木马<br>
+meterpreter<br>
+upload</p>
+<h2 id="攻击方式">攻击方式</h2>
+<p>改变流量走向<br>
+ettercap(arp欺骗、dns劫持等)<br>
+arpspoof<br>
+arpspoof -i 网卡名称 -t 目标IP 网关</p>
+<p>爆破密码<br>
+hydra（九头蛇）<br>
+msfconsole（爆破密码模块）</p>
+<p>漏洞攻击<br>
+msfconsole（漏洞攻击目录）</p>
 ]]></content>
       <categories>
-        <category>笔记</category>
-        <category>网络工程师</category>
+        <category>网络安全</category>
+        <category>kali</category>
       </categories>
       <tags>
-        <tag>网络工程师</tag>
-        <tag>软考</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>椰汁香芋西米露</title>
-    <url>/2025/07/26/%E6%A4%B0%E6%B1%81%E9%A6%99%E8%8A%8B%E8%A5%BF%E7%B1%B3%E9%9C%B2/</url>
-    <content><![CDATA[<h2 id="原料">原料</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:left">量</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">香芋</td>
-<td style="text-align:left">一颗</td>
-</tr>
-<tr>
-<td style="text-align:center">椰浆</td>
-<td style="text-align:left">一罐400ml（没有甜味）</td>
-</tr>
-<tr>
-<td style="text-align:center">冰糖</td>
-<td style="text-align:left">浅浅覆盖一层（建议一开始放少，后面慢慢加到喜欢的甜度）</td>
-</tr>
-<tr>
-<td style="text-align:center">西米</td>
-<td style="text-align:left">小碗大半碗或者一碗，3，400克左右</td>
-</tr>
-</tbody>
-</table>
-<h2 id="过程">过程</h2>
-<ol>
-<li>将水煮开，倒入西米，西米不要洗，冷水会化</li>
-<li>西米煮到透明有一点点小白点，也就是10分钟左右，关火闷熟，直到全透明</li>
-<li>用滤网，西米过冷水清洗两次，泡冷水备用</li>
-<li>香芋切块，放锅中，冰糖，加入开水煮沸关最小火，煮10分钟后开始软烂</li>
-<li>放入椰浆，慢慢倒入，能够闻到香味，即可，不要太多，味道会很冲<br>
-<s>牌子不一样可能400ml并不会用完，慢慢倒可控</s></li>
-<li>煮开后倒入西米，再次煮开后即可</li>
-</ol>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>糖水</category>
-      </categories>
-      <tags>
-        <tag>糖水</tag>
+        <tag>网络安全</tag>
       </tags>
   </entry>
   <entry>
@@ -6032,6 +5983,114 @@ S/N=10时，信噪比为10dB</li>
       </categories>
   </entry>
   <entry>
+    <title>滑蛋饭</title>
+    <url>/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/</url>
+    <content><![CDATA[<h2 id="调料">调料</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:left">量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">蚝油</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">糖</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">胡椒粉</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">香油</td>
+<td style="text-align:left">极少量</td>
+</tr>
+<tr>
+<td style="text-align:center">酱油</td>
+<td style="text-align:left">少量</td>
+</tr>
+<tr>
+<td style="text-align:center">鸡精</td>
+<td style="text-align:left">少量</td>
+</tr>
+<tr>
+<td style="text-align:center">生粉</td>
+<td style="text-align:left">适量</td>
+</tr>
+</tbody>
+</table>
+<h2 id="酱汁">酱汁</h2>
+<ol>
+<li>半碗水，加入耗油，糖，喜欢甜可以多一点糖，白胡椒，搅在一起</li>
+<li>差不多出锅的时候放一点酱油，香油</li>
+<li>最后用生粉调一个芡，冒泡即可</li>
+</ol>
+<h2 id="滑蛋">滑蛋</h2>
+<p>小火煎蛋即可，腊肠韭黄，都可以，按喜欢的放。</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>菜谱</category>
+      </categories>
+      <tags>
+        <tag>菜谱</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>椰汁香芋西米露</title>
+    <url>/2025/07/26/%E6%A4%B0%E6%B1%81%E9%A6%99%E8%8A%8B%E8%A5%BF%E7%B1%B3%E9%9C%B2/</url>
+    <content><![CDATA[<h2 id="原料">原料</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:left">量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">香芋</td>
+<td style="text-align:left">一颗</td>
+</tr>
+<tr>
+<td style="text-align:center">椰浆</td>
+<td style="text-align:left">一罐400ml（没有甜味）</td>
+</tr>
+<tr>
+<td style="text-align:center">冰糖</td>
+<td style="text-align:left">浅浅覆盖一层（建议一开始放少，后面慢慢加到喜欢的甜度）</td>
+</tr>
+<tr>
+<td style="text-align:center">西米</td>
+<td style="text-align:left">小碗大半碗或者一碗，3，400克左右</td>
+</tr>
+</tbody>
+</table>
+<h2 id="过程">过程</h2>
+<ol>
+<li>将水煮开，倒入西米，西米不要洗，冷水会化</li>
+<li>西米煮到透明有一点点小白点，也就是10分钟左右，关火闷熟，直到全透明</li>
+<li>用滤网，西米过冷水清洗两次，泡冷水备用</li>
+<li>香芋切块，放锅中，冰糖，加入开水煮沸关最小火，煮10分钟后开始软烂</li>
+<li>放入椰浆，慢慢倒入，能够闻到香味，即可，不要太多，味道会很冲<br>
+<s>牌子不一样可能400ml并不会用完，慢慢倒可控</s></li>
+<li>煮开后倒入西米，再次煮开后即可</li>
+</ol>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>糖水</category>
+      </categories>
+      <tags>
+        <tag>糖水</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>生成密钥 ssh-keygen命令</title>
     <url>/2024/08/13/%E7%94%9F%E6%88%90%E5%AF%86%E9%92%A5-ssh-keygen%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="示例">示例</h2>
@@ -6101,65 +6160,6 @@ S/N=10时，信噪比为10dB</li>
       </categories>
       <tags>
         <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>滑蛋饭</title>
-    <url>/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/</url>
-    <content><![CDATA[<h2 id="调料">调料</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:left">量</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">蚝油</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">糖</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">胡椒粉</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">香油</td>
-<td style="text-align:left">极少量</td>
-</tr>
-<tr>
-<td style="text-align:center">酱油</td>
-<td style="text-align:left">少量</td>
-</tr>
-<tr>
-<td style="text-align:center">鸡精</td>
-<td style="text-align:left">少量</td>
-</tr>
-<tr>
-<td style="text-align:center">生粉</td>
-<td style="text-align:left">适量</td>
-</tr>
-</tbody>
-</table>
-<h2 id="酱汁">酱汁</h2>
-<ol>
-<li>半碗水，加入耗油，糖，喜欢甜可以多一点糖，白胡椒，搅在一起</li>
-<li>差不多出锅的时候放一点酱油，香油</li>
-<li>最后用生粉调一个芡，冒泡即可</li>
-</ol>
-<h2 id="滑蛋">滑蛋</h2>
-<p>小火煎蛋即可，腊肠韭黄，都可以，按喜欢的放。</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>菜谱</category>
-      </categories>
-      <tags>
-        <tag>菜谱</tag>
       </tags>
   </entry>
   <entry>
@@ -6343,8 +6343,8 @@ S/N=10时，信噪比为10dB</li>
         <category>k8s</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>k8s</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
