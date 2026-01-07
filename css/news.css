@@ -1,0 +1,124 @@
+/* 今日新闻卡片样式 - 适配Hexo侧边栏 */
+#news.card-widget {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 132, 255, 0.788) 0%,
+    rgba(0,0,0,0.5) 70%
+  ) !important;
+  border-radius: 10px;
+  color: white;
+  border-width: 10px;
+  padding-bottom: 35px;
+}
+
+#newsContent {
+    width: 100%;
+    height: 270px;
+    font-size: 90%;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none
+}
+
+/* 自定义滚动条 */
+#newsContent::-webkit-scrollbar {
+    width: 4px;
+}
+#newsContent::-webkit-scrollbar-track {
+    background: rgba(0, 20, 40, 0.3);
+    border-radius: 2px;
+}
+#newsContent::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+}
+
+/* 空数据提示 */
+.empty-tip {
+    text-align: center;
+    padding: 30px 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+/* 列表样式 */
+.news-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 列表项 */
+.news-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 8px;
+}
+
+/* 排名数字 */
+.news-rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 20px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+.news-rank-top1 { background: #f43530; }
+.news-rank-top2 { background: #ff7a45; }
+.news-rank-top3 { background: #ffc53d; }
+
+/* 新闻标题 */
+.news-title {
+    flex: 1;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    line-height: 1.4;
+    word-break: break-all;
+}
+.news-title:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* 来源和时间 */
+/* .news-meta {
+    display: block;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 3px;
+    width: 60px;
+} */
+
+/* 适配移动端 */
+@media (max-width: 768px) {
+    #newsContent {
+        max-height: 400px;
+    }
+    .news-list-wrapper {
+        padding: 10px;
+    }
+    .news-item {
+        padding: 6px 0;
+    }
+    .news-title {
+        font-size: 12px;
+    }
+}
+
+/* 无数据兜底 */
+#newsContent:empty::after {
+    content: "暂无新闻数据";
+    display: block;
+    text-align: center;
+    padding: 20px 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
