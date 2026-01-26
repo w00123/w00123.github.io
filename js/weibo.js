@@ -36,7 +36,7 @@ function weibo() {
 
 function getData() {
     // 这里采用新的api，如果炸了，可以换其他的，但注意api接收的json样式
-    fetch('https://api.jkyai.top/API/wbrsbd.php').then(data => data.json()).then(data => {
+    fetch('https://yunzhiapi.cn/API/wbrsbd.php').then(data => data.json()).then(data => {
         if (data.success === true) {
             data = { time: Date.now(), ls: JSON.stringify(data.data) }
             localStorage.setItem('weibo', JSON.stringify(data))
