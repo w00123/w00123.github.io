@@ -12,6 +12,10 @@
 	background: transparent !important;
 }
 
+* {
+	caret-color: transparent;
+}
+
 
 
 [data-theme＝"dark"] #footer::before{
