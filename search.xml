@@ -1,118 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Kubernetes集群部署</title>
-    <url>/2025/07/11/Kubernetes%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<h2 id="准备工作">准备工作</h2>
-<p>（所有节点执行）</p>
-<ul>
-<li>三台ubuntu
-<ul>
-<li>master：192.168.11.100</li>
-<li>node1：192.168.11.11</li>
-<li>node2：192.168.11.22</li>
-</ul>
-</li>
-</ul>
-<h3 id="设置主机名">设置主机名</h3>
-<p>（各自设置）</p>
-<ol>
-<li>master 节点</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname master</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>node1 节点</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname node1</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>node2 节点</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname node2</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
-<h3 id="添加-hosts-解析">添加 hosts 解析</h3>
-<p>（所有节点执行）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/hosts &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">192.168.11.100 master</span></span><br><span class="line"><span class="string">192.168.11.11 node1</span></span><br><span class="line"><span class="string">192.168.11.22 node2</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
-<h3 id="禁用-swap">禁用 swap</h3>
-<p>（所有节点）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> swapoff -a</span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;/ swap / s/^/#/&#x27;</span> /etc/fstab</span><br></pre></td></tr></table></figure>
-<h3 id="配置内核参数">配置内核参数</h3>
-<p>（所有节点）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/modules-load.d/k8s.conf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">br_netfilter</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> modprobe br_netfilter</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/sysctl.d/k8s.conf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-iptables = 1</span></span><br><span class="line"><span class="string">net.ipv4.ip_forward = 1</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-ip6tables = 1</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> sysctl --system</span><br></pre></td></tr></table></figure>
-<h3 id="安装-containerd">安装 containerd</h3>
-<p>（所有节点）</p>
-<ol>
-<li>更新 apt 源</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>安装 containerd</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y containerd</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>创建配置目录（如果不存在）</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/containerd</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>生成默认配置文件</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> containerd config default | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/containerd/config.toml</span><br></pre></td></tr></table></figure>
-<ol start="5">
-<li>关键：国内镜像 + systemd cgroup</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s|sandbox_image = &quot;registry.k8s.io/pause:.*&quot;|sandbox_image = &quot;registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.9&quot;|g&#x27;</span> /etc/containerd/config.toml</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s/SystemdCgroup = false/SystemdCgroup = true/g&#x27;</span> /etc/containerd/config.toml</span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li>重启并开启 containerd 服务</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart containerd</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> containerd</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>查看 containerd 状态确认运行中</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status containerd</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="安装-Kubernetes">安装 Kubernetes</h2>
-<h3 id="添加-Kubernetes-源">添加 Kubernetes 源</h3>
-<p>（所有节点）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 添加 Kubernetes 国内 apt 源（阿里云）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /&#x27;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 添加 GPG 公钥</span></span><br><span class="line">curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | \</span><br><span class="line">  <span class="built_in">sudo</span> gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 更新源</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br></pre></td></tr></table></figure>
-<h3 id="安装-kubelet、kubeadm、kubectl">安装 kubelet、kubeadm、kubectl</h3>
-<p>（kubectl 可只在 master 装）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 安装</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y kubelet kubeadm kubectl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 锁定版本，避免系统升级时自动升级</span></span><br><span class="line"><span class="built_in">sudo</span> apt-mark hold kubelet kubeadm kubectl</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now kubelet</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="初始化-master-节点">初始化 master 节点</h2>
-<p>（只在 master 执行）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 初始化 master 节点</span></span><br><span class="line"><span class="built_in">sudo</span> kubeadm init \</span><br><span class="line">  --apiserver-advertise-address=192.168.11.100 \</span><br><span class="line">  --control-plane-endpoint=master \</span><br><span class="line">  --pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">  --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers</span><br></pre></td></tr></table></figure>
-<p>如果安装中断，有残留文件，先执行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo kubeadm reset -f</span><br><span class="line">sudo systemctl restart containerd</span><br><span class="line">sudo rm -rf ~/.kube /etc/kubernetes/pki /etc/kubernetes/manifests</span><br></pre></td></tr></table></figure>
-<h3 id="初始化成功后，执行提示中的命令以配置-kubectl：">初始化成功后，执行提示中的命令以配置 kubectl：</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p <span class="variable">$HOME</span>/.kube</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chown</span> $(<span class="built_in">id</span> -u):$(<span class="built_in">id</span> -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="安装网络插件">安装网络插件</h2>
-<p>（只在 master 执行）<br>
-以 calico 为例：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载yaml</span></span><br><span class="line">curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/calico.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换为 DaoCloud 镜像</span></span><br><span class="line">sed -i <span class="string">&#x27;s|docker.io/calico/|docker.m.daocloud.io/calico/|g&#x27;</span> calico.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署</span></span><br><span class="line">kubectl apply -f calico.yaml</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="加入节点">加入节点</h2>
-<p>（在 node1 和 node2 执行）<br>
-初始化 master 成功后会输出一个 <code>kubeadm join</code> 命令，形如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm <span class="built_in">join</span> 192.168.11.100:6443 --token &lt;token&gt; --discovery-token-ca-cert-hash sha256:&lt;<span class="built_in">hash</span>&gt;</span><br></pre></td></tr></table></figure>
-<p>在 node1 和 node2 上运行这个命令即可加入集群。</p>
-<p>如果没保存，可以在 master 上用下面命令重新获取：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm token create --print-join-command</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="验证集群状态">验证集群状态</h2>
-<p>（master 上）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
-<p>看到三台机器 <code>STATUS</code> 是 <code>Ready</code> 就说明集群搭建成功。</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>k8s</category>
-      </categories>
-      <tags>
-        <tag>k8s</tag>
-        <tag>kubernetes</tag>
-        <tag>k8s部署</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Browser-use 安装</title>
     <url>/2025/07/07/Browser-use-%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<h2 id="简介">简介</h2>
@@ -182,101 +70,98 @@ api配置文件</li>
       </tags>
   </entry>
   <entry>
-    <title>Magentic-UI 安装</title>
-    <url>/2025/07/06/Magentic-UI-%E5%AE%89%E8%A3%85/</url>
-    <content><![CDATA[<h2 id="简介">简介</h2>
-<blockquote>
-<p>Magentic-UI：<br>
-<a href="https://github.com/microsoft/Magentic-UI?tab=readme-ov-file#%EF%B8%8F-installation">https://github.com/microsoft/Magentic-UI?tab=readme-ov-file#️-installation</a></p>
-</blockquote>
-<hr>
-<h2 id="安装">安装</h2>
-<h3 id="环境准备">环境准备</h3>
-<ol>
-<li>需要<code>docker</code>环境，安装可参照<a href="/2024/08/09/docker%E5%AE%89%E8%A3%85/">docker 安装</a></li>
-<li>安装<code>python3.12、python3.12-venv</code>
-<ul>
-<li>导入 Python 的稳定版 PPA，如果遇到网络问题可以使用代理<code>proxychains4</code>，不需要代理删除proxychains4即可：</li>
-</ul>
- <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">proxychains4 add-apt-repository ppa:deadsnakes/ppa</span><br></pre></td></tr></table></figure>
-deadsnakes PPA 是由 Python 社区维护的一个软件源，专门用于提供不同版本的 Python（包括一些较新的版本），这些版本可能不在 Ubuntu 的默认软件源中。
-<ul>
-<li>更新 APT 缓存：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装 Python 3.12</li>
-</ul>
-	<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install python3.12 python3.12-venv</span><br></pre></td></tr></table></figure>
-<ul>
-<li>检查版本</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python3.12 --version</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="Magentic-UI-安装">Magentic-UI 安装</h3>
-<ol>
-<li>使用虚拟环境以避免与其他软件包冲突</li>
-</ol>
-<ul>
-<li>linux</li>
-</ul>
-  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python3 -m venv .venv</span><br><span class="line">source .venv/bin/activate</span><br><span class="line">pip install magentic-ui</span><br></pre></td></tr></table></figure>
-<ul>
-<li>windows</li>
-</ul>
-  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python -m venv venv</span><br><span class="line">venv\Scripts\activate</span><br><span class="line">pip install magentic-ui</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>如果使用 uv 进行依赖项管理(较快)，则可以使用以下命令安装 Magentic-UI：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">uv venv --python=3.12 .venv</span><br><span class="line">. .venv/bin/activate</span><br><span class="line">uv pip install magentic-ui</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>运行 Magentic-UI<br>
-第一次运行此命令时，会构建 Docker 镜像，时间比较久；<br>
-要运行 Magentic-UI，请确保 Docker 正在运行，然后运行以下命令：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">magentic-ui --port 8081 --host 0.0.0.0</span><br></pre></td></tr></table></figure>
-<h3 id="venv虚拟环境进入退出">venv虚拟环境进入退出</h3>
-<ol>
-<li>linux</li>
-</ol>
-<ul>
-<li>要退出虚拟环境，只需运行以下命令：</li>
-</ul>
-  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
-<ul>
-<li>想再次进入虚拟环境，只需重新激活它。到达<code>.venv的根目录</code>后，进入虚拟环境的命令如下：</li>
-</ul>
-  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source .venv/bin/activate</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>windows</li>
-</ol>
-<ul>
-<li>退出相同，进入为</li>
-</ul>
-  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">venv\Scripts\activate</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="配置">配置</h2>
-<h3 id="模型客户端配置">模型客户端配置</h3>
-<ul>
-<li>如果要使用不同的 OpenAI 密钥，或者想要配置与 Azure OpenAI 或 Ollama 的使用，<code>可以在 UI 中执行</code>此作，方法是导航到设置（右上角图标）并使用下面的文件格式更改模型配置。</li>
-<li>您还可以在 UI 中创建并导入它，或在启动时将 Magentic-UI 指向其路径：config.yamlconfig.yaml  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">magentic-ui --config path/to/config.yaml</span><br></pre></td></tr></table></figure>
-官方给出了 OpenAI 的示例：config.yaml <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># config.yaml</span><br><span class="line"></span><br><span class="line">######################################</span><br><span class="line"># Default OpenAI model configuration #</span><br><span class="line">######################################</span><br><span class="line">model_config: &amp;client</span><br><span class="line">  provider: autogen_ext.models.openai.OpenAIChatCompletionClient</span><br><span class="line">  config:</span><br><span class="line">    model: gpt-4o</span><br><span class="line">    api_key: &lt;YOUR API KEY&gt;</span><br><span class="line">    max_retries: 10</span><br><span class="line"></span><br><span class="line">##########################</span><br><span class="line"># Clients for each agent #</span><br><span class="line">##########################</span><br><span class="line">orchestrator_client: *client</span><br><span class="line">coder_client: *client</span><br><span class="line">web_surfer_client: *client</span><br><span class="line">file_surfer_client: *client</span><br><span class="line">action_guard_client: *client</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="MCP-服务器配置">MCP 服务器配置</h3>
-<p>可以通过向多代理团队添加自定义 “McpAgents” 来扩展 Magentic-UI 的功能。每个 McpAgent 都可以访问一个或多个 MCP 服务器。可以通过 .mcp_agent_configsconfig.yaml</p>
-<p>官网给出的示例：<br>
-例如，这里有一个名为“airbnb_surfer”的代理，它可以通过 Stdio 访问本地运行的 OpenBnb MCP 服务器</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mcp_agent_configs:</span><br><span class="line">  - name: airbnb_surfer</span><br><span class="line">    description: &quot;The airbnb_surfer has direct access to AirBnB.&quot;</span><br><span class="line">    model_client: </span><br><span class="line">      provider: OpenAIChatCompletionClient</span><br><span class="line">      config:</span><br><span class="line">        model: gpt-4.1-2025-04-14</span><br><span class="line">      max_retries: 10</span><br><span class="line">    system_message: |-</span><br><span class="line">      You are AirBnb Surfer, a helpful digital assistant that can help users acces AirBnB.</span><br><span class="line"></span><br><span class="line">      You have access to a suite of tools provided by the AirBnB API. Use those tools to satisfy the users requests.</span><br><span class="line">    reflect_on_tool_use: false</span><br><span class="line">    mcp_servers:</span><br><span class="line">      - server_name: AirBnB</span><br><span class="line">        server_params:</span><br><span class="line">          type: StdioServerParams</span><br><span class="line">          command: npx</span><br><span class="line">          args:</span><br><span class="line">            - -y</span><br><span class="line">            - &quot;@openbnb/mcp-server-airbnb&quot;</span><br><span class="line">            - --ignore-robots-txt</span><br></pre></td></tr></table></figure>]]></content>
+    <title>Dockerfile命令</title>
+    <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<table>
+<thead>
+<tr>
+<th style="text-align:center">Dockerfile</th>
+<th style="text-align:left">指令	说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FROM</td>
+<td style="text-align:left">指定基础镜像，用于后续的指令构建。</td>
+</tr>
+<tr>
+<td style="text-align:center">MAINTAINER</td>
+<td style="text-align:left">指定Dockerfile的作者/维护者。（已弃用，推荐使用LABEL指令）</td>
+</tr>
+<tr>
+<td style="text-align:center">LABEL</td>
+<td style="text-align:left">添加镜像的元数据，使用键值对的形式。</td>
+</tr>
+<tr>
+<td style="text-align:center">RUN</td>
+<td style="text-align:left">在构建过程中在镜像中执行命令。</td>
+</tr>
+<tr>
+<td style="text-align:center">CMD</td>
+<td style="text-align:left">指定容器创建时的默认命令。（可以被覆盖）</td>
+</tr>
+<tr>
+<td style="text-align:center">ENTRYPOINT</td>
+<td style="text-align:left">设置容器创建时的主要命令。（不可被覆盖）</td>
+</tr>
+<tr>
+<td style="text-align:center">EXPOSE</td>
+<td style="text-align:left">声明容器运行时监听的特定网络端口。</td>
+</tr>
+<tr>
+<td style="text-align:center">ENV</td>
+<td style="text-align:left">在容器内部设置环境变量。</td>
+</tr>
+<tr>
+<td style="text-align:center">ADD</td>
+<td style="text-align:left">将文件、目录或远程URL复制到镜像中。</td>
+</tr>
+<tr>
+<td style="text-align:center">COPY</td>
+<td style="text-align:left">将文件或目录复制到镜像中。</td>
+</tr>
+<tr>
+<td style="text-align:center">VOLUME</td>
+<td style="text-align:left">为容器创建挂载点或声明卷。</td>
+</tr>
+<tr>
+<td style="text-align:center">WORKDIR</td>
+<td style="text-align:left">设置后续指令的工作目录。</td>
+</tr>
+<tr>
+<td style="text-align:center">USER</td>
+<td style="text-align:left">指定后续指令的用户上下文。</td>
+</tr>
+<tr>
+<td style="text-align:center">ARG</td>
+<td style="text-align:left">定义在构建过程中传递给构建器的变量，可使用 “docker build” 命令设置。</td>
+</tr>
+<tr>
+<td style="text-align:center">ONBUILD</td>
+<td style="text-align:left">当该镜像被用作另一个构建过程的基础时，添加触发器。</td>
+</tr>
+<tr>
+<td style="text-align:center">STOPSIGNAL</td>
+<td style="text-align:left">设置发送给容器以退出的系统调用信号。</td>
+</tr>
+<tr>
+<td style="text-align:center">HEALTHCHECK</td>
+<td style="text-align:left">定义周期性检查容器健康状态的命令。</td>
+</tr>
+<tr>
+<td style="text-align:center">SHELL</td>
+<td style="text-align:left">覆盖Docker中默认的shell，用于RUN、CMD和ENTRYPOINT指令。</td>
+</tr>
+</tbody>
+</table>
+]]></content>
       <categories>
-        <category>代码</category>
-        <category>工具安装</category>
+        <category>系统运维</category>
+        <category>docker</category>
       </categories>
       <tags>
-        <tag>浏览器ai代理</tag>
-        <tag>工具</tag>
-        <tag>Magentic-UI</tag>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -433,8 +318,218 @@ deadsnakes PPA 是由 Python 社区维护的一个软件源，专门用于提供
         <category>k8s</category>
       </categories>
       <tags>
-        <tag>k8s</tag>
         <tag>Kubernetes</tag>
+        <tag>k8s</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kubernetes集群部署</title>
+    <url>/2025/07/11/Kubernetes%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h2 id="准备工作">准备工作</h2>
+<p>（所有节点执行）</p>
+<ul>
+<li>三台ubuntu
+<ul>
+<li>master：192.168.11.100</li>
+<li>node1：192.168.11.11</li>
+<li>node2：192.168.11.22</li>
+</ul>
+</li>
+</ul>
+<h3 id="设置主机名">设置主机名</h3>
+<p>（各自设置）</p>
+<ol>
+<li>master 节点</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname master</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>node1 节点</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname node1</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>node2 节点</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> hostnamectl set-hostname node2</span><br><span class="line"><span class="built_in">exec</span> bash</span><br></pre></td></tr></table></figure>
+<h3 id="添加-hosts-解析">添加 hosts 解析</h3>
+<p>（所有节点执行）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/hosts &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">192.168.11.100 master</span></span><br><span class="line"><span class="string">192.168.11.11 node1</span></span><br><span class="line"><span class="string">192.168.11.22 node2</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+<h3 id="禁用-swap">禁用 swap</h3>
+<p>（所有节点）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> swapoff -a</span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;/ swap / s/^/#/&#x27;</span> /etc/fstab</span><br></pre></td></tr></table></figure>
+<h3 id="配置内核参数">配置内核参数</h3>
+<p>（所有节点）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/modules-load.d/k8s.conf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">br_netfilter</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> modprobe br_netfilter</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/sysctl.d/k8s.conf &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-iptables = 1</span></span><br><span class="line"><span class="string">net.ipv4.ip_forward = 1</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-ip6tables = 1</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> sysctl --system</span><br></pre></td></tr></table></figure>
+<h3 id="安装-containerd">安装 containerd</h3>
+<p>（所有节点）</p>
+<ol>
+<li>更新 apt 源</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>安装 containerd</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y containerd</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>创建配置目录（如果不存在）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/containerd</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>生成默认配置文件</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> containerd config default | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/containerd/config.toml</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>关键：国内镜像 + systemd cgroup</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s|sandbox_image = &quot;registry.k8s.io/pause:.*&quot;|sandbox_image = &quot;registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.9&quot;|g&#x27;</span> /etc/containerd/config.toml</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s/SystemdCgroup = false/SystemdCgroup = true/g&#x27;</span> /etc/containerd/config.toml</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>重启并开启 containerd 服务</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart containerd</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> containerd</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>查看 containerd 状态确认运行中</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status containerd</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="安装-Kubernetes">安装 Kubernetes</h2>
+<h3 id="添加-Kubernetes-源">添加 Kubernetes 源</h3>
+<p>（所有节点）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 添加 Kubernetes 国内 apt 源（阿里云）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /&#x27;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 添加 GPG 公钥</span></span><br><span class="line">curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | \</span><br><span class="line">  <span class="built_in">sudo</span> gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 更新源</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br></pre></td></tr></table></figure>
+<h3 id="安装-kubelet、kubeadm、kubectl">安装 kubelet、kubeadm、kubectl</h3>
+<p>（kubectl 可只在 master 装）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 安装</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y kubelet kubeadm kubectl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 锁定版本，避免系统升级时自动升级</span></span><br><span class="line"><span class="built_in">sudo</span> apt-mark hold kubelet kubeadm kubectl</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now kubelet</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="初始化-master-节点">初始化 master 节点</h2>
+<p>（只在 master 执行）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 初始化 master 节点</span></span><br><span class="line"><span class="built_in">sudo</span> kubeadm init \</span><br><span class="line">  --apiserver-advertise-address=192.168.11.100 \</span><br><span class="line">  --control-plane-endpoint=master \</span><br><span class="line">  --pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">  --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers</span><br></pre></td></tr></table></figure>
+<p>如果安装中断，有残留文件，先执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo kubeadm reset -f</span><br><span class="line">sudo systemctl restart containerd</span><br><span class="line">sudo rm -rf ~/.kube /etc/kubernetes/pki /etc/kubernetes/manifests</span><br></pre></td></tr></table></figure>
+<h3 id="初始化成功后，执行提示中的命令以配置-kubectl：">初始化成功后，执行提示中的命令以配置 kubectl：</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p <span class="variable">$HOME</span>/.kube</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chown</span> $(<span class="built_in">id</span> -u):$(<span class="built_in">id</span> -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="安装网络插件">安装网络插件</h2>
+<p>（只在 master 执行）<br>
+以 calico 为例：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载yaml</span></span><br><span class="line">curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/calico.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换为 DaoCloud 镜像</span></span><br><span class="line">sed -i <span class="string">&#x27;s|docker.io/calico/|docker.m.daocloud.io/calico/|g&#x27;</span> calico.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署</span></span><br><span class="line">kubectl apply -f calico.yaml</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="加入节点">加入节点</h2>
+<p>（在 node1 和 node2 执行）<br>
+初始化 master 成功后会输出一个 <code>kubeadm join</code> 命令，形如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm <span class="built_in">join</span> 192.168.11.100:6443 --token &lt;token&gt; --discovery-token-ca-cert-hash sha256:&lt;<span class="built_in">hash</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>在 node1 和 node2 上运行这个命令即可加入集群。</p>
+<p>如果没保存，可以在 master 上用下面命令重新获取：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubeadm token create --print-join-command</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="验证集群状态">验证集群状态</h2>
+<p>（master 上）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+<p>看到三台机器 <code>STATUS</code> 是 <code>Ready</code> 就说明集群搭建成功。</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>k8s</category>
+      </categories>
+      <tags>
+        <tag>k8s</tag>
+        <tag>kubernetes</tag>
+        <tag>k8s部署</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Magentic-UI 安装</title>
+    <url>/2025/07/06/Magentic-UI-%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h2 id="简介">简介</h2>
+<blockquote>
+<p>Magentic-UI：<br>
+<a href="https://github.com/microsoft/Magentic-UI?tab=readme-ov-file#%EF%B8%8F-installation">https://github.com/microsoft/Magentic-UI?tab=readme-ov-file#️-installation</a></p>
+</blockquote>
+<hr>
+<h2 id="安装">安装</h2>
+<h3 id="环境准备">环境准备</h3>
+<ol>
+<li>需要<code>docker</code>环境，安装可参照<a href="/2024/08/09/docker%E5%AE%89%E8%A3%85/">docker 安装</a></li>
+<li>安装<code>python3.12、python3.12-venv</code>
+<ul>
+<li>导入 Python 的稳定版 PPA，如果遇到网络问题可以使用代理<code>proxychains4</code>，不需要代理删除proxychains4即可：</li>
+</ul>
+ <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">proxychains4 add-apt-repository ppa:deadsnakes/ppa</span><br></pre></td></tr></table></figure>
+deadsnakes PPA 是由 Python 社区维护的一个软件源，专门用于提供不同版本的 Python（包括一些较新的版本），这些版本可能不在 Ubuntu 的默认软件源中。
+<ul>
+<li>更新 APT 缓存：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装 Python 3.12</li>
+</ul>
+	<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install python3.12 python3.12-venv</span><br></pre></td></tr></table></figure>
+<ul>
+<li>检查版本</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python3.12 --version</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="Magentic-UI-安装">Magentic-UI 安装</h3>
+<ol>
+<li>使用虚拟环境以避免与其他软件包冲突</li>
+</ol>
+<ul>
+<li>linux</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python3 -m venv .venv</span><br><span class="line">source .venv/bin/activate</span><br><span class="line">pip install magentic-ui</span><br></pre></td></tr></table></figure>
+<ul>
+<li>windows</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python -m venv venv</span><br><span class="line">venv\Scripts\activate</span><br><span class="line">pip install magentic-ui</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>如果使用 uv 进行依赖项管理(较快)，则可以使用以下命令安装 Magentic-UI：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">uv venv --python=3.12 .venv</span><br><span class="line">. .venv/bin/activate</span><br><span class="line">uv pip install magentic-ui</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>运行 Magentic-UI<br>
+第一次运行此命令时，会构建 Docker 镜像，时间比较久；<br>
+要运行 Magentic-UI，请确保 Docker 正在运行，然后运行以下命令：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">magentic-ui --port 8081 --host 0.0.0.0</span><br></pre></td></tr></table></figure>
+<h3 id="venv虚拟环境进入退出">venv虚拟环境进入退出</h3>
+<ol>
+<li>linux</li>
+</ol>
+<ul>
+<li>要退出虚拟环境，只需运行以下命令：</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+<ul>
+<li>想再次进入虚拟环境，只需重新激活它。到达<code>.venv的根目录</code>后，进入虚拟环境的命令如下：</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source .venv/bin/activate</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>windows</li>
+</ol>
+<ul>
+<li>退出相同，进入为</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">venv\Scripts\activate</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="配置">配置</h2>
+<h3 id="模型客户端配置">模型客户端配置</h3>
+<ul>
+<li>如果要使用不同的 OpenAI 密钥，或者想要配置与 Azure OpenAI 或 Ollama 的使用，<code>可以在 UI 中执行</code>此作，方法是导航到设置（右上角图标）并使用下面的文件格式更改模型配置。</li>
+<li>您还可以在 UI 中创建并导入它，或在启动时将 Magentic-UI 指向其路径：config.yamlconfig.yaml  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">magentic-ui --config path/to/config.yaml</span><br></pre></td></tr></table></figure>
+官方给出了 OpenAI 的示例：config.yaml <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># config.yaml</span><br><span class="line"></span><br><span class="line">######################################</span><br><span class="line"># Default OpenAI model configuration #</span><br><span class="line">######################################</span><br><span class="line">model_config: &amp;client</span><br><span class="line">  provider: autogen_ext.models.openai.OpenAIChatCompletionClient</span><br><span class="line">  config:</span><br><span class="line">    model: gpt-4o</span><br><span class="line">    api_key: &lt;YOUR API KEY&gt;</span><br><span class="line">    max_retries: 10</span><br><span class="line"></span><br><span class="line">##########################</span><br><span class="line"># Clients for each agent #</span><br><span class="line">##########################</span><br><span class="line">orchestrator_client: *client</span><br><span class="line">coder_client: *client</span><br><span class="line">web_surfer_client: *client</span><br><span class="line">file_surfer_client: *client</span><br><span class="line">action_guard_client: *client</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="MCP-服务器配置">MCP 服务器配置</h3>
+<p>可以通过向多代理团队添加自定义 “McpAgents” 来扩展 Magentic-UI 的功能。每个 McpAgent 都可以访问一个或多个 MCP 服务器。可以通过 .mcp_agent_configsconfig.yaml</p>
+<p>官网给出的示例：<br>
+例如，这里有一个名为“airbnb_surfer”的代理，它可以通过 Stdio 访问本地运行的 OpenBnb MCP 服务器</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mcp_agent_configs:</span><br><span class="line">  - name: airbnb_surfer</span><br><span class="line">    description: &quot;The airbnb_surfer has direct access to AirBnB.&quot;</span><br><span class="line">    model_client: </span><br><span class="line">      provider: OpenAIChatCompletionClient</span><br><span class="line">      config:</span><br><span class="line">        model: gpt-4.1-2025-04-14</span><br><span class="line">      max_retries: 10</span><br><span class="line">    system_message: |-</span><br><span class="line">      You are AirBnb Surfer, a helpful digital assistant that can help users acces AirBnB.</span><br><span class="line"></span><br><span class="line">      You have access to a suite of tools provided by the AirBnB API. Use those tools to satisfy the users requests.</span><br><span class="line">    reflect_on_tool_use: false</span><br><span class="line">    mcp_servers:</span><br><span class="line">      - server_name: AirBnB</span><br><span class="line">        server_params:</span><br><span class="line">          type: StdioServerParams</span><br><span class="line">          command: npx</span><br><span class="line">          args:</span><br><span class="line">            - -y</span><br><span class="line">            - &quot;@openbnb/mcp-server-airbnb&quot;</span><br><span class="line">            - --ignore-robots-txt</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>代码</category>
+        <category>工具安装</category>
+      </categories>
+      <tags>
+        <tag>浏览器ai代理</tag>
+        <tag>工具</tag>
+        <tag>Magentic-UI</tag>
       </tags>
   </entry>
   <entry>
@@ -481,101 +576,6 @@ deadsnakes PPA 是由 Python 社区维护的一个软件源，专门用于提供
       </categories>
       <tags>
         <tag>linux命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Dockerfile命令</title>
-    <url>/2024/08/11/Dockerfile%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<table>
-<thead>
-<tr>
-<th style="text-align:center">Dockerfile</th>
-<th style="text-align:left">指令	说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">FROM</td>
-<td style="text-align:left">指定基础镜像，用于后续的指令构建。</td>
-</tr>
-<tr>
-<td style="text-align:center">MAINTAINER</td>
-<td style="text-align:left">指定Dockerfile的作者/维护者。（已弃用，推荐使用LABEL指令）</td>
-</tr>
-<tr>
-<td style="text-align:center">LABEL</td>
-<td style="text-align:left">添加镜像的元数据，使用键值对的形式。</td>
-</tr>
-<tr>
-<td style="text-align:center">RUN</td>
-<td style="text-align:left">在构建过程中在镜像中执行命令。</td>
-</tr>
-<tr>
-<td style="text-align:center">CMD</td>
-<td style="text-align:left">指定容器创建时的默认命令。（可以被覆盖）</td>
-</tr>
-<tr>
-<td style="text-align:center">ENTRYPOINT</td>
-<td style="text-align:left">设置容器创建时的主要命令。（不可被覆盖）</td>
-</tr>
-<tr>
-<td style="text-align:center">EXPOSE</td>
-<td style="text-align:left">声明容器运行时监听的特定网络端口。</td>
-</tr>
-<tr>
-<td style="text-align:center">ENV</td>
-<td style="text-align:left">在容器内部设置环境变量。</td>
-</tr>
-<tr>
-<td style="text-align:center">ADD</td>
-<td style="text-align:left">将文件、目录或远程URL复制到镜像中。</td>
-</tr>
-<tr>
-<td style="text-align:center">COPY</td>
-<td style="text-align:left">将文件或目录复制到镜像中。</td>
-</tr>
-<tr>
-<td style="text-align:center">VOLUME</td>
-<td style="text-align:left">为容器创建挂载点或声明卷。</td>
-</tr>
-<tr>
-<td style="text-align:center">WORKDIR</td>
-<td style="text-align:left">设置后续指令的工作目录。</td>
-</tr>
-<tr>
-<td style="text-align:center">USER</td>
-<td style="text-align:left">指定后续指令的用户上下文。</td>
-</tr>
-<tr>
-<td style="text-align:center">ARG</td>
-<td style="text-align:left">定义在构建过程中传递给构建器的变量，可使用 “docker build” 命令设置。</td>
-</tr>
-<tr>
-<td style="text-align:center">ONBUILD</td>
-<td style="text-align:left">当该镜像被用作另一个构建过程的基础时，添加触发器。</td>
-</tr>
-<tr>
-<td style="text-align:center">STOPSIGNAL</td>
-<td style="text-align:left">设置发送给容器以退出的系统调用信号。</td>
-</tr>
-<tr>
-<td style="text-align:center">HEALTHCHECK</td>
-<td style="text-align:left">定义周期性检查容器健康状态的命令。</td>
-</tr>
-<tr>
-<td style="text-align:center">SHELL</td>
-<td style="text-align:left">覆盖Docker中默认的shell，用于RUN、CMD和ENTRYPOINT指令。</td>
-</tr>
-</tbody>
-</table>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -1079,37 +1079,6 @@ host               指定您希望抓取数据包的host（通常是本地网关
       </tags>
   </entry>
   <entry>
-    <title>deepseek-r1本地部署方法</title>
-    <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="安装ollama">安装ollama</h2>
-<p>打开ollama官网，根据系统下载ollama软件：<br>
-<a href="https://ollama.com/">https://ollama.com/</a><br>
-<img src="/images/pasted-76.png" alt="upload successful"></p>
-<h2 id="下载模型">下载模型</h2>
-<p>安装完成ollama后，通过cmd命令行输入运行相关模型的命令，获取地址是官网的Models页面：<br>
-<img src="/images/pasted-77.png" alt="upload successful"></p>
-<p>第一个就是需要下载的模型deepseek-r1，点击名称选择需要的版本，即使不符合也能运行，会很卡：<br>
-<a href="https://ollama.com/library/deepseek-r1:8b">https://ollama.com/library/deepseek-r1:8b</a><br>
-<img src="/images/pasted-78.png" alt="upload successful"></p>
-<h2 id="使用">使用</h2>
-<p>运行完成后就能正常使用了，这样只能命令行使用；可以通过浏览器插件图形化页面使用本地运行的模型，插件名称是：Page Assist - A Web UI for Local AI Models<br>
-<img src="/images/pasted-79.png" alt="upload successful"></p>
-<p>说是能联网，但是我的不行</p>
-<p>可以用以下话语添加在问题末尾通过其他联网的ai获取信息后给deepseek整理回答，来间接上网：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请先告诉我你要回答这个问题需要检索哪些关键词或者最新消息？我会尝试提供相关数据。</span><br></pre></td></tr></table></figure>
-<h2 id="api参数">api参数</h2>
-<p>python使用参数</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;http://localhost:11434/api/generate&quot;</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;model&quot;</span>: <span class="string">&quot;deepseek-r1:1.5b&quot;</span>,  <span class="comment"># 替换为你的模型名称</span></span><br><span class="line">    <span class="string">&quot;prompt&quot;</span>: <span class="string">&quot;你好&quot;</span>,</span><br><span class="line">    <span class="string">&quot;stream&quot;</span>: <span class="literal">False</span>  <span class="comment"># 是否启用流式响应</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>娱乐</category>
-      </categories>
-      <tags>
-        <tag>ai</tag>
-        <tag>deepseek</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker pull 镜像ai的理解</title>
     <url>/2025/05/27/docker-pull-%E9%95%9C%E5%83%8Fai%E7%9A%84%E7%90%86%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="🧪-场景">🧪 场景</h2>
@@ -1192,6 +1161,37 @@ Digest: sha256:xxx…<br>
 ]]></content>
   </entry>
   <entry>
+    <title>deepseek-r1本地部署方法</title>
+    <url>/2025/02/06/deepseek%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="安装ollama">安装ollama</h2>
+<p>打开ollama官网，根据系统下载ollama软件：<br>
+<a href="https://ollama.com/">https://ollama.com/</a><br>
+<img src="/images/pasted-76.png" alt="upload successful"></p>
+<h2 id="下载模型">下载模型</h2>
+<p>安装完成ollama后，通过cmd命令行输入运行相关模型的命令，获取地址是官网的Models页面：<br>
+<img src="/images/pasted-77.png" alt="upload successful"></p>
+<p>第一个就是需要下载的模型deepseek-r1，点击名称选择需要的版本，即使不符合也能运行，会很卡：<br>
+<a href="https://ollama.com/library/deepseek-r1:8b">https://ollama.com/library/deepseek-r1:8b</a><br>
+<img src="/images/pasted-78.png" alt="upload successful"></p>
+<h2 id="使用">使用</h2>
+<p>运行完成后就能正常使用了，这样只能命令行使用；可以通过浏览器插件图形化页面使用本地运行的模型，插件名称是：Page Assist - A Web UI for Local AI Models<br>
+<img src="/images/pasted-79.png" alt="upload successful"></p>
+<p>说是能联网，但是我的不行</p>
+<p>可以用以下话语添加在问题末尾通过其他联网的ai获取信息后给deepseek整理回答，来间接上网：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请先告诉我你要回答这个问题需要检索哪些关键词或者最新消息？我会尝试提供相关数据。</span><br></pre></td></tr></table></figure>
+<h2 id="api参数">api参数</h2>
+<p>python使用参数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;http://localhost:11434/api/generate&quot;</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;model&quot;</span>: <span class="string">&quot;deepseek-r1:1.5b&quot;</span>,  <span class="comment"># 替换为你的模型名称</span></span><br><span class="line">    <span class="string">&quot;prompt&quot;</span>: <span class="string">&quot;你好&quot;</span>,</span><br><span class="line">    <span class="string">&quot;stream&quot;</span>: <span class="literal">False</span>  <span class="comment"># 是否启用流式响应</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>ai</tag>
+        <tag>deepseek</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker pull 镜像失败问题解决方法（镜像多）</title>
     <url>/2024/08/13/docker-pull-%E9%95%9C%E5%83%8F%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E9%95%9C%E5%83%8F%E5%A4%9A%EF%BC%89/</url>
     <content><![CDATA[<h2 id="问题现象">问题现象</h2>
@@ -1228,6 +1228,25 @@ Digest: sha256:xxx…<br>
       </categories>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker 卸载</title>
+    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
+    <content><![CDATA[<h4 id="卸载命令">卸载命令</h4>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -1306,6 +1325,72 @@ mysql:5.7
       </tags>
   </entry>
   <entry>
+    <title>Docker 安装</title>
+    <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h2 id="centos">centos</h2>
+<h3 id="自动安装docker">自动安装docker</h3>
+<p>使用官方安装脚本自动安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
+<p>国内安装命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -sSL https://get.daocloud.io/docker | sh</span><br></pre></td></tr></table></figure>
+<h3 id="手动安装">手动安装</h3>
+<h4 id="卸载旧版本">卸载旧版本</h4>
+<p>较旧的 Docker 版本称为 docker 或 docker-engine 。如果已安装这些程序，请卸载它们以及相关的依赖项。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">         docker-client \</span><br><span class="line">         docker-client-latest \</span><br><span class="line">         docker-common \</span><br><span class="line">         docker-latest \</span><br><span class="line">         docker-latest-logrotate \</span><br><span class="line">         docker-logrotate \</span><br><span class="line">         docker-engine</span><br></pre></td></tr></table></figure>
+<h4 id="安装-Docker-Engine-Community">安装 Docker Engine-Community</h4>
+<p>Docker Engine-Community：这是 Docker Engine 的开源社区版本，也是最常用的版本。Docker Engine 是 Docker 的核心组件，负责运行容器。Docker Engine-Community 是由 Docker, Inc. 提供的免费版本，适合个人开发者和小团队使用。</p>
+<h4 id="设置仓库">设置仓库</h4>
+<p>yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install -y yum-utils</span><br></pre></td></tr></table></figure>
+<p>设置仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">官方源地址（比较慢）</span><br><span class="line">   sudo yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line">   </span><br><span class="line">   阿里云</span><br><span class="line">   sudo yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+<h4 id="安装-Docker-Engine-Community-2">安装 Docker Engine-Community</h4>
+<p>最新版本安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin</span><br></pre></td></tr></table></figure>
+<p>查看版本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum list docker-ce --showduplicates | sort -r</span><br></pre></td></tr></table></figure>
+<p>指定版本安装（仅需修改26.1.1）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install docker-ce-26.1.1 docker-ce-cli-26.1.1.1 containerd.io</span><br></pre></td></tr></table></figure>
+<h3 id="卸载-docker">卸载 docker</h3>
+<p>删除安装包：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce</span><br></pre></td></tr></table></figure>
+<p>删除镜像、容器、配置文件等内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="ubuntu">ubuntu</h2>
+<h3 id="检查卸载老版本docker">检查卸载老版本docker</h3>
+<p>docker的旧版本不一定被称为docker，<a href="http://docker.io">docker.io</a> 或 docker-engine</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
+<h3 id="安装步骤">安装步骤</h3>
+<ol>
+<li>更新软件包</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>安装docker依赖</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install ca-certificates curl gnupg lsb-release</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>添加Docker官方GPG密钥</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>添加Docker软件源</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository &quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>安装docker</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker安装awvs并激活</title>
     <url>/2024/08/11/docker%E5%AE%89%E8%A3%85awvs%E5%B9%B6%E6%BF%80%E6%B4%BB/</url>
     <content><![CDATA[<h2 id="安装awvs">安装awvs</h2>
@@ -1357,25 +1442,6 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
         <tag>docker</tag>
         <tag>awvs安装</tag>
         <tag>awvs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker 卸载</title>
-    <url>/2024/08/13/docker-%E5%8D%B8%E8%BD%BD/</url>
-    <content><![CDATA[<h4 id="卸载命令">卸载命令</h4>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">          docker-client \</span><br><span class="line">          docker-client-latest \</span><br><span class="line">          docker-common \</span><br><span class="line">          docker-latest \</span><br><span class="line">          docker-latest-logrotate \</span><br><span class="line">          docker-logrotate \</span><br><span class="line">          docker-selinux \</span><br><span class="line">          docker-engine-selinux \</span><br><span class="line">          docker-engine</span><br></pre></td></tr></table></figure>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce \</span><br><span class="line">          docker-ce-cli \</span><br><span class="line">          containerd</span><br></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">rm -rf /etc/systemd/system/docker.service.d</span><br><span class="line">rm -rf /etc/systemd/system/docker.service</span><br><span class="line">rm -rf /var/lib/docker</span><br><span class="line">rm -rf /var/<span class="keyword">run</span><span class="language-bash">/docker</span></span><br><span class="line">rm -rf /usr/local/docker</span><br><span class="line">rm -rf /etc/docker</span><br><span class="line">rm -rf /usr/bin/docker* /usr/bin/containerd* /usr/bin/runc /usr/bin/ctr</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -1555,72 +1621,6 @@ docker cp wa_data.dat 容器的id:/home/acunetix/.acunetix/data/license
       <tags>
         <tag>docker</tag>
         <tag>docker命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker 安装</title>
-    <url>/2024/08/09/docker%E5%AE%89%E8%A3%85/</url>
-    <content><![CDATA[<h2 id="centos">centos</h2>
-<h3 id="自动安装docker">自动安装docker</h3>
-<p>使用官方安装脚本自动安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
-<p>国内安装命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -sSL https://get.daocloud.io/docker | sh</span><br></pre></td></tr></table></figure>
-<h3 id="手动安装">手动安装</h3>
-<h4 id="卸载旧版本">卸载旧版本</h4>
-<p>较旧的 Docker 版本称为 docker 或 docker-engine 。如果已安装这些程序，请卸载它们以及相关的依赖项。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">         docker-client \</span><br><span class="line">         docker-client-latest \</span><br><span class="line">         docker-common \</span><br><span class="line">         docker-latest \</span><br><span class="line">         docker-latest-logrotate \</span><br><span class="line">         docker-logrotate \</span><br><span class="line">         docker-engine</span><br></pre></td></tr></table></figure>
-<h4 id="安装-Docker-Engine-Community">安装 Docker Engine-Community</h4>
-<p>Docker Engine-Community：这是 Docker Engine 的开源社区版本，也是最常用的版本。Docker Engine 是 Docker 的核心组件，负责运行容器。Docker Engine-Community 是由 Docker, Inc. 提供的免费版本，适合个人开发者和小团队使用。</p>
-<h4 id="设置仓库">设置仓库</h4>
-<p>yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install -y yum-utils</span><br></pre></td></tr></table></figure>
-<p>设置仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">官方源地址（比较慢）</span><br><span class="line">   sudo yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line">   </span><br><span class="line">   阿里云</span><br><span class="line">   sudo yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
-<h4 id="安装-Docker-Engine-Community-2">安装 Docker Engine-Community</h4>
-<p>最新版本安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin</span><br></pre></td></tr></table></figure>
-<p>查看版本</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum list docker-ce --showduplicates | sort -r</span><br></pre></td></tr></table></figure>
-<p>指定版本安装（仅需修改26.1.1）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install docker-ce-26.1.1 docker-ce-cli-26.1.1.1 containerd.io</span><br></pre></td></tr></table></figure>
-<h3 id="卸载-docker">卸载 docker</h3>
-<p>删除安装包：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum remove docker-ce</span><br></pre></td></tr></table></figure>
-<p>删除镜像、容器、配置文件等内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="ubuntu">ubuntu</h2>
-<h3 id="检查卸载老版本docker">检查卸载老版本docker</h3>
-<p>docker的旧版本不一定被称为docker，<a href="http://docker.io">docker.io</a> 或 docker-engine</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
-<h3 id="安装步骤">安装步骤</h3>
-<ol>
-<li>更新软件包</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>安装docker依赖</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install ca-certificates curl gnupg lsb-release</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>添加Docker官方GPG密钥</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>添加Docker软件源</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository &quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;</span><br></pre></td></tr></table></figure>
-<ol start="5">
-<li>安装docker</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -2060,6 +2060,48 @@ vim custom.css</p>
       </tags>
   </entry>
   <entry>
+    <title>hexo-gitee部署</title>
+    <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h2 id="导语">导语</h2>
+<p>与github的部署方式一样，仅是代码仓库的设置有些许不同，并且gitee上需要单独开启gitee pages，并且要实名认证，目前<code>pages服务暂停了</code>。</p>
+<blockquote>
+<p>gitee pages已暂停服务，无法通过其访问</p>
+<blockquote>
+<p>参考文章：<a href="https://cloud.tencent.com/developer/article/2495238">https://cloud.tencent.com/developer/article/2495238</a></p>
+</blockquote>
+</blockquote>
+<hr>
+<h2 id="配置方法">配置方法</h2>
+<p>hexo的创建和deploy的配置和github一样，可以参考<a href="/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/">github部署hexo</a></p>
+<ul>
+<li>注意git name和email</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 gitee 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 gitee 邮箱&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="创建仓库">创建仓库</h3>
+<p>创建gitee仓库，需要注意一点不一样的是，仓库名称不需要和github一样格式<br>
+我起的名称是haha_w</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Github:	&#123;username&#125;.github.io</span><br><span class="line">gitee:	&#123;username&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="修改yml">修改yml</h3>
+<p>根目录中<code>_config.yml</code>的deploy的配置需要修改一下，这样可以同时更新两个仓库</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span></span><br><span class="line">    <span class="attr">gitee:</span> <span class="string">https://gitee.com/haha_w/haha_w.git,master</span></span><br><span class="line">    <span class="attr">github:</span> <span class="string">git@github.com:w00123/w00123.github.io.git,master</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建SSH-key">创建SSH key</h3>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;<span class="number">15967126</span>+haha_w@user.noreply.gitee.com&quot;</span><br></pre></td></tr></table></figure>
+<p>上传公钥到gitee，测试可以用以下命令测试：</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
+<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>完成配置</p>
+</div>
+<hr>
+<h2 id="上传代码仓库">上传代码仓库</h2>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo cl</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>gitee</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo-github贡献日历</title>
     <url>/2025/02/12/hexo-github%E8%B4%A1%E7%8C%AE%E6%97%A5%E5%8E%86/</url>
     <content><![CDATA[<h2 id="预览">预览</h2>
@@ -2110,48 +2152,6 @@ vim custom.css</p>
       <tags>
         <tag>博客</tag>
         <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo-gitee部署</title>
-    <url>/2025/06/20/hexo-gitee%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<h2 id="导语">导语</h2>
-<p>与github的部署方式一样，仅是代码仓库的设置有些许不同，并且gitee上需要单独开启gitee pages，并且要实名认证，目前<code>pages服务暂停了</code>。</p>
-<blockquote>
-<p>gitee pages已暂停服务，无法通过其访问</p>
-<blockquote>
-<p>参考文章：<a href="https://cloud.tencent.com/developer/article/2495238">https://cloud.tencent.com/developer/article/2495238</a></p>
-</blockquote>
-</blockquote>
-<hr>
-<h2 id="配置方法">配置方法</h2>
-<p>hexo的创建和deploy的配置和github一样，可以参考<a href="/2024/08/02/github%E9%83%A8%E7%BD%B2hexo/">github部署hexo</a></p>
-<ul>
-<li>注意git name和email</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;你的 gitee 用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的 gitee 邮箱&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="创建仓库">创建仓库</h3>
-<p>创建gitee仓库，需要注意一点不一样的是，仓库名称不需要和github一样格式<br>
-我起的名称是haha_w</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Github:	&#123;username&#125;.github.io</span><br><span class="line">gitee:	&#123;username&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="修改yml">修改yml</h3>
-<p>根目录中<code>_config.yml</code>的deploy的配置需要修改一下，这样可以同时更新两个仓库</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span></span><br><span class="line">    <span class="attr">gitee:</span> <span class="string">https://gitee.com/haha_w/haha_w.git,master</span></span><br><span class="line">    <span class="attr">github:</span> <span class="string">git@github.com:w00123/w00123.github.io.git,master</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建SSH-key">创建SSH key</h3>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;<span class="number">15967126</span>+haha_w@user.noreply.gitee.com&quot;</span><br></pre></td></tr></table></figure>
-<p>上传公钥到gitee，测试可以用以下命令测试：</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
-<div class="note red icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>完成配置</p>
-</div>
-<hr>
-<h2 id="上传代码仓库">上传代码仓库</h2>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo cl</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>gitee</tag>
       </tags>
   </entry>
   <entry>
@@ -2245,40 +2245,6 @@ vim custom.css</p>
       </tags>
   </entry>
   <entry>
-    <title>hexo-微博热搜侧边栏</title>
-    <url>/2025/02/20/hexo-%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E4%BE%A7%E8%BE%B9%E6%A0%8F/</url>
-    <content><![CDATA[<h2 id="前言">前言</h2>
-<p>学习来自<code>Ldyer</code>，原文链接：</p>
-<blockquote>
-<p><a href="https://blog.ldyer.top/2024/04/24/%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E6%9D%BF%E5%9D%97/index.html">https://blog.ldyer.top/2024/04/24/微博热搜板块/index.html</a></p>
-</blockquote>
-<p>有部分有问题的做了修改，也有部分不太符合主题的做了颜色修改。</p>
-<h2 id="效果图">效果图</h2>
-<p><img src="/images/pasted-85.png" alt="效果"></p>
-<h2 id="配置方法">配置方法</h2>
-<h3 id="创建widget-yml文件">创建widget.yml文件</h3>
-<p>如果没有这个目录需要创建，<code>source/_data/widget.yml</code></p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这里填top表示所有地方都显示，bottom表示只在非文章页面显示，如主页等等</span></span><br><span class="line"><span class="attr">bottom:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">class_name:</span></span><br><span class="line">    <span class="attr">id_name:</span> <span class="string">weibo</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">微博热搜</span></span><br><span class="line">    <span class="attr">icon:</span> <span class="string">fa-brands</span> <span class="string">fa-weibo</span></span><br><span class="line">    <span class="attr">html:</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/weibo.css&quot;&gt;&lt;div</span> <span class="string">id=&quot;weiboContent&quot;&gt;&lt;/div&gt;&lt;script</span> <span class="string">src=&quot;/js/weibo.js&quot;&gt;&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建weibo-css">创建weibo.css</h3>
-<p>创建<code>themes/butterfly/source/css/weibo.css</code></p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 设置从左到右的渐变背景色 */</span></span><br><span class="line"><span class="selector-id">#weibo</span><span class="selector-class">.card-widget</span>&#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(to right, <span class="number">#4B0082</span>, <span class="number">#000000</span>) <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">color</span>: white;</span><br><span class="line">    <span class="attribute">border-width</span>: <span class="number">10px</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*热度标签背景颜色*/</span></span><br><span class="line"><span class="selector-class">.weibo-new</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff3852</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-hot</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff9406</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-jyzy</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ffc000</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-recommend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#00b7ee</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-adrecommend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#febd22</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-friend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#8fc21e</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-boom</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#bd0000</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-topic</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff6f49</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-topic-ad</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#4dadff</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-boil</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#f86400</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo</span> <span class="selector-class">.item-content</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo-container</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">250px</span>; <span class="comment">/* 容器高度固定为250px */</span></span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">95%</span>;</span><br><span class="line">    <span class="attribute">overflow-y</span>: auto;</span><br><span class="line">    -ms-<span class="attribute">overflow</span>-style: none;</span><br><span class="line">    <span class="attribute">scrollbar-width</span>: none</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-list-item</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">flex-direction</span>: row;</span><br><span class="line">    <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: nowrap</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-title</span> &#123;</span><br><span class="line">    <span class="attribute">max-width</span>: auto; <span class="comment">/* 最大宽度 */</span></span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">    <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">    <span class="attribute">margin-right</span>: auto</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-num</span> &#123;</span><br><span class="line">    <span class="attribute">float</span>: right;</span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-hotness</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">6px</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">scale</span>(.<span class="number">8</span>) <span class="built_in">translateX</span>(-<span class="number">3px</span>);</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">8px</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo-container</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>; <span class="comment">/* 链接文字颜色 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-attr">[data-theme=<span class="string">&#x27;dark&#x27;</span>]</span> <span class="selector-id">#weibo-container</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 隐藏滚动条 */</span></span><br><span class="line"><span class="selector-id">#weibo-container</span>::-webkit-scrollbar&#123;</span><br><span class="line">    <span class="attribute">display</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="创建weibo-js文件">创建weibo.js文件</h3>
-<p>创建<code>themes/butterfly/source/js/weibo.js</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 如果你开启了在手机端显示侧边栏，可以将下面这行代码注释，开启下面的weibo();</span></span><br><span class="line"><span class="keyword">try</span> &#123; <span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;weibo&#x27;</span>).<span class="property">clientWidth</span>) <span class="title function_">weibo</span>(); &#125; <span class="keyword">catch</span> (error) &#123;&#125;</span><br><span class="line"><span class="comment">// weibo();</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">weibo</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> hotness = &#123;</span><br><span class="line">        <span class="string">&#x27;1&#x27;</span>: <span class="string">&#x27;weibo-boom&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;2&#x27;</span>: <span class="string">&#x27;weibo-hot&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;3&#x27;</span>: <span class="string">&#x27;weibo-boil&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;4&#x27;</span>: <span class="string">&#x27;weibo-new&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;5&#x27;</span>: <span class="string">&#x27;weibo-recommend&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;6&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;7&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;8&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> html = <span class="string">&#x27;&lt;div id=&quot;weibo-container&quot;&gt;&#x27;</span></span><br><span class="line">    <span class="keyword">let</span> data = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&#x27;weibo&#x27;</span>));</span><br><span class="line">    <span class="keyword">let</span> nowTime = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">    <span class="keyword">let</span> ls;</span><br><span class="line">    <span class="keyword">if</span> (data == <span class="literal">null</span> || nowTime - data.<span class="property">time</span> &gt; <span class="number">600000</span>) &#123; <span class="comment">// 600000为缓存时间，即10分钟，避免频繁请求，加快本地访问速度。</span></span><br><span class="line">        <span class="title function_">getData</span>();</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        ls = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(data.<span class="property">ls</span>)</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> ls) &#123;</span><br><span class="line">        html += <span class="string">&#x27;&lt;div class=&quot;weibo-list-item&quot;&gt;&lt;div class=&quot;weibo-hotness &#x27;</span> + hotness[item.<span class="property">index</span>] + <span class="string">&#x27;&quot;&gt;&#x27;</span> + item.<span class="property">index</span> + <span class="string">&#x27;&lt;/div&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;span class=&quot;weibo-title&quot;&gt;&lt;a title=&quot;&#x27;</span> + item.<span class="property">title</span> + <span class="string">&#x27;&quot; href=&quot;&#x27;</span> + item.<span class="property">url</span> + <span class="string">&#x27;&quot; target=&quot;_blank&quot; rel=&quot;external nofollow noreferrer&quot;&gt;&#x27;</span> + item.<span class="property">title</span> + <span class="string">&#x27;&lt;/a&gt;&lt;/span&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;div class=&quot;weibo-num&quot;&gt;&lt;span&gt;&#x27;</span> + item.<span class="property">hot</span> + <span class="string">&#x27;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    html += <span class="string">&#x27;&lt;/div&gt;&#x27;</span>;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;weiboContent&#x27;</span>).<span class="property">innerHTML</span> = html;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getData</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 这里采用新的api，如果炸了，可以换其他的，但注意api接收的json样式</span></span><br><span class="line">    <span class="title function_">fetch</span>(<span class="string">&#x27;https://v2.api-m.com/api/weibohot&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> data.<span class="title function_">json</span>()).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (data.<span class="property">code</span> === <span class="number">200</span>) &#123;</span><br><span class="line">            data = &#123; <span class="attr">time</span>: <span class="title class_">Date</span>.<span class="title function_">now</span>(), <span class="attr">ls</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data.<span class="property">data</span>) &#125;</span><br><span class="line">            <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&#x27;weibo&#x27;</span>, <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data))</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;获取数据失败&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).<span class="title function_">then</span>(weibo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#bber-talk&#x27;</span>)) &#123;</span><br><span class="line">    <span class="keyword">var</span> swiper = <span class="keyword">new</span> <span class="title function_">swiper</span>(<span class="string">&#x27;.swiper-container&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">direction</span>: <span class="string">&#x27;vertical&#x27;</span>, </span><br><span class="line">      <span class="attr">loop</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">autoplay</span>: &#123;</span><br><span class="line">      <span class="attr">delay</span>: <span class="number">3000</span>,</span><br><span class="line">      <span class="attr">pauseOnMouseEnter</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="加入卡片">加入卡片</h3>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">aside:</span></span><br><span class="line"><span class="string">..........</span></span><br><span class="line">    <span class="attr">card_webinfo:</span></span><br><span class="line">        <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">post_count:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h2 id="调整侧边栏顺序">调整侧边栏顺序</h2>
-<p>调整<code>sort_order</code>大小即可，数字越大越前，要把公告后的卡片都加上数字（有的资料说是越小越前，但是我测试不是，反正能用就行）</p>
-]]></content>
-      <categories>
-        <category>hexo博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo-新闻侧边栏</title>
     <url>/2026/01/07/hexo-%E6%96%B0%E9%97%BB%E4%BE%A7%E8%BE%B9%E6%A0%8F/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -2344,52 +2310,62 @@ vim themes/butterfly/_config.yml</p>
       </tags>
   </entry>
   <entry>
-    <title>java-linux安装卸载</title>
-    <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
-    <content><![CDATA[<h2 id="下载jdk">下载jdk</h2>
-<ol>
-<li>更新</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>下载<br>
-默认jdk</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure>
-<p>指定版本</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure>
-<h2 id="切换版本">切换版本</h2>
-<ol>
-<li>如果安装了多个java版本，查看的命令是</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --list java</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>切换的命令是</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
+    <title>hexo-微博热搜侧边栏</title>
+    <url>/2025/02/20/hexo-%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E4%BE%A7%E8%BE%B9%E6%A0%8F/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>学习来自<code>Ldyer</code>，原文链接：</p>
 <blockquote>
-<p>根据需要填写编号即可。</p>
+<p><a href="https://blog.ldyer.top/2024/04/24/%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E6%9D%BF%E5%9D%97/index.html">https://blog.ldyer.top/2024/04/24/微博热搜板块/index.html</a></p>
 </blockquote>
-<h2 id="卸载">卸载</h2>
-<h3 id="查看已有版本">查看已有版本</h3>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep -i &quot;jdk\|jre\|java&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="卸载命令">卸载命令</h3>
-<ol>
-<li>卸载</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt purge openjdk-11-jdk openjdk-11-jre</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>删除多余残余设置</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt clean</span><br></pre></td></tr></table></figure>]]></content>
+<p>有部分有问题的做了修改，也有部分不太符合主题的做了颜色修改。</p>
+<h2 id="效果图">效果图</h2>
+<p><img src="/images/pasted-85.png" alt="效果"></p>
+<h2 id="配置方法">配置方法</h2>
+<h3 id="创建widget-yml文件">创建widget.yml文件</h3>
+<p>如果没有这个目录需要创建，<code>source/_data/widget.yml</code></p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这里填top表示所有地方都显示，bottom表示只在非文章页面显示，如主页等等</span></span><br><span class="line"><span class="attr">bottom:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">class_name:</span></span><br><span class="line">    <span class="attr">id_name:</span> <span class="string">weibo</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">微博热搜</span></span><br><span class="line">    <span class="attr">icon:</span> <span class="string">fa-brands</span> <span class="string">fa-weibo</span></span><br><span class="line">    <span class="attr">html:</span> <span class="string">&lt;link</span> <span class="string">rel=&quot;stylesheet&quot;</span> <span class="string">href=&quot;/css/weibo.css&quot;&gt;&lt;div</span> <span class="string">id=&quot;weiboContent&quot;&gt;&lt;/div&gt;&lt;script</span> <span class="string">src=&quot;/js/weibo.js&quot;&gt;&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建weibo-css">创建weibo.css</h3>
+<p>创建<code>themes/butterfly/source/css/weibo.css</code></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 设置从左到右的渐变背景色 */</span></span><br><span class="line"><span class="selector-id">#weibo</span><span class="selector-class">.card-widget</span>&#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(to right, <span class="number">#4B0082</span>, <span class="number">#000000</span>) <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">color</span>: white;</span><br><span class="line">    <span class="attribute">border-width</span>: <span class="number">10px</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*热度标签背景颜色*/</span></span><br><span class="line"><span class="selector-class">.weibo-new</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff3852</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-hot</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff9406</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-jyzy</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ffc000</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-recommend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#00b7ee</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-adrecommend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#febd22</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-friend</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#8fc21e</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-boom</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#bd0000</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-topic</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#ff6f49</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-topic-ad</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#4dadff</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-boil</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#f86400</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo</span> <span class="selector-class">.item-content</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo-container</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">250px</span>; <span class="comment">/* 容器高度固定为250px */</span></span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">95%</span>;</span><br><span class="line">    <span class="attribute">overflow-y</span>: auto;</span><br><span class="line">    -ms-<span class="attribute">overflow</span>-style: none;</span><br><span class="line">    <span class="attribute">scrollbar-width</span>: none</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-list-item</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">flex-direction</span>: row;</span><br><span class="line">    <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: nowrap</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-title</span> &#123;</span><br><span class="line">    <span class="attribute">max-width</span>: auto; <span class="comment">/* 最大宽度 */</span></span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">    <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">    <span class="attribute">margin-right</span>: auto</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-num</span> &#123;</span><br><span class="line">    <span class="attribute">float</span>: right;</span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.weibo-hotness</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">6px</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">scale</span>(.<span class="number">8</span>) <span class="built_in">translateX</span>(-<span class="number">3px</span>);</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">8px</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#weibo-container</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>; <span class="comment">/* 链接文字颜色 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-attr">[data-theme=<span class="string">&#x27;dark&#x27;</span>]</span> <span class="selector-id">#weibo-container</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 隐藏滚动条 */</span></span><br><span class="line"><span class="selector-id">#weibo-container</span>::-webkit-scrollbar&#123;</span><br><span class="line">    <span class="attribute">display</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建weibo-js文件">创建weibo.js文件</h3>
+<p>创建<code>themes/butterfly/source/js/weibo.js</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 如果你开启了在手机端显示侧边栏，可以将下面这行代码注释，开启下面的weibo();</span></span><br><span class="line"><span class="keyword">try</span> &#123; <span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;weibo&#x27;</span>).<span class="property">clientWidth</span>) <span class="title function_">weibo</span>(); &#125; <span class="keyword">catch</span> (error) &#123;&#125;</span><br><span class="line"><span class="comment">// weibo();</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">weibo</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> hotness = &#123;</span><br><span class="line">        <span class="string">&#x27;1&#x27;</span>: <span class="string">&#x27;weibo-boom&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;2&#x27;</span>: <span class="string">&#x27;weibo-hot&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;3&#x27;</span>: <span class="string">&#x27;weibo-boil&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;4&#x27;</span>: <span class="string">&#x27;weibo-new&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;5&#x27;</span>: <span class="string">&#x27;weibo-recommend&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;6&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;7&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;8&#x27;</span>: <span class="string">&#x27;weibo-jyzy&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> html = <span class="string">&#x27;&lt;div id=&quot;weibo-container&quot;&gt;&#x27;</span></span><br><span class="line">    <span class="keyword">let</span> data = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&#x27;weibo&#x27;</span>));</span><br><span class="line">    <span class="keyword">let</span> nowTime = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">    <span class="keyword">let</span> ls;</span><br><span class="line">    <span class="keyword">if</span> (data == <span class="literal">null</span> || nowTime - data.<span class="property">time</span> &gt; <span class="number">600000</span>) &#123; <span class="comment">// 600000为缓存时间，即10分钟，避免频繁请求，加快本地访问速度。</span></span><br><span class="line">        <span class="title function_">getData</span>();</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        ls = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(data.<span class="property">ls</span>)</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> ls) &#123;</span><br><span class="line">        html += <span class="string">&#x27;&lt;div class=&quot;weibo-list-item&quot;&gt;&lt;div class=&quot;weibo-hotness &#x27;</span> + hotness[item.<span class="property">index</span>] + <span class="string">&#x27;&quot;&gt;&#x27;</span> + item.<span class="property">index</span> + <span class="string">&#x27;&lt;/div&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;span class=&quot;weibo-title&quot;&gt;&lt;a title=&quot;&#x27;</span> + item.<span class="property">title</span> + <span class="string">&#x27;&quot; href=&quot;&#x27;</span> + item.<span class="property">url</span> + <span class="string">&#x27;&quot; target=&quot;_blank&quot; rel=&quot;external nofollow noreferrer&quot;&gt;&#x27;</span> + item.<span class="property">title</span> + <span class="string">&#x27;&lt;/a&gt;&lt;/span&gt;&#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;&lt;div class=&quot;weibo-num&quot;&gt;&lt;span&gt;&#x27;</span> + item.<span class="property">hot</span> + <span class="string">&#x27;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    html += <span class="string">&#x27;&lt;/div&gt;&#x27;</span>;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;weiboContent&#x27;</span>).<span class="property">innerHTML</span> = html;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getData</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 这里采用新的api，如果炸了，可以换其他的，但注意api接收的json样式</span></span><br><span class="line">    <span class="title function_">fetch</span>(<span class="string">&#x27;https://v2.api-m.com/api/weibohot&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> data.<span class="title function_">json</span>()).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (data.<span class="property">code</span> === <span class="number">200</span>) &#123;</span><br><span class="line">            data = &#123; <span class="attr">time</span>: <span class="title class_">Date</span>.<span class="title function_">now</span>(), <span class="attr">ls</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data.<span class="property">data</span>) &#125;</span><br><span class="line">            <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&#x27;weibo&#x27;</span>, <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data))</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;获取数据失败&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).<span class="title function_">then</span>(weibo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#bber-talk&#x27;</span>)) &#123;</span><br><span class="line">    <span class="keyword">var</span> swiper = <span class="keyword">new</span> <span class="title function_">swiper</span>(<span class="string">&#x27;.swiper-container&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">direction</span>: <span class="string">&#x27;vertical&#x27;</span>, </span><br><span class="line">      <span class="attr">loop</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">autoplay</span>: &#123;</span><br><span class="line">      <span class="attr">delay</span>: <span class="number">3000</span>,</span><br><span class="line">      <span class="attr">pauseOnMouseEnter</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="加入卡片">加入卡片</h3>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">aside:</span></span><br><span class="line"><span class="string">..........</span></span><br><span class="line">    <span class="attr">card_webinfo:</span></span><br><span class="line">        <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">post_count:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="调整侧边栏顺序">调整侧边栏顺序</h2>
+<p>调整<code>sort_order</code>大小即可，数字越大越前，要把公告后的卡片都加上数字（有的资料说是越小越前，但是我测试不是，反正能用就行）</p>
+]]></content>
       <categories>
-        <category>系统运维</category>
-        <category>linux</category>
-        <category>环境</category>
+        <category>hexo博客</category>
       </categories>
       <tags>
-        <tag>linux命令</tag>
-        <tag>java</tag>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hoic高射炮工具</title>
+    <url>/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="安装">安装</h2>
+<p>下载地址：</p>
+<blockquote>
+<p><a href="https://sourceforge.net/projects/high-orbit-ion-cannon/">https://sourceforge.net/projects/high-orbit-ion-cannon/</a><br>
+官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载</p>
+</blockquote>
+<h2 id="使用">使用</h2>
+<ol>
+<li>解压后运行exe</li>
+<li>选择<code>+号</code>添加url</li>
+<li>可选择脚本第一个为伪造来源，后面的可以试试</li>
+</ol>
+]]></content>
+      <categories>
+        <category>网络安全</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>网络安全</tag>
+        <tag>hoic</tag>
       </tags>
   </entry>
   <entry>
@@ -2467,28 +2443,85 @@ hydra -m cloud -P 密码字典 IP cisco-enable
       </tags>
   </entry>
   <entry>
-    <title>hoic高射炮工具</title>
-    <url>/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<h2 id="安装">安装</h2>
-<p>下载地址：</p>
-<blockquote>
-<p><a href="https://sourceforge.net/projects/high-orbit-ion-cannon/">https://sourceforge.net/projects/high-orbit-ion-cannon/</a><br>
-官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载</p>
-</blockquote>
-<h2 id="使用">使用</h2>
+    <title>java-linux安装卸载</title>
+    <url>/2025/02/21/java-linux%E5%88%87%E6%8D%A2%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC/</url>
+    <content><![CDATA[<h2 id="下载jdk">下载jdk</h2>
 <ol>
-<li>解压后运行exe</li>
-<li>选择<code>+号</code>添加url</li>
-<li>可选择脚本第一个为伪造来源，后面的可以试试</li>
+<li>更新</li>
 </ol>
-]]></content>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>下载<br>
+默认jdk</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure>
+<p>指定版本</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure>
+<h2 id="切换版本">切换版本</h2>
+<ol>
+<li>如果安装了多个java版本，查看的命令是</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --list java</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>切换的命令是</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>根据需要填写编号即可。</p>
+</blockquote>
+<h2 id="卸载">卸载</h2>
+<h3 id="查看已有版本">查看已有版本</h3>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep -i &quot;jdk\|jre\|java&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="卸载命令">卸载命令</h3>
+<ol>
+<li>卸载</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt purge openjdk-11-jdk openjdk-11-jre</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>删除多余残余设置</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt clean</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>网络安全</category>
+        <category>系统运维</category>
+        <category>linux</category>
+        <category>环境</category>
       </categories>
       <tags>
-        <tag>工具</tag>
-        <tag>网络安全</tag>
-        <tag>hoic</tag>
+        <tag>linux命令</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>kali移动端（root安装，不改内核）</title>
+    <url>/2024/10/15/kali/</url>
+    <content><![CDATA[<h2 id="简介">简介</h2>
+<p>把kali安在移动端，不论部署了什么工具和环境，可以随处携带，操作不方便可以局域网电脑远程使用、vnc等等。以上是我的使用场景也是折腾的原因。</p>
+<p>其实只有root的部分是最麻烦的，这个已经有很多教程了，可以慢慢看，建议先看手机的系统架构再看具体操作方法，不然在做什么都不知道。</p>
+<p>原理这块极客湾Geekerwan我感觉是说的很好的一个老师，视频链接放下面了<br>
+【玩机必看！带你入坑安卓刷机，小白也能看懂的ROOT基础指南来啦！】 <a href="https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404">https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404</a></p>
+<h2 id="前提">前提</h2>
+<p>肯定是需要现有一部root的手机，这个可以看我oppo root的帖子或者网上找相应方法去操作。<br>
+然后能科学上网，这个其实没有也没关系，但是会比较方便。<br>
+使用的是面具安装。</p>
+<h2 id="下载镜像">下载镜像</h2>
+<p>bing搜索kali，点击下载</p>
+<p><img src="/images/pasted-64.png" alt="upload successful"></p>
+<p>点击移动端，mobile</p>
+<p><img src="/images/pasted-65.png" alt="upload successful"></p>
+<p>点击full的版本，因为我这个没有对应的手机，所以下载的是图中位置的镜像</p>
+<p><img src="/images/pasted-67.png" alt="upload successful"></p>
+<h2 id="安装">安装</h2>
+<p>在面具里面点击图中的本地安装，找到下载的镜像包，安装就是了<br>
+<img src="/images/pasted-70.png" alt="upload successful"></p>
+<p>安装之后其实一切都安装好了，据说官方支持的root机会自动下载好关键的三个软件，但是我这个瞎搞的root机，没有下载，后来发现官网下载镜像那里有个软件商店可以下载。<br>
+<img src="/images/pasted-72.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>手机搞机</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -2536,39 +2569,6 @@ t 替换为 7<br>
         <tag>kali</tag>
         <tag>cupp</tag>
         <tag>字典</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>kali移动端（root安装，不改内核）</title>
-    <url>/2024/10/15/kali/</url>
-    <content><![CDATA[<h2 id="简介">简介</h2>
-<p>把kali安在移动端，不论部署了什么工具和环境，可以随处携带，操作不方便可以局域网电脑远程使用、vnc等等。以上是我的使用场景也是折腾的原因。</p>
-<p>其实只有root的部分是最麻烦的，这个已经有很多教程了，可以慢慢看，建议先看手机的系统架构再看具体操作方法，不然在做什么都不知道。</p>
-<p>原理这块极客湾Geekerwan我感觉是说的很好的一个老师，视频链接放下面了<br>
-【玩机必看！带你入坑安卓刷机，小白也能看懂的ROOT基础指南来啦！】 <a href="https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404">https://www.bilibili.com/video/BV1BY4y1H7Mc/?share_source=copy_web&amp;vd_source=772102c618b4c4a14c10923aa0e26404</a></p>
-<h2 id="前提">前提</h2>
-<p>肯定是需要现有一部root的手机，这个可以看我oppo root的帖子或者网上找相应方法去操作。<br>
-然后能科学上网，这个其实没有也没关系，但是会比较方便。<br>
-使用的是面具安装。</p>
-<h2 id="下载镜像">下载镜像</h2>
-<p>bing搜索kali，点击下载</p>
-<p><img src="/images/pasted-64.png" alt="upload successful"></p>
-<p>点击移动端，mobile</p>
-<p><img src="/images/pasted-65.png" alt="upload successful"></p>
-<p>点击full的版本，因为我这个没有对应的手机，所以下载的是图中位置的镜像</p>
-<p><img src="/images/pasted-67.png" alt="upload successful"></p>
-<h2 id="安装">安装</h2>
-<p>在面具里面点击图中的本地安装，找到下载的镜像包，安装就是了<br>
-<img src="/images/pasted-70.png" alt="upload successful"></p>
-<p>安装之后其实一切都安装好了，据说官方支持的root机会自动下载好关键的三个软件，但是我这个瞎搞的root机，没有下载，后来发现官网下载镜像那里有个软件商店可以下载。<br>
-<img src="/images/pasted-72.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>手机搞机</category>
-      </categories>
-      <tags>
-        <tag>kali</tag>
-        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -3585,28 +3585,6 @@ run
       </tags>
   </entry>
   <entry>
-    <title>oppoA9 mtk手机root</title>
-    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
-    <content><![CDATA[<h2 id="mtk手机root">mtk手机root</h2>
-<p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
-<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
-<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
-</code></pre>
-<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量±键，插入数据线，等待软件连接<br>
-2、连接后通过读分区导出boot文件，不带后缀<br>
-3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
-<p><img src="/images/pasted-2.png" alt="upload successful"></p>
-<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
-<p><img src="/images/pasted-3.png" alt="upload successful"></p>
-]]></content>
-      <categories>
-        <category>手机搞机</category>
-      </categories>
-      <tags>
-        <tag>手机root</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mysql数据库的使用</title>
     <url>/2025/09/08/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="sql权限">sql权限</h2>
@@ -3678,44 +3656,25 @@ run
       </tags>
   </entry>
   <entry>
-    <title>nginx发布hexo静态资源</title>
-    <url>/2025/12/05/nginx%E5%8F%91%E5%B8%83hexo%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90/</url>
-    <content><![CDATA[<h2 id="介绍">介绍</h2>
-<p>有一台闲置的电脑，只运行了nas，刚好我又有一个hexo博客，用nginx发布的话，在家里访问就秒响应，一点即开</p>
-<hr>
-<h2 id="部署">部署</h2>
-<p>docker部署，实现系统隔离，这样作为物理机的电脑就算配置问题重置环境也不会特别麻烦；使用dockercompose.yml，方便重建。</p>
-<p>docker安装可参考<a href="/2024/08/09/docker%E5%AE%89%E8%A3%85">docker安装</a></p>
-<h3 id="创建配置文件">创建配置文件</h3>
-<ol>
-<li>nginx配置文件</li>
-</ol>
-<ul>
-<li>nginx.conf</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir /var/html/w00123/nginx/conf.d</span><br><span class="line"></span><br><span class="line">vim /var/html/w00123/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line">user  root;</span><br><span class="line">worker_processes  auto;</span><br><span class="line"></span><br><span class="line">error_log  /var/log/nginx/error.log notice;</span><br><span class="line">pid        /var/run/nginx.pid;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       /etc/nginx/mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    log_format  main  &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br><span class="line">                      &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br><span class="line">                      &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><span class="line"></span><br><span class="line">    access_log  /var/log/nginx/access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    #gzip  on;</span><br><span class="line"></span><br><span class="line">    include /etc/nginx/conf.d/*.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>default.conf</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /var/html/w00123/nginx/conf.d/default.conf</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name localhost;</span><br><span class="line">    root /usr/share/nginx/html;</span><br><span class="line">    index index.html index.htm;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        try_files $uri $uri/ = 404;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # 静态资源缓存规则（7 天有效期）</span><br><span class="line">    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ &#123;</span><br><span class="line">        expires 7d;  # 缓存有效期 7 天</span><br><span class="line">        add_header Cache-Control &quot;public, max-age=604800&quot;;  # 604800 秒 = 7 天</span><br><span class="line">        access_log off;  # 关闭静态资源访问日志，减少磁盘IO</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>dockercompose.yml</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /var/html/w00123/dockercompose.yml</span><br><span class="line"></span><br><span class="line">version: &#x27;3.8&#x27;  # Compose 文件版本，适配主流 Docker 版本</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  nginx-hexo:  # 服务名称，可自定义</span><br><span class="line">    image: nginx:latest  # 使用官方最新版 Nginx 镜像</span><br><span class="line">    container_name: nginx-hexo-web  # 容器名称，方便管理</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;8080:80&quot;  # 宿主机80端口映射到容器80端口</span><br><span class="line">    volumes:</span><br><span class="line">      # 挂载 Hexo 生成的静态网页目录（只读）</span><br><span class="line">      - /var/html/w00123/public:/usr/share/nginx/html:ro</span><br><span class="line">      # 挂载自定义 Nginx 配置目录（只读）</span><br><span class="line">      - /var/html/w00123/nginx/conf.d:/etc/nginx/conf.d:ro</span><br><span class="line">      - /var/html/w00123/nginx/nginx.conf:/etc/nginx/nginx.conf:ro</span><br><span class="line">    restart: always  # 容器意外停止时自动重启</span><br><span class="line">    # 可选：限制容器资源使用，避免占用过多服务器资源</span><br><span class="line">    deploy:</span><br><span class="line">      resources:</span><br><span class="line">        limits:</span><br><span class="line">          #cpus: &#x27;0.5&#x27;</span><br><span class="line">          memory: 1G</span><br></pre></td></tr></table></figure>
-<h3 id="生成静态资源">生成静态资源</h3>
-<p>命令生成静态网页public后放到目录/var/html/w00123/pulic</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo cl</span><br><span class="line">hexo g</span><br></pre></td></tr></table></figure>
-<h3 id="拉起容器">拉起容器</h3>
-<p>可以手动拉镜像再拉容器，拉取镜像命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure>
-<p>拉起容器命令，在dockercompose.yml目录下执行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>]]></content>
+    <title>oppoA9 mtk手机root</title>
+    <url>/2024/08/01/mtk%E6%89%8B%E6%9C%BAroot/</url>
+    <content><![CDATA[<h2 id="mtk手机root">mtk手机root</h2>
+<p>通过mtkclient工具连接手机漏洞后，导出boot文件，修补后导回，完成root。</p>
+<p>mkclient下载地址，可通过下方网友地址，或者github上获取：</p>
+<pre><code>https://xinkid.lanzouv.com/b075nltgh 密:canxin
+</code></pre>
+<p>1、oppoA9为例，打开mtkclient工具，手机关机后按住音量±键，插入数据线，等待软件连接<br>
+2、连接后通过读分区导出boot文件，不带后缀<br>
+3、手机开机安装magisk，通过面具修补boot文件，boot文件改回bin后缀</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"></p>
+<p>4、同样通过第一步连接手机，刷入修补好的boot文件，重新启动发现无需按电源键即可开机，代表已成功root。</p>
+<p><img src="/images/pasted-3.png" alt="upload successful"></p>
+]]></content>
       <categories>
-        <category>系统运维</category>
+        <category>手机搞机</category>
       </categories>
       <tags>
-        <tag>hexo</tag>
-        <tag>nginx</tag>
+        <tag>手机root</tag>
       </tags>
   </entry>
   <entry>
@@ -3820,8 +3779,49 @@ run
         <category>运维基础</category>
       </categories>
       <tags>
-        <tag>nginx</tag>
         <tag>apache</tag>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx发布hexo静态资源</title>
+    <url>/2025/12/05/nginx%E5%8F%91%E5%B8%83hexo%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90/</url>
+    <content><![CDATA[<h2 id="介绍">介绍</h2>
+<p>有一台闲置的电脑，只运行了nas，刚好我又有一个hexo博客，用nginx发布的话，在家里访问就秒响应，一点即开</p>
+<hr>
+<h2 id="部署">部署</h2>
+<p>docker部署，实现系统隔离，这样作为物理机的电脑就算配置问题重置环境也不会特别麻烦；使用dockercompose.yml，方便重建。</p>
+<p>docker安装可参考<a href="/2024/08/09/docker%E5%AE%89%E8%A3%85">docker安装</a></p>
+<h3 id="创建配置文件">创建配置文件</h3>
+<ol>
+<li>nginx配置文件</li>
+</ol>
+<ul>
+<li>nginx.conf</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir /var/html/w00123/nginx/conf.d</span><br><span class="line"></span><br><span class="line">vim /var/html/w00123/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line">user  root;</span><br><span class="line">worker_processes  auto;</span><br><span class="line"></span><br><span class="line">error_log  /var/log/nginx/error.log notice;</span><br><span class="line">pid        /var/run/nginx.pid;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       /etc/nginx/mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    log_format  main  &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br><span class="line">                      &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br><span class="line">                      &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><span class="line"></span><br><span class="line">    access_log  /var/log/nginx/access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    #gzip  on;</span><br><span class="line"></span><br><span class="line">    include /etc/nginx/conf.d/*.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>default.conf</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /var/html/w00123/nginx/conf.d/default.conf</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name localhost;</span><br><span class="line">    root /usr/share/nginx/html;</span><br><span class="line">    index index.html index.htm;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        try_files $uri $uri/ = 404;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # 静态资源缓存规则（7 天有效期）</span><br><span class="line">    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ &#123;</span><br><span class="line">        expires 7d;  # 缓存有效期 7 天</span><br><span class="line">        add_header Cache-Control &quot;public, max-age=604800&quot;;  # 604800 秒 = 7 天</span><br><span class="line">        access_log off;  # 关闭静态资源访问日志，减少磁盘IO</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>dockercompose.yml</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /var/html/w00123/dockercompose.yml</span><br><span class="line"></span><br><span class="line">version: &#x27;3.8&#x27;  # Compose 文件版本，适配主流 Docker 版本</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  nginx-hexo:  # 服务名称，可自定义</span><br><span class="line">    image: nginx:latest  # 使用官方最新版 Nginx 镜像</span><br><span class="line">    container_name: nginx-hexo-web  # 容器名称，方便管理</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;8080:80&quot;  # 宿主机80端口映射到容器80端口</span><br><span class="line">    volumes:</span><br><span class="line">      # 挂载 Hexo 生成的静态网页目录（只读）</span><br><span class="line">      - /var/html/w00123/public:/usr/share/nginx/html:ro</span><br><span class="line">      # 挂载自定义 Nginx 配置目录（只读）</span><br><span class="line">      - /var/html/w00123/nginx/conf.d:/etc/nginx/conf.d:ro</span><br><span class="line">      - /var/html/w00123/nginx/nginx.conf:/etc/nginx/nginx.conf:ro</span><br><span class="line">    restart: always  # 容器意外停止时自动重启</span><br><span class="line">    # 可选：限制容器资源使用，避免占用过多服务器资源</span><br><span class="line">    deploy:</span><br><span class="line">      resources:</span><br><span class="line">        limits:</span><br><span class="line">          #cpus: &#x27;0.5&#x27;</span><br><span class="line">          memory: 1G</span><br></pre></td></tr></table></figure>
+<h3 id="生成静态资源">生成静态资源</h3>
+<p>命令生成静态网页public后放到目录/var/html/w00123/pulic</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo cl</span><br><span class="line">hexo g</span><br></pre></td></tr></table></figure>
+<h3 id="拉起容器">拉起容器</h3>
+<p>可以手动拉镜像再拉容器，拉取镜像命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure>
+<p>拉起容器命令，在dockercompose.yml目录下执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>系统运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -4159,6 +4159,35 @@ run
       </tags>
   </entry>
   <entry>
+    <title>portainer docker的web管理页面</title>
+    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="portainer">portainer</h2>
+<p>一个web可视化的docker管理页面</p>
+<h2 id="拉取镜像">拉取镜像</h2>
+<p>先搜索镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
+<p>一般我下载最多下载的那几个</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
+<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
+<p>接下来就可以登录管理了</p>
+<h2 id="初始化配置">初始化配置</h2>
+<p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
+<p>也可通过上传配置文件创建</p>
+<p>选其中一个即可</p>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>docker命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>playwright-基础使用</title>
     <url>/2025/07/15/playwright-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="官网">官网</h2>
@@ -4330,66 +4359,6 @@ run
       <tags>
         <tag>playwright</tag>
         <tag>web自动化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>pycharm激活</title>
-    <url>/2024/08/10/pycharm%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h2 id="检查链接">检查链接</h2>
-<p>网址：<a href="https://3.jetbra.in/">https://3.jetbra.in/</a></p>
-<p>带小地图和*的标志，我们点进去<br>
-<img src="/images/pasted-27.png" alt="upload successful"></p>
-<h2 id="下载工具软件">下载工具软件</h2>
-<p>下载图中jetbra.zip<br>
-<img src="/images/pasted-28.png" alt="upload successful"></p>
-<p>解压，打开文件，进入scripts，双击图中文件<br>
-<img src="/images/pasted-30.png" alt="upload successful"></p>
-<p>等待10~20秒，会出现一个弹窗done，一般这个时候重启pycharm就已经激活，没有激活可以继续下面步骤。<br>
-<img src="/images/pasted-31.png" alt="upload successful"></p>
-<h2 id="激活码激活">激活码激活</h2>
-<p>点击图中pycharm复制<br>
-<img src="/images/pasted-32.png" alt="upload successful"></p>
-<p>复制激活<br>
-<img src="/images/pasted-34.png" alt="upload successful"></p>
-<p><img src="/images/pasted-33.png" alt="upload successful"></p>
-<h1>下载的工具软件不能删除，删除失效！！</h1>
-]]></content>
-      <categories>
-        <category>代码</category>
-        <category>工具安装</category>
-      </categories>
-      <tags>
-        <tag>工具安装</tag>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>portainer docker的web管理页面</title>
-    <url>/2024/10/13/portainer-docker%E7%9A%84web%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="portainer">portainer</h2>
-<p>一个web可视化的docker管理页面</p>
-<h2 id="拉取镜像">拉取镜像</h2>
-<p>先搜索镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker search portainer</span><br></pre></td></tr></table></figure>
-<p>一般我下载最多下载的那几个</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --name portainer portainer/portainer-ce</span><br></pre></td></tr></table></figure>
-<p>-v 要挂载相关docker守护进程才能让portainer能够管理docker</p>
-<p>-p 映射9000端口，默认http;网上的大哥说8000是k8s需要的端口，9443是https端口，没去验证。</p>
-<p>接下来就可以登录管理了</p>
-<h2 id="初始化配置">初始化配置</h2>
-<p>刚进web页面需要设置admin密码，创建账号，这个是直接创建新的管理</p>
-<p>也可通过上传配置文件创建</p>
-<p>选其中一个即可</p>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>docker命令</tag>
       </tags>
   </entry>
   <entry>
@@ -4639,6 +4608,37 @@ run
       </tags>
   </entry>
   <entry>
+    <title>pycharm激活</title>
+    <url>/2024/08/10/pycharm%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h2 id="检查链接">检查链接</h2>
+<p>网址：<a href="https://3.jetbra.in/">https://3.jetbra.in/</a></p>
+<p>带小地图和*的标志，我们点进去<br>
+<img src="/images/pasted-27.png" alt="upload successful"></p>
+<h2 id="下载工具软件">下载工具软件</h2>
+<p>下载图中jetbra.zip<br>
+<img src="/images/pasted-28.png" alt="upload successful"></p>
+<p>解压，打开文件，进入scripts，双击图中文件<br>
+<img src="/images/pasted-30.png" alt="upload successful"></p>
+<p>等待10~20秒，会出现一个弹窗done，一般这个时候重启pycharm就已经激活，没有激活可以继续下面步骤。<br>
+<img src="/images/pasted-31.png" alt="upload successful"></p>
+<h2 id="激活码激活">激活码激活</h2>
+<p>点击图中pycharm复制<br>
+<img src="/images/pasted-32.png" alt="upload successful"></p>
+<p>复制激活<br>
+<img src="/images/pasted-34.png" alt="upload successful"></p>
+<p><img src="/images/pasted-33.png" alt="upload successful"></p>
+<h1>下载的工具软件不能删除，删除失效！！</h1>
+]]></content>
+      <categories>
+        <category>代码</category>
+        <category>工具安装</category>
+      </categories>
+      <tags>
+        <tag>工具安装</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>switch-大气层与模拟器局域网联机</title>
     <url>/2025/05/01/switch-%E5%A4%A7%E6%B0%94%E5%B1%82%E4%B8%8E%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%B1%80%E5%9F%9F%E7%BD%91%E8%81%94%E6%9C%BA/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -4659,6 +4659,30 @@ run
       <tags>
         <tag>switch</tag>
         <tag>大气层</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>switch国行设备2162-0002报错修复</title>
+    <url>/2026/03/24/switch%E5%9B%BD%E8%A1%8C%E8%AE%BE%E5%A4%872162-0002%E6%8A%A5%E9%94%99%E4%BF%AE%E5%A4%8D/</url>
+    <content><![CDATA[<h2 id="问题描述">问题描述</h2>
+<p>手贱，将国际版本的Switch设备赚到了国行版本，只要升级到20.0.0以上的版本（我的版本21.1.0），就会出现2162-0002错误代码，导致系统无法正常启动或运行游戏。</p>
+<p>找了好久，找到一个大佬的插件，能够在switch log出现的时候唤出修改版本的菜单，以此切换回国际版。</p>
+<h2 id="解决办法">解决办法</h2>
+<blockquote>
+<p><a href="https://www.bilibili.com/read/cv41720796/?opus_fallback=1">原作者文章</a></p>
+</blockquote>
+<p>因为原版作者写的很详细，他还有一些其他情况的说明，我这里只说明最简的解决办法，我装的是最稳定的大气层，没有多余的插件。</p>
+<ol>
+<li>仅安装大佬的快速唤出特斯拉插件</li>
+<li>log出现，<code>一直点击L</code>，出现特斯拉菜单，<code>点击A</code>，然后点击<code>点击Y</code>，修改版本即可</li>
+</ol>
+]]></content>
+      <categories>
+        <category>switch</category>
+      </categories>
+      <tags>
+        <tag>switch大气层</tag>
+        <tag>报错修复</tag>
       </tags>
   </entry>
   <entry>
@@ -5283,6 +5307,59 @@ WhatWeb：<a href="https://whatweb.net/">https://whatweb.net/</a></p>
       </tags>
   </entry>
   <entry>
+    <title>windows域部署及管理</title>
+    <url>/2025/04/26/windows%E5%9F%9F%E9%83%A8%E7%BD%B2%E5%8F%8A%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h2 id="windows域">windows域</h2>
+<ul>
+<li>单域：在网络中只建立了一个域</li>
+<li>域树：具有连续域名空间的多个域</li>
+<li>域林：由一个或者多个没有形成连续域名空的域树组成</li>
+</ul>
+<h2 id="创建域">创建域</h2>
+<h3 id="ip和dns设置">ip和dns设置</h3>
+<p>作为域控制器，也作为dns服务器，ip最好是固定不变的，可以设置静态，或者dhcp设置mac保留</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ip：192.168.11.200</span><br><span class="line">dns：127.0.0.1</span><br></pre></td></tr></table></figure>
+<h3 id="添加角色功能">添加角色功能</h3>
+<ol>
+<li>开始</li>
+<li>基于角色或基于功能的安装</li>
+<li>从服务器池中选择服务器<br>
+服务器选择自己</li>
+<li>服务器角色<br>
+选中Active Directory 域服务<br>
+点击添加功能</li>
+<li>下一步直到安装完成</li>
+<li>右上角黄色感叹号提示<br>
+点击“将此服务器提升为域控制器”<br>
+添加新林，设置根域名为“<a href="http://haha.com">haha.com</a>”<br>
+dns和全局编录GC勾选，设置密码<br>
+确认域名“HAHA”</li>
+<li>下一步直到安装重启</li>
+<li>安装成功，在服务器管理器中查看AD DS</li>
+</ol>
+<h3 id="域账号登录服务器">域账号登录服务器</h3>
+<p>账号开始使用原来的账号加上@haha.com，或者是HAHA/账号登录</p>
+<h2 id="加入域">加入域</h2>
+<h3 id="dns设置">dns设置</h3>
+<p>设置dns为DC域控制器的ip</p>
+<h3 id="设置域">设置域</h3>
+<ol>
+<li>点开此电脑的属性</li>
+<li>选择隶属于域：HAHA</li>
+<li>登录管理员账号</li>
+<li>重启后使用域账号登录</li>
+</ol>
+]]></content>
+      <categories>
+        <category>系统运维</category>
+        <category>windows域</category>
+      </categories>
+      <tags>
+        <tag>windows域</tag>
+        <tag>AD DC</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>windows-好用软件</title>
     <url>/2025/02/24/windows-%E5%A5%BD%E7%94%A8%E8%BD%AF%E4%BB%B6/</url>
     <content><![CDATA[<h2 id="U盘工具">U盘工具</h2>
@@ -5399,59 +5476,6 @@ steam搜索 <strong>Wallpaper Engine</strong></p>
       <tags>
         <tag>工具</tag>
         <tag>资源</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>windows域部署及管理</title>
-    <url>/2025/04/26/windows%E5%9F%9F%E9%83%A8%E7%BD%B2%E5%8F%8A%E7%AE%A1%E7%90%86/</url>
-    <content><![CDATA[<h2 id="windows域">windows域</h2>
-<ul>
-<li>单域：在网络中只建立了一个域</li>
-<li>域树：具有连续域名空间的多个域</li>
-<li>域林：由一个或者多个没有形成连续域名空的域树组成</li>
-</ul>
-<h2 id="创建域">创建域</h2>
-<h3 id="ip和dns设置">ip和dns设置</h3>
-<p>作为域控制器，也作为dns服务器，ip最好是固定不变的，可以设置静态，或者dhcp设置mac保留</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ip：192.168.11.200</span><br><span class="line">dns：127.0.0.1</span><br></pre></td></tr></table></figure>
-<h3 id="添加角色功能">添加角色功能</h3>
-<ol>
-<li>开始</li>
-<li>基于角色或基于功能的安装</li>
-<li>从服务器池中选择服务器<br>
-服务器选择自己</li>
-<li>服务器角色<br>
-选中Active Directory 域服务<br>
-点击添加功能</li>
-<li>下一步直到安装完成</li>
-<li>右上角黄色感叹号提示<br>
-点击“将此服务器提升为域控制器”<br>
-添加新林，设置根域名为“<a href="http://haha.com">haha.com</a>”<br>
-dns和全局编录GC勾选，设置密码<br>
-确认域名“HAHA”</li>
-<li>下一步直到安装重启</li>
-<li>安装成功，在服务器管理器中查看AD DS</li>
-</ol>
-<h3 id="域账号登录服务器">域账号登录服务器</h3>
-<p>账号开始使用原来的账号加上@haha.com，或者是HAHA/账号登录</p>
-<h2 id="加入域">加入域</h2>
-<h3 id="dns设置">dns设置</h3>
-<p>设置dns为DC域控制器的ip</p>
-<h3 id="设置域">设置域</h3>
-<ol>
-<li>点开此电脑的属性</li>
-<li>选择隶属于域：HAHA</li>
-<li>登录管理员账号</li>
-<li>重启后使用域账号登录</li>
-</ol>
-]]></content>
-      <categories>
-        <category>系统运维</category>
-        <category>windows域</category>
-      </categories>
-      <tags>
-        <tag>windows域</tag>
-        <tag>AD DC</tag>
       </tags>
   </entry>
   <entry>
@@ -5737,24 +5761,6 @@ dns和全局编录GC勾选，设置密码<br>
       </tags>
   </entry>
   <entry>
-    <title>压缩包密码爆破</title>
-    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="使用zip2john-hash值破解">使用zip2john hash值破解</h2>
-<p>生成压缩包hash值</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip2john filename.zip &gt; hash.txt</span><br></pre></td></tr></table></figure>
-<p>开始破解</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">john hash.txt</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络安全</category>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>kali</tag>
-        <tag>hashcat</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>图转线条画</title>
     <url>/2025/05/28/%E5%9B%BE%E8%BD%AC%E7%BA%BF%E6%9D%A1%E7%94%BB/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -5790,6 +5796,24 @@ dns和全局编录GC勾选，设置密码<br>
         <tag>html</tag>
         <tag>图片</tag>
         <tag>svg</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>压缩包密码爆破</title>
+    <url>/2024/08/10/%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="使用zip2john-hash值破解">使用zip2john hash值破解</h2>
+<p>生成压缩包hash值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip2john filename.zip &gt; hash.txt</span><br></pre></td></tr></table></figure>
+<p>开始破解</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">john hash.txt</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>网络安全</category>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>kali</tag>
+        <tag>hashcat</tag>
       </tags>
   </entry>
   <entry>
@@ -6101,55 +6125,6 @@ msfconsole（漏洞攻击目录）</p>
       </tags>
   </entry>
   <entry>
-    <title>椰汁香芋西米露</title>
-    <url>/2025/07/26/%E6%A4%B0%E6%B1%81%E9%A6%99%E8%8A%8B%E8%A5%BF%E7%B1%B3%E9%9C%B2/</url>
-    <content><![CDATA[<h2 id="原料">原料</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:left">量</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">香芋</td>
-<td style="text-align:left">一颗</td>
-</tr>
-<tr>
-<td style="text-align:center">椰浆</td>
-<td style="text-align:left">一罐400ml（没有甜味）</td>
-</tr>
-<tr>
-<td style="text-align:center">冰糖</td>
-<td style="text-align:left">浅浅覆盖一层（建议一开始放少，后面慢慢加到喜欢的甜度）</td>
-</tr>
-<tr>
-<td style="text-align:center">西米</td>
-<td style="text-align:left">小碗大半碗或者一碗，3，400克左右</td>
-</tr>
-</tbody>
-</table>
-<h2 id="过程">过程</h2>
-<ol>
-<li>将水煮开，倒入西米，西米不要洗，冷水会化</li>
-<li>西米煮到透明有一点点小白点，也就是10分钟左右，关火闷熟，直到全透明</li>
-<li>用滤网，西米过冷水清洗两次，泡冷水备用</li>
-<li>香芋切块，放锅中，冰糖，加入开水煮沸关最小火，煮10分钟后开始软烂</li>
-<li>放入椰浆，慢慢倒入，能够闻到香味，即可，不要太多，味道会很冲<br>
-<s>牌子不一样可能400ml并不会用完，慢慢倒可控</s></li>
-<li>煮开后倒入西米，再次煮开后即可</li>
-</ol>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>糖水</category>
-      </categories>
-      <tags>
-        <tag>糖水</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>数据通信基础-公式</title>
     <url>/2025/06/25/%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80-%E5%85%AC%E5%BC%8F/</url>
     <content><![CDATA[<h2 id="信道带宽（W）">信道带宽（W）</h2>
@@ -6213,6 +6188,55 @@ S/N=10时，信噪比为10dB</li>
       <tags>
         <tag>网络工程师</tag>
         <tag>软考</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>椰汁香芋西米露</title>
+    <url>/2025/07/26/%E6%A4%B0%E6%B1%81%E9%A6%99%E8%8A%8B%E8%A5%BF%E7%B1%B3%E9%9C%B2/</url>
+    <content><![CDATA[<h2 id="原料">原料</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:left">量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">香芋</td>
+<td style="text-align:left">一颗</td>
+</tr>
+<tr>
+<td style="text-align:center">椰浆</td>
+<td style="text-align:left">一罐400ml（没有甜味）</td>
+</tr>
+<tr>
+<td style="text-align:center">冰糖</td>
+<td style="text-align:left">浅浅覆盖一层（建议一开始放少，后面慢慢加到喜欢的甜度）</td>
+</tr>
+<tr>
+<td style="text-align:center">西米</td>
+<td style="text-align:left">小碗大半碗或者一碗，3，400克左右</td>
+</tr>
+</tbody>
+</table>
+<h2 id="过程">过程</h2>
+<ol>
+<li>将水煮开，倒入西米，西米不要洗，冷水会化</li>
+<li>西米煮到透明有一点点小白点，也就是10分钟左右，关火闷熟，直到全透明</li>
+<li>用滤网，西米过冷水清洗两次，泡冷水备用</li>
+<li>香芋切块，放锅中，冰糖，加入开水煮沸关最小火，煮10分钟后开始软烂</li>
+<li>放入椰浆，慢慢倒入，能够闻到香味，即可，不要太多，味道会很冲<br>
+<s>牌子不一样可能400ml并不会用完，慢慢倒可控</s></li>
+<li>煮开后倒入西米，再次煮开后即可</li>
+</ol>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>糖水</category>
+      </categories>
+      <tags>
+        <tag>糖水</tag>
       </tags>
   </entry>
   <entry>
@@ -6511,65 +6535,6 @@ S/N=10时，信噪比为10dB</li>
       </tags>
   </entry>
   <entry>
-    <title>滑蛋饭</title>
-    <url>/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/</url>
-    <content><![CDATA[<h2 id="调料">调料</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:left">量</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">蚝油</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">糖</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">胡椒粉</td>
-<td style="text-align:left">适量</td>
-</tr>
-<tr>
-<td style="text-align:center">香油</td>
-<td style="text-align:left">极少量</td>
-</tr>
-<tr>
-<td style="text-align:center">酱油</td>
-<td style="text-align:left">少量</td>
-</tr>
-<tr>
-<td style="text-align:center">鸡精</td>
-<td style="text-align:left">少量</td>
-</tr>
-<tr>
-<td style="text-align:center">生粉</td>
-<td style="text-align:left">适量</td>
-</tr>
-</tbody>
-</table>
-<h2 id="酱汁">酱汁</h2>
-<ol>
-<li>半碗水，加入耗油，糖，喜欢甜可以多一点糖，白胡椒，搅在一起</li>
-<li>差不多出锅的时候放一点酱油，香油</li>
-<li>最后用生粉调一个芡，冒泡即可</li>
-</ol>
-<h2 id="滑蛋">滑蛋</h2>
-<p>小火煎蛋即可，腊肠韭黄，都可以，按喜欢的放。</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>菜谱</category>
-      </categories>
-      <tags>
-        <tag>菜谱</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>沉迷游戏有感</title>
     <url>/2025/09/26/%E6%B2%89%E8%BF%B7%E6%B8%B8%E6%88%8F%E6%9C%89%E6%84%9F/</url>
     <content><![CDATA[<p>  原本以为我不会再对游戏有什么太大的热情了，上次这么疯狂的玩，已经不知道是什么时候了，所以这次也没给自己施加太多想法和压力，一直玩到这股劲消失为止，不去克制，这感觉还真不错。</p>
@@ -6675,6 +6640,65 @@ S/N=10时，信噪比为10dB</li>
       </tags>
   </entry>
   <entry>
+    <title>滑蛋饭</title>
+    <url>/2025/05/15/%E6%BB%91%E8%9B%8B%E9%A5%AD/</url>
+    <content><![CDATA[<h2 id="调料">调料</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:left">量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">蚝油</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">糖</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">胡椒粉</td>
+<td style="text-align:left">适量</td>
+</tr>
+<tr>
+<td style="text-align:center">香油</td>
+<td style="text-align:left">极少量</td>
+</tr>
+<tr>
+<td style="text-align:center">酱油</td>
+<td style="text-align:left">少量</td>
+</tr>
+<tr>
+<td style="text-align:center">鸡精</td>
+<td style="text-align:left">少量</td>
+</tr>
+<tr>
+<td style="text-align:center">生粉</td>
+<td style="text-align:left">适量</td>
+</tr>
+</tbody>
+</table>
+<h2 id="酱汁">酱汁</h2>
+<ol>
+<li>半碗水，加入耗油，糖，喜欢甜可以多一点糖，白胡椒，搅在一起</li>
+<li>差不多出锅的时候放一点酱油，香油</li>
+<li>最后用生粉调一个芡，冒泡即可</li>
+</ol>
+<h2 id="滑蛋">滑蛋</h2>
+<p>小火煎蛋即可，腊肠韭黄，都可以，按喜欢的放。</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>菜谱</category>
+      </categories>
+      <tags>
+        <tag>菜谱</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>笔记本无线网卡异常</title>
     <url>/2025/03/22/%E7%AC%94%E8%AE%B0%E6%9C%AC%E6%97%A0%E7%BA%BF%E7%BD%91%E5%8D%A1%E5%BC%82%E5%B8%B8/</url>
     <content><![CDATA[<h2 id="问题现象">问题现象</h2>
@@ -6710,6 +6734,97 @@ S/N=10时，信噪比为10dB</li>
       <tags>
         <tag>笔记本无线网卡</tag>
         <tag>维修</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算命</title>
+    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
+    <content><![CDATA[<h2 id="六神">六神</h2>
+<h3 id="手势位置">手势位置</h3>
+<p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br>
+<img src="/images/pasted-71.png" alt="upload successful"></p>
+<p>速记：大、流、速、赤、小、空。</p>
+<h3 id="详解">详解</h3>
+<h4 id="大安">大安</h4>
+<p>1、身不动时（如果算一个人在干什么）<br>
+2、五行：属木<br>
+3、方位：东<br>
+4、神煞：青龙<br>
+5、数字：1、5、7<br>
+6、安心吉祥的意思</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
+<h4 id="留连">留连</h4>
+<p>1、人未归时<br>
+2、五行属水<br>
+3、黑色<br>
+4、方位北<br>
+5、玄武<br>
+6、数字：2、8、10<br>
+7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
+<h4 id="速喜">速喜</h4>
+<p>1、人即至时<br>
+2、五行属火<br>
+3、红色<br>
+4、方位为南方<br>
+5、数字：3,6,9<br>
+6、有快速、吉利、时机已到之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
+<h4 id="赤口">赤口</h4>
+<p>1、官事凶时<br>
+2、五行属金<br>
+3、白色<br>
+4、西方<br>
+5、白虎<br>
+6、数字：4，7，10<br>
+7、有不吉、惊恐、凶险、口舌是非之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
+<h4 id="小吉">小吉</h4>
+<p>1、人来喜时<br>
+2、五行属木<br>
+3、六合<br>
+4、数字：1,5,7<br>
+5、有和合、吉利之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
+<h4 id="空亡">空亡</h4>
+<p>1、音信稀时<br>
+2、五行属土<br>
+3、黄色<br>
+4、中央<br>
+5、勾陈<br>
+6、数字：3,6,9<br>
+7、有不吉、无果之意</p>
+<p>口诀：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
+<h2 id="奇门">奇门</h2>
+<h3 id="九宫五行">九宫五行</h3>
+<p>五行生克关系<br>
+<img src="/images/pasted-74.png" alt="upload successful"><br>
+九宫位置<br>
+<img src="/images/pasted-73.png" alt="upload successful"><br>
+东南西北位置<br>
+<img src="/images/pasted-75.png" alt="upload successful"></p>
+<h2 id="干支">干支</h2>
+<p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
+<p>寅卯为木居东方，巳午为火居正南，<br>
+申酉属金位在西，子亥属水在北边，<br>
+辰戌丑未皆属土，分别居于四维偏，<br>
+辰在东南戌西北，丑在东北未西南。</p>
+<h2 id="时辰">时辰</h2>
+<p>子丑寅卯辰巳午未申酉戌亥</p>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>玄学</category>
+      </categories>
+      <tags>
+        <tag>算命知识</tag>
+        <tag>小六壬</tag>
       </tags>
   </entry>
   <entry>
@@ -6837,99 +6952,8 @@ S/N=10时，信噪比为10dB</li>
         <category>k8s</category>
       </categories>
       <tags>
-        <tag>k8s</tag>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>算命</title>
-    <url>/2025/02/05/%E7%AE%97%E5%91%BD/</url>
-    <content><![CDATA[<h2 id="六神">六神</h2>
-<h3 id="手势位置">手势位置</h3>
-<p>左手三指，分别是大安、流连、速喜、赤口、小吉、空亡<br>
-<img src="/images/pasted-71.png" alt="upload successful"></p>
-<p>速记：大、流、速、赤、小、空。</p>
-<h3 id="详解">详解</h3>
-<h4 id="大安">大安</h4>
-<p>1、身不动时（如果算一个人在干什么）<br>
-2、五行：属木<br>
-3、方位：东<br>
-4、神煞：青龙<br>
-5、数字：1、5、7<br>
-6、安心吉祥的意思</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">大安事事昌</span><br><span class="line">求谋在东方</span><br><span class="line">失物去不远</span><br><span class="line">宅家保平安</span><br><span class="line">行人身未动</span><br><span class="line">病者主无妨</span><br><span class="line">将军回田野</span><br><span class="line">仔细更推详</span><br></pre></td></tr></table></figure>
-<h4 id="留连">留连</h4>
-<p>1、人未归时<br>
-2、五行属水<br>
-3、黑色<br>
-4、方位北<br>
-5、玄武<br>
-6、数字：2、8、10<br>
-7、有暗昧不明、延迟、纠缠、拖延、漫长之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">留连事难成</span><br><span class="line">求谋日未明</span><br><span class="line">官事凡宜缓</span><br><span class="line">去者未回程</span><br><span class="line">失物南方见</span><br><span class="line">急讨方心称</span><br><span class="line">更须防口舌</span><br><span class="line">人口且平平</span><br></pre></td></tr></table></figure>
-<h4 id="速喜">速喜</h4>
-<p>1、人即至时<br>
-2、五行属火<br>
-3、红色<br>
-4、方位为南方<br>
-5、数字：3,6,9<br>
-6、有快速、吉利、时机已到之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">速喜喜来临</span><br><span class="line">求财向南行</span><br><span class="line">失物申未午（南、西南）</span><br><span class="line">逢人路上寻</span><br><span class="line">官事有福德</span><br><span class="line">病者无祸侵</span><br><span class="line">田宅六畜吉</span><br><span class="line">行人有信音</span><br></pre></td></tr></table></figure>
-<h4 id="赤口">赤口</h4>
-<p>1、官事凶时<br>
-2、五行属金<br>
-3、白色<br>
-4、西方<br>
-5、白虎<br>
-6、数字：4，7，10<br>
-7、有不吉、惊恐、凶险、口舌是非之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">赤口主口舌</span><br><span class="line">官非切宜防</span><br><span class="line">失物急去寻</span><br><span class="line">行人有惊慌</span><br><span class="line">鸡犬（六畜）多作怪</span><br><span class="line">病者出西方</span><br><span class="line">更须防咀咒</span><br><span class="line">诚恐染瘟皇</span><br></pre></td></tr></table></figure>
-<h4 id="小吉">小吉</h4>
-<p>1、人来喜时<br>
-2、五行属木<br>
-3、六合<br>
-4、数字：1,5,7<br>
-5、有和合、吉利之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">小吉最吉昌</span><br><span class="line">路上好商量</span><br><span class="line">阴人来报喜</span><br><span class="line">失物在坤方（西南）</span><br><span class="line">行人即便至</span><br><span class="line">交易甚是强</span><br><span class="line">凡事皆和合</span><br><span class="line">病者祈上苍</span><br></pre></td></tr></table></figure>
-<h4 id="空亡">空亡</h4>
-<p>1、音信稀时<br>
-2、五行属土<br>
-3、黄色<br>
-4、中央<br>
-5、勾陈<br>
-6、数字：3,6,9<br>
-7、有不吉、无果之意</p>
-<p>口诀：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">空亡事不祥</span><br><span class="line">阴人多乖张</span><br><span class="line">求财无利益</span><br><span class="line">行人有灾殃</span><br><span class="line">失物寻一见</span><br><span class="line">官事有刑伤</span><br><span class="line">病人逢暗鬼</span><br><span class="line">祈解保安康</span><br></pre></td></tr></table></figure>
-<h2 id="奇门">奇门</h2>
-<h3 id="九宫五行">九宫五行</h3>
-<p>五行生克关系<br>
-<img src="/images/pasted-74.png" alt="upload successful"><br>
-九宫位置<br>
-<img src="/images/pasted-73.png" alt="upload successful"><br>
-东南西北位置<br>
-<img src="/images/pasted-75.png" alt="upload successful"></p>
-<h2 id="干支">干支</h2>
-<p>甲乙东方木，丙丁南方火，戊己中央土，庚辛西方金，壬癸北方水</p>
-<p>寅卯为木居东方，巳午为火居正南，<br>
-申酉属金位在西，子亥属水在北边，<br>
-辰戌丑未皆属土，分别居于四维偏，<br>
-辰在东南戌西北，丑在东北未西南。</p>
-<h2 id="时辰">时辰</h2>
-<p>子丑寅卯辰巳午未申酉戌亥</p>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>玄学</category>
-      </categories>
-      <tags>
-        <tag>算命知识</tag>
-        <tag>小六壬</tag>
+        <tag>k8s</tag>
       </tags>
   </entry>
   <entry>
@@ -7194,54 +7218,6 @@ width: 20%;
       </tags>
   </entry>
   <entry>
-    <title>那些关于生命与自由的经典影视台词</title>
-    <url>/2026/03/24/%E9%82%A3%E4%BA%9B%E5%85%B3%E4%BA%8E%E7%94%9F%E5%91%BD%E4%B8%8E%E8%87%AA%E7%94%B1%E7%9A%84%E7%BB%8F%E5%85%B8%E5%BD%B1%E8%A7%86%E5%8F%B0%E8%AF%8D/</url>
-    <content><![CDATA[<h1>那些关于生命与自由的经典影视台词</h1>
-<blockquote>
-<p><a href="https://www.bilibili.com/video/BV1yQwEz7Eie/?spm_id_from=333.1007.tianma.1-2-2.click&amp;vd_source=096d3980aee6e59a0f794011bf77ca27">原视频链接</a></p>
-</blockquote>
-<p>偶然刷到B站一条主题为&quot;人们总说万一死了怎么办，却没想过自己是否真正活着&quot;的视频，其中引用的几段影视台词直击人心。这些台词或探讨人生选择，或诠释自由真谛：</p>
-<hr>
-<h2 id="《荒野生存》-Into-the-Wild-2007">《荒野生存》(Into the Wild, 2007)</h2>
-<blockquote>
-<p>中文：孩子，你不觉得你该接受教育、找份工作，在这一生有所成就吗？我认为职业是20世纪的发明，我并不想要。</p>
-</blockquote>
-<ul>
-<li>英文：Son don’t you think you ought to be getting an education in a job And making something in this life. I think careers are a twentieth century invention And i don’t want one.</li>
-<li>场景：老人Ron Franz劝导主角规划人生，主角拒绝传统职业规训的对话</li>
-</ul>
-<blockquote>
-<p>中文：你要重新回到世间，走出那座孤寂的房子，走出你小小的工作室，重新踏上路途。人类精神的核心，源自全新的体验。</p>
-</blockquote>
-<ul>
-<li>英文：You gotta get back out in the world Get out of that lonely house A little workshop of yours Get back out on the road. I mean the core of man’s spirit Comes from new experiences.</li>
-<li>场景：主角劝导孤独老人走出封闭生活，并阐述新体验对精神重要性的对话</li>
-</ul>
-<hr>
-<h2 id="《阿甘正传》-Forrest-Gump-1994">《阿甘正传》(Forrest Gump, 1994)</h2>
-<blockquote>
-<p>中文：我妈妈总说，生活就像一盒巧克力，你永远不知道会得到什么。</p>
-</blockquote>
-<ul>
-<li>英文：My mom always said Life was like a box of chocolates Never know what you’re gonna get.</li>
-<li>场景：阿甘坐在公交站长椅上，向路人转述母亲人生哲理的经典开场</li>
-</ul>
-<hr>
-<h2 id="《肖申克的救赎》-The-Shawshank-Redemption-1994">《肖申克的救赎》(The Shawshank Redemption, 1994)</h2>
-<blockquote>
-<p>中文：我必须提醒自己，有些鸟儿本就不该被关在笼子里，它们的每一片羽毛都闪耀着自由的光辉。</p>
-</blockquote>
-<ul>
-<li>英文：I have to remind myself That some birds aren’t meant to be Caged their feathers are just too bright.</li>
-<li>场景：瑞德在安迪越狱后，于狱中感慨安迪追求自由、不甘被束缚的时刻</li>
-</ul>
-]]></content>
-      <categories>
-        <category>生活</category>
-        <category>随笔日志</category>
-      </categories>
-  </entry>
-  <entry>
     <title>过防火墙业务端口畅通但业务异常-云虚拟网络</title>
     <url>/2025/01/19/%E8%BF%87%E9%98%B2%E7%81%AB%E5%A2%99%E4%B8%9A%E5%8A%A1%E7%AB%AF%E5%8F%A3%E7%95%85%E9%80%9A%E4%BD%86%E4%B8%9A%E5%8A%A1%E5%BC%82%E5%B8%B8-%E4%BA%91%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C/</url>
     <content><![CDATA[<h2 id="通话语音服务过防火墙异常">通话语音服务过防火墙异常</h2>
@@ -7295,6 +7271,54 @@ width: 20%;
         <tag>防火墙</tag>
         <tag>排障</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>那些关于生命与自由的经典影视台词</title>
+    <url>/2026/03/24/%E9%82%A3%E4%BA%9B%E5%85%B3%E4%BA%8E%E7%94%9F%E5%91%BD%E4%B8%8E%E8%87%AA%E7%94%B1%E7%9A%84%E7%BB%8F%E5%85%B8%E5%BD%B1%E8%A7%86%E5%8F%B0%E8%AF%8D/</url>
+    <content><![CDATA[<h1>那些关于生命与自由的经典影视台词</h1>
+<blockquote>
+<p><a href="https://www.bilibili.com/video/BV1yQwEz7Eie/?spm_id_from=333.1007.tianma.1-2-2.click&amp;vd_source=096d3980aee6e59a0f794011bf77ca27">原视频链接</a></p>
+</blockquote>
+<p>偶然刷到B站一条主题为&quot;人们总说万一死了怎么办，却没想过自己是否真正活着&quot;的视频，其中引用的几段影视台词直击人心。这些台词或探讨人生选择，或诠释自由真谛：</p>
+<hr>
+<h2 id="《荒野生存》-Into-the-Wild-2007">《荒野生存》(Into the Wild, 2007)</h2>
+<blockquote>
+<p>中文：孩子，你不觉得你该接受教育、找份工作，在这一生有所成就吗？我认为职业是20世纪的发明，我并不想要。</p>
+</blockquote>
+<ul>
+<li>英文：Son don’t you think you ought to be getting an education in a job And making something in this life. I think careers are a twentieth century invention And i don’t want one.</li>
+<li>场景：老人Ron Franz劝导主角规划人生，主角拒绝传统职业规训的对话</li>
+</ul>
+<blockquote>
+<p>中文：你要重新回到世间，走出那座孤寂的房子，走出你小小的工作室，重新踏上路途。人类精神的核心，源自全新的体验。</p>
+</blockquote>
+<ul>
+<li>英文：You gotta get back out in the world Get out of that lonely house A little workshop of yours Get back out on the road. I mean the core of man’s spirit Comes from new experiences.</li>
+<li>场景：主角劝导孤独老人走出封闭生活，并阐述新体验对精神重要性的对话</li>
+</ul>
+<hr>
+<h2 id="《阿甘正传》-Forrest-Gump-1994">《阿甘正传》(Forrest Gump, 1994)</h2>
+<blockquote>
+<p>中文：我妈妈总说，生活就像一盒巧克力，你永远不知道会得到什么。</p>
+</blockquote>
+<ul>
+<li>英文：My mom always said Life was like a box of chocolates Never know what you’re gonna get.</li>
+<li>场景：阿甘坐在公交站长椅上，向路人转述母亲人生哲理的经典开场</li>
+</ul>
+<hr>
+<h2 id="《肖申克的救赎》-The-Shawshank-Redemption-1994">《肖申克的救赎》(The Shawshank Redemption, 1994)</h2>
+<blockquote>
+<p>中文：我必须提醒自己，有些鸟儿本就不该被关在笼子里，它们的每一片羽毛都闪耀着自由的光辉。</p>
+</blockquote>
+<ul>
+<li>英文：I have to remind myself That some birds aren’t meant to be Caged their feathers are just too bright.</li>
+<li>场景：瑞德在安迪越狱后，于狱中感慨安迪追求自由、不甘被束缚的时刻</li>
+</ul>
+]]></content>
+      <categories>
+        <category>生活</category>
+        <category>随笔日志</category>
+      </categories>
   </entry>
   <entry>
     <title>防火墙firewall和iptables命令</title>
