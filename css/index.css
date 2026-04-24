@@ -3969,14 +3969,44 @@ h1.page-title + .tag-cloud-list {
   stroke-width: 0.5;
   stroke-dasharray: 360;
   stroke-dashoffset: 0;
-  -webkit-animation: roll 6s linear infinite;
-  -moz-animation: roll 6s linear infinite;
-  -o-animation: roll 6s linear infinite;
-  -ms-animation: roll 6s linear infinite;
-  animation: roll 6s linear infinite;
+  -webkit-animation: roll 3s linear infinite;
+  -moz-animation: roll 3s linear infinite;
+  -o-animation: roll 3s linear infinite;
+  -ms-animation: roll 3s linear infinite;
+  animation: roll 3s linear infinite;
 }
 .loading path.color {
   stroke: #9b59b6;
+}
+@media (max-width: 768px) {
+  .loading {
+    width: 200px;
+    height: 200px;
+    padding: 20px;
+  }
+  .loading svg.loading {
+    width: 140px;
+    height: 140px;
+  }
+  .loading-text {
+    font-size: 1.8em;
+    margin-left: 15px;
+  }
+}
+@media (max-width: 480px) {
+  .loading {
+    width: 150px;
+    height: 150px;
+    padding: 15px;
+  }
+  .loading svg.loading {
+    width: 100px;
+    height: 100px;
+  }
+  .loading-text {
+    font-size: 1.5em;
+    margin-left: 10px;
+  }
 }
 .loading-text {
   font-size: 2.5em;
@@ -4001,59 +4031,47 @@ h1.page-title + .tag-cloud-list {
   animation: glitch 2s infinite;
 }
 @-moz-keyframes roll {
-  0%, 100% {
+  0% {
     stroke-dashoffset: 0;
-  }
-  25% {
-    stroke-dashoffset: 340;
   }
   50% {
     stroke-dashoffset: 360;
   }
-  75% {
-    stroke-dashoffset: 20;
+  100% {
+    stroke-dashoffset: 720;
   }
 }
 @-webkit-keyframes roll {
-  0%, 100% {
+  0% {
     stroke-dashoffset: 0;
-  }
-  25% {
-    stroke-dashoffset: 340;
   }
   50% {
     stroke-dashoffset: 360;
   }
-  75% {
-    stroke-dashoffset: 20;
+  100% {
+    stroke-dashoffset: 720;
   }
 }
 @-o-keyframes roll {
-  0%, 100% {
+  0% {
     stroke-dashoffset: 0;
-  }
-  25% {
-    stroke-dashoffset: 340;
   }
   50% {
     stroke-dashoffset: 360;
   }
-  75% {
-    stroke-dashoffset: 20;
+  100% {
+    stroke-dashoffset: 720;
   }
 }
 @keyframes roll {
-  0%, 100% {
+  0% {
     stroke-dashoffset: 0;
-  }
-  25% {
-    stroke-dashoffset: 340;
   }
   50% {
     stroke-dashoffset: 360;
   }
-  75% {
-    stroke-dashoffset: 20;
+  100% {
+    stroke-dashoffset: 720;
   }
 }
 @-moz-keyframes glitch {
