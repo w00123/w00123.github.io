@@ -33,6 +33,7 @@
                         <div class="gold-item">当前卖出价：<span class="gold-value">${metal.sell_price || '-'}</span></div>
                         <div class="gold-item">今日开盘价：<span class="gold-value">${metal.today_price || '-'}</span></div>
                         <div class="gold-item">今日最高价：<span class="gold-value">${metal.high_price || '-'}</span></div>
+                        <div class="gold-item">今日最低价：<span class="gold-value">${metal.low_price || '-'}</span></div>
                     </div>
                 `;
             });
