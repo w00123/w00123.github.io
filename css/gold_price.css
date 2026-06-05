@@ -1,0 +1,101 @@
+/* 金价数据卡片样式 - 透明磨砂框 */
+#gold_price.card-widget {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+  color: white;
+  padding: 30px 20px 30px;
+}
+
+#gold_price_content {
+    width: 100%;
+    height: 280px;
+    font-size: 90%;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 自定义滚动条 */
+#gold_price_content::-webkit-scrollbar {
+    width: 4px;
+}
+#gold_price_content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 2px;
+}
+#gold_price_content::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.5);
+    border-radius: 2px;
+}
+
+/* 日期显示 */
+.gold-date {
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255, 215, 0, 0.8);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* 金价卡片 - 透明磨砂效果 */
+.gold-card {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 8px;
+    padding: 12px;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 品种名称 */
+.gold-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 215, 0, 0.9);
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 数据项 */
+.gold-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* 价格值 */
+.gold-value {
+    color: rgba(255, 215, 0, 0.9);
+    font-weight: 600;
+    font-family: 'Arial', sans-serif;
+}
+
+/* 空数据提示 */
+.gold-empty {
+    text-align: center;
+    padding: 30px 0;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+}
+
+/* 适配移动端 */
+@media (max-width: 768px) {
+    #newsContent {
+        gap: 10px;
+    }
+    .gold-card {
+        padding: 10px;
+    }
+    .gold-item {
+        font-size: 12px;
+    }
+}
