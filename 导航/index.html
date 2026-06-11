@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://w00123.pages.dev/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg">
 <meta property="article:published_time" content="2025-07-15T16:06:37.000Z">
-<meta property="article:modified_time" content="2026-06-05T14:05:10.136Z">
+<meta property="article:modified_time" content="2026-06-11T15:11:45.601Z">
 <meta property="article:author" content="haha">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://w00123.pages.dev/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg"><link rel="shortcut icon" href="/img/haha.jpg"><link rel="canonical" href="http://w00123.pages.dev/%E5%AF%BC%E8%88%AA/index.html"><link rel="preconnect" href="https://cdn.staticfile.org"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.staticfile.org/fancyapps-ui/5.0.33/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
@@ -55,7 +55,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2026-06-05 22:05:10'
+  postUpdate: '2026-06-11 23:11:45'
 }</script><script>(win=>{
       win.saveToLocal = {
         set: (key, value, ttl) => {
@@ -308,12 +308,12 @@
   max-width: 120px;
   position: relative;
   height: 120px;
-  border-radius: 12px;
+  border-radius: 50%;
   overflow: hidden;
   text-decoration: none;
   color: #fff;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
-  transition: 
+  transition:
     box-shadow .3s ease,
     border-color .3s ease,
     transform .35s cubic-bezier(.25,.8,.25,1);
@@ -330,6 +330,7 @@
   -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.3) 100%);
   filter: brightness(.65);
   transition: filter .3s ease, transform .3s ease;
+  border-radius: 12px;
 }
 
 .card:hover img {
@@ -484,6 +485,10 @@ const linksData = {
     { name: "HMCL", desc: "MC多功能启动器", url: "https://hmcl.huangyuhui.net/", img: "https://hmcl.huangyuhui.net/favicon.ico", style: "" },
     { name: "MapCraft", desc: "MC地图存档站", url: "https://zh.mapcraft.me/", img: "https://zh.mapcraft.me/favicon.png", style: "" },
   ],
+  "站长": [
+    { name: "Google搜索", desc: "搜索引擎", url: "https://search.google.com/", img: "https://favicon.im/zh/search.google.com?larger=true", style: "" },
+    { name: "Bing站长", desc: "Bing网站管理", url: "https://www.bing.com/webmasters", img: "https://favicon.im/zh/www.bing.com?larger=true", style: "" },
+],
 };
 
 function renderLinkCards() {
@@ -530,7 +535,7 @@ function renderLinkCards() {
 function initTocEvents() {
   const tocLinks = document.querySelectorAll('.custom-toc-link');
   const headings = document.querySelectorAll('#link-container h2');
-  
+
   if (!tocLinks.length || !headings.length) return;
 
   tocLinks.forEach(link => {
@@ -564,46 +569,66 @@ function initTocEvents() {
       ticking = true;
     }
   });
-  
+
   updateHighlight();
 }
 
-function bindCardHoverEffects() {
-  const maxRot = 18;
-  const lift = 15;
-  
-  document.querySelectorAll('.card').forEach(card => {
-    let rAF = null;
-    let leaveTimer = null;
+// 卡片边缘发光效果
+function initCardGlow() {
+  const cards = document.querySelectorAll('.card');
+  const glowColor = 'rgba(192, 132, 252, 0.8)';
 
-    card.addEventListener('mousemove', e => {
-      cancelAnimationFrame(rAF);
-      clearTimeout(leaveTimer);
-      
+  cards.forEach(card => {
+    const baseShadow = '0 20px 50px rgba(0, 0, 0, 0.9)';
+
+    const updateGlow = (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      const rotY = ((x / rect.width - 0.5) * 2) * maxRot;
-      const rotX = -((y / rect.height - 0.5) * 2) * maxRot;
+      const w = rect.width;
+      const h = rect.height;
 
-      rAF = requestAnimationFrame(() => {
-        card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${lift}px)`;
-      });
+      const distTop = y;
+      const distBottom = h - y;
+      const distLeft = x;
+      const distRight = w - x;
+
+      const minDist = Math.min(distTop, distBottom, distLeft, distRight);
+
+      let glowShadow = baseShadow;
+
+      if (minDist === distTop) {
+        const offsetX = Math.round((x / w) * 16 - 8);
+        glowShadow = `${baseShadow}, ${offsetX}px -10px 20px ${glowColor}`;
+      } else if (minDist === distBottom) {
+        const offsetX = Math.round((x / w) * 16 - 8);
+        glowShadow = `${baseShadow}, ${offsetX}px 10px 20px ${glowColor}`;
+      } else if (minDist === distLeft) {
+        const offsetY = Math.round((y / h) * 16 - 8);
+        glowShadow = `${baseShadow}, -10px ${offsetY}px 20px ${glowColor}`;
+      } else {
+        const offsetY = Math.round((y / h) * 16 - 8);
+        glowShadow = `${baseShadow}, 10px ${offsetY}px 20px ${glowColor}`;
+      }
+
+      card.style.boxShadow = glowShadow;
+    };
+
+    card.addEventListener('mouseenter', () => {
+      card.style.boxShadow = baseShadow;
     });
 
+    card.addEventListener('mousemove', updateGlow);
+
     card.addEventListener('mouseleave', () => {
-      clearTimeout(leaveTimer);
-      leaveTimer = setTimeout(() => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-      }, 100);
+      card.style.boxShadow = baseShadow;
     });
   });
 }
 
 renderLinkCards();
-document.addEventListener('DOMContentLoaded', bindCardHoverEffects);
-bindCardHoverEffects();
-</script></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/haha.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">haha</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">107</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">121</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">41</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/w00123"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">随便记点什么</div></div><div class="sticky_layout"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">107</div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-06-10T12:53:49.536Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><div class="card-widget" id="weibo"><div class="item-headline"><i class="fa-brands fa-weibo"></i><span>微博热搜</span></div><div class="item-content"><link rel="stylesheet" href="/css/weibo.css"><div id="weiboContent"></div><script src="/js/weibo.js"></script></div></div><div class="card-widget" id="gold_price"><div class="item-headline"><i class="fa-solid fa-coins"></i><span>金价行情</span></div><div class="item-content"><link rel="stylesheet" href="/css/gold_price.css"><div id="gold_price_content"></div><script src="/js/gold_price.js"></script></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By haha</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.staticfile.org/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.staticfile.org/vanilla-lazyload/17.8.8/lazyload.iife.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start -->
+initCardGlow();
+</script></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/haha.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">haha</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">107</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">121</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">41</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/w00123"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">随便记点什么</div></div><div class="sticky_layout"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">107</div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-06-11T15:25:10.794Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><div class="card-widget" id="weibo"><div class="item-headline"><i class="fa-brands fa-weibo"></i><span>微博热搜</span></div><div class="item-content"><link rel="stylesheet" href="/css/weibo.css"><div id="weiboContent"></div><script src="/js/weibo.js"></script></div></div><div class="card-widget" id="gold_price"><div class="item-headline"><i class="fa-solid fa-coins"></i><span>金价行情</span></div><div class="item-content"><link rel="stylesheet" href="/css/gold_price.css"><div id="gold_price_content"></div><script src="/js/gold_price.js"></script></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By haha</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.staticfile.org/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.staticfile.org/vanilla-lazyload/17.8.8/lazyload.iife.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start -->
   <script data-pjax src="/js/hexo_githubcalendar.js"></script>
   <script data-pjax>
         function GithubCalendarConfig(){
