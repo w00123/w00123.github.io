@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trae.cn 背景效果</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background: #0c0c0c; }
+        canvas { display: block; width: 100%; height: 100%; }
+    </style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+(function() {
+    const canvas = document.getElementById('c');
+    const gl = canvas.getContext('webgl2', { antialias: false, powerPreference: 'high-performance', depth: false, stencil: false });
+
+    // 如果不支持 WebGL2，回退到 WebGL1
+    const isWebGL2 = !!gl;
+    const ctx = isWebGL2 ? gl : canvas.getContext('webgl', { antialias: false, powerPreference: 'high-performance', depth: false, stencil: false });
+
+    if (!ctx) return;
+
+    // 参数（与 trae.cn 源码一致）
+    const PARAMS = {
+        speed: 0.18,
+        density: 0.5,
+        strength: 1.8,
+        frequency: 4,
+        color1: [0.196, 0.941, 0.549],  // #32F08C
+        color2: [1, 1, 1],               // 白色
+        pixelSize: 5,
+        pixelGap: 2,
+        threshold: 0.87,
+        greenRatio: 0.49,
+        bgColor: [0, 0, 0],
+        mouseRadius: 0.3,
+        mouseStrength: 1.3,
+        opacity: 0.4,
+    };
+
+    let mouseX = 0.5, mouseY = 0.5;
+    window.addEventListener('mousemove', e => {
+        mouseX = e.clientX / window.innerWidth;
+        mouseY = 1 - e.clientY / window.innerHeight;
+    });
+
+    // 顶点着色器
+    const VS = `
+        attribute vec2 aPosition;
+        varying vec2 vUv;
+        void main() {
+            vUv = aPosition * 0.5 + 0.5;
+            gl_Position = vec4(aPosition, 0.0, 1.0);
+        }
+    `;
+
+    // 流体着色器（与 trae.cn 源码的 FluidShader 一致）
+    const FLUID_FS = `
+        precision highp float;
+        uniform float uTime;
+        uniform vec2 uResolution;
+        uniform float uSpeed;
+        uniform float uDensity;
+        uniform float uStrength;
+        uniform float uFrequency;
+        uniform vec3 uColor1;
+        uniform vec3 uColor2;
+        uniform vec2 uMouse;
+        uniform float uMouseRadius;
+        uniform float uMouseStrength;
+        varying vec2 vUv;
+
+        vec2 hash(vec2 p) {
+            p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
+            return -1.0 + 2.0 * fract(sin(p) * 43758.5453123);
+        }
+
+        float noise(vec2 p) {
+            const float K1 = 0.366025404;
+            const float K2 = 0.211324865;
+            vec2 i = floor(p + (p.x + p.y) * K1);
+            vec2 a = p - i + (i.x + i.y) * K2;
+            vec2 o = (a.x > a.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+            vec2 b = a - o + K2;
+            vec2 c = a - 1.0 + 2.0 * K2;
+            vec3 h = max(0.5 - vec3(dot(a,a), dot(b,b), dot(c,c)), 0.0);
+            vec3 n = h*h*h*h * vec3(dot(a, hash(i+0.0)), dot(b, hash(i+o)), dot(c, hash(i+1.0)));
+            return dot(n, vec3(70.0));
+        }
+
+        float fbm(vec2 p) {
+            float value = 0.0;
+            float amplitude = 0.5;
+            float frequency = 1.0;
+            for (int i = 0; i < 3; i++) {
+                value += amplitude * noise(p * frequency);
+                frequency *= 2.0;
+                amplitude *= 0.5;
+            }
+            return value * 0.5 + 0.5;
+        }
+
+        void main() {
+            vec2 st = vUv;
+            float t = uTime * uSpeed;
+            vec2 q = vec2(
+                fbm(st * uDensity + vec2(0.0, 0.2 * t)),
+                fbm(st * uDensity + vec2(1.2, -0.3 * t))
+            );
+            float n = fbm(st * uDensity + q * uFrequency);
+            vec3 color = mix(uColor1, uColor2, n);
+            gl_FragColor = vec4(color, 1.0);
+        }
+    `;
+
+    // 像素化着色器（与 trae.cn 源码的 PixelationShader 一致）
+    const PIXEL_FS = `
+        precision highp float;
+        uniform sampler2D uTexture;
+        uniform vec2 uResolution;
+        uniform float uPixelSize;
+        uniform float uPixelGap;
+        uniform float uThreshold;
+        uniform float uGreenRatio;
+        uniform vec3 uBgColor;
+        uniform vec3 uGreenColor;
+        uniform float uTime;
+        uniform vec2 uMouse;
+        uniform float uMouseRadius;
+        uniform float uMouseStrength;
+        uniform vec3 uColor1;
+        uniform vec3 uColor2;
+        varying vec2 vUv;
+
+        float random(vec2 st) {
+            return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+        }
+
+        vec2 hash(vec2 p) {
+            p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
+            return -1.0 + 2.0 * fract(sin(p) * 43758.5453123);
+        }
+
+        float noise(vec2 p) {
+            const float K1 = 0.366025404;
+            const float K2 = 0.211324865;
+            vec2 i = floor(p + (p.x + p.y) * K1);
+            vec2 a = p - i + (i.x + i.y) * K2;
+            vec2 o = (a.x > a.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+            vec2 b = a - o + K2;
+            vec2 c = a - 1.0 + 2.0 * K2;
+            vec3 h = max(0.5 - vec3(dot(a,a), dot(b,b), dot(c,c)), 0.0);
+            vec3 n = h*h*h*h * vec3(dot(a, hash(i+0.0)), dot(b, hash(i+o)), dot(c, hash(i+1.0)));
+            return dot(n, vec3(70.0));
+        }
+
+        float fbm(vec2 p) {
+            float value = 0.0;
+            float amplitude = 0.5;
+            float frequency = 1.0;
+            for (int i = 0; i < 3; i++) {
+                value += amplitude * noise(p * frequency);
+                frequency *= 2.0;
+                amplitude *= 0.5;
+            }
+            return value * 0.5 + 0.5;
+        }
+
+        vec2 computeFluidFlow(vec2 uv, float time, float speed, float density, float frequency) {
+            vec2 q = vec2(
+                fbm(uv * density + vec2(0.0, 0.2 * time * speed)),
+                fbm(uv * density + vec2(1.2, -0.3 * time * speed))
+            );
+            float noise1 = fbm(uv * density + q * frequency);
+            vec2 flowVector = vec2(q.x * 0.3, q.y * 0.7) * 2.0;
+            flowVector.x *= 0.5;
+            flowVector.y *= 1.5;
+            return flowVector;
+        }
+
+        void main() {
+            float time = uTime;
+            float speed = 0.15;
+            float density = 1.5;
+            float frequency = 2.5;
+
+            vec2 pixelCoord = vUv * uResolution;
+            float totalSize = uPixelSize + uPixelGap;
+            vec2 blockId = floor(pixelCoord / totalSize);
+            vec2 blockCenterUV = (blockId * totalSize + vec2(uPixelSize / 2.0)) / uResolution;
+
+            vec2 flow = computeFluidFlow(blockCenterUV, time, speed, density, frequency) * 35.0;
+            vec2 blockPos = blockId * totalSize;
+            vec2 posInBlock = pixelCoord - blockPos;
+            vec2 offsetBlockPos = blockPos - flow;
+
+            if (posInBlock.x > uPixelSize || posInBlock.y > uPixelSize) {
+                gl_FragColor = vec4(uBgColor, 1.0);
+                return;
+            }
+
+            vec2 offsetBlockCenter = offsetBlockPos + vec2(uPixelSize / 2.0);
+            vec2 blockUv = offsetBlockCenter / uResolution;
+            vec4 color = texture2D(uTexture, blockUv);
+
+            float brightness = (color.r + color.g + color.b) / 3.0;
+            float rand = random(blockId);
+            float dynamicThreshold = uThreshold - 0.08 * rand;
+
+            float dist = distance(blockCenterUV, uMouse);
+            float mouseFactor = 1.0 - smoothstep(0.0, uMouseRadius, dist);
+            mouseFactor = mouseFactor * uMouseStrength;
+
+            if (brightness > dynamicThreshold) {
+                if (rand < uGreenRatio) {
+                    vec3 exactGreen = vec3(50.0/255.0, 240.0/255.0, 140.0/255.0);
+                    if (mouseFactor > 0.0) {
+                        exactGreen = mix(exactGreen, uColor2, mouseFactor);
+                    }
+                    gl_FragColor = vec4(exactGreen, 1.0);
+                } else {
+                    if (mouseFactor > 0.0) {
+                        vec3 c = mix(vec3(1.0), uColor1, mouseFactor);
+                        gl_FragColor = vec4(c, 1.0);
+                    } else {
+                        gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+                    }
+                }
+            } else {
+                gl_FragColor = vec4(uBgColor, 1.0);
+            }
+        }
+    `;
+
+    function createShader(type, source) {
+        const s = ctx.createShader(type);
+        ctx.shaderSource(s, source);
+        ctx.compileShader(s);
+        if (!ctx.getShaderParameter(s, ctx.COMPILE_STATUS)) {
+            console.error(ctx.getShaderInfoLog(s));
+            ctx.deleteShader(s);
+            return null;
+        }
+        return s;
+    }
+
+    function createProgram(vs, fs) {
+        const p = ctx.createProgram();
+        ctx.attachShader(p, vs);
+        ctx.attachShader(p, fs);
+        ctx.linkProgram(p);
+        if (!ctx.getProgramParameter(p, ctx.LINK_STATUS)) {
+            console.error(ctx.getProgramInfoLog(p));
+            return null;
+        }
+        return p;
+    }
+
+    // 创建着色器程序
+    const fluidVS = createShader(ctx.VERTEX_SHADER, VS);
+    const fluidFS = createShader(ctx.FRAGMENT_SHADER, FLUID_FS);
+    const fluidProg = createProgram(fluidVS, fluidFS);
+
+    const pixelVS = createShader(ctx.VERTEX_SHADER, VS);
+    const pixelFS = createShader(ctx.FRAGMENT_SHADER, PIXEL_FS);
+    const pixelProg = createProgram(pixelVS, pixelFS);
+
+    // 全屏四边形
+    const quadBuf = ctx.createBuffer();
+    ctx.bindBuffer(ctx.ARRAY_BUFFER, quadBuf);
+    ctx.bufferData(ctx.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), ctx.STATIC_DRAW);
+
+    // Fluid 着色器的 uniform 位置
+    const fluidLocs = {
+        aPosition: ctx.getAttribLocation(fluidProg, 'aPosition'),
+        uTime: ctx.getUniformLocation(fluidProg, 'uTime'),
+        uResolution: ctx.getUniformLocation(fluidProg, 'uResolution'),
+        uSpeed: ctx.getUniformLocation(fluidProg, 'uSpeed'),
+        uDensity: ctx.getUniformLocation(fluidProg, 'uDensity'),
+        uStrength: ctx.getUniformLocation(fluidProg, 'uStrength'),
+        uFrequency: ctx.getUniformLocation(fluidProg, 'uFrequency'),
+        uColor1: ctx.getUniformLocation(fluidProg, 'uColor1'),
+        uColor2: ctx.getUniformLocation(fluidProg, 'uColor2'),
+        uMouse: ctx.getUniformLocation(fluidProg, 'uMouse'),
+        uMouseRadius: ctx.getUniformLocation(fluidProg, 'uMouseRadius'),
+        uMouseStrength: ctx.getUniformLocation(fluidProg, 'uMouseStrength'),
+    };
+
+    // Pixelation 着色器的 uniform 位置
+    const pixelLocs = {
+        aPosition: ctx.getAttribLocation(pixelProg, 'aPosition'),
+        uTexture: ctx.getUniformLocation(pixelProg, 'uTexture'),
+        uResolution: ctx.getUniformLocation(pixelProg, 'uResolution'),
+        uPixelSize: ctx.getUniformLocation(pixelProg, 'uPixelSize'),
+        uPixelGap: ctx.getUniformLocation(pixelProg, 'uPixelGap'),
+        uThreshold: ctx.getUniformLocation(pixelProg, 'uThreshold'),
+        uGreenRatio: ctx.getUniformLocation(pixelProg, 'uGreenRatio'),
+        uBgColor: ctx.getUniformLocation(pixelProg, 'uBgColor'),
+        uGreenColor: ctx.getUniformLocation(pixelProg, 'uGreenColor'),
+        uTime: ctx.getUniformLocation(pixelProg, 'uTime'),
+        uMouse: ctx.getUniformLocation(pixelProg, 'uMouse'),
+        uMouseRadius: ctx.getUniformLocation(pixelProg, 'uMouseRadius'),
+        uMouseStrength: ctx.getUniformLocation(pixelProg, 'uMouseStrength'),
+        uColor1: ctx.getUniformLocation(pixelProg, 'uColor1'),
+        uColor2: ctx.getUniformLocation(pixelProg, 'uColor2'),
+    };
+
+    // 帧缓冲
+    let fbo = null, fboTexture = null;
+    let W, H;
+
+    function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        W = Math.floor(canvas.clientWidth * dpr);
+        H = Math.floor(canvas.clientHeight * dpr);
+        canvas.width = W;
+        canvas.height = H;
+
+        // 重建 FBO
+        if (fbo) ctx.deleteFramebuffer(fbo);
+        if (fboTexture) ctx.deleteTexture(fboTexture);
+
+        fboTexture = ctx.createTexture();
+        ctx.bindTexture(ctx.TEXTURE_2D, fboTexture);
+        ctx.texImage2D(ctx.TEXTURE_2D, 0, ctx.RGBA, W, H, 0, ctx.RGBA, ctx.UNSIGNED_BYTE, null);
+        ctx.texParameteri(ctx.TEXTURE_2D, ctx.TEXTURE_MIN_FILTER, ctx.LINEAR);
+        ctx.texParameteri(ctx.TEXTURE_2D, ctx.TEXTURE_MAG_FILTER, ctx.LINEAR);
+        ctx.texParameteri(ctx.TEXTURE_2D, ctx.TEXTURE_WRAP_S, ctx.CLAMP_TO_EDGE);
+        ctx.texParameteri(ctx.TEXTURE_2D, ctx.TEXTURE_WRAP_T, ctx.CLAMP_TO_EDGE);
+
+        fbo = ctx.createFramebuffer();
+        ctx.bindFramebuffer(ctx.FRAMEBUFFER, fbo);
+        ctx.framebufferTexture2D(ctx.FRAMEBUFFER, ctx.COLOR_ATTACHMENT0, ctx.TEXTURE_2D, fboTexture, 0);
+        ctx.bindFramebuffer(ctx.FRAMEBUFFER, null);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    const startTime = performance.now();
+
+    function render() {
+        const time = (performance.now() - startTime) / 1000;
+
+        // Pass 1: 渲染流体到 FBO
+        ctx.bindFramebuffer(ctx.FRAMEBUFFER, fbo);
+        ctx.viewport(0, 0, W, H);
+        ctx.useProgram(fluidProg);
+
+        ctx.bindBuffer(ctx.ARRAY_BUFFER, quadBuf);
+        ctx.enableVertexAttribArray(fluidLocs.aPosition);
+        ctx.vertexAttribPointer(fluidLocs.aPosition, 2, ctx.FLOAT, false, 0, 0);
+
+        ctx.uniform1f(fluidLocs.uTime, time);
+        ctx.uniform2f(fluidLocs.uResolution, W, H);
+        ctx.uniform1f(fluidLocs.uSpeed, PARAMS.speed);
+        ctx.uniform1f(fluidLocs.uDensity, PARAMS.density);
+        ctx.uniform1f(fluidLocs.uStrength, PARAMS.strength);
+        ctx.uniform1f(fluidLocs.uFrequency, PARAMS.frequency);
+        ctx.uniform3fv(fluidLocs.uColor1, PARAMS.color1);
+        ctx.uniform3fv(fluidLocs.uColor2, PARAMS.color2);
+        ctx.uniform2f(fluidLocs.uMouse, mouseX, mouseY);
+        ctx.uniform1f(fluidLocs.uMouseRadius, PARAMS.mouseRadius);
+        ctx.uniform1f(fluidLocs.uMouseStrength, PARAMS.mouseStrength);
+
+        ctx.drawArrays(ctx.TRIANGLE_STRIP, 0, 4);
+
+        // Pass 2: 像素化后处理渲染到屏幕
+        ctx.bindFramebuffer(ctx.FRAMEBUFFER, null);
+        ctx.viewport(0, 0, W, H);
+        ctx.useProgram(pixelProg);
+
+        ctx.bindBuffer(ctx.ARRAY_BUFFER, quadBuf);
+        ctx.enableVertexAttribArray(pixelLocs.aPosition);
+        ctx.vertexAttribPointer(pixelLocs.aPosition, 2, ctx.FLOAT, false, 0, 0);
+
+        ctx.activeTexture(ctx.TEXTURE0);
+        ctx.bindTexture(ctx.TEXTURE_2D, fboTexture);
+        ctx.uniform1i(pixelLocs.uTexture, 0);
+
+        ctx.uniform2f(pixelLocs.uResolution, W, H);
+        ctx.uniform1f(pixelLocs.uPixelSize, PARAMS.pixelSize);
+        ctx.uniform1f(pixelLocs.uPixelGap, PARAMS.pixelGap);
+        ctx.uniform1f(pixelLocs.uThreshold, PARAMS.threshold);
+        ctx.uniform1f(pixelLocs.uGreenRatio, PARAMS.greenRatio);
+        ctx.uniform3fv(pixelLocs.uBgColor, PARAMS.bgColor);
+        ctx.uniform3fv(pixelLocs.uGreenColor, PARAMS.color1);
+        ctx.uniform1f(pixelLocs.uTime, time);
+        ctx.uniform2f(pixelLocs.uMouse, mouseX, mouseY);
+        ctx.uniform1f(pixelLocs.uMouseRadius, PARAMS.mouseRadius);
+        ctx.uniform1f(pixelLocs.uMouseStrength, PARAMS.mouseStrength);
+        ctx.uniform3fv(pixelLocs.uColor1, PARAMS.color1);
+        ctx.uniform3fv(pixelLocs.uColor2, PARAMS.color2);
+
+        ctx.drawArrays(ctx.TRIANGLE_STRIP, 0, 4);
+
+        requestAnimationFrame(render);
+    }
+
+    render();
+})();
+</script>
+</body>
+</html>
