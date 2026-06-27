@@ -64,13 +64,13 @@ html[data-theme="dark"] #page-header.nav-visible #nav,
 html[data-theme="dark"] .search-dialog,
 /* 移动端 */
 html[data-theme="dark"] #sidebar #sidebar-menus.open {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(20px);
 }
 
 /* 文章页背景 */
 /*.layout_post>#post {*/
-    /*/* 以下代表透明度为0.7 可以自行修改*/*/
+    /*/* 以下代表透明度为0.7 可以自行修改*/
     /*background: rgba(255,255,255,.8);*/
 /*}*/
 
@@ -88,4 +88,3 @@ html[data-theme="dark"] #sidebar #sidebar-menus.open {
 /*#footer {*/
 	/*background: rgba(255,255,255, .0);*/
 /*}*/
-
