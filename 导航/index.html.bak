@@ -1,497 +1,414 @@
 title: 收藏网址
 date: 2025-07-16 00:06:37
 ---
+
 <style>
+/* ===================================================
+   Purple Nav v5 — 水滴图标 · 居中标题 · 底栏跟随
+   =================================================== */
 
-/* ========= 自定义目录（顶部横向） ========= */
-.custom-toc {
-  position: fixed;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  background: var(--card-bg, #121212);
-  backdrop-filter: blur(12px);
-  padding: 8px 16px;
-  border-radius: 30px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* Reset */
+.pnav *, .pnav *::before, .pnav *::after {
+  box-sizing: border-box !important;
 }
 
-.custom-toc-title {
-  display: none;
+/* ========== Design Tokens ========== */
+.pnav {
+  --txt: #1e1b4b;
+  --txt-dark: #f0e6ff;
+  --txt-hover: #7c3aed;
+  --txt-hover-dark: #a78bfa;
+  --tdesc: rgba(109,40,217,0.55);
+  --tdesc-dark: rgba(216,180,254,0.55);
+  --toc-bg: rgba(25,20,42,0.55);
+  --toc-bg-dark: rgba(15,10,25,0.70);
+  max-width: 100%;
+  overflow-x: clip;
+  position: relative;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+[data-theme="dark"] .pnav {
+  --txt: var(--txt-dark);
+  --txt-hover: var(--txt-hover-dark);
+  --tdesc: var(--tdesc-dark);
 }
 
-.custom-toc-list {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
+/* ========== Background ========== */
+.pnav::before {
+  content: '';
+  position: absolute; inset: -30px; z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(360px at 20% 25%, rgba(168,85,247,0.07), transparent 65%),
+    radial-gradient(280px at 80% 70%, rgba(192,132,252,0.05), transparent 65%);
+}
+.pnav > * { position: relative; z-index: 1; }
+
+/* ===================================================
+   Category Header — 纯文字分类名
+   =================================================== */
+.psect { margin-bottom: 18px; }
+.psect:last-child { margin-bottom: 0; }
+
+.phead {
+  margin: 0 0 8px 0 !important;
+  padding: 0 0 6px 0 !important;
+  border-bottom: 1.5px solid rgba(139,92,246,0.06) !important;
+  scroll-margin-top: 100px;
+}
+.ptitle {
+  margin: 0 !important; padding: 0 !important;
+  font-size: 16px !important; font-weight: 700 !important;
+  color: var(--txt) !important;
+  letter-spacing: -0.01em;
+  line-height: 1.3 !important;
+  border: none !important;
+}
+
+/* ===================================================
+   Grid
+   =================================================== */
+.pgrid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+  gap: 10px !important;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* ===================================================
+   Tile — 极简线条 · 无背景 · 描述从左滑入
+   =================================================== */
+.ptile {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
   gap: 8px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.custom-toc-item {
-  margin: 0;
-}
-
-.custom-toc-link {
-  display: block;
-  font-size: 13px;
-  color: #fff !important;
+  height: 56px !important;
+  padding: 8px 12px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  position: relative !important;
+  border-bottom: 1px solid rgba(139,92,246,0.06) !important;
+  box-shadow: none !important;
   text-decoration: none !important;
-  padding: 7px 12px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  white-space: nowrap;
-  position: relative;
+  color: inherit !important;
+  transition: none !important;
+  animation: pfade 0.35s ease-out both;
 }
-
-.custom-toc-link:visited {
-  color: #fff !important;
-  text-decoration: none !important;
-}
-
-.custom-toc-link:hover {
-  text-decoration: none !important;
-}
-
-.custom-toc-link::after {
+/* ========== Tile Hover — 从左到右发光下划线 ========== */
+.ptile::after {
   content: '';
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 2px;
-  background: rgba(192, 132, 252, 0.8);
-  transition: width 0.3s ease;
-}
-
-.custom-toc-link:hover::after {
-  width: 100%;
-}
-
-.custom-toc-link.active::after {
-  width: 100%;
-}
-
-/* 移动端适配 */
-@media (max-width: 768px) {
-  .custom-toc {
-    top: 30px;
-    padding: 8px 16px;
-    max-width: calc(100% - 40px);
-  }
-  
-  .custom-toc-list {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    justify-content: flex-start;
-    gap: 8px;
-    padding-bottom: 5px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  
-  .custom-toc-list::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .custom-toc-link {
-    font-size: 12px;
-    padding: 6px 12px;
-    flex-shrink: 0;
-  }
-}
-
-/* ========= 容器 ========= */
-#link-container {
-  padding-top: 120px;
-}
-
-/* 移动端容器适配 */
-@media (max-width: 768px) {
-  #link-container {
-    padding-top: 60px;
-  }
-  
-  .link-cards {
-    grid-template-columns: repeat(auto-fill, 100px);
-    gap: 10px 1px;
-  }
-  
-  .card {
-    max-width: 100px;
-    height: 100px;
-  }
-  
-  .card strong {
-    font-size: 12px;
-  }
-  
-  .card p {
-    font-size: 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .link-cards {
-    grid-template-columns: repeat(auto-fill, 80px);
-    gap: 8px 1px;
-  }
-  
-  .card {
-    max-width: 80px;
-    height: 80px;
-  }
-  
-  .card strong {
-    font-size: 10px;
-  }
-  
-  .card p {
-    font-size: 8px;
-  }
-  
-  .card > div {
-    padding: 6px 8px;
-  }
-}
-
-.link-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 130px);
-  gap: 15px 1px;
-  justify-content: center;
-}
-
-/* ========= 卡片 ========= */
-.card {
-  flex: 1 1 120px;
-  max-width: 120px;
-  position: relative;
-  height: 120px;
-  border-radius: 50%;
-  overflow: hidden;
-  text-decoration: none;
-  color: #fff;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
-  transition:
-    box-shadow .3s ease,
-    border-color .3s ease,
-    transform .35s cubic-bezier(.25,.8,.25,1);
-}
-
-.card img {
-  position: absolute;
-  inset: 0;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  z-index: 0;
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.3) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.3) 100%);
-  filter: brightness(.65);
-  transition: filter .3s ease, transform .3s ease;
-  border-radius: 12px;
-}
-
-.card:hover img {
-  filter: brightness(.4);
-  transform: scale(1.05);
-}
-
-.card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,.45) 0%, transparent 100%);
-  opacity: 0;
-  transition: opacity .3s ease;
-  z-index: 1;
-}
-
-.card:hover::after {
-  opacity: 1;
-}
-
-.card > div {
-  position: absolute;
+  position: absolute !important;
+  bottom: -1px;
   left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 8px 10px;
-  z-index: 2;
-  color: #fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 1px 2px rgba(0,0,0,1);
-  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+  width: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, #7c3aed, #c084fc) !important;
+  box-shadow: 0 0 8px rgba(124,58,237,0.5), 0 0 20px rgba(124,58,237,0.2) !important;
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+  border-radius: 1px;
+}
+.ptile:hover::after {
+  width: 100%;
+}
+@keyframes pfade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.card strong {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
+/* ========== Icon — 极简线条 ========== */
+.pico {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  border: 1px solid rgba(139,92,246,0.15);
+  box-shadow: none !important;
+}
+.pico img {
+  width: 100% !important; height: 100% !important;
+  object-fit: contain !important;
+  display: block !important;
+  border: none !important; border-radius: 0 !important;
+  margin: 0 !important; padding: 0 !important;
+}
+
+/* ========== Text area ========== */
+.ptxt {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  flex: 1;
+  min-width: 0;
+  align-self: stretch;
+}
+
+/* Name — centered */
+.pname {
+  display: block !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--txt) !important;
+  text-align: left !important;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 !important; padding: 0 !important;
+  border: none !important;
+  transition: color 0.2s ease;
+}
+.ptile:hover .pname { color: var(--txt-hover) !important; }
+
+/* Description — hidden by default, slides left→right on hover */
+.pdesc {
+  display: block !important;
+  font-size: 10px !important;
+  color: var(--tdesc) !important;
+  text-align: left !important;
   line-height: 1.3;
-}
-
-.card p {
-  margin: 0;
-  font-size: 12px;
-  line-height: 1.4;
-  color: rgba(192, 132, 252, 1);
-  text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 0 10px rgba(192, 132, 252, 0.5);
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transform: translateX(-6px);
+  transition: all 0.3s ease;
+  margin: 0 !important; padding: 0 !important;
+  border: none !important;
+}
+@media (hover: hover) {
+  .ptile:hover .pdesc {
+    max-height: 28px;
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.card:hover p {
-  max-height: 40px;
-  opacity: 1;
-  margin-top: 2px;
+/* ===================================================
+   TOC — Sticky bottom 跟随视口
+   =================================================== */
+.ptoc-wrap {
+  position: sticky;
+  bottom: 10px;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  pointer-events: none;
 }
+.ptoc {
+  pointer-events: auto;
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 10px;
+  border-radius: 40px;
+  background: var(--toc-bg) !important;
+  backdrop-filter: blur(30px) saturate(1.6);
+  -webkit-backdrop-filter: blur(30px) saturate(1.6);
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+[data-theme="dark"] .ptoc {
+  background: var(--toc-bg-dark) !important;
+}
+.ptoc::-webkit-scrollbar { display: none; }
 
-hr.aurora {
-  border: 0;
-  height: 6px;
-  margin: 40px auto;
+.ptoc-btn {
+  flex-shrink: 0;
+  padding: 7px 16px;
+  border: none !important;
+  border-radius: 30px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #fff !important;
+  background: transparent !important;
+  cursor: pointer;
+  transition: all 0.2s ease !important;
+  white-space: nowrap;
+  margin: 0 !important;
+  outline: none !important;
+  line-height: 1.4;
+  position: relative;
+}
+.ptoc-btn:hover {
+  background: rgba(139,92,246,0.10) !important;
+}
+/* Hover 下划线 — 从左到右发光，与卡片一致 */
+.ptoc-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, #a78bfa, #e9d5ff);
+  box-shadow: 0 0 12px rgba(167,139,250,0.7), 0 0 28px rgba(167,139,250,0.3);
+  transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+  border-radius: 2px;
+}
+.ptoc-btn:hover::after {
   width: 100%;
-  background-image: 
-    linear-gradient(to right, 
-      #2d145a 6px,
-      transparent 2px,
-      #783c96 6px,
-      transparent 2px);
-  background-size: 16px 6px;
-  background-repeat: repeat-x;
-  background-position: center;
-  background-color: transparent;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
+}
+
+/* ===================================================
+   Responsive
+   =================================================== */
+@media (max-width: 860px) {
+  .pgrid { gap: 8px !important; }
+}
+@media (max-width: 600px) {
+  .pgrid { gap: 8px !important; }
+  .ptile { height: 50px !important; padding: 6px 10px !important; gap: 6px; }
+  .pico { width: 24px; height: 24px; }
+  .pname { font-size: 11px !important; }
+  .ptoc-wrap { bottom: 6px; margin-top: 18px; }
+  .ptoc-btn { padding: 5px 12px; font-size: 12px !important; }
+  .ptitle { font-size: 14px !important; }
+}
+@media (max-width: 400px) {
+  .pgrid { gap: 6px !important; }
+}
+@media print {
+  .ptoc-wrap { display: none !important; }
+  .pnav::before { display: none !important; }
 }
 </style>
 
-<div class="custom-toc" id="custom-toc">
-  <div class="custom-toc-title">目录</div>
-  <ul class="custom-toc-list" id="custom-toc-list"></ul>
+<div class="pnav">
+  <div id="pnavContent"></div>
+  <div class="ptoc-wrap">
+    <div class="ptoc" id="ptocList"></div>
+  </div>
 </div>
 
-<div id="link-container"></div>
-
 <script>
-const linksData = {
-  "影视": [
-    { name: "SeedHub", desc: "影视下载分享站", url: "https://www.seedhub.cc/", img: "https://favicon.im/zh/www.seedhub.cc?larger=true", style: "" },
-    { name: "奈飞工厂", desc: "Netflix影剧动漫播放平台", url: "https://www.netflixgc.net/", img: "https://favicon.im/zh/www.netflixgc.net?larger=true", style: "" },
-    { name: "黑猫动漫", desc: "专注动漫的门户网站", url: "https://www.bmmdm.com/", img: "https://favicon.im/zh/www.bmmdm.com?larger=true", style: "" },
-    { name: "YouTube", desc: "全球视频分享平台", url: "https://www.youtube.com/", img: "https://favicon.im/www.youtube.com?larger=true", style: "" },
-    { name: "bilibili", desc: "年轻人文化社区", url: "https://www.bilibili.com/", img: "https://favicon.im/zh/www.bilibili.com?larger=true", style: "" },
-    { name: "acfun", desc: "硬核二次元社区", url: "https://www.acfun.cn/", img: "https://favicon.im/zh/www.acfun.cn?larger=true", style: "" },
-    { name: "腾讯视频", desc: "热门剧集综艺", url: "https://v.qq.com/", img: "https://vfiles.gtimg.cn/tvideo2/channel-vue/assets/logo-Ckf4UreJ.svg", style: "object-position: left center;" },
-    { name: "樱之空动漫", desc: "新番动漫在线看", url: "https://skr.skr3.cc:666/", img: "http://kycloud3.koyoo.cn/20250227d1aac202502271726072552.png", style: "" },
-    { name: "字幕库", desc: "影视字幕下载站", url: "https://srtku.com/", img: "/img/椰子树.jpg", style: "" },
-  ],
-  "AI": [
-    { name: "ChatGPT", desc: "OpenAI对话模型", url: "https://chatgpt.com/", img: "https://favicon.im/zh/chatgpt.com?larger=true", style: "" },
-    { name: "Claude", desc: "Anthropic智能助手", url: "https://claude.ai/", img: "https://favicon.im/zh/claude.ai?larger=true", style: "" },
-    { name: "Gemini", desc: "谷歌多模态AI", url: "https://gemini.google.com/app", img: "https://favicon.im/zh/gemini.google.com?larger=true", style: "" },
-    { name: "DeepSeek", desc: "国产开源大模型", url: "https://chat.deepseek.com/", img: "https://www.deepseek.com/favicon.ico", style: "" },
-    { name: "豆包", desc: "字节AI助手", url: "https://www.doubao.com/chat/", img: "https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/samantha/logo-icon-white-bg.png", style: "" },
-    { name: "Kimi", desc: "长文本AI助手", url: "https://kimi.moonshot.cn", img: "https://kimi.moonshot.cn/favicon.ico", style: "" },
-    { name: "通义千问", desc: "阿里AI助手", url: "https://tongyi.aliyun.com/", img: "https://favicon.im/zh/tongyi.aliyun.com?larger=true", style: "" },
-    { name: "秘塔AI", desc: "AI智能搜索引擎", url: "https://metaso.cn/?s=nbais&referrer_s=nbais", img: "https://metaso.cn/favicon.ico", style: "" },
-    { name: "Midjourney", desc: "AI绘画工具", url: "https://www.midjourney.com/", img: "https://favicon.im/zh/www.midjourney.com?larger=true", style: "" },
-  ],
-  "工具": [
-    { name: "樱花映射", desc: "免费内网穿透", url: "https://www.natfrp.com/user/", img: "https://www.natfrp.com/favicon.ico", style: "" },
-    { name: "Cloudflare", desc: "CDN加速与安全", url: "https://www.cloudflare-cn.com/", img: "https://www.cloudflare-cn.com/favicon.ico", style: "" },
-    { name: "imgdiet", desc: "在线图片压缩", url: "https://www.imgdiet.com/zh-CN/compress", img: "https://www.imgdiet.com/logo.png", style: "object-position: 15px center;" },
-    { name: "SVG Artista", desc: "SVG动画生成器", url: "https://svgartista.netlify.app/", img: "https://svgartista.netlify.app/static/media/logo-text.e3f7cfdc.svg", style: "object-position: -9px center;" },
-    { name: "PicSVG", desc: "SVG格式转换工具", url: "https://picsvg.com/", img: "https://picsvg.com/favicon.ico", style: "object-position: -9px center;" },
-    { name: "Favicon", desc: "网站图标获取工具", url: "https://favicon.im/zh", img: "https://favicon.im/favicon.ico", style: "" },
-  ],
-  "资讯": [
-    { name: "Polymarket", desc: "预测市场数据分析平台", url: "https://polymarketanalytics.com/", img: "https://favicon.im/zh/polymarketanalytics.com?larger=true", style: "" },
-    { name: "有知有行", desc: "投资与人生思考", url: "https://youzhiyouxing.cn/materials", img: "https://youzhiyouxing.cn/favicon.ico", style: "" },
-    { name: "阮一峰的网络日志", desc: "科技周刊与深度文章", url: "https://www.ruanyifeng.com/blog/", img: "https://www.ruanyifeng.com/blog/favicon.ico", style: "" },
-    { name: "博客志", desc: "优质博客导航站", url: "http://www.jetli.com.cn/", img: "https://favicon.im/zh/www.jetli.com.cn?larger=true", style: "" },
-  ],
-  "资源": [
-    { name: "Wallhaven", desc: "高清壁纸分享社区", url: "https://wallhaven.cc/", img: "https://favicon.im/zh/wallhaven.cc?larger=true", style: "" },
-    { name: "AlphaCoders", desc: "影视壁纸图库", url: "https://alphacoders.com/", img: "https://favicon.im/zh/alphacoders.com?larger=true", style: "" },
-    { name: "哲风壁纸", desc: "精选壁纸下载站", url: "https://haowallpaper.com/", img: "https://haowallpaper.com/favicon.ico", style: "" },
-    { name: "资源搜", desc: "阿里云盘资源搜索", url: "https://www.zysou.com/", img: "https://www.zysou.com/favicon.ico", style: "" },
-    { name: "TrackersList", desc: "BT Tracker列表", url: "https://trackerslist.com/", img: "https://img.shields.io/static/v1?label=%20&message=TrackersList.com&style=flat-square&labelColor=4B93F1&color=4285dd&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAYUlEQVR42mP0nvzxPwMFgBHdgOYAbji7dsNX0g1IseeEs+cc/E68AVty+Ehyus+UT4PNAGxhEKDLiqGBYCDCYuHh+3/DzYANl38zyAsywfmwRDYIDUAGyGmD6DCgqgHEAADqpnHxT0ZWTwAAAABJRU5ErkJggg==", style: "object-position: left center;" },
-    { name: "歌曲海", desc: "音乐资源搜索引擎", url: "https://www.gequhai.com/", img: "https://www.gequhai.com/favicon.ico", style: "" },
-    { name: "免费API", desc: "免费API接口调用", url: "https://api.aa1.cn/", img: "https://api.aa1.cn/favicon.ico", style: "object-position: left center;" },
-    { name: "RPM软件包", desc: "Linux软件包搜索", url: "https://rpm.pbone.net/", img: "https://rpm.pbone.net/favicon.ico", style: "" },
-  ],
-  "技术": [
-    { name: "LINUX DO", desc: "技术爱好者社区", url: "https://linux.do/", img: "https://favicon.im/zh/linux.do?larger=true", style: "object-position: left center;" },
-    { name: "博客园", desc: "开发者技术博客", url: "https://www.cnblogs.com/", img: "https://www.cnblogs.com/favicon.ico", style: "" },
-    { name: "黑客说", desc: "极客技术讨论区", url: "https://hackertalk.net/", img: "https://hackertalk.net/favicon.ico", style: "" },
-    { name: "博客中国", desc: "IT资讯与观点", url: "https://www.blogchina.com/home/index", img: "/img/椰子树.jpg", style: "" },
-    { name: "开发者导航", desc: "种子搜索站导航", url: "https://codernav.com/17488.html", img: "https://codernav.com/favicon.ico", style: "" },
-  ],
-  "娱乐": [
-    { name: "风灵月影", desc: "游戏修改器大全", url: "https://flingtrainer.com/", img: "https://flingtrainer.com/favicon.ico", style: "" },
-    { name: "Switch520", desc: "Switch游戏资源", url: "https://www.gamer520.com/", img: "https://ig.freer.blog/2023/10/25/88d4ae8aa7318.png", style: "object-position: left center;" },
-    { name: "NS211", desc: "Switch游戏下载", url: "https://www.ns211.com/", img: "https://www.ns211.com/favicon.ico", style: "" },
-    { name: "CnGal资料站", desc: "Galgame百科资料", url: "https://www.cngal.org/", img: "https://res.cngal.org/_content/CnGalWebSite.Shared/images/logo.png", style: "" },
-    { name: "MakeMePulse", desc: "创意互动体验站", url: "https://2019.makemepulse.com/", img: "https://favicon.im/zh/2019.makemepulse.com?larger=true", style: "" },
-    { name: "易运盘", desc: "六爻在线排盘工具", url: "https://yypan.cn/bagua/index.php", img: "https://favicon.im/zh/yypan.cn?larger=true", style: "" },
-  ],
-  "MC": [
-    { name: "LittleSkin", desc: "MC皮肤分享平台", url: "https://littleskin.cn/skinlib?filter=skin&sort=time&page=1", img: "https://favicon.im/zh/littleskin.cn?larger=true", style: "" },
-    { name: "NameMC", desc: "国际MC皮肤站", url: "https://namemc.com/minecraft-skins", img: "https://favicon.im/zh/namemc.com?larger=true", style: "" },
-    { name: "HMCL", desc: "MC多功能启动器", url: "https://hmcl.huangyuhui.net/", img: "https://hmcl.huangyuhui.net/favicon.ico", style: "" },
-    { name: "MapCraft", desc: "MC地图存档站", url: "https://zh.mapcraft.me/", img: "https://zh.mapcraft.me/favicon.png", style: "" },
-  ],
-  "站长": [
-    { name: "Google站点地图", desc: "Google网站地图提交", url: "https://search.google.com/search-console/index", img: "https://favicon.im/zh/search.google.com?larger=true", style: "" },
-    { name: "Bing站长", desc: "Bing网站管理", url: "https://www.bing.com/webmasters", img: "https://favicon.im/zh/www.bing.com?larger=true", style: "" },
-],
-};
-
-function renderLinkCards() {
-  const container = document.getElementById('link-container');
-  const tocList = document.getElementById('custom-toc-list');
-  if (!container) return;
-
-  let html = '';
-  let tocHtml = '';
-
-  for (const category in linksData) {
-    if (!linksData.hasOwnProperty(category)) continue;
-    
-    const links = linksData[category];
-    const categoryId = 'cat-' + category.replace(/\s+/g, '-');
-
-    html += `<h2 id="${categoryId}">${category}</h2>`;
-    html += '<div class="link-cards">';
-    
-    tocHtml += `<li class="custom-toc-item"><a class="custom-toc-link" data-target="${categoryId}">${category}</a></li>`;
-
-    links.forEach(link => {
-      html += `
-        <a class="card" href="${link.url}" target="_blank">
-          <img src="${link.img}" alt="${link.name}" style="${link.style}">
-          <div>
-            <strong>${link.name}</strong>
-            <p>${link.desc}</p>
-          </div>
-        </a>`;
-    });
-
-    html += '</div><hr class="aurora">';
-  }
-
-  container.innerHTML = html;
-  
-  if (tocList) {
-    tocList.innerHTML = tocHtml;
-    initTocEvents();
-  }
-}
-
-function initTocEvents() {
-  const tocLinks = document.querySelectorAll('.custom-toc-link');
-  const headings = document.querySelectorAll('#link-container h2');
-
-  if (!tocLinks.length || !headings.length) return;
-
-  tocLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      const targetEl = document.getElementById(link.dataset.target);
-      if (targetEl) {
-        const top = targetEl.getBoundingClientRect().top + window.pageYOffset - 80;
-        window.scrollTo({ top, behavior: 'smooth' });
-      }
-    });
-  });
-
-  let ticking = false;
-  const updateHighlight = () => {
-    let currentId = null;
-    for (let i = headings.length - 1; i >= 0; i--) {
-      if (headings[i].getBoundingClientRect().top <= 100) {
-        currentId = headings[i].id;
-        break;
-      }
-    }
-    tocLinks.forEach(link => {
-      link.classList.toggle('active', link.dataset.target === currentId);
-    });
-    ticking = false;
+(function(){
+  var D = {
+    "影视":[
+      {n:"SeedHub",d:"影视下载分享站",u:"https://www.seedhub.cc/",i:"https://favicon.im/zh/www.seedhub.cc?larger=true"},
+      {n:"奈飞工厂",d:"Netflix影剧动漫播放平台",u:"https://www.netflixgc.net/",i:"https://favicon.im/zh/www.netflixgc.net?larger=true"},
+      {n:"黑猫动漫",d:"专注动漫的门户网站",u:"https://www.bmmdm.com/",i:"https://favicon.im/zh/www.bmmdm.com?larger=true"},
+      {n:"YouTube",d:"全球视频分享平台",u:"https://www.youtube.com/",i:"https://favicon.im/www.youtube.com?larger=true"},
+      {n:"bilibili",d:"年轻人文化社区",u:"https://www.bilibili.com/",i:"https://favicon.im/zh/www.bilibili.com?larger=true"},
+      {n:"acfun",d:"硬核二次元社区",u:"https://www.acfun.cn/",i:"https://favicon.im/zh/www.acfun.cn?larger=true"},
+      {n:"腾讯视频",d:"热门剧集综艺",u:"https://v.qq.com/",i:"https://vfiles.gtimg.cn/tvideo2/channel-vue/assets/logo-Ckf4UreJ.svg"},
+      {n:"樱之空动漫",d:"新番动漫在线看",u:"https://skr.skr3.cc:666/",i:"http://kycloud3.koyoo.cn/20250227d1aac202502271726072552.png"},
+      {n:"字幕库",d:"影视字幕下载站",u:"https://srtku.com/",i:"/img/椰子树.jpg"}
+    ],
+    "AI":[
+      {n:"ChatGPT",d:"OpenAI对话模型",u:"https://chatgpt.com/",i:"https://favicon.im/zh/chatgpt.com?larger=true"},
+      {n:"Claude",d:"Anthropic智能助手",u:"https://claude.ai/",i:"https://favicon.im/zh/claude.ai?larger=true"},
+      {n:"Gemini",d:"谷歌多模态AI",u:"https://gemini.google.com/app",i:"https://favicon.im/zh/gemini.google.com?larger=true"},
+      {n:"DeepSeek",d:"国产开源大模型",u:"https://chat.deepseek.com/",i:"https://www.deepseek.com/favicon.ico"},
+      {n:"豆包",d:"字节AI助手",u:"https://www.doubao.com/chat/",i:"https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/samantha/logo-icon-white-bg.png"},
+      {n:"Kimi",d:"长文本AI助手",u:"https://kimi.moonshot.cn",i:"https://kimi.moonshot.cn/favicon.ico"},
+      {n:"通义千问",d:"阿里AI助手",u:"https://tongyi.aliyun.com/",i:"https://favicon.im/zh/tongyi.aliyun.com?larger=true"},
+      {n:"秘塔AI",d:"AI智能搜索引擎",u:"https://metaso.cn/?s=nbais&referrer_s=nbais",i:"https://metaso.cn/favicon.ico"},
+      {n:"Midjourney",d:"AI绘画工具",u:"https://www.midjourney.com/",i:"https://favicon.im/zh/www.midjourney.com?larger=true"}
+    ],
+    "工具":[
+      {n:"樱花映射",d:"免费内网穿透",u:"https://www.natfrp.com/user/",i:"https://www.natfrp.com/favicon.ico"},
+      {n:"Cloudflare",d:"CDN加速与安全",u:"https://www.cloudflare-cn.com/",i:"https://www.cloudflare-cn.com/favicon.ico"},
+      {n:"imgdiet",d:"在线图片压缩",u:"https://www.imgdiet.com/zh-CN/compress",i:"https://www.imgdiet.com/logo.png"},
+      {n:"SVG Artista",d:"SVG动画生成器",u:"https://svgartista.netlify.app/",i:"https://svgartista.netlify.app/static/media/logo-text.e3f7cfdc.svg"},
+      {n:"PicSVG",d:"SVG格式转换工具",u:"https://picsvg.com/",i:"https://picsvg.com/favicon.ico"},
+      {n:"Favicon",d:"网站图标获取工具",u:"https://favicon.im/zh",i:"https://favicon.im/favicon.ico"}
+    ],
+    "资讯":[
+      {n:"Polymarket",d:"预测市场数据分析平台",u:"https://polymarketanalytics.com/",i:"https://favicon.im/zh/polymarketanalytics.com?larger=true"},
+      {n:"有知有行",d:"投资与人生思考",u:"https://youzhiyouxing.cn/materials",i:"https://youzhiyouxing.cn/favicon.ico"},
+      {n:"阮一峰的网络日志",d:"科技周刊与深度文章",u:"https://www.ruanyifeng.com/blog/",i:"https://www.ruanyifeng.com/blog/favicon.ico"},
+      {n:"博客志",d:"优质博客导航站",u:"http://www.jetli.com.cn/",i:"https://favicon.im/zh/www.jetli.com.cn?larger=true"}
+    ],
+    "资源":[
+      {n:"Wallhaven",d:"高清壁纸分享社区",u:"https://wallhaven.cc/",i:"https://favicon.im/zh/wallhaven.cc?larger=true"},
+      {n:"AlphaCoders",d:"影视壁纸图库",u:"https://alphacoders.com/",i:"https://favicon.im/zh/alphacoders.com?larger=true"},
+      {n:"哲风壁纸",d:"精选壁纸下载站",u:"https://haowallpaper.com/",i:"https://haowallpaper.com/favicon.ico"},
+      {n:"资源搜",d:"阿里云盘资源搜索",u:"https://www.zysou.com/",i:"https://www.zysou.com/favicon.ico"},
+      {n:"TrackersList",d:"BT Tracker列表",u:"https://trackerslist.com/",i:"https://trackerslist.com/favicon.ico"},
+      {n:"歌曲海",d:"音乐资源搜索引擎",u:"https://www.gequhai.com/",i:"https://www.gequhai.com/favicon.ico"},
+      {n:"免费API",d:"免费API接口调用",u:"https://api.aa1.cn/",i:"https://api.aa1.cn/favicon.ico"},
+      {n:"RPM软件包",d:"Linux软件包搜索",u:"https://rpm.pbone.net/",i:"https://rpm.pbone.net/favicon.ico"}
+    ],
+    "技术":[
+      {n:"LINUX DO",d:"技术爱好者社区",u:"https://linux.do/",i:"https://favicon.im/zh/linux.do?larger=true"},
+      {n:"博客园",d:"开发者技术博客",u:"https://www.cnblogs.com/",i:"https://www.cnblogs.com/favicon.ico"},
+      {n:"黑客说",d:"极客技术讨论区",u:"https://hackertalk.net/",i:"https://hackertalk.net/favicon.ico"},
+      {n:"博客中国",d:"IT资讯与观点",u:"https://www.blogchina.com/home/index",i:"/img/椰子树.jpg"},
+      {n:"开发者导航",d:"种子搜索站导航",u:"https://codernav.com/17488.html",i:"https://codernav.com/favicon.ico"}
+    ],
+    "娱乐":[
+      {n:"风灵月影",d:"游戏修改器大全",u:"https://flingtrainer.com/",i:"https://flingtrainer.com/favicon.ico"},
+      {n:"Switch520",d:"Switch游戏资源",u:"https://www.gamer520.com/",i:"https://ig.freer.blog/2023/10/25/88d4ae8aa7318.png"},
+      {n:"NS211",d:"Switch游戏下载",u:"https://www.ns211.com/",i:"https://www.ns211.com/favicon.ico"},
+      {n:"CnGal资料站",d:"Galgame百科资料",u:"https://www.cngal.org/",i:"https://res.cngal.org/_content/CnGalWebSite.Shared/images/logo.png"},
+      {n:"MakeMePulse",d:"创意互动体验站",u:"https://2019.makemepulse.com/",i:"https://favicon.im/zh/2019.makemepulse.com?larger=true"}
+    ],
+    "MC":[
+      {n:"LittleSkin",d:"MC皮肤分享平台",u:"https://littleskin.cn/skinlib",i:"https://favicon.im/zh/littleskin.cn?larger=true"},
+      {n:"NameMC",d:"国际MC皮肤站",u:"https://namemc.com/minecraft-skins",i:"https://favicon.im/zh/namemc.com?larger=true"},
+      {n:"HMCL",d:"MC多功能启动器",u:"https://hmcl.huangyuhui.net/",i:"https://hmcl.huangyuhui.net/favicon.ico"},
+      {n:"MapCraft",d:"MC地图存档站",u:"https://zh.mapcraft.me/",i:"https://zh.mapcraft.me/favicon.png"}
+    ],
+    "站长":[
+      {n:"Google站点地图",d:"Google网站地图提交",u:"https://search.google.com/search-console/index",i:"https://favicon.im/zh/search.google.com?larger=true"},
+      {n:"Bing站长",d:"Bing网站管理",u:"https://www.bing.com/webmasters",i:"https://favicon.im/zh/www.bing.com?larger=true"}
+    ]
   };
 
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(updateHighlight);
-      ticking = true;
-    }
-  });
+  function render() {
+    var root = document.getElementById('pnavContent');
+    var toc = document.getElementById('ptocList');
+    if (!root) return;
+    var html = '', tocHtml = '', idx = 0;
 
-  updateHighlight();
-}
-
-// 卡片边缘发光效果
-function initCardGlow() {
-  const cards = document.querySelectorAll('.card');
-  const glowColor = 'rgba(192, 132, 252, 0.8)';
-
-  cards.forEach(card => {
-    const baseShadow = '0 20px 50px rgba(0, 0, 0, 0.9)';
-
-    const updateGlow = (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const w = rect.width;
-      const h = rect.height;
-
-      const distTop = y;
-      const distBottom = h - y;
-      const distLeft = x;
-      const distRight = w - x;
-
-      const minDist = Math.min(distTop, distBottom, distLeft, distRight);
-
-      let glowShadow = baseShadow;
-
-      if (minDist === distTop) {
-        const offsetX = Math.round((x / w) * 16 - 8);
-        glowShadow = `${baseShadow}, ${offsetX}px -10px 20px ${glowColor}`;
-      } else if (minDist === distBottom) {
-        const offsetX = Math.round((x / w) * 16 - 8);
-        glowShadow = `${baseShadow}, ${offsetX}px 10px 20px ${glowColor}`;
-      } else if (minDist === distLeft) {
-        const offsetY = Math.round((y / h) * 16 - 8);
-        glowShadow = `${baseShadow}, -10px ${offsetY}px 20px ${glowColor}`;
-      } else {
-        const offsetY = Math.round((y / h) * 16 - 8);
-        glowShadow = `${baseShadow}, 10px ${offsetY}px 20px ${glowColor}`;
+    for (var cat in D) {
+      var items = D[cat];
+      var cid = 'pc-' + cat.replace(/\s+/g, '-');
+      html += '<div class="psect">';
+      html += '<div class="phead" id="' + cid + '"><h2 class="ptitle">' + cat + '</h2></div>';
+      html += '<div class="pgrid">';
+      for (var i = 0; i < items.length; i++) {
+        var it = items[i];
+        var dl = (idx % 18) * 0.035;
+        html += '<a class="ptile" href="' + it.u + '" target="_blank" rel="noopener" style="animation-delay:' + dl + 's">';
+        html += '<span class="pico"><img src="' + it.i + '" alt="' + it.n + '" loading="lazy"></span>';
+        html += '<span class="ptxt">';
+        html += '<span class="pname">' + it.n + '</span>';
+        html += '<span class="pdesc">' + it.d + '</span>';
+        html += '</span></a>';
+        idx++;
       }
+      html += '</div></div>';
+      tocHtml += '<button class="ptoc-btn" data-id="' + cid + '">' + cat + '</button>';
+    }
+    root.innerHTML = html;
+    toc.innerHTML = tocHtml;
 
-      card.style.boxShadow = glowShadow;
-    };
-
-    card.addEventListener('mouseenter', () => {
-      card.style.boxShadow = baseShadow;
-    });
-
-    card.addEventListener('mousemove', updateGlow);
-
-    card.addEventListener('mouseleave', () => {
-      card.style.boxShadow = baseShadow;
-    });
-  });
-}
-
-renderLinkCards();
-initCardGlow();
+    var btns = document.querySelectorAll('.ptoc-btn');
+    for (var j = 0; j < btns.length; j++) {
+      btns[j].onclick = function() {
+        var el = document.getElementById(this.dataset.id);
+        if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      };
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);
+  else render();
+})();
 </script>
