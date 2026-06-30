@@ -248,13 +248,26 @@ window.addEventListener('load', () => {
   const $loadingStatus = document.getElementById('loading-status')
   const isXml = !path.endsWith('json')
 
+  // ===== State management =====
+  const STATE = { CENTERED: 'centered', EXPANDED: 'expanded', CLOSED: 'closed' }
+  let currentState = STATE.CLOSED
+
+  const $searchMask = document.getElementById('search-mask')
+  const $searchDialog = document.querySelector('#local-search .search-dialog')
+  const container = document.getElementById('local-search-results')
+
+  // ===== Search input handler =====
   const inputEventFunction = () => {
+    // Auto-expand if currently centered and user is typing
+    if (currentState === STATE.CENTERED) {
+      expandSearch()
+    }
+
     if (!localSearch.isfetched) return
     let searchText = input.value.trim().toLowerCase()
     isXml && (searchText = searchText.replace(/</g, '&lt;').replace(/>/g, '&gt;'))
     if (searchText !== '') $loadingStatus.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>'
     const keywords = searchText.split(/[-\s]+/)
-    const container = document.getElementById('local-search-results')
     let resultItems = []
     if (searchText.length > 0) {
     // Perform local searching
@@ -290,72 +303,154 @@ window.addEventListener('load', () => {
   }
 
   let loadFlag = false
-  const $searchMask = document.getElementById('search-mask')
-  const $searchDialog = document.querySelector('#local-search .search-dialog')
 
-  // fix safari
+  // ===== Fix Safari height =====
   const fixSafariHeight = () => {
     if (window.innerWidth < 768) {
       $searchDialog.style.setProperty('--search-height', window.innerHeight + 'px')
     }
   }
 
+  // ===== Expand: centered → expanded (search box moves to top, results appear) =====
+  const expandSearch = () => {
+    if (currentState === STATE.EXPANDED) return
+    currentState = STATE.EXPANDED
+    $searchDialog.classList.remove('is-centered')
+    $searchDialog.classList.add('is-expanded')
+    input.focus()
+  }
+
+  // ===== Center: expanded → centered (search box returns to middle, results hide) =====
+  const centerSearch = () => {
+    if (currentState === STATE.CENTERED) return
+    currentState = STATE.CENTERED
+    $searchDialog.classList.remove('is-expanded')
+    $searchDialog.classList.add('is-centered')
+    // Clear results
+    container.textContent = ''
+    statsItem.textContent = ''
+  }
+
+  // ===== Open: closed → centered (search box slides from bottom to middle) =====
   const openSearch = () => {
     const bodyStyle = document.body.style
     bodyStyle.width = '100%'
     bodyStyle.overflow = 'hidden'
-    btf.animateIn($searchMask, 'to_show 0.5s')
-    btf.animateIn($searchDialog, 'titleScale 0.5s')
-    setTimeout(() => { input.focus() }, 300)
+
+    // Fade in mask
+    $searchMask.style.display = 'block'
+    $searchMask.style.opacity = '0'
+    void $searchMask.offsetHeight
+    $searchMask.style.transition = 'opacity 0.5s'
+    $searchMask.style.opacity = '1'
+
+    // Show dialog with header off-screen at bottom
+    $searchDialog.style.display = 'block'
+    void $searchDialog.offsetHeight
+    // Transition header from bottom to center
+    $searchDialog.classList.add('is-centered')
+
+    currentState = STATE.CENTERED
+
+    // Focus input after animation completes
+    setTimeout(() => { input.focus() }, 600)
+
+    // Register input handler on first open
     if (!loadFlag) {
       !localSearch.isfetched && localSearch.fetchData()
       input.addEventListener('input', inputEventFunction)
       loadFlag = true
     }
-    // shortcut: ESC
-    document.addEventListener('keydown', function f (event) {
-      if (event.code === 'Escape') {
-        closeSearch()
-        document.removeEventListener('keydown', f)
-      }
-    })
 
     fixSafariHeight()
     window.addEventListener('resize', fixSafariHeight)
   }
 
+  // ===== Close: any state → closed =====
   const closeSearch = () => {
     const bodyStyle = document.body.style
     bodyStyle.width = ''
     bodyStyle.overflow = ''
-    btf.animateOut($searchDialog, 'search_close .5s')
-    btf.animateOut($searchMask, 'to_hide 0.5s')
+
+    // Fade out mask
+    $searchMask.style.transition = 'opacity 0.3s'
+    $searchMask.style.opacity = '0'
+    setTimeout(() => {
+      $searchMask.style.display = ''
+      $searchMask.style.transition = ''
+      $searchMask.style.opacity = ''
+    }, 300)
+
+    // Animate dialog with fade out
+    $searchDialog.style.animation = 'search_close .25s forwards'
+    const onEnd = () => {
+      $searchDialog.style.display = ''
+      $searchDialog.style.animation = ''
+      $searchDialog.classList.remove('is-centered', 'is-expanded')
+      $searchDialog.removeEventListener('animationend', onEnd)
+    }
+    $searchDialog.addEventListener('animationend', onEnd)
+
+    currentState = STATE.CLOSED
+    input.value = ''
+    container.textContent = ''
+    statsItem.textContent = ''
+    $loadingStatus.textContent = ''
     window.removeEventListener('resize', fixSafariHeight)
   }
 
+  // ===== Event: click on input → expand =====
+  input.addEventListener('click', () => {
+    if (currentState === STATE.CENTERED) expandSearch()
+  })
+
+  // ===== Event: click on mask → state-dependent behavior =====
+  $searchMask.addEventListener('click', () => {
+    if (currentState === STATE.EXPANDED) {
+      // Only go back to center if input is empty
+      if (input.value.trim() === '') {
+        centerSearch()
+      }
+      // If input has text, stay expanded (do nothing)
+    } else if (currentState === STATE.CENTERED) {
+      closeSearch()
+    }
+  })
+
+  // ===== Event: ESC key =====
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Escape' && currentState !== STATE.CLOSED) {
+      closeSearch()
+    }
+  })
+
+  // ===== Event: close button =====
+  const $closeBtn = document.getElementById('search-close-btn')
+  if ($closeBtn) {
+    $closeBtn.addEventListener('click', closeSearch)
+  }
+
+  // ===== Search button in nav =====
   const searchClickFn = () => {
     btf.addEventListenerPjax(document.querySelector('#search-button > .search'), 'click', openSearch)
   }
 
-  const searchFnOnce = () => {
-    document.querySelector('#local-search .search-close-button').addEventListener('click', closeSearch)
-    $searchMask.addEventListener('click', closeSearch)
-    if (GLOBAL_CONFIG.localSearch.preload) {
-      localSearch.fetchData()
-    }
-    localSearch.highlightSearchWords(document.getElementById('article-container'))
+  // ===== Init =====
+  if (GLOBAL_CONFIG.localSearch.preload) {
+    localSearch.fetchData()
   }
 
+  localSearch.highlightSearchWords(document.getElementById('article-container'))
+  searchClickFn()
+
+  // ===== search:loaded event =====
   window.addEventListener('search:loaded', () => {
     const $loadDataItem = document.getElementById('loading-database')
     $loadDataItem.nextElementSibling.style.display = 'block'
     $loadDataItem.remove()
   })
 
-  searchClickFn()
-  searchFnOnce()
-
-  // pjax
+  // ===== Pjax =====
   window.addEventListener('pjax:complete', () => {
     !btf.isHidden($searchMask) && closeSearch()
     localSearch.highlightSearchWords(document.getElementById('article-container'))
