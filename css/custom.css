@@ -79,8 +79,9 @@ html[data-theme="dark"] #sidebar #sidebar-menus.open {
     /*background: rgba(255,255,255,.8);*/
 /*}*/
 
-/* ====== Glitch 故障效果 - site-title ====== */
-#site-title {
+/* ====== Glitch 故障效果 - site-title & post-title ====== */
+#site-title,
+#post-info .post-title {
   position: relative;
   color: var(--white);
   text-shadow:
@@ -90,7 +91,8 @@ html[data-theme="dark"] #sidebar #sidebar-menus.open {
 }
 
 /* 上片段 */
-#site-title::before {
+#site-title::before,
+#post-info .post-title::before {
   content: attr(data-text);
   position: absolute;
   top: 0;
@@ -109,7 +111,8 @@ html[data-theme="dark"] #sidebar #sidebar-menus.open {
 }
 
 /* 下片段 */
-#site-title::after {
+#site-title::after,
+#post-info .post-title::after {
   content: attr(data-text);
   position: absolute;
   top: 0;
