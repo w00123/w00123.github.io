@@ -192,3 +192,35 @@ html[data-theme="dark"] #sidebar #sidebar-menus.open {
 /*#footer {*/
 	/*background: rgba(255,255,255, .0);*/
 /*}*/
+
+/* ====== Glitch 增强 - 乱码爆发时加速 & 闪烁 ====== */
+#site-title.glitch-garbled,
+#post-info .post-title.glitch-garbled {
+  animation:
+    glitch-skew 0.8s infinite linear alternate-reverse,
+    glitch-flash 0.3s ease-in-out !important;
+  text-shadow:
+    0.08em 0 0 #ff0040,
+    -0.08em -0.04em 0 #00ffff !important;
+  transition: text-shadow 0.05s;
+}
+
+#site-title.glitch-garbled::before,
+#post-info .post-title.glitch-garbled::before {
+  animation: glitch-anim-top 0.6s infinite linear alternate-reverse !important;
+}
+
+#site-title.glitch-garbled::after,
+#post-info .post-title.glitch-garbled::after {
+  animation: glitch-anim-bottom 0.5s infinite linear alternate-reverse !important;
+}
+
+/* 乱码爆发时的白色闪烁 */
+@keyframes glitch-flash {
+  0%, 80% { opacity: 1; }
+  85% { opacity: 0.85; }
+  90% { opacity: 1; }
+  92% { opacity: 0.7; }
+  95% { opacity: 1; }
+  100% { opacity: 1; }
+}
