@@ -251,6 +251,10 @@ window.addEventListener('load', () => {
   // ===== State management =====
   const STATE = { CENTERED: 'centered', EXPANDED: 'expanded', CLOSED: 'closed' }
   let currentState = STATE.CLOSED
+  let isAnimating = false
+
+  // ===== IME composition flag =====
+  let isComposing = false
 
   const $searchMask = document.getElementById('search-mask')
   const $searchDialog = document.querySelector('#local-search .search-dialog')
@@ -260,6 +264,8 @@ window.addEventListener('load', () => {
   const inputEventFunction = () => {
     // Auto-expand if currently centered and user is typing
     if (currentState === STATE.CENTERED) {
+      // Don't expand during IME composition
+      if (isComposing) return
       expandSearch()
     }
 
@@ -267,6 +273,8 @@ window.addEventListener('load', () => {
     let searchText = input.value.trim().toLowerCase()
     isXml && (searchText = searchText.replace(/</g, '&lt;').replace(/>/g, '&gt;'))
     if (searchText !== '') $loadingStatus.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>'
+    else $loadingStatus.textContent = ''
+    const doSearch = () => {
     const keywords = searchText.split(/[-\s]+/)
     let resultItems = []
     if (searchText.length > 0) {
@@ -300,8 +308,21 @@ window.addEventListener('load', () => {
     }
 
     $loadingStatus.textContent = ''
+    }
+
+    // Defer search to next frame so the loading spinner can render
+    requestAnimationFrame(() => {
+      setTimeout(doSearch, 0)
+    })
   }
 
+
+  // ===== IME composition events =====
+  input.addEventListener('compositionstart', () => { isComposing = true })
+  input.addEventListener('compositionend', () => {
+    isComposing = false
+    inputEventFunction()
+  })
   let loadFlag = false
 
   // ===== Fix Safari height =====
@@ -311,16 +332,17 @@ window.addEventListener('load', () => {
     }
   }
 
-  // ===== Expand: centered → expanded (search box moves to top, results appear) =====
+  // ===== Expand: centered 鈫?expanded (search box moves to top, results appear) =====
   const expandSearch = () => {
     if (currentState === STATE.EXPANDED) return
     currentState = STATE.EXPANDED
     $searchDialog.classList.remove('is-centered')
+    void $searchDialog.offsetHeight
     $searchDialog.classList.add('is-expanded')
     input.focus()
   }
 
-  // ===== Center: expanded → centered (search box returns to middle, results hide) =====
+  // ===== Center: expanded 鈫?centered (search box returns to middle, results hide) =====
   const centerSearch = () => {
     if (currentState === STATE.CENTERED) return
     currentState = STATE.CENTERED
@@ -329,9 +351,10 @@ window.addEventListener('load', () => {
     // Clear results
     container.textContent = ''
     statsItem.textContent = ''
+    $loadingStatus.textContent = ''
   }
 
-  // ===== Open: closed → centered (search box slides from bottom to middle) =====
+  // ===== Open: closed 鈫?centered (search box slides from bottom to middle) =====
   const openSearch = () => {
     const bodyStyle = document.body.style
     bodyStyle.width = '100%'
@@ -366,8 +389,11 @@ window.addEventListener('load', () => {
     window.addEventListener('resize', fixSafariHeight)
   }
 
-  // ===== Close: any state → closed =====
+  // ===== Close: any state 鈫?closed =====
   const closeSearch = () => {
+    if (isAnimating || currentState === STATE.CLOSED) return
+    isAnimating = true
+
     const bodyStyle = document.body.style
     bodyStyle.width = ''
     bodyStyle.overflow = ''
@@ -384,11 +410,18 @@ window.addEventListener('load', () => {
     // Animate dialog with fade out
     $searchDialog.style.animation = 'search_close .25s forwards'
     const onEnd = () => {
+      if (!isAnimating) return
+      isAnimating = false
       $searchDialog.style.display = ''
       $searchDialog.style.animation = ''
       $searchDialog.classList.remove('is-centered', 'is-expanded')
       $searchDialog.removeEventListener('animationend', onEnd)
     }
+
+    // Ensure body overflow is always restored even if animation is interrupted
+    const bs = document.body.style
+    bs.width = ''
+    bs.overflow = ''
     $searchDialog.addEventListener('animationend', onEnd)
 
     currentState = STATE.CLOSED
@@ -399,12 +432,12 @@ window.addEventListener('load', () => {
     window.removeEventListener('resize', fixSafariHeight)
   }
 
-  // ===== Event: click on input → expand =====
+  // ===== Event: click on input 鈫?expand =====
   input.addEventListener('click', () => {
     if (currentState === STATE.CENTERED) expandSearch()
   })
 
-  // ===== Event: click on mask → state-dependent behavior =====
+  // ===== Event: click on mask 鈫?state-dependent behavior =====
   $searchMask.addEventListener('click', () => {
     if (currentState === STATE.EXPANDED) {
       // Only go back to center if input is empty
@@ -434,6 +467,13 @@ window.addEventListener('load', () => {
   const searchClickFn = () => {
     btf.addEventListenerPjax(document.querySelector('#search-button > .search'), 'click', openSearch)
   }
+
+  // ===== Close search on browser back (mobile) =====
+  window.addEventListener('popstate', () => {
+    if (currentState !== STATE.CLOSED) {
+      closeSearch()
+    }
+  })
 
   // ===== Init =====
   if (GLOBAL_CONFIG.localSearch.preload) {
