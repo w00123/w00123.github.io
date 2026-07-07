@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>坤米德 V3.0 - 配置助手</title>
+    <!-- 引入 SheetJS 用于 Excel 读写 -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            text-align: center;
+            font-size: 2.2em;
+            font-weight: 700;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+        .action-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 30px 0;
+            align-items: flex-start;
+        }
+        .download-icon-wrapper {
+            flex-shrink: 0;
+            margin-right: 20px;
+        }
+        .download-icon {
+            display: block;
+            width: 85px;
+            height: 85px;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            background-color: #e8f4fc;
+            border: 1px solid #3498db;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+        }
+        .download-icon:hover {
+            background-color: #d4eaf9;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+        .download-icon .icon {
+            font-size: 2.2em;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .download-icon .label {
+            font-size: 0.85em;
+            color: #2c3e50;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        .upload-panel {
+            flex: 1;
+            min-width: 300px;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            background-color: #f8f9fa;
+            border: 2px dashed #3498db;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .upload-panel .icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .panel-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        .panel-desc {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .btn-upload {
+            background-color: #2ecc71;
+            color: white;
+            margin-top: 15px;
+        }
+        .btn-upload:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+        .btn-upload:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-download-result {
+            background-color: #3498db;
+            color: white;
+            margin-top: 15px;
+        }
+        .btn-download-result:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        input[type="file"] {
+            padding: 10px;
+            margin: 15px 0;
+            width: 90%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+            animation: slideIn 0.5s ease;
+            display: none;
+        }
+        .message.show {
+            display: block;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .message.success {
+            color: #27ae60;
+            background-color: #d5f4e6;
+            border: 1px solid #27ae60;
+        }
+        .message.error {
+            color: #e74c3c;
+            background-color: #fadbd8;
+            border: 1px solid #e74c3c;
+        }
+        .message.info {
+            color: #2980b9;
+            background-color: #d6eaf8;
+            border: 1px solid #2980b9;
+        }
+        .bottom-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .panel-section {
+            flex: 1;
+            min-width: 300px;
+            text-align: left;
+            padding: 25px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .panel-section.instructions {
+            border-left: 4px solid #9b59b6;
+        }
+        .panel-section.features {
+            border-left: 4px solid #2ecc71;
+        }
+        .panel-section h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+        .panel-section.instructions h3 {
+            border-bottom-color: #9b59b6;
+        }
+        .panel-section.features h3 {
+            border-bottom-color: #2ecc71;
+        }
+        .panel-section ol {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .panel-section li {
+            margin-bottom: 10px;
+            color: #34495e;
+            padding-left: 5px;
+        }
+        .panel-section li strong {
+            color: #2c3e50;
+        }
+        .panel-section li ul {
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+        .panel-section li ul li {
+            margin-bottom: 5px;
+            color: #7f8c8d;
+            font-size: 0.95em;
+            list-style-type: disc;
+        }
+        .panel-note {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: rgba(46, 204, 113, 0.1);
+            border-radius: 4px;
+            border-left: 3px solid #2ecc71;
+            font-size: 0.9em;
+            color: #27ae60;
+            line-height: 1.5;
+        }
+        .panel-section.instructions .panel-note {
+            background-color: rgba(155, 89, 182, 0.1);
+            border-left: 3px solid #9b59b6;
+            color: #8e44ad;
+        }
+        .version-info {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.85em;
+        }
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s ease-in-out infinite;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .file-name-display {
+            font-size: 0.9em;
+            color: #2c3e50;
+            margin: 8px 0;
+            word-break: break-all;
+        }
+        .file-name-display strong {
+            color: #2980b9;
+        }
+        @media (max-width: 768px) {
+            .action-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .download-icon-wrapper {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            .download-icon {
+                width: 80px;
+                height: 80px;
+            }
+            .bottom-container {
+                flex-direction: column;
+            }
+            .panel-section {
+                min-width: 100%;
+            }
+            .container {
+                padding: 20px;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>坤米德 - 配置助手</h2>
+        <p class="subtitle">纯前端 · 上传 Excel 模板，一键生成山石防火墙配置</p>
+
+        <!-- 核心操作区域 -->
+        <div class="action-container">
+            <!-- 下载模板 -->
+            <div class="download-icon-wrapper">
+                <div class="download-icon" id="downloadTemplateBtn" title="下载Excel模板">
+                    <span class="icon">📥</span>
+                    <span class="label">下载模板</span>
+                </div>
+            </div>
+
+            <!-- 上传生成面板 -->
+            <div class="upload-panel">
+                <span class="icon">⚡</span>
+                <div class="panel-title">生成配置</div>
+                <p class="panel-desc">上传已填写好的模板文件，一键生成！</p>
+                <form id="uploadForm">
+                    <input type="file" id="fileInput" accept=".xlsx,.xls" required />
+                    <div class="file-name-display" id="fileNameDisplay"></div>
+                    <button type="submit" class="btn btn-upload" id="generateBtn">
+                        准备接收你的配置
+                    </button>
+                </form>
+                <div id="resultArea" style="margin-top:15px; display:none;">
+                    <button class="btn btn-download-result" id="downloadResultBtn">
+                        📄 下载配置文件
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 消息提示 -->
+        <div class="message" id="message"></div>
+
+        <!-- 底部区域 -->
+        <div class="bottom-container">
+            <div class="panel-section instructions">
+                <h3>使用说明：</h3>
+                <ol>
+                    <li><strong>下载模板</strong>：点击左侧图标下载 Excel 模板文件。</li>
+                    <li><strong>填写信息</strong>：按表格示例填写服务器内网IP、公网端口、虚拟IP、内网端口、IPS规则库名称。
+                        <ul>
+                            <li>"公网端口"用英文逗号分隔（如：80,2001-3001,443）。端口范围格式：起始-结束。</li>
+                            <li>"公网端口"和"内网端口"都留空 → 全端口映射。</li>
+                        </ul>
+                    </li>
+                    <li><strong>上传文件</strong>：点击右侧"选择文件"上传填好的 Excel。</li>
+                    <li><strong>下载配置</strong>：系统自动生成山石防火墙配置（.txt），通过 CLI 窗口运行。</li>
+                    <li><strong>非初始化配置请谨慎使用</strong>，建议提前导出备份，否则可能覆盖旧策略。</li>
+                </ol>
+                <div class="panel-note">注意：请确保 Excel 格式正确，严格按照模板填写。目前仅支持 TCP 端口。</div>
+            </div>
+
+            <div class="panel-section features">
+                <h3>功能清单</h3>
+                <ol>
+                    <li><strong>厂家要求配置</strong>
+                        <ul>
+                            <li>开启端口扩展 · TCP超时调整 · 关闭序列号检测</li>
+                            <li>入侵防御模板 IPS · 日志管理 · 监控配置</li>
+                            <li>IP信誉过滤 · 密码复杂度 · NTP时间同步</li>
+                            <li>untrust域安全策略 · 日志策略</li>
+                        </ul>
+                    </li>
+                    <li><strong>服务对象</strong>：支持创建、合并、去重端口（仅 TCP）。</li>
+                    <li><strong>DNAT</strong>：支持多端口、端口范围、端口转换、全端口映射；自动合并去重。</li>
+                    <li><strong>SNAT</strong>：自动为每个内网IP生成一条SNAT策略。</li>
+                    <li><strong>安全策略</strong>：入向/出向策略 + IPS防护，自动去重。</li>
+                </ol>
+                <div class="version-info">
+                    <p>当前版本：V3.0 (纯前端) | 更新时间：2026-07-06</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================================================
+        //  1. 工具函数
+        // ========================================================================
+
+        /**
+         * 解析端口字符串，支持单端口、端口范围、逗号分隔
+         * 返回: [ { type: 'single', port }, { type: 'range', start, end }, ... ]
+         */
+        function parsePortRange(portStr) {
+            if (!portStr || String(portStr).trim() === '') return [];
+            const parts = String(portStr).split(',').map(s => s.trim()).filter(s => s);
+            const result = [];
+            for (const part of parts) {
+                if (part.includes('-')) {
+                    const segs = part.split('-').map(s => s.trim());
+                    if (segs.length === 2 && segs[0] && segs[1]) {
+                        result.push({ type: 'range', start: segs[0], end: segs[1] });
+                    } else {
+                        result.push({ type: 'single', port: part });
+                    }
+                } else {
+                    result.push({ type: 'single', port: part });
+                }
+            }
+            return result;
+        }
+
+        /**
+         * 格式化端口列表为服务对象配置行
+         */
+        function formatServicePorts(portList) {
+            const lines = [];
+            for (const item of portList) {
+                if (item.type === 'single') {
+                    lines.push(`  tcp dst-port ${item.port}`);
+                } else if (item.type === 'range') {
+                    lines.push(`  tcp dst-port ${item.start} ${item.end}`);
+                }
+            }
+            return lines;
+        }
+
+        /**
+         * 判断两个端口对象是否相等（用于去重）
+         */
+        function portEquals(a, b) {
+            if (a.type !== b.type) return false;
+            if (a.type === 'single') return a.port === b.port;
+            if (a.type === 'range') return a.start === b.start && a.end === b.end;
+            return false;
+        }
+
+        /**
+         * 检查端口是否已存在于数组中
+         */
+        function portExists(arr, port) {
+            return arr.some(p => portEquals(p, port));
+        }
+
+        // ========================================================================
+        //  2. 核心配置生成函数（纯JS版）
+        // ========================================================================
+
+        function generateHillstoneConfigFromRows(rows) {
+            // rows: 从Excel读取的数组，每行为 { ip, portsStr, virtualIp, internalPort, ipsName }
+            // 跳过标题行，从索引0开始处理数据行
+
+            const ipAddresses = [];
+            const virtualIps = [];
+            const serviceNames = [];
+            let ipsProfile = null;
+            const natRules = [];
+            const portTransformServices = {}; // { port: serviceName }
+            const noTransformServices = {}; // { combinationKey: { name, ip, virtualIp, ports } }
+            const snatProcessedIps = {};
+            let hasAllPortsRule = false;
+            const serviceNameCounter = {};
+
+            // 收集所有有效数据行
+            const dataRows = [];
+            for (const row of rows) {
+                const ip = row.ip ? String(row.ip).trim() : '';
+                if (!ip) continue;
+                const portsStr = row.portsStr ? String(row.portsStr).trim() : '';
+                const virtualIp = row.virtualIp ? String(row.virtualIp).trim() : '';
+                const internalPort = row.internalPort ? String(row.internalPort).trim() : '';
+                const ipsName = row.ipsName ? String(row.ipsName).trim() : '';
+
+                // 记录IPS名称（取第一个非空）
+                if (ipsName && ipsProfile === null) {
+                    ipsProfile = ipsName;
+                }
+
+                ipAddresses.push(ip);
+                if (virtualIp) virtualIps.push(virtualIp);
+
+                let serviceName;
+                let isAllPorts = false;
+                let hasPortTransform = false;
+                let ports = [];
+
+                if (portsStr === '') {
+                    // 公网端口为空 → 全端口映射
+                    serviceName = '"all"';
+                    serviceNames.push(serviceName);
+                    isAllPorts = true;
+                    hasAllPortsRule = true;
+                    natRules.push({
+                        ipAddress: ip,
+                        ports: [],
+                        virtualIp: virtualIp,
+                        internalPort: internalPort,
+                        hasPortTransform: false,
+                        isAllPorts: true,
+                        serviceName: serviceName
+                    });
+                } else {
+                    // 公网端口不为空
+                    const portItems = portsStr.split(',').map(s => s.trim()).filter(s => s);
+                    ports = portItems;
+                    hasPortTransform = (internalPort !== '');
+
+                    if (hasPortTransform) {
+                        // 有端口转换：每个端口生成独立服务对象
+                        for (const p of portItems) {
+                            const svcName = `"${p}"`;
+                            serviceNames.push(svcName);
+                            if (!portTransformServices[p]) {
+                                portTransformServices[p] = svcName;
+                            }
+                        }
+                        // 对natRules，每条规则使用第一个端口作为serviceName，但后面生成DNAT时会遍历所有端口
+                        // 这里保存端口列表，后面DNAT生成时会为每个端口生成规则
+                        // 注意：服务对象名在DNAT中会使用 "端口号" 格式
+                        natRules.push({
+                            ipAddress: ip,
+                            ports: portItems,
+                            virtualIp: virtualIp,
+                            internalPort: internalPort,
+                            hasPortTransform: true,
+                            isAllPorts: false,
+                            serviceName: `"${portItems[0]}"` // 占位，实际DNAT会遍历
+                        });
+                    } else {
+                        // 无端口转换：根据内网IP和虚拟IP组合生成服务对象名
+                        const combKey = virtualIp ? `${ip}_${virtualIp}` : ip;
+
+                        // 生成或获取服务对象名
+                        if (!noTransformServices[combKey]) {
+                            // 首次出现
+                            if (!serviceNameCounter[ip]) {
+                                serviceNameCounter[ip] = 1;
+                                serviceName = `"${ip}-service-port"`;
+                            } else {
+                                const cnt = serviceNameCounter[ip];
+                                if (cnt === 1) {
+                                    serviceName = `"${ip}-service-port"`;
+                                } else {
+                                    serviceName = `"${ip}-service${cnt - 1}-port"`;
+                                }
+                            }
+                            // 解析端口
+                            const parsed = parsePortRange(portsStr);
+                            noTransformServices[combKey] = {
+                                name: serviceName,
+                                ipAddress: ip,
+                                virtualIp: virtualIp,
+                                ports: parsed
+                            };
+                            serviceNameCounter[ip] = (serviceNameCounter[ip] || 0) + 1;
+                        } else {
+                            // 已存在，复用名称，合并端口
+                            serviceName = noTransformServices[combKey].name;
+                            const parsed = parsePortRange(portsStr);
+                            const existing = noTransformServices[combKey].ports;
+                            for (const p of parsed) {
+                                if (!portExists(existing, p)) {
+                                    existing.push(p);
+                                }
+                            }
+                        }
+
+                        serviceNames.push(serviceName);
+                        natRules.push({
+                            ipAddress: ip,
+                            ports: portItems,
+                            virtualIp: virtualIp,
+                            internalPort: internalPort,
+                            hasPortTransform: false,
+                            isAllPorts: false,
+                            serviceName: serviceName
+                        });
+                    }
+                }
+            }
+
+            // ---- 开始构建配置 ----
+            const lines = [];
+
+            // === SNAT端口扩展 ===
+            lines.push('# SNAT端口扩展，调整防火墙FIN-WAIT时长');
+            lines.push('configure');
+            lines.push('expanded-port-pool');
+            lines.push('y');
+            lines.push('tcp-fin-wait-1-check 60');
+            lines.push('tcp-fin-wait-2-check 60');
+            lines.push('# 禁用TCP包序列号检测');
+            lines.push('tcp-seq-check-disable');
+            lines.push('');
+
+            lines.push('#' + '='.repeat(50));
+            lines.push('');
+
+            // === IPS模板 ===
+            lines.push('#创建入侵防御模板IPS');
+            lines.push('ips sigset "IPS_http" template http');
+            lines.push('  web-server "default"');
+            lines.push('    sql-injection-check enable sensitive medium action reset');
+            lines.push('    xss-check enable sensitive medium action reset');
+            lines.push('    http-request-flood enable');
+            lines.push('  exit');
+            lines.push('exit');
+            lines.push('ips sigset "IPS_dns" template dns');
+            lines.push('exit');
+            lines.push('ips sigset "IPS_ftp" template ftp');
+            lines.push('exit');
+            lines.push('ips sigset "IPS_msrpc" template msrpc');
+            lines.push('exit');
+            lines.push('ips sigset "IPS_pop3" template pop3');
+            lines.push('exit');
+            lines.push('ips sigset "IPS_smtp" template smtp');
+            lines.push('exit');
+            lines.push('ips sigset "IPS_sunrpc" template sunrpc');
+            lines.push('exit');
+            lines.push('ips sigset "IPS_telnet" template telnet');
+            lines.push('exit');
+            lines.push('ips profile "IPS"');
+            lines.push('  pcap enable');
+            lines.push('  password-protect');
+            lines.push(
+                '    http-username 757365726e616d653b757365723b7573726e616d653b6a5f757365726e616d653b6c6f67696e');
+            lines.push(
+                '    http-userpassword 70617373776f72643b7061737377643b706173733b7077643b6a5f70617373776f7264');
+            lines.push(
+                '    http-custom-success-login 6c6f67696e737563636573733b6c6f67696e2d737563636573733b4f4b3d313b227375636365737366756c223a227472756522');
+            lines.push(
+                '    http-custom-fail-login 6c6f67696e6572726f723b6c6f67696e2d6572726f723b6c6f67696e6572723b4f4b3d303b227375636365737366756c223a226661696c223b22726573756c74223d5b5d');
+            lines.push('    http-success-code 3230303b3330323b3230313b333033');
+            lines.push('    http-fail-code 3230303b3330323b3230313b3330333b3430313b353030');
+            lines.push('  exit');
+            lines.push('  check-weakpassword');
+            lines.push('    enable');
+            lines.push('  exit');
+            // brute-force 列表
+            const bruteServices = [
+                'Cassandra', 'CVS', 'DB2', 'Firebird-Wire', 'FTP', 'HTTP', 'IMAP', 'IRC',
+                'Kerberos', 'LDAP', 'MongoDB', 'MSRPC', 'MSsql', 'NNTP', 'Oracle', 'PGSQL',
+                'POP3', 'REDIS', 'RDP', 'Radius', 'Rexec', 'Rlogin', 'RSH', 'RTSP',
+                'SIP', 'SMB', 'SMTP', 'Socket5', 'SSH', 'SUNRPC', 'SVN', 'Sybase',
+                'Telnet', 'VNC'
+            ];
+            for (const svc of bruteServices) {
+                lines.push(`  brute-force`);
+                lines.push(`    ${svc} 75 block ip second 60`);
+                lines.push(`  exit`);
+            }
+            lines.push('  reverse-shell enable');
+            lines.push('  reverse-shell  level low');
+            lines.push('  reverse-shell  action reset');
+            lines.push('  sigset "IPS_http"');
+            lines.push('  sigset "IPS_dns"');
+            lines.push('  sigset "IPS_ftp"');
+            lines.push('  sigset "IPS_msrpc"');
+            lines.push('  sigset "IPS_pop3"');
+            lines.push('  sigset "IPS_smtp"');
+            lines.push('  sigset "IPS_sunrpc"');
+            lines.push('  sigset "IPS_telnet"');
+            lines.push('  filter-class 32 description "IPS"');
+            lines.push('    severity "Critical"');
+            lines.push('    severity "High"');
+            lines.push('    severity "Medium"');
+            lines.push('    severity "Low"');
+            lines.push('    action reset');
+            lines.push('  exit');
+            lines.push('exit');
+            lines.push('');
+
+            lines.push('#' + '='.repeat(50));
+            lines.push('');
+
+            // === 日志管理 ===
+            lines.push('# 开启日志管理');
+            lines.push('logging threat content username');
+            lines.push('logging threat to remote');
+            lines.push('logging threat to localdb');
+            lines.push('logging threat to syslog custom-format  severity warnings');
+            lines.push('logging traffic session on');
+            lines.push('logging traffic session to localdb');
+            lines.push('logging traffic session to syslog custom-format ');
+            lines.push('logging session content hostname');
+            lines.push('logging session content username');
+            lines.push('logging traffic session to buffer');
+            lines.push('logging traffic nat on');
+            lines.push('logging traffic nat to localdb');
+            lines.push('logging traffic nat to syslog custom-format ');
+            lines.push('logging nat content hostname');
+            lines.push('logging traffic nat to buffer');
+            lines.push('logging configuration to localdb');
+            lines.push('logging configuration to syslog ');
+            lines.push('logging traffic urlfilter on');
+            lines.push('');
+
+            lines.push('#' + '='.repeat(50));
+            lines.push('');
+
+            // === untrust区域安全策略 ===
+            lines.push('# untrust区域安全策略配置');
+            lines.push('zone untrust');
+            lines.push('  av enable "predef_high"');
+            lines.push('  url enable "no-url"');
+            lines.push('  sandbox enable "predef_high"');
+            lines.push('  ips enable "IPS" bidirectional');
+            lines.push('exit');
+            lines.push('');
+
+            lines.push('#' + '='.repeat(50));
+            lines.push('');
+
+            // === 监控配置 ===
+            lines.push('# 监控配置');
+            const statSets = [
+                { id: 0, name: 'predef_if_bw', target: 'bandwidth', group: 'interface directional vsys' },
+                { id: 1, name: 'predef_user_bw', target: 'bandwidth', group: 'user directional vr vsys' },
+                { id: 2, name: 'predef_app_bw', target: 'bandwidth', group: 'application vsys' },
+                { id: 3, name: 'predef_user_app_bw', target: 'bandwidth', group: 'user directional interface zone application vsys' },
+                { id: 4, name: 'predef_zone_if_app_bw', target: 'bandwidth', group: 'interface zone directional application vsys' },
+                { id: 5, name: 'predef_protocol_bw', target: 'bandwidth', group: 'protocol vsys' },
+                { id: 6, name: 'predef_user_sess', target: 'session', group: 'user vr vsys' },
+                { id: 7, name: 'predef_app_sess', target: 'session', group: 'application vsys' },
+                { id: 8, name: 'predef_if_sess', target: 'session', group: 'interface vsys' },
+                { id: 9, name: 'predef_zone_bw', target: 'bandwidth', group: 'zone directional vsys' },
+                { id: 10, name: 'predef_zone_sess', target: 'session', group: 'zone vsys' },
+                { id: 11, name: 'predef_protocol_sess', target: 'session', group: 'protocol vsys' }
+            ];
+            for (const ss of statSets) {
+                lines.push(`statistics-set "${ss.name}"`);
+                if (ss.target === 'bandwidth') {
+                    lines.push(`  target-data bandwidth id ${ss.id} record-history`);
+                } else {
+                    lines.push(`  target-data session id ${ss.id} record-history`);
+                }
+                lines.push(`  group-by ${ss.group}`);
+                lines.push('exit');
+            }
+            lines.push('');
+
+            lines.push('#' + '='.repeat(50));
+            lines.push('');
+
+            // === IP信誉过滤 ===
+            lines.push('#配置IP信誉过滤');
+            lines.push('perimeter-traffic-filtering');
+            lines.push('  ip-reputation zone untrust');
+            const categories = ['bot', 'spam', 'tornode', 'compromised', 'proxy', 'scanner', 'brute-forcer', 'ddos-attacker'];
+            for (const cat of categories) {
+                lines.push(`    category ${cat} action log-only`);
+            }
+            lines.push('  exit');
+            lines.push('exit');
+            lines.push('');
+
+            lines.push('#' + '='.repeat(50));
+            lines.push('');
+
+            // === 密码复杂度 ===
+            lines.push('#密码复杂度');
+            lines.push('password-policy');
+            lines.push('  admin min-length 8');
+            lines.push('  admin complexity enable');
+            lines.push('  admin capital-letters 2');
+            lines.push('  admin small-letters 2');
+            lines.push('  admin numeric-characters 2');
+            lines.push('  admin non-alphanumeric-letters 2');
+            lines.push('  admin password-expiration 90');
+            lines.push('exit');
+            lines.push('');
+
+            lines.push('#' + '='.repeat(50));
+            lines.push('');
+
+            // === NTP ===
+            lines.push('#开启NTP');
+            lines.push('ntp enable');
+            lines.push('clock zone china');
+            lines.push('policy-global');
+            lines.push(' modification-log policy enable');
+            lines.push('exit');
+            lines.push('');
+
+            lines.push('#' + '='.repeat(50));
+            lines.push('');
+
+            // === 服务对象配置 ===
+            lines.push('# 服务对象配置');
+
+            // 1. 有端口转换
+            for (const [port, svcName] of Object.entries(portTransformServices)) {
+                lines.push(`service ${svcName}`);
+                lines.push(`  tcp dst-port ${port}`);
+                lines.push('exit');
+            }
+
+            // 2. 无端口转换
+            for (const [key, info] of Object.entries(noTransformServices)) {
+                lines.push(`service ${info.name}`);
+                const fmtLines = formatServicePorts(info.ports);
+                for (const fl of fmtLines) {
+                    lines.push(fl);
+                }
+                lines.push('exit');
+            }
+
+            // 3. all服务
+            if (hasAllPortsRule) {
+                lines.push('service "all"');
+                lines.push('  protocol any');
+                lines.push('exit');
+            }
+
+            lines.push('');
+            lines.push('#' + '='.repeat(50));
+            lines.push('');
+
+            // === DNAT策略 ===
+            lines.push('# 生成DNAT策略');
+            lines.push('ip vrouter trust-vr');
+            let dnatId = 1;
+            const processedDnat = new Set();
+
+            for (const rule of natRules) {
+                if (!rule.virtualIp) continue;
+
+                if (rule.isAllPorts) {
+                    const key = `all_${rule.virtualIp}_${rule.ipAddress}`;
+                    if (!processedDnat.has(key)) {
+                        lines.push(
+                            `dnatrule id ${dnatId} from-zone "untrust" from address-book "Any" to ip ${rule.virtualIp} service "Any" trans-to ip ${rule.ipAddress} log`
+                            );
+                        dnatId++;
+                        processedDnat.add(key);
+                    }
+                } else if (rule.hasPortTransform) {
+                    // 有端口转换：每个端口一条规则
+                    for (const port of rule.ports) {
+                        const svcName = `"${port}"`;
+                        lines.push(
+                            `dnatrule id ${dnatId} from-zone "untrust" from address-book "Any" to ip ${rule.virtualIp} service ${svcName} trans-to ip ${rule.ipAddress} port ${rule.internalPort} log`
+                            );
+                        dnatId++;
+                    }
+                } else {
+                    // 无端口转换：使用服务对象名，去重
+                    const key = `no_${rule.virtualIp}_${rule.serviceName}_${rule.ipAddress}`;
+                    if (!processedDnat.has(key)) {
+                        lines.push(
+                            `dnatrule id ${dnatId} from-zone "untrust" from address-book "Any" to ip ${rule.virtualIp} service ${rule.serviceName} trans-to ip ${rule.ipAddress} log`
+                            );
+                        dnatId++;
+                        processedDnat.add(key);
+                    }
+                }
+            }
+
+            // === SNAT策略 ===
+            let snatId = 1;
+            const snatProcessed = new Set();
+            for (const rule of natRules) {
+                if (!rule.virtualIp) continue;
+                if (!snatProcessed.has(rule.ipAddress)) {
+                    lines.push(
+                        `snatrule id ${snatId} from-zone "trust" to-zone "untrust" from ip ${rule.ipAddress} to address-book "Any" service "Any" trans-to ip ${rule.virtualIp} mode dynamicport log`
+                        );
+                    snatProcessed.add(rule.ipAddress);
+                    snatId++;
+                }
+            }
+
+            lines.push('exit');
+            lines.push('');
+            lines.push('#' + '='.repeat(50));
+            lines.push('');
+
+            // === 安全策略 ===
+            lines.push('# 安全策略配置');
+
+            const finalIpsProfile = ipsProfile || 'IPS';
+
+            // 入方向策略
+            lines.push('rule id 1');
+            lines.push('  action permit');
+            lines.push('  log policy-deny');
+            lines.push('  log session-start');
+            lines.push('  log session-end');
+            lines.push('  src-zone "untrust"');
+            lines.push('  dst-zone "trust"');
+            lines.push('  src-addr "Any"');
+
+            const uniqueVips = [...new Set(virtualIps)];
+            for (const vip of uniqueVips) {
+                lines.push(`  dst-ip ${vip}/32`);
+            }
+
+            const uniqueSvcs = [...new Set(serviceNames)];
+            for (const svc of uniqueSvcs) {
+                lines.push(`  service ${svc}`);
+            }
+
+            lines.push('  av "predef_high"');
+            lines.push(`  ips "${finalIpsProfile}"`);
+            lines.push('  url "no-url"');
+            lines.push('  sandbox "predef_high"');
+            lines.push('  name "入方向"');
+            lines.push('exit');
+
+            // 出方向策略
+            lines.push('rule id 2');
+            lines.push('  action permit');
+            lines.push('  log policy-deny');
+            lines.push('  log session-start');
+            lines.push('  log session-end');
+            lines.push('  src-zone "trust"');
+            lines.push('  dst-zone "untrust"');
+
+            const uniqueIps = [...new Set(ipAddresses)];
+            for (const ip of uniqueIps) {
+                lines.push(`  src-ip ${ip}/32`);
+            }
+
+            lines.push('  dst-addr "Any"');
+            lines.push('  service "Any"');
+            lines.push('  av "predef_high"');
+            lines.push(`  ips "${finalIpsProfile}"`);
+            lines.push('  url "no-url"');
+            lines.push('  sandbox "predef_high"');
+            lines.push('  name "出方向"');
+            lines.push('exit');
+
+            // 默认拒绝
+            lines.push('rule id 3');
+            lines.push('  action deny');
+            lines.push('  src-zone "Any"');
+            lines.push('  dst-zone "Any"');
+            lines.push('  src-addr "Any"');
+            lines.push('  dst-addr "Any"');
+            lines.push('  service "Any"');
+            lines.push('  name "deny"');
+            lines.push('exit');
+
+            // 保存
+            lines.push('');
+            lines.push('# 保存配置');
+            lines.push('save');
+            lines.push('yy');
+
+            return lines.join('\n');
+        }
+
+        // ========================================================================
+        //  3. 模板生成（使用 SheetJS）
+        // ========================================================================
+
+        function generateTemplateExcel() {
+            const wb = XLSX.utils.book_new();
+            const data = [
+                ['内网IP', '公网端口', '虚拟IP', '内网端口', '入侵防御规则库名称'],
+                ['192.168.1.10', '80,443,8080', '1.1.1.1', '8080', 'IPS'],
+                ['192.168.1.20', '2001-3001', '2.2.2.2', '', 'IPS'],
+                ['192.168.1.30', '', '3.3.3.3', '', 'IPS'],
+                ['192.168.1.40', '3306', '4.4.4.4', '3306', ''],
+            ];
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            // 列宽
+            ws['!cols'] = [
+                { wch: 16 },
+                { wch: 22 },
+                { wch: 16 },
+                { wch: 14 },
+                { wch: 22 }
+            ];
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            return XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        }
+
+        // ========================================================================
+        //  4. UI 控制逻辑
+        // ========================================================================
+
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const uploadForm = document.getElementById('uploadForm');
+        const generateBtn = document.getElementById('generateBtn');
+        const messageEl = document.getElementById('message');
+        const resultArea = document.getElementById('resultArea');
+        const downloadResultBtn = document.getElementById('downloadResultBtn');
+
+        let generatedConfigText = '';
+
+        // 显示文件名
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                fileNameDisplay.innerHTML = `已选：<strong>${this.files[0].name}</strong> (${(this.files[0].size / 1024).toFixed(1)} KB)`;
+            } else {
+                fileNameDisplay.textContent = '';
+            }
+        });
+
+        // 显示消息
+        function showMessage(text, type = 'info') {
+            messageEl.textContent = text;
+            messageEl.className = `message show ${type}`;
+        }
+
+        function hideMessage() {
+            messageEl.className = 'message';
+        }
+
+        // 下载模板
+        document.getElementById('downloadTemplateBtn').addEventListener('click', function() {
+            try {
+                const arrayBuf = generateTemplateExcel();
+                const blob = new Blob([arrayBuf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = '山石防火墙配置模板.xlsx';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+                showMessage('✅ 模板下载成功！', 'success');
+            } catch (e) {
+                showMessage('❌ 模板生成失败：' + e.message, 'error');
+            }
+        });
+
+        // 上传并生成
+        uploadForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            hideMessage();
+            resultArea.style.display = 'none';
+
+            const file = fileInput.files[0];
+            if (!file) {
+                showMessage('⚠️ 请先选择一个Excel文件！', 'error');
+                return;
+            }
+
+            const ext = file.name.split('.').pop().toLowerCase();
+            if (!['xlsx', 'xls'].includes(ext)) {
+                showMessage('⚠️ 只支持 .xlsx 或 .xls 格式！', 'error');
+                return;
+            }
+
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<span class="spinner"></span> 处理中...';
+
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                try {
+                    const data = new Uint8Array(ev.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const json = XLSX.utils.sheet_to_json(firstSheet, { defval: '' });
+
+                    if (json.length === 0) {
+                        showMessage('⚠️ Excel文件为空或格式不正确！', 'error');
+                        generateBtn.disabled = false;
+                        generateBtn.innerHTML = '准备接收你的配置';
+                        return;
+                    }
+
+                    // 将json转换为rows格式
+                    const rows = [];
+                    for (const item of json) {
+                        // 尝试自动识别列名（支持中文或英文）
+                        const keys = Object.keys(item);
+                        const getVal = (pattern) => {
+                            for (const k of keys) {
+                                if (k.includes(pattern) || pattern.includes(k)) {
+                                    const v = item[k];
+                                    return (v !== undefined && v !== null) ? String(v).trim() : '';
+                                }
+                            }
+                            return '';
+                        };
+                        // 更精确的匹配
+                        const colMap = {
+                            ip: ['内网IP', 'ip', '内网ip', 'IP', '内网地址'],
+                            portsStr: ['公网端口', 'ports', '端口', '公网port', '外部端口'],
+                            virtualIp: ['虚拟IP', 'virtualip', '虚拟ip', 'VIP', 'vip'],
+                            internalPort: ['内网端口', 'internalport', '内部端口', '内网port'],
+                            ipsName: ['入侵防御规则库名称', 'ips', 'IPS', '规则库', 'ipsname']
+                        };
+
+                        const ip = findVal(item, colMap.ip) || '';
+                        const portsStr = findVal(item, colMap.portsStr) || '';
+                        const virtualIp = findVal(item, colMap.virtualIp) || '';
+                        const internalPort = findVal(item, colMap.internalPort) || '';
+                        const ipsName = findVal(item, colMap.ipsName) || '';
+
+                        if (ip) {
+                            rows.push({ ip, portsStr, virtualIp, internalPort, ipsName });
+                        }
+                    }
+
+                    if (rows.length === 0) {
+                        showMessage('⚠️ 未找到有效数据行，请检查列名是否正确（内网IP、公网端口、虚拟IP、内网端口、入侵防御规则库名称）', 'error');
+                        generateBtn.disabled = false;
+                        generateBtn.innerHTML = '准备接收你的配置';
+                        return;
+                    }
+
+                    // 生成配置
+                    const configText = generateHillstoneConfigFromRows(rows);
+                    generatedConfigText = configText;
+
+                    // 显示下载按钮
+                    resultArea.style.display = 'block';
+                    showMessage(`✅ 配置生成成功！共 ${rows.length} 条记录，点击下方按钮下载。`, 'success');
+                    generateBtn.disabled = false;
+                    generateBtn.innerHTML = '✅ 生成完成';
+
+                } catch (err) {
+                    showMessage('❌ 处理失败：' + err.message, 'error');
+                    generateBtn.disabled = false;
+                    generateBtn.innerHTML = '准备接收你的配置';
+                    console.error(err);
+                }
+            };
+
+            reader.onerror = function() {
+                showMessage('❌ 读取文件失败，请重试。', 'error');
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '准备接收你的配置';
+            };
+
+            reader.readAsArrayBuffer(file);
+        });
+
+        // 辅助：从对象中查找值（支持多个可能的键名）
+        function findVal(obj, candidates) {
+            for (const key of Object.keys(obj)) {
+                for (const c of candidates) {
+                    if (key.toLowerCase() === c.toLowerCase() || key.includes(c) || c.includes(key)) {
+                        const v = obj[key];
+                        if (v !== undefined && v !== null) {
+                            return String(v).trim();
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        // 下载结果
+        downloadResultBtn.addEventListener('click', function() {
+            if (!generatedConfigText) {
+                showMessage('⚠️ 没有可下载的配置，请先生成。', 'error');
+                return;
+            }
+            const blob = new Blob([generatedConfigText], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'hillstone_firewall_config.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+            showMessage('📄 配置文件已下载！', 'success');
+        });
+
+        // 重置按钮状态（当用户重新选择文件时）
+        fileInput.addEventListener('change', function() {
+            resultArea.style.display = 'none';
+            generatedConfigText = '';
+            generateBtn.disabled = false;
+            generateBtn.innerHTML = '准备接收你的配置';
+            hideMessage();
+        });
+
+        // 初始化提示
+        console.log('坤米德 V3.0 纯前端版已加载');
+        showMessage('💡 请先下载模板，填写后上传生成配置。', 'info');
+    </script>
+
+</body>
+</html>
