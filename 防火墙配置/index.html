@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://hablog.pages.dev/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg">
 <meta property="article:published_time" content="2026-07-08T02:00:00.000Z">
-<meta property="article:modified_time" content="2026-07-09T01:49:17.422Z">
+<meta property="article:modified_time" content="2026-07-09T12:33:45.030Z">
 <meta property="article:author" content="haha">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://hablog.pages.dev/img/%E6%A4%B0%E5%AD%90%E6%A0%91.jpg"><link rel="shortcut icon" href="/img/haha.jpg"><link rel="canonical" href="https://hablog.pages.dev/%E9%98%B2%E7%81%AB%E5%A2%99%E9%85%8D%E7%BD%AE/index.html"><link rel="preconnect" href="https://cdn.staticfile.org"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.staticfile.org/fancyapps-ui/5.0.33/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
@@ -55,7 +55,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2026-07-09 09:49:17'
+  postUpdate: '2026-07-09 20:33:45'
 }</script><script>(win=>{
       win.saveToLocal = {
         set: (key, value, ttl) => {
@@ -146,15 +146,15 @@
             --bg: #000000;
             --surface: #0a0a0a;
             --surface-2: #121212;
-            --border: #2a2538;
-            --border-light: #383248;
+            --border: #3d3654;
+            --border-light: #4a4267;
             --purple: #a78bfa;
             --purple-bright: #c4b5fd;
             --purple-dim: rgba(167, 139, 250, 0.12);
             --purple-glow: rgba(167, 139, 250, 0.25);
             --text: #f0eef7;
-            --text-2: #a89ec0;
-            --text-3: #6b6480;
+            --text-2: #c5bdd8;
+            --text-3: #9d96b8;
             --success: #4ade80;
             --danger: #fb7185;
             --radius: 8px;
@@ -327,8 +327,11 @@
             color: var(--text);
         }
 
-        .fw input[type="text"],
-        .fw select {
+        /* 非表格内的输入框（全局配置、上传区等） */
+        .fw .config-grid input[type="text"],
+        .fw .upload-area input[type="text"],
+        .fw .config-grid select,
+        .fw .upload-area select {
             padding: 9px 12px;
             background: var(--surface-2);
             border: 1px solid var(--border);
@@ -340,10 +343,13 @@
             font-family: inherit;
         }
 
-        .fw input[type="text"]::placeholder { color: var(--text-3); }
+        .fw .config-grid input[type="text"]::placeholder,
+        .fw .upload-area input[type="text"]::placeholder { color: var(--text-3); }
 
-        .fw input[type="text"]:focus,
-        .fw select:focus {
+        .fw .config-grid input[type="text"]:focus,
+        .fw .config-grid select:focus,
+        .fw .upload-area input[type="text"]:focus,
+        .fw .upload-area select:focus {
             border-color: var(--purple);
         }
 
@@ -422,94 +428,178 @@
             font-size: 0.78em;
         }
 
-        /* ===== 表格 ===== */
+        /* ===== 表格（极简：格子只有线条） ===== */
         .table-container {
             overflow-x: auto;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
         }
 
         .fw table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85em;
+            table-layout: fixed;
+            font-size: 1em;
+            color: #ffffff;
+            border: 1px solid var(--border);
         }
 
+        /* 每个格子：底线 + 右侧竖线分隔，左右 5px 间隔 */
         .fw th, .fw td {
-            padding: 10px 12px;
+            padding: 0 5px;
             text-align: left;
+            border: none;
+            border-right: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .fw th:last-child, .fw td:last-child {
+            border-right: none;
         }
 
         .fw th {
-            background: var(--surface-2);
-            color: var(--text-2);
-            font-weight: 500;
-            font-size: 0.8em;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+            padding: 8px 5px;
+            background: transparent;
+            color: #ffffff;
+            font-weight: 400;
+            font-size: 0.85em;
             white-space: nowrap;
+            line-height: 1.4;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        /* 需要上网、操作 列居中 */
+        .fw th:nth-child(7),
+        .fw th:nth-child(8) {
+            text-align: center;
+        }
+
+        .fw td {
+            vertical-align: middle;
         }
 
         .fw th small {
             font-weight: 400;
-            text-transform: none;
             display: block;
             font-size: 0.85em;
             color: var(--text-3);
+            opacity: 0.7;
             margin-top: 2px;
+            text-align: left;
         }
 
-        .fw tbody tr { transition: background 0.15s ease; }
-        .fw tbody tr:hover { background: rgba(139, 92, 246, 0.04); }
+        .fw tbody tr { background: transparent; }
+        .fw tbody tr:hover { background: transparent; }
         .fw tbody tr:last-child td { border-bottom: none; }
 
-        .fw td input,
+        /* 单元格下划线动画（input 不支持伪元素，挂在 td 上） */
+        .fw td:not(.action-cell) {
+            position: relative;
+        }
+
+        .fw td:not(.action-cell)::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--purple);
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 悬浮：从左到右出现 */
+        .fw td:not(.action-cell):hover::after {
+            transform: scaleX(1);
+        }
+
+        /* 聚焦：保留紫色下划线 */
+        .fw td:not(.action-cell):focus-within::after {
+            transform: scaleX(1);
+            background: var(--purple);
+        }
+
+        /* 输入框：只有下划线，无任何框、无圆角 */
+        .fw table.fw-input input,
+        .fw td input[type="text"],
         .fw td select {
             width: 100%;
-            min-width: 100px;
-            padding: 6px 8px;
+            padding: 10px 0;
+            margin: 0;
             background: transparent;
-            border: 1px solid transparent;
-            border-radius: 4px;
+            border: none;
+            border-bottom: none;
+            border-radius: 0;
             color: var(--text);
             font-size: 0.88em;
-            transition: all 0.2s ease;
             font-family: inherit;
+            outline: none;
+            display: block;
+            position: relative;
+            z-index: 2;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-shadow: none;
         }
 
-        .fw td input::placeholder { color: var(--text-3); font-size: 0.85em; }
-
-        .fw td input:hover,
-        .fw td select:hover {
-            border-color: var(--border-light);
+        .fw td input[type="text"]:focus,
+        .fw td select:focus,
+        .fw td input[type="text"]:focus-visible,
+        .fw td select:focus-visible {
+            border: none;
+            outline: none;
+            box-shadow: none;
+            background-color: transparent;
         }
 
-        .fw td input:focus,
-        .fw td select:focus {
-            border-color: var(--purple);
-            background: var(--surface-2);
+        .fw td select {
+            background-image: linear-gradient(45deg, transparent 50%, var(--text-3) 50%),
+                              linear-gradient(135deg, var(--text-3) 50%, transparent 50%);
+            background-position: calc(100% - 2px) center, calc(100% - -1px) center;
+            background-size: 5px 5px, 5px 5px;
+            background-repeat: no-repeat;
+            padding-right: 14px;
+            cursor: pointer;
         }
 
-        .fw td input.error { border-color: var(--danger); }
+        .fw td input[type="text"]::placeholder { color: var(--text-3); font-size: 0.85em; opacity: 0.5; }
+
+        .fw td input[type="text"].error {
+            border-bottom: 1px solid var(--danger);
+        }
+
+        .fw td.action-cell {
+            padding: 0 1px;
+            text-align: center;
+            vertical-align: middle;
+        }
 
         .btn-delete-row {
-            padding: 4px 10px;
+            display: inline-block;
+            vertical-align: middle;
+            padding: 4px 4px;
             background: transparent;
             color: var(--text-3);
-            border: 1px solid transparent;
-            border-radius: 4px;
+            border: none;
+            border-radius: 0;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: color 0.2s ease;
             font-size: 0.78em;
-            font-weight: 500;
+            font-weight: 400;
             font-family: inherit;
+            line-height: 1.4;
         }
 
         .btn-delete-row:hover {
             color: var(--danger);
-            border-color: var(--danger);
-            background: rgba(248, 113, 113, 0.08);
         }
 
         /* ===== 按钮 ===== */
@@ -679,7 +769,7 @@
             .action-bar { flex-direction: column; }
             .btn { width: 100%; justify-content: center; }
             .fw table { font-size: 0.8em; }
-            .fw td input, .fw td select { min-width: 70px; padding: 5px 6px; }
+            .fw td input, .fw td select { padding: 8px 6px; }
             .output-header { flex-direction: column; align-items: flex-start; }
         }
     </style>
@@ -732,16 +822,26 @@
 
             <div class="table-container">
                 <table id="dataTable">
+                    <colgroup>
+                        <col style="width:90px;">
+                        <col style="width:90px;">
+                        <col style="width:90px;">
+                        <col style="width:90px;">
+                        <col style="width:90px;">
+                        <col style="width:90px;">
+                        <col style="width:40px;">
+                        <col style="width:60px;">
+                    </colgroup>
                     <thead>
                         <tr>
-                            <th style="min-width:180px;">本地IP<br><small>(支持逗号分隔多个IP)</small></th>
-                            <th style="min-width:130px;">弹性IP</th>
-                            <th style="min-width:130px;">虚拟IP</th>
-                            <th style="min-width:140px;">tcp端口<br><small>(逗号分隔)</small></th>
-                            <th style="min-width:140px;">udp端口<br><small>(逗号分隔)</small></th>
-                            <th style="min-width:160px;">服务对象名称<br><small>(可选，留空自动生成)</small></th>
-                            <th style="min-width:110px;">需要上网</th>
-                            <th style="min-width:70px;">操作</th>
+                            <th>本地IP<br><small>(逗号分隔)</small></th>
+                            <th>弹性IP</th>
+                            <th>虚拟IP</th>
+                            <th>tcp端口<br><small>(逗号分隔)</small></th>
+                            <th>udp端口<br><small>(逗号分隔)</small></th>
+                            <th>服务对象名称<br><small>(可选)</small></th>
+                            <th>需要<br>上网</th>
+                            <th>操作</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody"></tbody>
@@ -813,7 +913,7 @@
                     '<option value="否"' + (data.needInternet === '是' ? '' : ' selected') + '>否</option>' +
                     '<option value="是"' + (data.needInternet === '是' ? ' selected' : '') + '>是</option>' +
                 '</select></td>' +
-                '<td><button class="btn-delete-row" onclick="deleteRow(this)">删除</button></td>' +
+                '<td class="action-cell"><button class="btn-delete-row" onclick="deleteRow(this)">删除</button></td>' +
             '</tr>';
         }
 
@@ -1733,7 +1833,7 @@
 
     })();
     </script>
-</div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/haha.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">haha</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">113</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">129</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">42</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/w00123"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">随便记点什么</div></div><div class="sticky_layout"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">113</div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-07-09T01:51:35.660Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><div class="card-widget" id="weibo"><div class="item-headline"><i class="fa-brands fa-weibo"></i><span>微博热搜</span></div><div class="item-content"><link rel="stylesheet" href="/css/weibo.css"><div id="weiboContent"></div><script src="/js/weibo.js"></script></div></div><div class="card-widget" id="gold_price"><div class="item-headline"><i class="fa-solid fa-coins"></i><span>金价行情</span></div><div class="item-content"><link rel="stylesheet" href="/css/gold_price.css"><div id="gold_price_content"></div><script src="/js/gold_price.js"></script></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By haha</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.staticfile.org/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.staticfile.org/vanilla-lazyload/17.8.8/lazyload.iife.min.js"></script><div class="js-pjax"></div><script src="/js/glitch-text.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><div class="search-header"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/><div class="search-highlight-bar"></div></div></div><span id="loading-status"></span><span id="search-close-btn"><i class="fas fa-times"></i></span></div><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-results-area"><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start -->
+</div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/haha.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">haha</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">113</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">129</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">42</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/w00123"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">随便记点什么</div></div><div class="sticky_layout"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">113</div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-07-09T12:34:57.676Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><div class="card-widget" id="weibo"><div class="item-headline"><i class="fa-brands fa-weibo"></i><span>微博热搜</span></div><div class="item-content"><link rel="stylesheet" href="/css/weibo.css"><div id="weiboContent"></div><script src="/js/weibo.js"></script></div></div><div class="card-widget" id="gold_price"><div class="item-headline"><i class="fa-solid fa-coins"></i><span>金价行情</span></div><div class="item-content"><link rel="stylesheet" href="/css/gold_price.css"><div id="gold_price_content"></div><script src="/js/gold_price.js"></script></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By haha</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.staticfile.org/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.staticfile.org/vanilla-lazyload/17.8.8/lazyload.iife.min.js"></script><div class="js-pjax"></div><script src="/js/glitch-text.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><div class="search-header"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/><div class="search-highlight-bar"></div></div></div><span id="loading-status"></span><span id="search-close-btn"><i class="fas fa-times"></i></span></div><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-results-area"><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start -->
   <script data-pjax src="/js/hexo_githubcalendar.js"></script>
   <script data-pjax>
         function GithubCalendarConfig(){
