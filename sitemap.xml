@@ -1143,6 +1143,27 @@
   </url>
   
   <url>
+    <loc>https://hablog.pages.dev/tags/browser-use/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://hablog.pages.dev/tags/%E6%B5%8F%E8%A7%88%E5%99%A8ai%E4%BB%A3%E7%90%86/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://hablog.pages.dev/tags/%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://hablog.pages.dev/tags/AI/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -1172,27 +1193,6 @@
   
   <url>
     <loc>https://hablog.pages.dev/tags/Kali/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://hablog.pages.dev/tags/browser-use/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://hablog.pages.dev/tags/%E6%B5%8F%E8%A7%88%E5%99%A8ai%E4%BB%A3%E7%90%86/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://hablog.pages.dev/tags/%E5%B7%A5%E5%85%B7/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1255,6 +1255,13 @@
   </url>
   
   <url>
+    <loc>https://hablog.pages.dev/tags/Magentic-UI/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://hablog.pages.dev/tags/LLMNR/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -1276,14 +1283,14 @@
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/tags/Magentic-UI/</loc>
+    <loc>https://hablog.pages.dev/tags/linux%E5%91%BD%E4%BB%A4/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/tags/linux%E5%91%BD%E4%BB%A4/</loc>
+    <loc>https://hablog.pages.dev/tags/%E5%AE%9E%E6%88%98%E6%BC%94%E7%A4%BA/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1305,13 +1312,6 @@
   
   <url>
     <loc>https://hablog.pages.dev/tags/apt/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://hablog.pages.dev/tags/%E5%AE%9E%E6%88%98%E6%BC%94%E7%A4%BA/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1353,13 +1353,6 @@
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/tags/burpsuite/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://hablog.pages.dev/tags/centos/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -1368,6 +1361,13 @@
   
   <url>
     <loc>https://hablog.pages.dev/tags/centos-release-scl/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://hablog.pages.dev/tags/burpsuite/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1444,6 +1444,13 @@
   </url>
   
   <url>
+    <loc>https://hablog.pages.dev/tags/hashcat/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://hablog.pages.dev/tags/%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -1459,13 +1466,6 @@
   
   <url>
     <loc>https://hablog.pages.dev/tags/hexo/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://hablog.pages.dev/tags/hashcat/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1493,6 +1493,13 @@
   </url>
   
   <url>
+    <loc>https://hablog.pages.dev/tags/java/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://hablog.pages.dev/tags/indexnow/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -1514,7 +1521,7 @@
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/tags/java/</loc>
+    <loc>https://hablog.pages.dev/tags/%E6%89%8B%E6%9C%BAroot/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1536,13 +1543,6 @@
   
   <url>
     <loc>https://hablog.pages.dev/tags/%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://hablog.pages.dev/tags/%E6%89%8B%E6%9C%BAroot/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1605,6 +1605,13 @@
   </url>
   
   <url>
+    <loc>https://hablog.pages.dev/tags/apache/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://hablog.pages.dev/tags/nodejs/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -1641,13 +1648,6 @@
   
   <url>
     <loc>https://hablog.pages.dev/tags/web%E8%87%AA%E5%8A%A8%E5%8C%96/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://hablog.pages.dev/tags/apache/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1773,13 +1773,6 @@
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/tags/html/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://hablog.pages.dev/tags/%E8%B5%84%E6%BA%90/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -1822,13 +1815,6 @@
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/tags/%E5%86%85%E5%AD%98/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://hablog.pages.dev/tags/%E7%94%9F%E6%B4%BB/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -1850,6 +1836,13 @@
   </url>
   
   <url>
+    <loc>https://hablog.pages.dev/tags/%E5%86%85%E5%AD%98/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://hablog.pages.dev/tags/%E5%8D%8E%E7%A1%95%E7%AC%94%E8%AE%B0%E6%9C%AC/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -1865,6 +1858,13 @@
   
   <url>
     <loc>https://hablog.pages.dev/tags/%E7%B2%A4%E8%8F%9C/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://hablog.pages.dev/tags/html/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1899,13 +1899,6 @@
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/tags/%E6%8C%96%E7%9F%BF/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://hablog.pages.dev/tags/Minecraft/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -1914,6 +1907,13 @@
   
   <url>
     <loc>https://hablog.pages.dev/tags/%E6%A8%A1%E7%BB%84/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://hablog.pages.dev/tags/%E6%8C%96%E7%9F%BF/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1990,6 +1990,20 @@
   </url>
   
   <url>
+    <loc>https://hablog.pages.dev/tags/%E7%AE%97%E5%91%BD%E7%9F%A5%E8%AF%86/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://hablog.pages.dev/tags/%E5%B0%8F%E5%85%AD%E5%A3%AC/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://hablog.pages.dev/tags/%E7%AC%94%E8%AE%B0%E6%9C%AC%E6%97%A0%E7%BA%BF%E7%BD%91%E5%8D%A1/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -2012,20 +2026,6 @@
   
   <url>
     <loc>https://hablog.pages.dev/tags/%E5%B7%9D%E8%8F%9C/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://hablog.pages.dev/tags/%E7%AE%97%E5%91%BD%E7%9F%A5%E8%AF%86/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://hablog.pages.dev/tags/%E5%B0%8F%E5%85%AD%E5%A3%AC/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2090,14 +2090,14 @@
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/</loc>
+    <loc>https://hablog.pages.dev/categories/%E4%BB%A3%E7%A0%81/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/categories/%E4%BB%A3%E7%A0%81/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85/</loc>
+    <loc>https://hablog.pages.dev/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2146,14 +2146,14 @@
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/kali/AI%E5%BA%94%E7%94%A8/</loc>
+    <loc>https://hablog.pages.dev/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/windows/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/windows/</loc>
+    <loc>https://hablog.pages.dev/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/kali/AI%E5%BA%94%E7%94%A8/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2188,14 +2188,14 @@
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/categories/%E7%BD%91%E7%AB%99%E4%BC%98%E5%8C%96/</loc>
+    <loc>https://hablog.pages.dev/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/linux/%E7%8E%AF%E5%A2%83/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/linux/%E7%8E%AF%E5%A2%83/</loc>
+    <loc>https://hablog.pages.dev/categories/%E7%BD%91%E7%AB%99%E4%BC%98%E5%8C%96/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2279,13 +2279,6 @@
   </url>
   
   <url>
-    <loc>https://hablog.pages.dev/categories/%E9%98%B2%E7%81%AB%E5%A2%99%E6%8E%92%E9%9A%9C%E7%BB%8F%E9%AA%8C/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://hablog.pages.dev/categories/%E7%AC%94%E8%AE%B0/web%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -2350,6 +2343,13 @@
   
   <url>
     <loc>https://hablog.pages.dev/categories/%E7%94%9F%E6%B4%BB/%E5%88%9B%E4%B8%9A%E6%95%85%E4%BA%8B/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://hablog.pages.dev/categories/%E9%98%B2%E7%81%AB%E5%A2%99%E6%8E%92%E9%9A%9C%E7%BB%8F%E9%AA%8C/</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
