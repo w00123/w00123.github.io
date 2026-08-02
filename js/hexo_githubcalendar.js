@@ -29,6 +29,10 @@ function GithubCalendar(git_githubapiurl,git_color,git_user){
             var git_first2date = [];
             var git_montharrbefore = [];
             var git_monthindex = 0;
+            var removeGitmessage = () => {
+              var oldGitmessage = document.querySelector('.gitmessage')
+              if (oldGitmessage) oldGitmessage.remove()
+            };
             
             var retinaCanvas = (canvas, context, ratio) => {
                 if (ratio > 1) {
@@ -92,15 +96,11 @@ var responsiveChart = () => {
           }
         }
         github_calendar_c.onmousemove = function (event) {
-          if (document.querySelector('.gitmessage')) {
-            git_tooltip_container.innerHTML = ""
-          }
+          removeGitmessage()
           getMousePos(github_calendar_c, event)
         };
         git_tooltip_container.onmousemove = function (event) {
-          if (document.querySelector('.gitmessage')) {
-            git_tooltip_container.innerHTML = ""
-          }
+          removeGitmessage()
         };
 
         var getMousePos = (canvas, event) => {
@@ -117,7 +117,7 @@ var responsiveChart = () => {
                 git_x = event.clientX - 100;
                 git_y = event.clientY - 60;
                 html = tooltip_html(git_x, git_y, git_span1, git_span2);
-                append_div_gitcalendar(git_tooltip_container, html)
+                append_div_gitcalendar(document.body, html)
               }
             }
           }
@@ -207,9 +207,7 @@ var responsiveChart = () => {
                 responsiveChart()
             };
             window.onscroll = function () {
-                if (document.querySelector('.gitmessage')) {
-                    git_tooltip_container.innerHTML = ""
-                }
+                removeGitmessage()
             };
             var git_thiscolor = (color, x) => {
                 if (x === 0) {
