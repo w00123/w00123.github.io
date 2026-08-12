@@ -51,7 +51,7 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2026-08-09 17:33:40'
+  postUpdate: '2026-08-12 18:52:00'
 }</script><script>(win=>{
       win.saveToLocal = {
         set: (key, value, ttl) => {
@@ -159,6 +159,7 @@ abc 匹配 “abc”
 
 
 
+
 元字符（具有特殊意义）
 
 
@@ -180,9 +181,9 @@ a.c 匹配 abc、a1c
 ^abc 匹配以 abc 开头
 
 
-$
+$$`
 匹配字符串结尾
-abc$ 匹配以 abc 结尾
+abc$$ 匹配以abc` 结尾
 
 
 []
@@ -195,9 +196,11 @@ abc$ 匹配以 abc 结尾
 [^abc] 匹配非 a、b、c 的字符
 
 
-|
+`\
+`
 或操作，匹配左右任一模式
-a|b 匹配 a 或 b
+`a\
+b匹配a或b`
 
 
 ()
@@ -208,6 +211,7 @@ a|b 匹配 a 或 b
 \
 转义字符，用于匹配特殊符号本身
 \. 匹配字面上的点号 .
+
 
 
 
@@ -230,16 +234,11 @@ a* 可匹配 “”, “a”, “aaa”
 
 +
 匹配前一项 1次或多次
-a+ 匹配 “a”, “aa” 等
-
- ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/07/Browser-use-%E5%AE%89%E8%A3%85/" title="Browser-use 安装">Browser-use 安装</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-07T12:57:12.000Z" title="发表于 2025-07-07 20:57:12">2025-07-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85/">工具安装</a></span></div><div class="content">简介
-这次安装是通过windows安装
+a+ 匹配 “a”, “ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/07/Browser-use-%E5%AE%89%E8%A3%85/" title="Browser-use 安装">Browser-use 安装</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-07T12:57:12.000Z" title="发表于 2025-07-07 20:57:12">2025-07-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85/">工具安装</a></span></div><div class="content">简介这次安装是通过windows安装
 
 官网
 
 https://browser-use.com/
-
-
 
 github
 
@@ -248,146 +247,86 @@ https://github.com/browser-use/browser-use
 
 
 安装步骤
-
 官方安装方法：
 
 https://github.com/browser-use/web-ui
 
 
-可以先安装uv，uv比较好用：
-1pip install uv
+可以先安装uv，uv比较好用：1pip install uv
 
-创建python虚拟环境
+创建python虚拟环境12python -m venv venvvenv\Scripts\activate
 
-12python -m venv venvvenv\Scripts\activate
+退出虚拟环境1deactivate
 
-退出虚拟环境
 
-  1deactivate
-
-git Browser-use的web ui项目
-
-1git clone https://github.com/browser-use/web-ui.git
-
+git Browser-use的web ui项目1git clone https://github.com/browser-use/web-ui.git
 安装依赖项
+安装 Python 包：123uv pip install -r requirements.txt# 新版本要安装setuptoolsuv pip install setuptools
+在 playwright 中安装浏览器1playwright install --with-deps
 
 
-安装 Python 包：
-
-  123uv pip install -r requirements.txt# 新版本要安装setuptoolsuv pip install setuptools
-
-在 playwright 中安装浏览器
-
-  1playwright ins ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/06/Magentic-UI-%E5%AE%89%E8%A3%85/" title="Magentic-UI 安装">Magentic-UI 安装</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-05T18:10:24.000Z" title="发表于 2025-07-06 02:10:24">2025-07-06</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85/">工具安装</a></span></div><div class="content">简介
-
-Magentic-UI：
-https://github.com/microsoft/Magentic-UI?tab=readme-ov-file#️-installation
+配置环境  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/07/06/Magentic-UI-%E5%AE%89%E8%A3%85/" title="Magentic-UI 安装">Magentic-UI 安装</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-07-05T18:10:24.000Z" title="发表于 2025-07-06 02:10:24">2025-07-06</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85/">工具安装</a></span></div><div class="content">简介
+Magentic-UI：https://github.com/microsoft/Magentic-UI?tab=readme-ov-file#%EF%B8%8F-installation
 
 
-安装
-环境准备
-
+安装环境准备
 需要docker环境，安装可参照docker 安装
 安装python3.12、python3.12-venv
-
-导入 Python 的稳定版 PPA，如果遇到网络问题可以使用代理proxychains4，不需要代理删除proxychains4即可：
-
- 1proxychains4 add-apt-repository ppa:deadsnakes/ppa
+导入 Python 的稳定版 PPA，如果遇到网络问题可以使用代理proxychains4，不需要代理删除proxychains4即可：1proxychains4 add-apt-repository ppa:deadsnakes/ppa
 deadsnakes PPA 是由 Python 社区维护的一个软件源，专门用于提供不同版本的 Python（包括一些较新的版本），这些版本可能不在 Ubuntu 的默认软件源中。
+更新 APT 缓存：1sudo apt update
 
-更新 APT 缓存：
-
-1sudo apt update
-
-安装 Python 3.12
-
-	1apt install python3.12 python3.12-venv
-
-检查版本
-
-1python3.12 --version
+安装 Python 3.121apt install python3.12 python3.12-venv
+检查版本1python3.12 --version
 
 
-Magentic ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/06/25/%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80-%E5%85%AC%E5%BC%8F/" title="数据通信基础-公式">数据通信基础-公式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-25T12:04:05.000Z" title="发表于 2025-06-25 20:04:05">2025-06-25</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a></span></div><div class="content">信道带宽（W）
-信道带宽为最高频率($f_2$)减最低频率($f_1$)
-$$
+
+
+
+
+Magentic-UI 安 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/06/25/%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80-%E5%85%AC%E5%BC%8F/" title="数据通信基础-公式">数据通信基础-公式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-25T12:04:05.000Z" title="发表于 2025-06-25 20:04:05">2025-06-25</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AC%94%E8%AE%B0/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a></span></div><div class="content">信道带宽（W）信道带宽为最高频率($f_2$)减最低频率($f_1$)
+
 W = f_2 - f_1
-$$
-
 奈奎斯特定理（B）
-
 信号码元宽度为T秒，也相当于周期，则可以得出码元速率公式：
 
-$$
+
 B = \frac{1}{T}
-$$
+奈奎斯特(Hany Nyquist)就推导出了有限带宽无噪声信道的最大码元速率(极限波特率)，称为奈奎斯特定理:若信道带宽为W,则奈奎斯特定理指出最大码元速率为
 
-奈奎斯特(Hany Nyquist)就推导出了有限带宽无噪声信道的最大码元速率(极限波特率)，称为奈奎斯特定理:
-若信道带宽为W,则奈奎斯特定理指出最大码元速率为
 
-$$
 B = 2W
-$$
+一个码元的信息量与种类（n、N）一个码元携带的信息量n(位)与码元的种类数N有如下关系
 
-一个码元的信息量与种类（n、N）
-一个码元携带的信息量n(位)与码元的种类数N有如下关系
-$$
-n = \log_2 N
-$$
-香农定理（C）、数据速率（R）
-单位时间内在信道上传送的信息量(位数)称为数据速率
+n = \log_2 N香农定理（C）、数据速率（R）单位时间内在信道上传送的信息量(位数)称为数据速率
 
 无噪声环境数据速率：
 
-$$
-R = B \log_2 N = 2W \log_2 N
-$$
 
+R = B \log_2 N = 2W \log_2 N
 有噪声信道的极限数据速率(香农定理)：
 
-$$
-C = W \log_2 \left(1 + \frac{S}{N}\right)
-$$
-1. S 为信号的平均功率，N 为噪声平均功率， \frac&#123;S&#125;&#123;N&#125; ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/06/24/linux%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E5%85%A5%E9%97%A8/" title="linux服务管理入门">linux服务管理入门</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-24T15:05:12.000Z" title="发表于 2025-06-24 23:05:12">2025-06-24</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/%E8%BF%90%E7%BB%B4%E5%9F%BA%E7%A1%80/">运维基础</a></span></div><div class="content">基本操作
-查看服务
 
-列出所有服务
+C = W \log_2 \left(1 + \frac{S}{N}\right)1. S 为信号的平均功率，N 为噪声平均功率， \frac&#123;S&#125;&#123;N&#125;\right 叫作信噪比。由于在实际使用中S与N的比值太大，故常取其分贝数(dB) ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/06/24/linux%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E5%85%A5%E9%97%A8/" title="linux服务管理入门">linux服务管理入门</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-24T15:05:12.000Z" title="发表于 2025-06-24 23:05:12">2025-06-24</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/%E8%BF%90%E7%BB%B4%E5%9F%BA%E7%A1%80/">运维基础</a></span></div><div class="content">基本操作查看服务
+列出所有服务1systemctl list-units --type=service
+列出所有已启用的服务1systemctl list-unit-files --state=enabled
 
-1systemctl list-units --type=service
 
-列出所有已启用的服务
-
-1systemctl list-unit-files --state=enabled
 查看日志
-
 journalctl -u  — 查看指定服务日志
 journalctl -xe — 检查最新日志，排查错误
 
 
-额外技能
-检查依赖
-1systemctl list-dependencies &lt;service&gt;
+额外技能检查依赖1systemctl list-dependencies &lt;service&gt;
 修改配置
-
-配置文件位置通常是：
-
-12/etc/systemd/system//lib/systemd/system/
-
-修改后：
-
-1sudo systemctl daemon-reload
-
+配置文件位置通常是：12/etc/systemd/system//lib/systemd/system/
+修改后：1sudo systemctl daemon-reload
 重启服务使修改生效
 
 
-其他管理器概览
-虽说 systemd 完全是主流，但是还有其他管理器的使用：
-SysV 管理器：
-12service &lt;service&gt; start|stop|restart|statuschkconfig &lt;service&gt; on|off
-Upstart 管理器：
-12initctl lis ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/06/23/osi/" title="OSI模型">OSI模型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-23T13:23:22.000Z" title="发表于 2025-06-23 21:23:22">2025-06-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">网络基础</a></span></div><div class="content">OSI
-Open Systems Interconnection Model
-「开放式系统互联参考模型」
+其他管理器概览虽说 systemd 完全是主流，但是还有其他管理器的使用：
+SysV 管理器：12service &lt;service&gt; start|stop|restart|statuschkconfig &lt;service&gt; on|off
+Upstart 管理器：12initctl listinitctl start|sto ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/06/23/osi/" title="OSI模型">OSI模型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-23T13:23:22.000Z" title="发表于 2025-06-23 21:23:22">2025-06-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">网络基础</a></span></div><div class="content">OSIOpen Systems Interconnection Model「开放式系统互联参考模型」
 模型内容
 
 
@@ -451,9 +390,8 @@ Ethernet、PPP、ARP、STP
 
 
 
-简单示意封装结构
-123456789应用 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/06/23/nginx%E5%92%8Capache/" title="nginx和apache-简单配置">nginx和apache-简单配置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-22T16:09:31.000Z" title="发表于 2025-06-23 00:09:31">2025-06-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/%E8%BF%90%E7%BB%B4%E5%9F%BA%E7%A1%80/">运维基础</a></span></div><div class="content">Apache 配置
 
+简单示意封装结构123456789应用层  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/06/23/nginx%E5%92%8Capache/" title="nginx和apache-简单配置">nginx和apache-简单配置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-22T16:09:31.000Z" title="发表于 2025-06-23 00:09:31">2025-06-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/%E8%BF%90%E7%BB%B4%E5%9F%BA%E7%A1%80/">运维基础</a></span></div><div class="content">Apache 配置
 一般配置文件位置：
 
 Debian/Ubuntu: /etc/apache2/sites-available/000-default.conf
@@ -465,15 +403,11 @@ Debian/Ubuntu: sudo systemctl restart apache2
 CentOS/RHEL: sudo systemctl restart httpd
 
 
-示例配置
-12345678910111213&lt;VirtualHost *:80&gt;    ServerName www.example.com    DocumentRoot /var/www/html    &lt;Directory /var/www/html&gt;        Options Indexes FollowSymLinks        AllowOverride None        Require all granted    &lt;/Directory&gt;    ErrorLog /var/log/httpd/ht ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/" title="hoic高射炮工具">hoic高射炮工具</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-22T14:03:04.000Z" title="发表于 2025-06-22 22:03:04">2025-06-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a></span></div><div class="content">安装
-下载地址：
+示例配置12345678910111213&lt;VirtualHost *:80&gt;    ServerName www.example.com    DocumentRoot /var/www/html    &lt;Directory /var/www/html&gt;        Options Indexes FollowSymLinks        AllowOverride None        Require all granted    &lt;/Directory&gt;    ErrorLog /var/log/httpd/html ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/06/22/hoic%E9%AB%98%E5%B0%84%E7%82%AE%E5%B7%A5%E5%85%B7/" title="hoic高射炮工具">hoic高射炮工具</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-22T14:03:04.000Z" title="发表于 2025-06-22 22:03:04">2025-06-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a></span></div><div class="content">安装下载地址：
 
-https://sourceforge.net/projects/high-orbit-ion-cannon/
-官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载
+https://sourceforge.net/projects/high-orbit-ion-cannon/官网报有可能有恶意文件，理论上黑客软件很正常会有这个提示，但是看选择是否下载
 
 使用
-
 解压后运行exe
 选择+号添加url
 可选择脚本第一个为伪造来源，后面的可以试试
@@ -516,7 +450,7 @@ $?
 最近一条命令的退出状态（0 表示成功，非 0 表示失败）
 
 
-$$
+$$$$
 当前脚本的进程 ID
 
 
@@ -526,6 +460,7 @@ $!
 
 $_
 上一条命令最后一个参数
+
 
 
 
@@ -587,8 +522,7 @@ $_
 
 !=
 不相等
-[ &quot;$a&quot; != &quot;$b&quot ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/06/22/%E9%BB%98%E8%AE%A4%E6%97%A5%E5%BF%97%E7%9B%AE%E5%BD%95/" title="默认日志目录">默认日志目录</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-22T12:54:14.000Z" title="发表于 2025-06-22 20:54:14">2025-06-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a></span></div><div class="content">linux
-系统日志
+[ &quot;$a&quot; != &quot;$b&q ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/06/22/%E9%BB%98%E8%AE%A4%E6%97%A5%E5%BF%97%E7%9B%AE%E5%BD%95/" title="默认日志目录">默认日志目录</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-22T12:54:14.000Z" title="发表于 2025-06-22 20:54:14">2025-06-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a></span></div><div class="content">linux系统日志
 
 
 
@@ -666,7 +600,7 @@ Debian/Ubuntu
 RHEL/CentOS/Fedora
 
 
- ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/4/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/#content-inner">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#content-inner">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/#content-inner">12</a><a class="extend next" rel="next" href="/page/6/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/haha.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">haha</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">119</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">132</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">42</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/w00123"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">随便记点什么</div></div><div class="sticky_layout"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">119</div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-08-09T09:33:40.026Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><div class="card-widget" id="weibo"><div class="item-headline"><i class="fa-brands fa-weibo"></i><span>微博热搜</span></div><div class="item-content"><link rel="stylesheet" href="/css/weibo.css"><div id="weiboContent"></div><script src="/js/weibo.js"></script></div></div><div class="card-widget" id="gold_price"><div class="item-headline"><i class="fa-solid fa-coins"></i><span>金价行情</span></div><div class="item-content"><link rel="stylesheet" href="/css/gold_price.css"><div id="gold_price_content"></div><script src="/js/gold_price.js"></script></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By haha</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.staticfile.org/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.staticfile.org/vanilla-lazyload/17.8.8/lazyload.iife.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+审 ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/4/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/#content-inner">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#content-inner">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/#content-inner">12</a><a class="extend next" rel="next" href="/page/6/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/haha.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">haha</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">119</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">132</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">42</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/w00123"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">随便记点什么</div></div><div class="sticky_layout"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">119</div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-08-12T10:51:59.845Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div><div class="card-widget" id="weibo"><div class="item-headline"><i class="fa-brands fa-weibo"></i><span>微博热搜</span></div><div class="item-content"><link rel="stylesheet" href="/css/weibo.css"><div id="weiboContent"></div><script src="/js/weibo.js"></script></div></div><div class="card-widget" id="gold_price"><div class="item-headline"><i class="fa-solid fa-coins"></i><span>金价行情</span></div><div class="item-content"><link rel="stylesheet" href="/css/gold_price.css"><div id="gold_price_content"></div><script src="/js/gold_price.js"></script></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By haha</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.staticfile.org/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.staticfile.org/vanilla-lazyload/17.8.8/lazyload.iife.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
   init: (str) => {
     window.typed = new Typed('#subtitle', Object.assign({
       strings: str,
