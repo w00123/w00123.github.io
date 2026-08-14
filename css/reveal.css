@@ -1,0 +1,39 @@
+/* ====== 卡片滚动出现/消失动画（跟随滚动实时缩放） ====== */
+
+/* 参与动画的卡片：首页文章卡片、侧边栏卡片、文章/页面内容卡片、相关文章卡片 */
+#recent-posts > .recent-post-item,
+#aside-content .card-widget,
+.layout > div:first-child:not(.recent-posts),
+.relatedPosts > .relatedPosts-list > div {
+  scale: var(--reveal-scale, 1);
+  opacity: var(--reveal-opacity, 1);
+  will-change: scale, opacity;
+}
+
+/* 排除 scale / opacity 参与主题原有的 all .3s 过渡，保证滚动时实时跟手 */
+.reveal-card {
+  transition-property: transform, box-shadow, background-color, color, border-color, top, left, right !important;
+}
+
+/* 兼容不支持 scale 属性的旧浏览器（回退到 transform） */
+@supports not (scale: 1) {
+  #recent-posts > .recent-post-item,
+  #aside-content .card-widget,
+  .layout > div:first-child:not(.recent-posts),
+  .relatedPosts > .relatedPosts-list > div {
+    transform: scale(var(--reveal-scale, 1));
+  }
+}
+
+/* 尊重系统“减少动态效果”设置 */
+@media (prefers-reduced-motion: reduce) {
+  #recent-posts > .recent-post-item,
+  #aside-content .card-widget,
+  .layout > div:first-child:not(.recent-posts),
+  .relatedPosts > .relatedPosts-list > div {
+    scale: none;
+    transform: none;
+    opacity: 1;
+    will-change: auto;
+  }
+}

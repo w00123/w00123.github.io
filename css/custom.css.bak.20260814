@@ -1,0 +1,226 @@
+#footer {
+	background: transparent !important;
+}
+#page-header {
+	background: transparent !important;
+}
+
+#footer::before{
+	background: transparent !important;
+}
+#page-header::before{
+	background: transparent !important;
+}
+
+* {
+	caret-color: transparent;
+}
+
+
+
+[data-theme="dark"] #footer::before{
+	background: transparent !important;
+}
+[data-theme="dark"] #page-header::before{
+	background: transparent !important;
+}
+
+/*所有页面实现毛玻璃特效*/
+
+#aside-content,
+#search-mask,
+/* 手机端 */
+#sidebar #menu-mask {
+  background: rgba(255, 255, 255, 0);
+}
+
+.search-dialog {
+  border-radius: 0px;
+}
+
+/* 浅色模式 */
+html[data-theme="light"] #aside-content>.card-widget:first-child,
+html[data-theme="light"] #aside-content .card-widget,
+html[data-theme="light"] .layout>div:first-child:not(.recent-posts),
+html[data-theme="light"] #recent-posts>.recent-post-item,
+/* 标题栏 */
+html[data-theme="light"] #page-header.nav-visible #nav,
+/* 搜索框 */
+html[data-theme="light"] .search-dialog,
+/* 移动端 */
+html[data-theme="light"] #sidebar #sidebar-menus.open {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+}
+
+/* 深色模式 */
+html[data-theme="dark"] #aside-content>.card-widget:first-child,
+html[data-theme="dark"] #aside-content .card-widget,
+html[data-theme="dark"] .layout>div:first-child:not(.recent-posts),
+html[data-theme="dark"] #recent-posts>.recent-post-item,
+/* 标题栏 */
+html[data-theme="dark"] #page-header.nav-visible #nav,
+/* 搜索框 */
+html[data-theme="dark"] .search-dialog,
+/* 移动端 */
+html[data-theme="dark"] #sidebar #sidebar-menus.open {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+}
+
+/* 文章页背景 */
+/*.layout_post>#post {*/
+    /*/* 以下代表透明度为0.7 可以自行修改*/
+    /*background: rgba(255,255,255,.8);*/
+/*}*/
+
+/* 所有页面背景 */
+/*#aside_content .card-widget, #recent-posts>.recent-post-item, .layout_page>div:first-child:not(.recent-posts), .layout_post>#page, .layout_post>#post, .read-mode .layout_post>#post{*/
+    /*background: rgba(255,255,255,.8);*/
+/*}*/
+
+/* ====== Glitch 故障效果 - site-title & post-title ====== */
+#site-title,
+#post-info .post-title {
+  position: relative;
+  color: var(--white);
+  text-shadow:
+    0.05em 0 0 #ff0040,
+    -0.05em -0.025em 0 #00ffff !important;
+  animation: glitch-skew 4s infinite linear alternate-reverse;
+}
+
+/* 上片段 */
+#site-title::before,
+#post-info .post-title::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--white);
+  animation: glitch-anim-top 2.5s infinite linear alternate-reverse;
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  overflow: hidden;
+  text-shadow:
+    0.05em 0 0 #ff0040,
+    -0.05em -0.025em 0 #00ffff;
+  pointer-events: none;
+}
+
+/* 下片段 */
+#site-title::after,
+#post-info .post-title::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--white);
+  animation: glitch-anim-bottom 2s infinite linear alternate-reverse;
+  clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+  -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+  overflow: hidden;
+  text-shadow:
+    0.05em 0 0 #ff0040,
+    -0.05em -0.025em 0 #00ffff;
+  pointer-events: none;
+}
+
+/* 上片段动画 */
+@keyframes glitch-anim-top {
+  0% { transform: translate(0); }
+  2% { transform: translate(-6px, 3px); clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%); }
+  4% { transform: translate(6px, -2px); clip-path: polygon(0 10%, 100% 10%, 100% 35%, 0 35%); }
+  6% { transform: translate(0); }
+  10% { transform: translate(-4px, 4px); clip-path: polygon(0 5%, 100% 5%, 100% 25%, 0 25%); }
+  12% { transform: translate(0); }
+  30% { transform: translate(0); }
+  32% { transform: translate(-8px, -3px); clip-path: polygon(0 15%, 100% 15%, 100% 40%, 0 40%); }
+  34% { transform: translate(5px, 2px); }
+  36% { transform: translate(0); }
+  70% { transform: translate(0); }
+  72% { transform: translate(-3px, -2px); clip-path: polygon(0 20%, 100% 20%, 100% 30%, 0 30%); }
+  74% { transform: translate(3px, 3px); }
+  76% { transform: translate(0); }
+  100% { transform: translate(0); }
+}
+
+/* 下片段动画 */
+@keyframes glitch-anim-bottom {
+  0% { transform: translate(0); }
+  3% { transform: translate(5px, -3px); clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); }
+  5% { transform: translate(-4px, 2px); clip-path: polygon(0 80%, 100% 80%, 100% 95%, 0 95%); }
+  7% { transform: translate(0); }
+  15% { transform: translate(3px, -2px); clip-path: polygon(0 70%, 100% 70%, 100% 90%, 0 90%); }
+  17% { transform: translate(0); }
+  40% { transform: translate(0); }
+  42% { transform: translate(6px, 2px); clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%); }
+  44% { transform: translate(-5px, -2px); }
+  46% { transform: translate(0); }
+  80% { transform: translate(0); }
+  82% { transform: translate(-4px, 3px); clip-path: polygon(0 60%, 100% 60%, 100% 85%, 0 85%); }
+  84% { transform: translate(0); }
+  100% { transform: translate(0); }
+}
+
+/* 整体倾斜抖动 */
+@keyframes glitch-skew {
+  0% { transform: skew(0deg); }
+  5% { transform: skew(-2deg); }
+  8% { transform: skew(0deg); }
+  18% { transform: skew(1.5deg); }
+  21% { transform: skew(0deg); }
+  45% { transform: skew(-1deg); }
+  48% { transform: skew(0deg); }
+  65% { transform: skew(2deg); }
+  68% { transform: skew(0deg); }
+  85% { transform: skew(-1.5deg); }
+  88% { transform: skew(0deg); }
+  100% { transform: skew(0deg); }
+}
+
+/*侧边卡片的透明度 *//*侧边卡片的透明度 */
+/*:root {*/
+  /*--card-bg: rgba(255, 255, 255, .8);*/
+/*}*/
+
+/* 页脚透明 */
+/*#footer {*/
+	/*background: rgba(255,255,255, .0);*/
+/*}*/
+
+/* ====== Glitch 增强 - 乱码爆发时加速 & 闪烁 ====== */
+#site-title.glitch-garbled,
+#post-info .post-title.glitch-garbled {
+  animation:
+    glitch-skew 0.8s infinite linear alternate-reverse,
+    glitch-flash 0.3s ease-in-out !important;
+  text-shadow:
+    0.08em 0 0 #ff0040,
+    -0.08em -0.04em 0 #00ffff !important;
+  transition: text-shadow 0.05s;
+}
+
+#site-title.glitch-garbled::before,
+#post-info .post-title.glitch-garbled::before {
+  animation: glitch-anim-top 0.6s infinite linear alternate-reverse !important;
+}
+
+#site-title.glitch-garbled::after,
+#post-info .post-title.glitch-garbled::after {
+  animation: glitch-anim-bottom 0.5s infinite linear alternate-reverse !important;
+}
+
+/* 乱码爆发时的白色闪烁 */
+@keyframes glitch-flash {
+  0%, 80% { opacity: 1; }
+  85% { opacity: 0.85; }
+  90% { opacity: 1; }
+  92% { opacity: 0.7; }
+  95% { opacity: 1; }
+  100% { opacity: 1; }
+}

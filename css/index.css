@@ -231,7 +231,7 @@ template {
 #recent-posts > .recent-post-item,
 #aside-content .card-widget,
 .layout > .recent-posts .pagination > *:not(.space) {
-  border-radius: 8px;
+  border-radius: 30px;
   background: var(--card-bg);
   -webkit-box-shadow: var(--card-box-shadow);
   box-shadow: var(--card-box-shadow);
@@ -2357,7 +2357,7 @@ figure.highlight pre .javascript .function {
   margin: 15px 7px;
   width: calc(100% / 3 - 15px);
   height: 90px;
-  border-radius: 8px;
+  border-radius: 30px;
   line-height: 17px;
   -webkit-transform: translateZ(0);
 }
@@ -4557,7 +4557,7 @@ h1.page-title + .tag-cloud-list {
   position: relative;
   margin: 0 0 20px;
   padding: 0.5em 1.2em;
-  border-radius: 3px;
+  border-radius: 8px;
   background-color: #ffe6e6;
   color: #f66;
   padding: 0.5em 1em 0.5em 2.6em;
@@ -4590,6 +4590,7 @@ h1.page-title + .tag-cloud-list {
   position: relative;
   display: inline-block;
   overflow: hidden;
+  border-radius: 30px;
   margin: 3px;
   width: calc(33.333% - 6px);
   height: 200px;
@@ -5734,7 +5735,7 @@ blockquote.pullquote.right {
   position: relative;
   margin: 0 0 20px;
   padding: 15px;
-  border-radius: 3px;
+  border-radius: 12px;
 }
 .note.icon-padding {
   padding-left: 3em;

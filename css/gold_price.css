@@ -2,7 +2,7 @@
 #gold_price.card-widget {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-radius: 12px;
+  border-radius: 30px;
   color: white;
   padding: 30px 20px 30px;
 }
