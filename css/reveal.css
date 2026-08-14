@@ -1,25 +1,25 @@
-/* ====== 卡片滚动出现/消失动画（跟随滚动实时缩放） ====== */
+/* ====== 卡片滚动出现/消失动画（触发后平滑执行到底） ====== */
 
-/* 参与动画的卡片：首页文章卡片、侧边栏卡片、文章/页面内容卡片、相关文章卡片 */
+/* 参与动画的卡片：首页文章卡片、侧边栏卡片、相关文章卡片 */
 #recent-posts > .recent-post-item,
 #aside-content .card-widget,
-.layout > div:first-child:not(.recent-posts),
 .relatedPosts > .relatedPosts-list > div {
   scale: var(--reveal-scale, 1);
   opacity: var(--reveal-opacity, 1);
   will-change: scale, opacity;
 }
 
-/* 排除 scale / opacity 参与主题原有的 all .3s 过渡，保证滚动时实时跟手 */
+/* 动画一旦触发就平滑执行到底：scale/opacity 用 1.1s 过渡，其余属性保留主题原有过渡 */
 .reveal-card {
-  transition-property: transform, box-shadow, background-color, color, border-color, top, left, right !important;
+  transition: scale 1.1s cubic-bezier(.22, .61, .36, 1), opacity 1.1s cubic-bezier(.22, .61, .36, 1),
+              transform .3s, box-shadow .3s, background-color .3s, color .3s, border-color .3s,
+              top .3s, left .3s, right .3s !important;
 }
 
 /* 兼容不支持 scale 属性的旧浏览器（回退到 transform） */
 @supports not (scale: 1) {
   #recent-posts > .recent-post-item,
   #aside-content .card-widget,
-  .layout > div:first-child:not(.recent-posts),
   .relatedPosts > .relatedPosts-list > div {
     transform: scale(var(--reveal-scale, 1));
   }
@@ -29,7 +29,6 @@
 @media (prefers-reduced-motion: reduce) {
   #recent-posts > .recent-post-item,
   #aside-content .card-widget,
-  .layout > div:first-child:not(.recent-posts),
   .relatedPosts > .relatedPosts-list > div {
     scale: none;
     transform: none;

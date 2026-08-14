@@ -1,9 +1,12 @@
-/* ====== 卡片滚动出现/消失动画（跟随滚动实时缩放） ====== */
+/* ====== 卡片滚动出现动画（触发后平滑执行到底） ====== */
 (function () {
   'use strict';
 
   // 尊重系统“减少动态效果”设置
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // 只在首页启用该动画，文章页与普通页面（导航、防火墙配置等）不启用
+  if (location.pathname !== '/' && location.pathname !== '/index.html') return;
 
   // 参与动画的卡片选择器
   var SELECTORS = [
@@ -13,9 +16,8 @@
     '.relatedPosts > .relatedPosts-list > div'
   ];
 
-  // 参数：从下方进入时最小 0.85，从上方退出时最小 0.90，最淡透明度 0.15
+  // 参数：从下方进入时最小 0.85，最淡透明度 0.15
   var ENTER_MIN = 0.85;
-  var EXIT_MIN = 0.90;
   var OPACITY_MIN = 0.15;
 
   function collect() {
@@ -35,39 +37,34 @@
     return cards;
   }
 
-  function update(cards) {
+  var lastY = window.pageYOffset || document.documentElement.scrollTop;
+  var direction = 'down'; // start as 'down' so below-fold cards are hidden initially
+
+  function update(cards, dir) {
     var vh = window.innerHeight || document.documentElement.clientHeight;
-    var half = vh / 2;
-    var i, el, rect, h, p, scale, opacity;
+    var i, el, rect, scale, opacity;
     for (i = 0; i < cards.length; i++) {
       el = cards[i];
       rect = el.getBoundingClientRect();
-      h = rect.height;
-      if (h >= vh) {
-        // 长卡片（如文章正文）：顶部进入视口即恢复原大小，避免正文在加载/阅读时被缩小或变淡
-        p = (rect.top - vh) / half;
-        if (p < 0) p = 0;
-        if (p > 1) p = 1;
-        scale = ENTER_MIN + (1 - ENTER_MIN) * (1 - p);
-        opacity = OPACITY_MIN + (1 - OPACITY_MIN) * (1 - p);
-        // 退出：整张卡片完全滑出顶部后才由大到小
-        p = -rect.bottom / half;
-        if (p < 0) p = 0;
-        if (p > 1) p = 1;
-        scale = Math.min(scale, EXIT_MIN + (1 - EXIT_MIN) * (1 - p));
-        opacity = Math.min(opacity, OPACITY_MIN + (1 - OPACITY_MIN) * (1 - p));
+      if (dir === 'down') {
+        // Down scroll: cards fully below the viewport hide again, so they re-animate on re-entry
+        if (el._revealed && rect.top >= vh) el._revealed = false;
+        if (!el._revealed && rect.top >= vh) {
+          scale = ENTER_MIN;
+          opacity = OPACITY_MIN;
+        } else if (!el._revealed) {
+          // 普通卡片：顶部进入视口即由小到大
+          el._revealed = true;
+          scale = 1;
+          opacity = 1;
+        } else {
+          scale = 1;
+          opacity = 1;
+        }
       } else {
-        // 普通卡片：底部进入视口时由小到大，顶部滑出时由大到小
-        p = (rect.bottom - vh) / half;
-        if (p < 0) p = 0;
-        if (p > 1) p = 1;
-        scale = ENTER_MIN + (1 - ENTER_MIN) * (1 - p);
-        opacity = OPACITY_MIN + (1 - OPACITY_MIN) * (1 - p);
-        p = -rect.top / half;
-        if (p < 0) p = 0;
-        if (p > 1) p = 1;
-        scale = Math.min(scale, EXIT_MIN + (1 - EXIT_MIN) * (1 - p));
-        opacity = Math.min(opacity, OPACITY_MIN + (1 - OPACITY_MIN) * (1 - p));
+        // Up scroll: keep every card at full size, never shrink or fade
+        scale = 1;
+        opacity = 1;
       }
       el.style.setProperty('--reveal-scale', scale.toFixed(3));
       el.style.setProperty('--reveal-opacity', opacity.toFixed(3));
@@ -78,14 +75,18 @@
   if (!cards.length) return;
 
   // 页面加载后立即计算一次初始状态
-  update(cards);
+  update(cards, direction);
 
   var ticking = false;
   function onScroll() {
     if (!ticking) {
       ticking = true;
       requestAnimationFrame(function () {
-        update(cards);
+        var y = window.pageYOffset || document.documentElement.scrollTop;
+        if (y > lastY) direction = 'down';
+        else if (y < lastY) direction = 'up';
+        lastY = y;
+        update(cards, direction);
         ticking = false;
       });
     }
@@ -97,6 +98,8 @@
   // 若主题启用 PJAX 局部刷新，刷新后重新收集卡片
   document.addEventListener('pjax:complete', function () {
     cards = collect();
-    update(cards);
+    lastY = window.pageYOffset || document.documentElement.scrollTop;
+    direction = 'down';
+    update(cards, direction);
   });
 })();
