@@ -25,11 +25,11 @@
 	background: transparent !important;
 }
 
-/*所有页面实现毛玻璃特效*/
+/*�?有页面实现毛玻璃特效*/
 
 #aside-content,
 #search-mask,
-/* 手机端 */
+/* 手机�? */
 #sidebar #menu-mask {
   background: rgba(255, 255, 255, 0);
 }
@@ -42,39 +42,50 @@
 html[data-theme="light"] #aside-content>.card-widget:first-child,
 html[data-theme="light"] #aside-content .card-widget,
 html[data-theme="light"] .layout>div:first-child:not(.recent-posts),
+html[data-theme="light"] #post,
 html[data-theme="light"] #recent-posts>.recent-post-item,
-/* 标题栏 */
+/* 标题�? */
 html[data-theme="light"] #page-header.nav-visible #nav,
-/* 搜索框 */
+/* 搜索�? */
 html[data-theme="light"] .search-dialog,
-/* 移动端 */
+/* 移动�? */
 html[data-theme="light"] #sidebar #sidebar-menus.open {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.62);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
 }
 
 /* 深色模式 */
 html[data-theme="dark"] #aside-content>.card-widget:first-child,
 html[data-theme="dark"] #aside-content .card-widget,
 html[data-theme="dark"] .layout>div:first-child:not(.recent-posts),
+html[data-theme="dark"] #post,
 html[data-theme="dark"] #recent-posts>.recent-post-item,
-/* 标题栏 */
+/* 标题�? */
 html[data-theme="dark"] #page-header.nav-visible #nav,
-/* 搜索框 */
+/* 搜索�? */
 html[data-theme="dark"] .search-dialog,
-/* 移动端 */
+/* 移动�? */
 html[data-theme="dark"] #sidebar #sidebar-menus.open {
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(20px);
+  background: rgba(28, 28, 30, 0.6);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+}
+/* 文章页底色更透一点，与代码块拉开层次 */
+html[data-theme="light"] #post {
+  background: rgba(255, 255, 255, 0.7);
+}
+html[data-theme="dark"] #post {
+  background: rgba(38, 38, 40, 0.7);
 }
 
-/* 文章页背景 */
+/* 文章页背�? */
 /*.layout_post>#post {*/
     /*/* 以下代表透明度为0.7 可以自行修改*/
     /*background: rgba(255,255,255,.8);*/
 /*}*/
 
-/* 所有页面背景 */
+/* �?有页面背�? */
 /*#aside_content .card-widget, #recent-posts>.recent-post-item, .layout_page>div:first-child:not(.recent-posts), .layout_post>#page, .layout_post>#post, .read-mode .layout_post>#post{*/
     /*background: rgba(255,255,255,.8);*/
 /*}*/
@@ -90,7 +101,7 @@ html[data-theme="dark"] #sidebar #sidebar-menus.open {
   animation: glitch-skew 4s infinite linear alternate-reverse;
 }
 
-/* 上片段 */
+/* 上片�? */
 #site-title::before,
 #post-info .post-title::before {
   content: attr(data-text);
@@ -110,7 +121,7 @@ html[data-theme="dark"] #sidebar #sidebar-menus.open {
   pointer-events: none;
 }
 
-/* 下片段 */
+/* 下片�? */
 #site-title::after,
 #post-info .post-title::after {
   content: attr(data-text);
@@ -130,7 +141,7 @@ html[data-theme="dark"] #sidebar #sidebar-menus.open {
   pointer-events: none;
 }
 
-/* 上片段动画 */
+/* 上片段动�? */
 @keyframes glitch-anim-top {
   0% { transform: translate(0); }
   2% { transform: translate(-6px, 3px); clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%); }
@@ -149,7 +160,7 @@ html[data-theme="dark"] #sidebar #sidebar-menus.open {
   100% { transform: translate(0); }
 }
 
-/* 下片段动画 */
+/* 下片段动�? */
 @keyframes glitch-anim-bottom {
   0% { transform: translate(0); }
   3% { transform: translate(5px, -3px); clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); }
@@ -183,7 +194,7 @@ html[data-theme="dark"] #sidebar #sidebar-menus.open {
   100% { transform: skew(0deg); }
 }
 
-/*侧边卡片的透明度 *//*侧边卡片的透明度 */
+/*侧边卡片的�?�明�? *//*侧边卡片的�?�明�? */
 /*:root {*/
   /*--card-bg: rgba(255, 255, 255, .8);*/
 /*}*/
@@ -193,7 +204,7 @@ html[data-theme="dark"] #sidebar #sidebar-menus.open {
 	/*background: rgba(255,255,255, .0);*/
 /*}*/
 
-/* ====== Glitch 增强 - 乱码爆发时加速 & 闪烁 ====== */
+/* ====== Glitch 增强 - 乱码爆发时加�? & 闪烁 ====== */
 #site-title.glitch-garbled,
 #post-info .post-title.glitch-garbled {
   animation:
@@ -223,4 +234,24 @@ html[data-theme="dark"] #sidebar #sidebar-menus.open {
   92% { opacity: 0.7; }
   95% { opacity: 1; }
   100% { opacity: 1; }
+}
+
+/* Apple-style glass cards: edge highlight + deepened 3D shadows */
+:root {
+  --card-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 0 0 1px rgba(255, 255, 255, .35), 0 2px 4px rgba(0, 0, 0, .06), 0 12px 24px -8px rgba(0, 0, 0, .12), 0 24px 48px -12px rgba(0, 0, 0, .16);
+  --card-hover-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), inset 0 0 0 1px rgba(255, 255, 255, .4), 0 4px 8px rgba(0, 0, 0, .08), 0 20px 40px -8px rgba(0, 0, 0, .2), 0 40px 80px -16px rgba(0, 0, 0, .25);
+}
+
+[data-theme="dark"] {
+  --card-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), inset 0 0 0 1px rgba(255, 255, 255, .06), 0 2px 4px rgba(0, 0, 0, .4), 0 12px 24px -8px rgba(0, 0, 0, .5), 0 24px 48px -12px rgba(0, 0, 0, .55);
+  --card-hover-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), inset 0 0 0 1px rgba(255, 255, 255, .08), 0 4px 8px rgba(0, 0, 0, .5), 0 20px 40px -8px rgba(0, 0, 0, .6), 0 40px 80px -16px rgba(0, 0, 0, .65);
+}
+
+/* �ƶ��˲�����˵���Ӱ */
+html[data-theme="light"] #sidebar #sidebar-menus.open {
+  box-shadow: -4px 0 12px rgba(0, 0, 0, .08), -12px 0 32px -8px rgba(0, 0, 0, .15), -24px 0 56px -16px rgba(0, 0, 0, .2);
+}
+
+html[data-theme="dark"] #sidebar #sidebar-menus.open {
+  box-shadow: -4px 0 12px rgba(0, 0, 0, .5), -12px 0 32px -8px rgba(0, 0, 0, .55), -24px 0 56px -16px rgba(0, 0, 0, .6);
 }
