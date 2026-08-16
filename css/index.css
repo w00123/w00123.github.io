@@ -4582,13 +4582,13 @@ h1.page-title + .tag-cloud-list {
   padding: 12px 18px;
   background: rgba(0,230,118,0.08);
   border-radius: 12px;
-  -webkit-box-shadow: 0 2px 12px 0 rgba(0,230,118,0.16), 0 1px 3px 0 rgba(0,230,118,0.1);
-  box-shadow: 0 2px 12px 0 rgba(0,230,118,0.16), 0 1px 3px 0 rgba(0,230,118,0.1);
-  -webkit-transition: box-shadow 0.3s ease-in-out;
-  -moz-transition: box-shadow 0.3s ease-in-out;
-  -o-transition: box-shadow 0.3s ease-in-out;
-  -ms-transition: box-shadow 0.3s ease-in-out;
-  transition: box-shadow 0.3s ease-in-out;
+  -webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,0.16), 0 1px 3px 0 rgba(0,0,0,0.1);
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.16), 0 1px 3px 0 rgba(0,0,0,0.1);
+  -webkit-transition: box-shadow 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
+  -moz-transition: box-shadow 0.3s ease-in-out, -moz-transform 0.3s ease-in-out;
+  -o-transition: box-shadow 0.3s ease-in-out, -o-transform 0.3s ease-in-out;
+  -ms-transition: box-shadow 0.3s ease-in-out, -ms-transform 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 #post .post-copyright:before {
   position: absolute;
@@ -4599,8 +4599,13 @@ h1.page-title + .tag-cloud-list {
   font-size: 1.3em;
 }
 #post .post-copyright:hover {
-  -webkit-box-shadow: 0 6px 18px 0 rgba(0,230,118,0.24), 0 2px 6px 0 rgba(0,230,118,0.14);
-  box-shadow: 0 6px 18px 0 rgba(0,230,118,0.24), 0 2px 6px 0 rgba(0,230,118,0.14);
+  -webkit-box-shadow: 0 6px 18px 0 rgba(0,0,0,0.24), 0 2px 6px 0 rgba(0,0,0,0.14);
+  box-shadow: 0 6px 18px 0 rgba(0,0,0,0.24), 0 2px 6px 0 rgba(0,0,0,0.14);
+  -webkit-transform: scale(1.02);
+  -moz-transform: scale(1.02);
+  -o-transform: scale(1.02);
+  -ms-transform: scale(1.02);
+  transform: scale(1.02);
 }
 #post .post-copyright .post-copyright-meta {
   color: #00b45a;
